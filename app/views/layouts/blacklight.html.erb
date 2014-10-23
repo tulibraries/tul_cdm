@@ -17,28 +17,11 @@
     <link href="<%= opensearch_catalog_path(:format => 'xml', :only_path => false) %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
     <%= favicon_link_tag 'favicon.ico' %>
     <%= stylesheet_link_tag    "application" %>
-
-    <!-- Bookreader Stylesheets -->
-    <link rel="stylesheet" type="text/css" href="/assets/BookReader/BookReader.css"/>
-    <!-- Custom CSS overrides -->
-    <link rel="stylesheet" type="text/css" href="/assets/BookReader/BookReaderDemo.css"/>
-
+    <%= stylesheet_link_tag    "bookreader" %>
     <%= javascript_include_tag "application" %>
+    <%= javascript_include_tag "bookreader" %>
     <%= csrf_meta_tags %>
     <!-- FIXME: %= raw(render_head_content) % --> 
-     <script type="text/javascript">
-      Shadowbox.init();
-     </script>
-
-    <!-- Bookreader Javascripts -->
-    <script type="text/javascript" src="http://www.archive.org/includes/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="/assets/BookReader/jquery-ui-1.8.5.custom.min.js"></script>
-    <script type="text/javascript" src="/assets/BookReader/dragscrollable.js"></script>
-    <script type="text/javascript" src="/assets/BookReader/dragscrollable.js"></script>
-    <script type="text/javascript" src="/assets/BookReader/jquery.colorbox-min.js"></script>
-    <script type="text/javascript" src="/assets/BookReader/jquery.ui.ipad.js"></script>
-    <script type="text/javascript" src="/assets/BookReader/jquery.bt.min.js"></script>
-    <script type="text/javascript" src="/assets/BookReader/BookReader.js"></script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
