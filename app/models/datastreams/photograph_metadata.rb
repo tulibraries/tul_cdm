@@ -10,4 +10,9 @@ class PhotographMetadata < ActiveFedora::OmDatastream
   def self.xml_template
     Nokogiri::XML.parse("<fields/>")
   end
+
+  def prefix
+      ""
+  end
+
 end
