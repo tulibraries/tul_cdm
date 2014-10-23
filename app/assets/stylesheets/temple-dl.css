@@ -35,52 +35,24 @@ a:active, a:hover{
   margin-right: 10px;
 }
 
-#header-navbar-fixed-top .brand {
-    /* The main logo image for the Blacklight instance */
-    width: 250px;
-    height: 35px;
-    background: transparent url(/assets/logo.png) no-repeat top left;
-    display: inline-block;
-    text-indent: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    padding-right: 0;
-    margin-right: 20px;
-    padding-left: 0; 
-  
-    
+/******
+*
+* Overriding Blacklight styles as needed
+*
+******/
+
+
+#header-navbar .navbar-brand {
+  width: 250px;
+  height: 60px;
+  margin-top: 10px;
+  background: transparent url(/assets/logo.png) no-repeat top left;
 }
 
-.facets-collapse h4{
-  background-color: #9e1b34;
-  color: #f7f7f7;
+.documentHeader {
+  padding: 0px;
+  margin:0px;
 }
-
-.facets-collapse ul li{
- border-bottom: 1px solid #9e1b34; 
-}
-
-#facets li.more_facets_link{
- border-bottom: none; 
-}
-
-.facets-collapse h5{
-  background-color: #a9b3b7;
-  color: #000000; 
-}
-
-.navbar-inner {
-    min-height: 40px;
-    padding-left: 20px;
-    padding-right: 20px;
-    background-color: #9e1b34;
-    background-image: none;
-    background-repeat: repeat-x;
-    border: 1px solid rgb(212, 212, 212);
-    border-radius: 4px;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.067);
-}
-
 
 .btn-primary {
     color: white;
@@ -92,6 +64,46 @@ a:active, a:hover{
 }
 
 
-#sb-container{
-  z-index: 20000;
+/*****
+*
+* Move to Main.css 
+*
+*****/
+
+h1, h2, h3, h4, h5, h6{
+  font-weight: bold;
+}
+
+h1{
+  font-size: 18px;
+}
+
+h2{
+  font-size: 16px;
+}
+
+h3{
+  font-size: 14px;
+}
+
+h4{
+  font-size: 12px;
+}
+
+h5{
+  font-size: 10px;
+}
+
+h6{
+  font-size: 8px;
+}
+
+/* Header */
+#header-title h1{
+  font-size: 24px;
+  font-weight: normal;
+}
+
+#header-title{
+  clear:both;
 }
