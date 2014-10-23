@@ -23,9 +23,10 @@ br.getPageURI = function(index, reduce, rotate) {
     // could e.g. look at reduce and load images from a different directory
     // or pass the information to an image server
     var leafStr = '000';            
-    var imgStr = (index+1).toString();
+    var imgStr = (index+12).toString();
     var re = new RegExp("0{"+imgStr.length+"}$");
-    var url = 'http://www.archive.org/download/BookReader/img/page'+leafStr.replace(re, imgStr) + '.jpg';
+    //var url = 'http://www.archive.org/download/BookReader/img/page'+leafStr.replace(re, imgStr) + '.jpg';
+    var url = 'https://cdm16002.contentdm.oclc.org/utils/ajaxhelper/?CISOROOT=p15037coll18&CISOPTR=' + imgStr + '&action=2&DMSCALE=10';
     return url;
 }
 
