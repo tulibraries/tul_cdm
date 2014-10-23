@@ -40,7 +40,8 @@ module CDMUtils
       harvested_count = 0
       all_aliases.length.times do |i|
         new_coll = all_aliases[i].to_s
-        if coll.nil? or new_coll.include?(coll)
+        test_coll = "/"+coll
+        if coll.nil? or new_coll.eql?(test_coll)
           dl_url = config['cdm_server']+"/cgi-bin/admin/getfile.exe?CISOMODE=1&CISOFILE="+new_coll+"/index/description/export.xml"
           xmlFilePath = "#{config['cdm_download_dir']}" + new_coll + ".xml"
           puts "xmlFilePath #{xmlFilePath}"
@@ -207,8 +208,10 @@ module CDMUtils
       when 'poster' then object = Poster.find(pid)
       when 'pamphlet' then object = Pamphlet.find(pid)
       when 'manuscript' then object = Manuscript.find(pid)
-      when 'sheetMusic' then object = SheetMusic.find(pid)
-      when 'transcript' then object = Transcript.find(pid)
+      when 'sheetmusic' then object = SheetMusic.find(pid)
+      when 'clipping' then object = Clipping.find(pid)
+      when 'ephemera' then object = Ephemera.find(pid)
+      when 'periodical' then object = Periodical.find(pid)
       else nil
       end
     end

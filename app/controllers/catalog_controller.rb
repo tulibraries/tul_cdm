@@ -158,23 +158,15 @@ class CatalogController < ApplicationController
 
     config.add_search_field 'all_fields', :label => 'All Fields'
 
-    #THIS WORKS -- DO WE NEED pf SOLR NAME?  
-    config.add_search_field('Title') do |field|
+    config.add_search_field('title') do |field|
       solr_name = solr_name("title_tesim", :stored_searchable, type: :string)
+      field.qt = 'search'
       field.solr_local_parameters = {
         :qf => 'title_tesim',
-        :pf => solr_name
+        :pf => '$title_pf'
       }
     end
 
-
-    # Now we see how to over-ride Solr request handler defaults, in this
-    # case for a BL "search field", which is really a dismax aggregate
-    # of Solr search fields.
-
-    # Specifying a :qt only to show it's possible, and so our internal automated
-    # tests can test it. In this case it's the same as
-    # config[:default_solr_parameters][:qt], so isn't actually neccesary.
     config.add_search_field('subject') do |field|
       solr_name = solr_name("subject_tesim", :stored_searchable, type: :string)
       field.qt = 'search'
@@ -184,14 +176,6 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('Personal Names') do |field|
-      solr_name = solr_name("personal_names_tesim", :stored_searchable, type: :string)
-      field.qt = 'search'
-      field.solr_local_parameters = {
-        :qf => 'personal_names_tesim',
-        :pf => '$personal_names_pf'
-      }
-    end
 
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and

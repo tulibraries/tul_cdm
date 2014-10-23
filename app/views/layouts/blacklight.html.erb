@@ -1,72 +1,52 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-    <!-- Mobile viewport optimization h5bp.com/ad -->
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-    <!-- Mobile IE allows us to activate ClearType technology for smoothing fonts for easy reading -->
-    <!--[if IEMobile]>
-      <meta http-equiv="cleartype" content="on">
-    <![endif]-->
-
-    <title><%= h(@page_title || application_name) %></title>
-    <link href="<%= opensearch_catalog_path(:format => 'xml', :only_path => false) %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
-    <%= favicon_link_tag 'favicon.ico' %>
-    <%= stylesheet_link_tag    "application" %>
-    <%= stylesheet_link_tag    "bookreader" %>
-    <%= javascript_include_tag "application" %>
-    <%= javascript_include_tag "bookreader" %>
-    <%= csrf_meta_tags %>
-    <!-- FIXME: %= raw(render_head_content) % --> 
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-  </head>
-  <body class="<%= render_body_class %>">
-  <%= render :partial => 'shared/header_navbar' %>
-
-  <div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
-
-<!-- /container -->
-  <div id="main-container" class="container">
-            <!-- Top bar -->
-            <div id="search-found" class="row hidden-phone">
-              <!-- FIXME: topbar_items is deprecated in Blacklight 5.7.1 %= //  topbar_items.join('').html_safe % -->
-            </div>
-            <!-- /Top bar -->
-                  <div class="row">
-                      <div class="span12">
-                        <div id="main-flashes">
-                          <%= render :partial=>'/flash_msg' %>
-                        </div>
-                      </div>    
-                  </div>              
-
-                  <div class="row">
-                       <%= yield %>
-                       </div>   
-    <div class="row">
-      <div id="BookReader">
-        Internet Archive BookReader Demo    <br/>
-        
-        <noscript>
-        <p>
-            The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings.  You can also try one of the <a href="http://www.archive.org/details/goodytwoshoes00newyiala"> other formats of the book</a>.
-        </p>
-        </noscript>
-      </div>
-
-      <script type="text/javascript" src="/assets/BookReader/BookReaderJSSimple.js"></script>
-    </div>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Mobile viewport optimization h5bp.com/ad -->
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<!-- Mobile IE allows us to activate ClearType technology for smoothing fonts for easy reading -->
+<!--[if IEMobile]>
+<meta http-equiv="cleartype" content="on">
+<![endif]-->
+<title><%= render_page_title %></title>
+<%= opensearch_description_tag application_name, opensearch_catalog_path(:format => 'xml', :only_path => false) %>
+<%= stylesheet_link_tag "application", media: "all" %>
+<%= stylesheet_link_tag    "bookreader" %>
+<%= javascript_include_tag "application" %>
+<%= javascript_include_tag "bookreader" %>
+<%= csrf_meta_tags %>
+<%= content_for(:head) %>
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+</head>
+<body class="<%= render_body_class %>">
+<div id="wrapper">
+<%= render :partial => 'shared/header_navbar' %>
+<%= render partial: 'shared/ajax_modal' %>
+<div id="main-container" class="container">
+<%= render :partial=>'/flash_msg', layout: 'shared/flash_messages' %>
+<div class="row">
+<%= yield %>
 </div>
+<div class="row">
+  <div id="BookReader">
+    Internet Archive BookReader Demo    <br/>
 
+    <noscript>
+      <p>
+        The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings.  You can also try one of the <a href="http://www.archive.org/details/goodytwoshoes00newyiala"> other formats of the book</a>.
+      </p>
+    </noscript>
+  </div>
+
+  <script type="text/javascript" src="/assets/BookReader/BookReaderJSSimple.js"></script>
+</div>
+</div>
+</div>
 <%= render :partial => 'shared/footer' %>
-    </body>
+</body>
 </html>

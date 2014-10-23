@@ -1,10 +1,9 @@
-class PamphletMetadata < ActiveFedora::OmDatastream
+class ClippingMetadata < ActiveFedora::OmDatastream
 
   set_terminology do |t|
     t.root(path: "fields")
     t.author(:index_as=>[:facetable, :sortable, :stored_searchable], :type=>:string) 
-    t.date_of_publication(:index_as=>[:facetable, :sortable], :type=>:string) 
-    t.internal_note index_as: :displayable
+    t.image_number(:index_as=>[:facetable, :sortable], :type=>:string) 
     
   end
 
