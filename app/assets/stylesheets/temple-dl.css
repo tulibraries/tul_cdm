@@ -1,0 +1,97 @@
+
+a, a:visited{
+ color: #000000;
+ text-decoration: none;
+}
+
+a:active, a:hover{
+ color: #ad5c2a; 
+ text-decoration:underline;
+ background-color: #FFFFFF;
+}
+
+
+#sidebar-right{
+ float: right;
+ width: 200px;
+}
+
+.hidden{
+  visibility:hidden;
+}
+
+.cpd-thumb{
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cpd-thumb .thumb-single{
+  text-align:center;
+}
+
+.sort-by-facets .a-z{
+  float: right;
+  margin-right: 10px;
+}
+
+#header-navbar-fixed-top .brand {
+    /* The main logo image for the Blacklight instance */
+    width: 250px;
+    height: 35px;
+    background: transparent url(/assets/logo.png) no-repeat top left;
+    display: inline-block;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-right: 0;
+    margin-right: 20px;
+    padding-left: 0; 
+  
+    
+}
+
+.facets-collapse h4{
+  background-color: #9e1b34;
+  color: #f7f7f7;
+}
+
+.facets-collapse ul li{
+ border-bottom: 1px solid #9e1b34; 
+}
+
+#facets li.more_facets_link{
+ border-bottom: none; 
+}
+
+.facets-collapse h5{
+  background-color: #a9b3b7;
+  color: #000000; 
+}
+
+.navbar-inner {
+    min-height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #9e1b34;
+    background-image: none;
+    background-repeat: repeat-x;
+    border: 1px solid rgb(212, 212, 212);
+    border-radius: 4px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.067);
+}
+
+
+.btn-primary {
+    color: white;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+    background-color: rgb(0, 108, 204);
+    background-image: linear-gradient(to bottom, rgb(158,27,52), rgb(102,0,51));
+    background-repeat: repeat-x;
+    border-color: #420606;
+}
+
+
+#sb-container{
+  z-index: 20000;
+}

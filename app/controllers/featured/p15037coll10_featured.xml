@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+ <featured_objects>
+   <object>
+     <pid>photograph:p15037coll10x1</pid>
+     <path_to_thumbnail>http://cdm15037.contentdm.oclc.org/utils/getthumbnail/collection/p15037coll10/id/1</path_to_thumbnail>
+     <custom_thumbnail></custom_thumbnail>
+   </object>
+   
+   <object>
+     <pid>photograph:p15037coll10x2</pid>
+     <path_to_thumbnail>http://cdm15037.contentdm.oclc.org/utils/getthumbnail/collection/p15037coll10/id/2</path_to_thumbnail>
+     <custom_thumbnail></custom_thumbnail>
+   </object>
+   
+   <object>
+     <pid>photograph:p15037coll10x3</pid>
+     <path_to_thumbnail>http://cdm15037.contentdm.oclc.org/utils/getthumbnail/collection/p15037coll10/id/3</path_to_thumbnail>
+     <custom_thumbnail></custom_thumbnail>
+   </object>
+   
+   <object>
+     <pid>photograph:p15037coll10x4</pid>
+     <path_to_thumbnail>http://cdm15037.contentdm.oclc.org/utils/getthumbnail/collection/p15037coll10/id/4</path_to_thumbnail>
+     <custom_thumbnail></custom_thumbnail>
+   </object>
+   
+   <object>
+     <pid>photograph:p15037coll10x5</pid>
+     <path_to_thumbnail>http://cdm15037.contentdm.oclc.org/utils/getthumbnail/collection/p15037coll10/id/5</path_to_thumbnail>
+     <custom_thumbnail></custom_thumbnail>
+   </object>
+   
+   <object>
+     <pid>photograph:p15037coll10x6</pid>
+     <path_to_thumbnail>http://cdm15037.contentdm.oclc.org/utils/getthumbnail/collection/p15037coll10/id/6</path_to_thumbnail>
+     <custom_thumbnail></custom_thumbnail>
+   </object>
+   
+ </featured_objects>

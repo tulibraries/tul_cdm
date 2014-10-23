@@ -1,0 +1,16 @@
+en:
+  blacklight:
+    application_name: 'Blacklight'
+
+    header_links:
+      login: 'Sign in'
+      logout: 'Sign out'
+      bookmarks: 'Bookmarks'
+      saved_searches: 'Saved Searches'
+      search_history: 'History'
+
+    welcome: 'Temple University Libraries Digital Collections'
+    and: 'and'
+    or: 'or'
+
+

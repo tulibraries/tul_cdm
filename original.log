@@ -1,0 +1,381 @@
+commit 42df9d9b02fcb3ce0e29e0913d353282cb15ba59
+Merge: 6aa4930 4c61952
+Author: Katherine Lynch <katherine.lynch@temple.edu>
+Date:   Thu Oct 23 09:12:40 2014 -0400
+
+    Merge branch 'feature/TULCDM-8-Update_XSLT_and_Blacklight' into develop
+
+commit 6aa4930883b72566ff8f1280ed876e7e7cec3d00
+Author: Katherine Lynch <katherine.lynch@temple.edu>
+Date:   Thu Oct 23 09:12:04 2014 -0400
+
+    Removed yml file
+
+commit 4c619525d0eba6122368064aa99106c8ec724230
+Author: Katherine Lynch <katherine.lynch@temple.edu>
+Date:   Thu Oct 23 09:09:46 2014 -0400
+
+    Fixed some styles and re-added thumbnails
+
+commit 7a2651f355ef823bf9262c487a94f2daa98212a2
+Merge: 71a709a 6d38e6f
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Thu Oct 23 08:59:01 2014 -0400
+
+    Merge branch 'develop' of github.com:tulibraries/tul_cdm into develop
+    
+    Conflicts:
+    	.gitignore
+
+commit ab05119d0a77835c9a2f3208ddb9015ab1c32fb3
+Author: Katherine Lynch <katherine.lynch@temple.edu>
+Date:   Wed Oct 22 16:47:38 2014 -0400
+
+    Updated catalog controller, bootstrap sprockets, and metadata fields
+
+commit 6d38e6f0f1d0233171eab8212947295dae3038da
+Author: Katherine Lynch <katherine.lynch@temple.edu>
+Date:   Wed Oct 22 13:11:58 2014 -0400
+
+    Removed original log
+
+commit 9309ee6956ca03497a60d32f1daf0e7b2baa0457
+Author: Katherine Lynch <katherine.lynch@temple.edu>
+Date:   Wed Oct 22 13:09:02 2014 -0400
+
+    commit 4ec1f09f66562d28e8045b445af1d7e22bc5c07f
+    Author: Katherine Lynch <katherine.lynch@temple.edu>
+    Date:   Wed Oct 22 13:02:45 2014 -0400
+    
+        Removed offending file
+    
+    commit d0c2cf35e1bc84610ccbd767e9e21a64ae5d1844
+    Author: Katherine Lynch <katherine.lynch@temple.edu>
+    Date:   Wed Oct 22 13:01:13 2014 -0400
+    
+        Removed config file from .gitignore
+    
+    commit 2655dbd56d5f1437e3fa877e9dedc1ebf53b30f6
+    Merge: 3ab89f7 71a709a
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Tue Oct 21 14:46:53 2014 -0400
+    
+        Merge branch 'release/0.1.0'
+    
+    commit 71a709a5ea88955bc51a7226e3f60823ac100ac2
+    Merge: eb321bb 2c03948
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Tue Oct 21 09:21:57 2014 -0400
+    
+        Merge branch 'feature/TULCDM-11-Port_tulhydra_specs' into develop
+    
+    commit 2c03948c54be006bcbb9fc2bfa34860ff02ba682
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Tue Oct 21 09:20:21 2014 -0400
+    
+        Additional gems and submodules. Update Readme
+    
+        Added database_cleanup gem for testing
+        Added PDFObject
+        Updated README
+    
+    commit 77a72b6cad6fee05cdc3d180178ef517ab51436b
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Mon Oct 20 16:57:54 2014 -0400
+    
+        Add missing datastreams and flag code to port
+    
+    commit eb321bb2efe4aeef255b45ff0cf10293b78bcaf4
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Mon Oct 20 14:55:53 2014 -0400
+    
+        Remove Rails generated scaffolds
+    
+    commit aecab6c6043cbf25982e209fd7547068cc24088a
+    Merge: d6a124c 6391f1f
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Fri Oct 17 15:10:41 2014 -0400
+    
+        Merge branch 'feature/TULCDM-7-Update_ruby_and_hydra' into develop
+    
+    commit 6391f1fae6d5656cdb6e798ba92c319d36442e9c
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Fri Oct 17 15:09:21 2014 -0400
+    
+        Port over original views
+    
+    commit 5fde5513caa4c0232ddc00697f46e0158001ccf0
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Fri Oct 17 11:26:36 2014 -0400
+    
+        Use accessible collection for specs
+    
+    commit d6a124cde8438acd760274915c9c803a81c8e23c
+    Merge: 3ab89f7 62278be
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Fri Oct 17 10:26:53 2014 -0400
+    
+        Merge branch 'feature/TULCDM-5-Import_CONTENTdm-rake_tasks' into develop
+    
+    commit 62278be87ef7eba75da9679f1d0659945a5dd838
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Wed Oct 15 15:12:34 2014 -0400
+    
+        Add controllers and pending specs
+    
+    commit 325b6b701ab624e5fb3b4f556f07e8e2029fbb87
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Wed Oct 15 14:50:03 2014 -0400
+    
+        Test only gems to test group
+    
+    commit 4d3817699ca2ed337165481bf2dd6fbf4b0486f0
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Wed Oct 15 14:44:54 2014 -0400
+    
+        Add model specs
+    
+    commit db89f0ede1642d6908c4c5927dd1694a012f6281
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Wed Oct 15 14:15:24 2014 -0400
+    
+        Pending model specs
+    
+    commit 0ef522ea8a07cf04c52aa6811a4e5d76a4246e31
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Wed Oct 15 11:31:43 2014 -0400
+    
+        Add datastream specs
+    
+    commit 3e02e7d1afe463157394914eea999cfe90fa7b5d
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Wed Oct 15 11:00:02 2014 -0400
+    
+        Refactor TulHydra to TulCdm
+    
+    commit 993e1eee478416b4963c97d820c54e69a8272e04
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Wed Oct 15 10:58:47 2014 -0400
+    
+        Refactor tul_hydra to tul_cdm
+    
+    commit ad8a50a9cbd09cb6939d6d420a7121e39bc31a7d
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Wed Oct 15 10:56:29 2014 -0400
+    
+        Revert "Refactor tul_hydra to tul_cdm"
+    
+        This reverts commit 74eefee5f901c342687b8072d427a69557256d1c.
+    
+    commit 74eefee5f901c342687b8072d427a69557256d1c
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Wed Oct 15 10:52:10 2014 -0400
+    
+        Refactor tul_hydra to tul_cdm
+    
+    commit a8afc6822e1fb8c2d841c61416781868d8ae3c3d
+    Author: Steven Ng <steven.ng@temple.edu>
+    Date:   Tue Oct 14 16:44:12 2014 -0400
+    
+        Add models with pending specs
+    
+    commit 4ed2178d95780909c8781ce7e1be8600368d0330
+    Author: Steven Ng <skng@LIB-PAL-DLI-SNG-MBP.local>
+    Date:   Tue Oct 14 16:08:16 2014 -0400
+    
+        Add rake tasks.
+    
+    commit cd76952e6a978beb5884b7ab50dc2f9fb51623a5
+    Author: Steven Ng <skng@LIB-PAL-DLI-SNG-MBP.local>
+    Date:   Tue Oct 14 16:01:00 2014 -0400
+    
+        Remove recorded fixtures
+    
+    commit bfb32aad2d8264bb519b41717996536a90136adc
+    Author: Steven Ng <skng@LIB-PAL-DLI-SNG-MBP.local>
+    Date:   Tue Oct 14 15:57:43 2014 -0400
+    
+        Add CDM Util library
+    
+    commit 3ab89f7aac377e8105aedb0bde74d4e47eea9f48
+    Author: Steven Ng <skng@80-e6-50-18-81-da.wireless.temple.edu>
+    Date:   Tue Oct 14 10:34:10 2014 -0400
+    
+        Adds /jetty to .gitignore
+    
+    commit 4654b7abdc17292c33a4827b769e6098a4447600
+    Author: Steven Ng <skng@80-e6-50-18-81-da.wireless.temple.edu>
+    Date:   Tue Oct 14 10:29:48 2014 -0400
+    
+        Generate Hydra app
+    
+    commit e51f3a0e6c9818adaea9b6ee5f8d91d2e7190429
+    Author: Steven Ng <skng@80-e6-50-18-81-da.wireless.temple.edu>
+    Date:   Tue Oct 14 10:28:19 2014 -0400
+    
+        Add hydra dependencies ot Gemfile
+    
+    commit 04a5fe00120f171f49309006bea92a5df8863786
+    Author: Steven Ng <skng@80-e6-50-18-81-da.wireless.temple.edu>
+    Date:   Tue Oct 14 10:22:42 2014 -0400
+    
+        Initial commit
+
+commit 71a709a5ea88955bc51a7226e3f60823ac100ac2
+Merge: eb321bb 2c03948
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Tue Oct 21 09:21:57 2014 -0400
+
+    Merge branch 'feature/TULCDM-11-Port_tulhydra_specs' into develop
+
+commit 2c03948c54be006bcbb9fc2bfa34860ff02ba682
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Tue Oct 21 09:20:21 2014 -0400
+
+    Additional gems and submodules. Update Readme
+    
+    Added database_cleanup gem for testing
+    Added PDFObject
+    Updated README
+
+commit 77a72b6cad6fee05cdc3d180178ef517ab51436b
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Mon Oct 20 16:57:54 2014 -0400
+
+    Add missing datastreams and flag code to port
+
+commit eb321bb2efe4aeef255b45ff0cf10293b78bcaf4
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Mon Oct 20 14:55:53 2014 -0400
+
+    Remove Rails generated scaffolds
+
+commit aecab6c6043cbf25982e209fd7547068cc24088a
+Merge: d6a124c 6391f1f
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Fri Oct 17 15:10:41 2014 -0400
+
+    Merge branch 'feature/TULCDM-7-Update_ruby_and_hydra' into develop
+
+commit 6391f1fae6d5656cdb6e798ba92c319d36442e9c
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Fri Oct 17 15:09:21 2014 -0400
+
+    Port over original views
+
+commit 5fde5513caa4c0232ddc00697f46e0158001ccf0
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Fri Oct 17 11:26:36 2014 -0400
+
+    Use accessible collection for specs
+
+commit d6a124cde8438acd760274915c9c803a81c8e23c
+Merge: 3ab89f7 62278be
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Fri Oct 17 10:26:53 2014 -0400
+
+    Merge branch 'feature/TULCDM-5-Import_CONTENTdm-rake_tasks' into develop
+
+commit 62278be87ef7eba75da9679f1d0659945a5dd838
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Wed Oct 15 15:12:34 2014 -0400
+
+    Add controllers and pending specs
+
+commit 325b6b701ab624e5fb3b4f556f07e8e2029fbb87
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Wed Oct 15 14:50:03 2014 -0400
+
+    Test only gems to test group
+
+commit 4d3817699ca2ed337165481bf2dd6fbf4b0486f0
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Wed Oct 15 14:44:54 2014 -0400
+
+    Add model specs
+
+commit db89f0ede1642d6908c4c5927dd1694a012f6281
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Wed Oct 15 14:15:24 2014 -0400
+
+    Pending model specs
+
+commit 0ef522ea8a07cf04c52aa6811a4e5d76a4246e31
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Wed Oct 15 11:31:43 2014 -0400
+
+    Add datastream specs
+
+commit 3e02e7d1afe463157394914eea999cfe90fa7b5d
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Wed Oct 15 11:00:02 2014 -0400
+
+    Refactor TulHydra to TulCdm
+
+commit 993e1eee478416b4963c97d820c54e69a8272e04
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Wed Oct 15 10:58:47 2014 -0400
+
+    Refactor tul_hydra to tul_cdm
+
+commit ad8a50a9cbd09cb6939d6d420a7121e39bc31a7d
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Wed Oct 15 10:56:29 2014 -0400
+
+    Revert "Refactor tul_hydra to tul_cdm"
+    
+    This reverts commit 74eefee5f901c342687b8072d427a69557256d1c.
+
+commit 74eefee5f901c342687b8072d427a69557256d1c
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Wed Oct 15 10:52:10 2014 -0400
+
+    Refactor tul_hydra to tul_cdm
+
+commit a8afc6822e1fb8c2d841c61416781868d8ae3c3d
+Author: Steven Ng <steven.ng@temple.edu>
+Date:   Tue Oct 14 16:44:12 2014 -0400
+
+    Add models with pending specs
+
+commit 4ed2178d95780909c8781ce7e1be8600368d0330
+Author: Steven Ng <skng@LIB-PAL-DLI-SNG-MBP.local>
+Date:   Tue Oct 14 16:08:16 2014 -0400
+
+    Add rake tasks.
+
+commit cd76952e6a978beb5884b7ab50dc2f9fb51623a5
+Author: Steven Ng <skng@LIB-PAL-DLI-SNG-MBP.local>
+Date:   Tue Oct 14 16:01:00 2014 -0400
+
+    Remove recorded fixtures
+
+commit bfb32aad2d8264bb519b41717996536a90136adc
+Author: Steven Ng <skng@LIB-PAL-DLI-SNG-MBP.local>
+Date:   Tue Oct 14 15:57:43 2014 -0400
+
+    Add CDM Util library
+
+commit 3ab89f7aac377e8105aedb0bde74d4e47eea9f48
+Author: Steven Ng <skng@80-e6-50-18-81-da.wireless.temple.edu>
+Date:   Tue Oct 14 10:34:10 2014 -0400
+
+    Adds /jetty to .gitignore
+
+commit 4654b7abdc17292c33a4827b769e6098a4447600
+Author: Steven Ng <skng@80-e6-50-18-81-da.wireless.temple.edu>
+Date:   Tue Oct 14 10:29:48 2014 -0400
+
+    Generate Hydra app
+
+commit e51f3a0e6c9818adaea9b6ee5f8d91d2e7190429
+Author: Steven Ng <skng@80-e6-50-18-81-da.wireless.temple.edu>
+Date:   Tue Oct 14 10:28:19 2014 -0400
+
+    Add hydra dependencies ot Gemfile
+
+commit 04a5fe00120f171f49309006bea92a5df8863786
+Author: Steven Ng <skng@80-e6-50-18-81-da.wireless.temple.edu>
+Date:   Tue Oct 14 10:22:42 2014 -0400
+
+    Initial commit

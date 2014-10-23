@@ -1,0 +1,3 @@
+         <img src="<%= document["path_to_thumbnail_ssm"].to_sentence %>" />
+         <%= document["path_to_thumbnail_ssm"] %>"
+         <%= render_document_partial document, :index, :document_counter => document_counter %>
