@@ -121,10 +121,6 @@ module CDMUtils
       File.open(file_name, "w") { |file| file.puts conformed_text }
 	
       case fname
-        #audio
-        when 'p16002coll1'
-          `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_audio.xsl #{file_name}`
-        
         #clipping
         when 'p15037coll7'
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_clipping.xsl #{file_name}`
@@ -167,8 +163,13 @@ module CDMUtils
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_video.xsl #{file_name}`
 
         #audio
+        when 'p16002coll1'
+          `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_audio.xsl #{file_name}`
+
+        #oral history
         when 'p16002coll21'
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_oralhistory.xsl #{file_name}`
+
         else
           # FIXME: cdm_to_foxml_noncustom.xsl is broken")
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_noncustom.xsl #{file_name}`
@@ -212,6 +213,10 @@ module CDMUtils
       when 'clipping' then object = Clipping.find(pid)
       when 'ephemera' then object = Ephemera.find(pid)
       when 'periodical' then object = Periodical.find(pid)
+      when 'scholarship' then object = Scholarship.find(pid)
+      when 'audio' then object = Audio.find(pid)
+      when 'video' then object = Video.find(pid)
+      when 'transcript' then object = Transcript.find(pid)
       else nil
       end
     end

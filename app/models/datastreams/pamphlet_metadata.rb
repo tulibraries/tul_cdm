@@ -14,6 +14,6 @@ class PamphletMetadata < ActiveFedora::OmDatastream
 
   def prefix
       ""
-    end
+  end
     
 end
