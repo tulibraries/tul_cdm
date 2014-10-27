@@ -76,7 +76,7 @@ describe 'List CONTENTdm collections' do
     end
 
     it "should convert a single collection file" do
-      pending ("FIXME: cdm_to_foxml_noncustom.xsl is broken")
+      pending ("FIXME: VCR throwing HTTPS error -- version of gem issue?")
       VCR.use_cassette "cdm-util-convert/should_convert_a_ContentDM_file" do
         downloaded = CDMUtils.download_one_collection(config, collection_name)
         CDMUtils.convert_file(File.join(download_directory, collection_name + '.xml'), converted_directory)
