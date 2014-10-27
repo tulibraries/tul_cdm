@@ -11,7 +11,7 @@
 // about supported directives.
 //
 // BookReader
-//= require bookreader/jquery-1.4.2.min
+// require bookreader/jquery-1.4.2.min
 //= require bookreader/jquery-ui-1.8.5.custom.min
 //= require bookreader/dragscrollable
 //= require bookreader/jquery.colorbox-min

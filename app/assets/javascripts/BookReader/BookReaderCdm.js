@@ -22,11 +22,9 @@ br.getPageURI = function(index, reduce, rotate) {
     // reduce and rotate are ignored in this simple implementation, but we
     // could e.g. look at reduce and load images from a different directory
     // or pass the information to an image server
-    var leafStr = '000';            
-    var imgStr = (index+12).toString();
-    var re = new RegExp("0{"+imgStr.length+"}$");
+    var imgStr = (br.pageList[index]).toString();
     //var url = 'http://www.archive.org/download/BookReader/img/page'+leafStr.replace(re, imgStr) + '.jpg';
-    var url = 'https://cdm16002.contentdm.oclc.org/utils/ajaxhelper/?CISOROOT=p15037coll18&CISOPTR=' + imgStr + '&action=2&DMSCALE=10';
+    var url = 'https://cdm16002.contentdm.oclc.org/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=10';
     return url;
 }
 
@@ -81,8 +79,8 @@ br.getPageNum = function(index) {
 br.numLeafs = 15;
 
 // Book title and the URL used for the book title link
-br.bookTitle= 'Open Library BookReader Presentation';
-br.bookUrl  = 'http://openlibrary.org';
+br.bookTitle= 'BookReader Prototype';
+br.bookUrl  = 'http://0.0.0.0:3000';
 
 // Override the path used to find UI images
 br.imagesBaseURL = '/assets/BookReader/images/';
@@ -90,6 +88,11 @@ br.imagesBaseURL = '/assets/BookReader/images/';
 br.getEmbedCode = function(frameWidth, frameHeight, viewParams) {
     return "Embed code not supported in bookreader demo.";
 }
+
+br.pageList = jQuery.parseJSON($('#page-list').attr('data-pageids'));
+console.log (br.pageList);
+br.cdmColl = ($('#page-list').attr('data-cdmcoll'));
+console.log (br.cdmColl);
 
 // Let's go!
 br.init();
