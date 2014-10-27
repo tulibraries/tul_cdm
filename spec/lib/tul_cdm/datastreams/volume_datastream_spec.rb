@@ -8,6 +8,7 @@ describe "VolumeDatastream" do
     <foxml:xmlContent>
       <fields>
         <local_call_number>ABC.123</local_call_number>
+        <number_of_pages>42</number_of_pages>
       </fields>
     </foxml:xmlContent>
   </foxml:datastreamVersion>
@@ -17,5 +18,6 @@ EODS
   end
 
   it { is_expected.to have_term(:local_call_number) }
+  it { is_expected.to have_term(:number_of_pages) }
 
 end

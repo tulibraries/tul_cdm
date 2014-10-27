@@ -35,6 +35,7 @@
                                                 <xsl:value-of select="$pid"/>
                                         </xsl:attribute>
                                         <xsl:attribute name="xsi:schemaLocation">info:fedora/fedora-system:def/foxml# http://www.fedora.info/definitions/1/0/foxml1-1.xsd</xsl:attribute>
+
                                         
                                         <foxml:objectProperties>
                                                 <foxml:property

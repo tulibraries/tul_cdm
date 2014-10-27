@@ -171,7 +171,6 @@ module CDMUtils
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_oralhistory.xsl #{file_name}`
 
         else
-          # FIXME: cdm_to_foxml_noncustom.xsl is broken")
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_noncustom.xsl #{file_name}`
       end
         
