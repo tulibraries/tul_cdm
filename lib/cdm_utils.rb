@@ -40,7 +40,7 @@ module CDMUtils
       harvested_count = 0
       all_aliases.length.times do |i|
         new_coll = all_aliases[i].to_s
-        test_coll = "/"+coll
+        test_coll = "/"+coll if coll
         if coll.nil? or new_coll.eql?(test_coll)
           dl_url = config['cdm_server']+"/cgi-bin/admin/getfile.exe?CISOMODE=1&CISOFILE="+new_coll+"/index/description/export.xml"
           xmlFilePath = "#{config['cdm_download_dir']}" + new_coll + ".xml"
