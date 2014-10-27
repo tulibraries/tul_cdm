@@ -20,4 +20,3 @@ config/contentdm.yml
 *.swp
 /jetty
 /spec/fixtures/vcr_cassettes/
-/bin
