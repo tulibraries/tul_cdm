@@ -85,6 +85,57 @@ namespace :tu_cdm do
     task :posters => :environment do
       CDMUtils.index(Poster)
     end
+
+    desc 'Index all Manuscript objects in Fedora repo.'
+    task :manuscripts => :environment do
+      CDMUtils.index(Manuscript)
+    end
+
+    desc 'Index all Sheet Music objects in Fedora repo.'
+    task :sheetmusic => :environment do
+      CDMUtils.index(SheetMusic)
+    end
+
+    desc 'Index all Clipping objects in Fedora repo.'
+    task :clippings => :environment do
+      CDMUtils.index(Clipping)
+    end
+
+    desc 'Index all Ephemera objects in Fedora repo.'
+    task :ephemera => :environment do
+      CDMUtils.index(Ephemera)
+    end
+
+    desc 'Index all Periodical objects in Fedora repo.'
+    task :periodicals => :environment do
+      CDMUtils.index(Periodical)
+    end
+
+    desc 'Index all Pamphlet objects in Fedora repo.'
+    task :pamphlets => :environment do
+      CDMUtils.index(Pamphlet)
+    end
+
+    desc 'Index all Scholarship objects in Fedora repo.'
+    task :scholarship => :environment do
+      CDMUtils.index(Scholarship)
+    end
+
+    desc 'Index all Audio objects in Fedora repo.'
+    task :audio => :environment do
+      CDMUtils.index(Audio)
+    end
+
+    desc 'Index all Video objects in Fedora repo.'
+    task :video => :environment do
+      CDMUtils.index(Video)
+    end
+
+    desc 'Index all Transcript objects in Fedora repo.'
+    task :transcripts => :environment do
+      CDMUtils.index(Transcript)
+    end
+
   end
 end
 

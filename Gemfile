@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'hydra'
+gem 'hydra', '~> 7.1.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
@@ -39,7 +39,6 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-
 gem "devise"
 gem "devise-guests", "~> 0.3"
 gem "colorize"
@@ -58,10 +57,4 @@ group :development, :test do
   gem "capybara"
   gem "byebug"
   gem "pry-rails"
-end
-
-group :development, :test do
-end
-
-group :development, :test do
 end

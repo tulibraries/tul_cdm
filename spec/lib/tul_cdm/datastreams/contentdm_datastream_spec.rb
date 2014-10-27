@@ -14,6 +14,9 @@ describe "ContentdmDatastream" do
         <contentdm_file_name>object.jp2</contentdm_file_name>
         <contentdm_file_path>/collection/object.jp2</contentdm_file_path>
         <contentdm_collection_id>collection/object</contentdm_collection_id>
+        <path_to_thumbnail>path/to/thumbnail</path_to_thumbnail>
+        <reference_url>reference_url/value</reference_url>
+        <compound>index.cpd</compound>
       </fields>
     </foxml:xmlContent>
   </foxml:datastreamVersion>
@@ -29,5 +32,8 @@ EODS
   it { is_expected.to have_term(:contentdm_file_name) }
   it { is_expected.to have_term(:contentdm_file_path) }
   it { is_expected.to have_term(:contentdm_collection_id) }
+  it { is_expected.to have_term(:path_to_thumbnail) }
+  it { is_expected.to have_term(:reference_url) }
+  it { is_expected.to have_term(:compound) }
 
 end

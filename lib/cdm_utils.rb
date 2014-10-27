@@ -40,7 +40,8 @@ module CDMUtils
       harvested_count = 0
       all_aliases.length.times do |i|
         new_coll = all_aliases[i].to_s
-        if coll.nil? or new_coll.include?(coll)
+        test_coll = "/"+coll if coll
+        if coll.nil? or new_coll.eql?(test_coll)
           dl_url = config['cdm_server']+"/cgi-bin/admin/getfile.exe?CISOMODE=1&CISOFILE="+new_coll+"/index/description/export.xml"
           xmlFilePath = "#{config['cdm_download_dir']}" + new_coll + ".xml"
           puts "xmlFilePath #{xmlFilePath}"
@@ -120,10 +121,6 @@ module CDMUtils
       File.open(file_name, "w") { |file| file.puts conformed_text }
 	
       case fname
-        #audio
-        when 'p16002coll1'
-          `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_audio.xsl #{file_name}`
-        
         #clipping
         when 'p15037coll7'
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_clipping.xsl #{file_name}`
@@ -166,10 +163,14 @@ module CDMUtils
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_video.xsl #{file_name}`
 
         #audio
+        when 'p16002coll1'
+          `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_audio.xsl #{file_name}`
+
+        #oral history
         when 'p16002coll21'
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_oralhistory.xsl #{file_name}`
+
         else
-          # FIXME: cdm_to_foxml_noncustom.xsl is broken")
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_noncustom.xsl #{file_name}`
       end
         
@@ -207,7 +208,13 @@ module CDMUtils
       when 'poster' then object = Poster.find(pid)
       when 'pamphlet' then object = Pamphlet.find(pid)
       when 'manuscript' then object = Manuscript.find(pid)
-      when 'sheetMusic' then object = SheetMusic.find(pid)
+      when 'sheetmusic' then object = SheetMusic.find(pid)
+      when 'clipping' then object = Clipping.find(pid)
+      when 'ephemera' then object = Ephemera.find(pid)
+      when 'periodical' then object = Periodical.find(pid)
+      when 'scholarship' then object = Scholarship.find(pid)
+      when 'audio' then object = Audio.find(pid)
+      when 'video' then object = Video.find(pid)
       when 'transcript' then object = Transcript.find(pid)
       else nil
       end

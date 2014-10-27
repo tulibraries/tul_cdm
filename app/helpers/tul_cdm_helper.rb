@@ -13,20 +13,19 @@ module TulCdmHelper
     config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
     model = model_from_document(document)
     case model
-	  when 'Photograph'
-	    hr_scale = "25.000"
-	    hr_width = hr_height = 1400
-	    access_scale="10"
-	    access_width="512"
-	    access_height="414"
-	  when 'Poster'
-	   hr_scale="200"
-           hr_width = hr_height = "2000"
-	   
-	  else
-	   path_end = ""
+      when 'Photograph'
+        hr_scale = "25.000"
+        hr_width = hr_height = 1400
+        access_scale="10"
+        access_width="512"
+        access_height="414"
+      when 'Poster'
+        hr_scale="200"
+        hr_width = hr_height = "2000"
+      else
+        path_end = ""
 	  end
-    path = "#{config['cdm_server']}/utils/ajaxhelper/?CISOROOT=/#{collection_id}&CISOPTR=#{cdm_number}&action=2&DMSCALE=#{hr_scale}&DMWIDTH=#{hr_width}&DMHEIGHT=#{hr_height}"
+    path = "#{config['cdm_archive']}/utils/ajaxhelper/?CISOROOT=/#{collection_id}&CISOPTR=#{cdm_number}&action=2&DMSCALE=#{hr_scale}&DMWIDTH=#{hr_width}&DMHEIGHT=#{hr_height}"
     w_sb = 1400;
     link_to image_tag("#{config['cdm_archive']}/utils/ajaxhelper/?CISOROOT=#{collection_id}&CISOPTR=#{cdm_number}&action=2&DMSCALE=#{access_scale}&DMWIDTH=#{access_width}&DMHEIGHT=#{access_height}"), path.html_safe, :rel => "shadowbox[#{collection_id}-#{cdm_number}];width=#{w_sb}"
   end
@@ -102,43 +101,34 @@ module TulCdmHelper
     else
       fext = File.extname(document["contentdm_file_name_tesim"].to_sentence)
       if(fext == ".cpd")
-	cpd = "index.cpd"
+        cpd = "index.cpd"
       end
-    
     end
     if(cpd == "index.cpd")
       api_path="https://server16002.contentdm.oclc.org/dmwebservices/index.php?q=dmGetCompoundObjectInfo/#{cdm_coll}/#{cdm_num}/xml"
       xml = Nokogiri::XML(open(api_path))
       pamphlets_xpath="/cpd/node/page"
       default_xpath, manuscripts_xpath="/cpd/page"
-      
       case model
-      when 'Pamphlet'
-        xpath_var = pamphlets_xpath
-      else
-        xpath_var = default_xpath
+        when 'Pamphlet'
+          xpath_var = pamphlets_xpath
+        else
+          xpath_var = default_xpath
       end
-      
       page_ids = xml.xpath("#{xpath_var}/pageptr/text()")
       page_titles = xml.xpath("#{xpath_var}/pagetitle/text()")
-    
       page_ids.length.times do |i|
-      
         small_path="http://digital.library.temple.edu/utils/ajaxhelper/?CISOROOT=#{cdm_coll}&CISOPTR=#{page_ids[i].to_s.to_i}&action=2&DMSCALE=5&DMWIDTH=2000&DMHEIGHT=4000"
         inv_path="http://digital.library.temple.edu/utils/ajaxhelper/?CISOROOT=#{cdm_coll}&CISOPTR=#{page_ids[i].to_s.to_i}&action=2&DMSCALE=0.1&DMWIDTH=2000&DMHEIGHT=4000"
         full_path="http://digital.library.temple.edu/utils/ajaxhelper/?CISOROOT=#{cdm_coll}&CISOPTR=#{page_ids[i].to_s.to_i}&action=2&DMSCALE=20&DMWIDTH=2000&DMHEIGHT=4000"
-	
-	
-	if i == 0
-	  output << (link_to(image_tag(small_path, :alt => page_titles[i].to_s, :title => page_titles[i].to_s, :class => 'thumb-single'), full_path, :title => page_titles[i].to_s, :rel => "shadowbox[#{cdm_coll}-#{cdm_num}]"))
-	  
-	else
-	  output << (link_to(image_tag(inv_path, :alt => page_titles[i].to_s, :title => page_titles[i].to_s, :class => 'hidden', :width => '1', :height => '1'), full_path, :title => page_titles[i].to_s, :rel => "shadowbox[#{cdm_coll}-#{cdm_num}];height=600;width=400"))
-	end
+        if i == 0
+          output << (link_to(image_tag(small_path, :alt => page_titles[i].to_s, :title => page_titles[i].to_s, :class => 'thumb-single'), full_path, :title => page_titles[i].to_s, :rel => "shadowbox[#{cdm_coll}-#{cdm_num}]"))
+        else
+          output << (link_to(image_tag(inv_path, :alt => page_titles[i].to_s, :title => page_titles[i].to_s, :class => 'hidden', :width => '1', :height => '1'), full_path, :title => page_titles[i].to_s, :rel => "shadowbox[#{cdm_coll}-#{cdm_num}];height=600;width=400"))
+        end
+      end
     end
-    end
-      output.html_safe
-  
+    output.html_safe
   end
   
 ###

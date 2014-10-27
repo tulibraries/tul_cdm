@@ -33,7 +33,8 @@ class CatalogController < ApplicationController
               digital_publisher_tesim
               repository_tesim
               repository_collection_tesim
-              identifier_tesim',
+              identifier_tesim
+              author_tesim',
       :qt => 'search',
       :rows => 10
     }
@@ -75,7 +76,11 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('repository', :facetable), :label => 'Repository', :limit => 5
     config.add_facet_field solr_name('language', :facetable), :label => 'Language', :limit => 5
     config.add_facet_field solr_name('contributor', :facetable), :label => 'Contributor', :limit => 5
-
+    config.add_facet_field solr_name('author', :facetable), :label => 'Author', :limit => 5
+    config.add_facet_field solr_name('corporate_name', :facetable), :label => 'Corporate Name', :limit => 5
+    config.add_facet_field solr_name('series', :facetable), :label => 'Series', :limit => 5
+    config.add_facet_field solr_name('advisor', :facetable), :label => 'Series', :limit => 5
+    config.add_facet_field solr_name('degree_granting_institution', :facetable), :label => 'Series', :limit => 5
 
 
     # Have BL send all facet field names to Solr, which has been the default
@@ -91,13 +96,13 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name('title', :stored_searchable, type: :string), :label => 'Title'
     config.add_index_field solr_name('subject', :stored_searchable, type: :string), :label => 'Subject', :link_to_search => 'subject_sim'
     config.add_index_field solr_name('format', :stored_searchable, type: :string), :label => 'Format', :link_to_search => 'format_sim'
-    config.add_index_field solr_name('personal_names', :stored_searchable, type: :string), :label => 'Personal Names', :link_to_search => 'personal_names_sim'
-
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
     config.add_show_field solr_name('title', :stored_searchable, type: :string), :label => 'Title'
+    config.add_show_field solr_name('alternate_title', :stored_searchable, type: :string), :label => 'Alternate Title'
     config.add_show_field solr_name('date', :stored_searchable, type: :string), :label => 'Date', :link_to_search => 'date_sim'
+    config.add_show_field solr_name('date_range', :stored_searchable, type: :string), :label => 'Date Range'
     config.add_show_field solr_name('subject', :stored_searchable, type: :string), :label => 'Subject', :link_to_search => 'subject_sim'
     config.add_show_field solr_name('description', :stored_searchable, type: :string), :label => 'Description'
     config.add_show_field solr_name('format', :stored_searchable, type: :string), :label => 'Format', :link_to_search => 'format_sim'
@@ -111,9 +116,7 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name('language', :stored_searchable, type: :string), :label => 'Language', :link_to_search => 'language_sim'
     config.add_show_field solr_name('identifier', :stored_searchable, type: :string), :label => 'Identifier'
 
-    config.add_show_field solr_name('alternate_title', :stored_searchable, type: :string), :label => 'Alternate Title'
     config.add_show_field solr_name('adapted_from', :stored_searchable, type: :string), :label => 'Adapted From'
-    config.add_show_field solr_name('date_range', :stored_searchable, type: :string), :label => 'Date Range'
     config.add_show_field solr_name('lithographer_printer', :stored_searchable, type: :string), :label => 'Lithographer / Printer'
     config.add_show_field solr_name('contributor', :stored_searchable, type: :string), :label => 'Contributor', :link_to_search => 'contributor_sim'
     config.add_show_field solr_name('cover_description', :stored_searchable, type: :string), :label => 'Cover Description'
@@ -138,6 +141,23 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name('creator_organization', :stored_searchable, type: :string), :label => 'Creator (Organization)'
     config.add_show_field solr_name('other_creator_organization', :stored_searchable, type: :string), :label => 'Additional Creator (Organization)'
 
+    config.add_show_field solr_name('image_number', :stored_searchable, type: :string), :label => 'Image Number'
+
+    config.add_show_field solr_name('clip_title', :stored_searchable, type: :string), :label => 'Clip Title'
+
+    config.add_show_field solr_name('abstract', :stored_searchable, type: :string), :label => 'Abstract'
+    config.add_show_field solr_name('accompanied_by', :stored_searchable, type: :string), :label => 'Accompanied By'
+    config.add_show_field solr_name('accompanies', :stored_searchable, type: :string), :label => 'Accompanies'
+    config.add_show_field solr_name('advisor', :stored_searchable, type: :string), :label => 'Advisor'
+    config.add_show_field solr_name('committee_members', :stored_searchable, type: :string), :label => 'Committee Members'
+    config.add_show_field solr_name('degree', :stored_searchable, type: :string), :label => 'Degree'
+    config.add_show_field solr_name('degree_granting_institution', :stored_searchable, type: :string), :label => 'Degree Granting Institution'
+    config.add_show_field solr_name('department', :stored_searchable, type: :string), :label => 'Department'
+    config.add_show_field solr_name('file_size', :stored_searchable, type: :string), :label => 'File Size'
+    config.add_show_field solr_name('keywords', :stored_searchable, type: :string), :label => 'Keywords'
+    config.add_show_field solr_name('source', :stored_searchable, type: :string), :label => 'Source'
+    config.add_show_field solr_name('year_degree_awarded', :stored_searchable, type: :string), :label => 'Year Degree Awarded'
+
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
     #
@@ -158,23 +178,15 @@ class CatalogController < ApplicationController
 
     config.add_search_field 'all_fields', :label => 'All Fields'
 
-    #THIS WORKS -- DO WE NEED pf SOLR NAME?  
-    config.add_search_field('Title') do |field|
+    config.add_search_field('title') do |field|
       solr_name = solr_name("title_tesim", :stored_searchable, type: :string)
+      field.qt = 'search'
       field.solr_local_parameters = {
         :qf => 'title_tesim',
-        :pf => solr_name
+        :pf => '$title_pf'
       }
     end
 
-
-    # Now we see how to over-ride Solr request handler defaults, in this
-    # case for a BL "search field", which is really a dismax aggregate
-    # of Solr search fields.
-
-    # Specifying a :qt only to show it's possible, and so our internal automated
-    # tests can test it. In this case it's the same as
-    # config[:default_solr_parameters][:qt], so isn't actually neccesary.
     config.add_search_field('subject') do |field|
       solr_name = solr_name("subject_tesim", :stored_searchable, type: :string)
       field.qt = 'search'
@@ -184,14 +196,6 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('Personal Names') do |field|
-      solr_name = solr_name("personal_names_tesim", :stored_searchable, type: :string)
-      field.qt = 'search'
-      field.solr_local_parameters = {
-        :qf => 'personal_names_tesim',
-        :pf => '$personal_names_pf'
-      }
-    end
 
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and
