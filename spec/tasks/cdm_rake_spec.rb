@@ -73,13 +73,12 @@ describe 'Execute the tu_cdm rake tests' do
     end
 
     it "should convert the data" do
-      pending ("FIXME: cdm_to_foxml_noncustom.xsl is broken")
       VCR.use_cassette "tu_cdm-convert/should_convert_the_data" do
         Rake::Task['tu_cdm:download'].invoke(download_collection)
 
         Rake::Task['tu_cdm:convert'].invoke
         file_count = Dir[File.join(@converted_directory, '*.xml')].count { |file| File.file?(file) }
-        converted_file_count = `grep -ic "<record>" tmp/tu_cdm/downloads/*`.to_i
+        converted_file_count = `grep -ic "<record>" #{@download_directory}/*`.to_i
         expect(file_count).to eq(converted_file_count)
       end
     end
