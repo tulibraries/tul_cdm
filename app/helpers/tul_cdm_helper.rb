@@ -127,6 +127,7 @@ module TulCdmHelper
     bookreader_message = simple_format "The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings."
     bookreader_title = "Internet Archive BookReader"
     output << content_tag(:div, simple_format(bookreader_title) + content_tag(:noscript, bookreader_message), id: "BookReader")
+    output << content_tag(:script, "", type: "text/javascript", src: "/assets/BookReader/BookReaderCdm.js")
     output.html_safe
   end
   
