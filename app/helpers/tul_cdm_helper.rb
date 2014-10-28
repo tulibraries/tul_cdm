@@ -119,17 +119,16 @@ module TulCdmHelper
       page_titles = xml.xpath("#{xpath_var}/pagetitle/text()")
       page_ids.length.times do |i|
         page_ids_array[i] = page_ids[i].to_s
-        small_path="http://digital.library.temple.edu/utils/ajaxhelper/?CISOROOT=#{cdm_coll}&CISOPTR=#{page_ids[i].to_s.to_i}&action=2&DMSCALE=5&DMWIDTH=2000&DMHEIGHT=4000"
-        inv_path="http://digital.library.temple.edu/utils/ajaxhelper/?CISOROOT=#{cdm_coll}&CISOPTR=#{page_ids[i].to_s.to_i}&action=2&DMSCALE=0.1&DMWIDTH=2000&DMHEIGHT=4000"
-        full_path="http://digital.library.temple.edu/utils/ajaxhelper/?CISOROOT=#{cdm_coll}&CISOPTR=#{page_ids[i].to_s.to_i}&action=2&DMSCALE=20&DMWIDTH=2000&DMHEIGHT=4000"
-        if i == 0
-          output << (link_to(image_tag(small_path, :alt => page_titles[i].to_s, :title => page_titles[i].to_s, :class => 'thumb-single'), full_path, :title => page_titles[i].to_s ))
-        else
-          output << (link_to(image_tag(inv_path, :alt => page_titles[i].to_s, :title => page_titles[i].to_s, :class => 'hidden', :width => '1', :height => '1'), full_path, :title => page_titles[i].to_s, :rel => "shadowbox[#{cdm_coll}-#{cdm_num}];height=600;width=400"))
-        end
+#        small_path="http://digital.library.temple.edu/utils/ajaxhelper/?CISOROOT=#{cdm_coll}&CISOPTR=#{page_ids[i].to_s.to_i}&action=2&DMSCALE=5&DMWIDTH=2000&DMHEIGHT=4000"
+#        inv_path="http://digital.library.temple.edu/utils/ajaxhelper/?CISOROOT=#{cdm_coll}&CISOPTR=#{page_ids[i].to_s.to_i}&action=2&DMSCALE=0.1&DMWIDTH=2000&DMHEIGHT=4000"
+#        full_path="http://digital.library.temple.edu/utils/ajaxhelper/?CISOROOT=#{cdm_coll}&CISOPTR=#{page_ids[i].to_s.to_i}&action=2&DMSCALE=20&DMWIDTH=2000&DMHEIGHT=4000"
       end
-      output << content_tag(:div, "Pages", id: "page-list", data: {pageids: page_ids_array.to_json, cdmColl: cdm_coll})
     end
+    output << content_tag(:div, "", id: "page-list", data: {pageids: page_ids_array.to_json, cdmColl: cdm_coll})
+    bookreader_message = simple_format "The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings."
+    bookreader_title = "Internet Archive BookReader"
+    bookreader_message =  "The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings."
+    output << content_tag(:div, simple_format(bookreader_title) + content_tag(:noscript, bookreader_message), id: "BookReader")
     output.html_safe
   end
   
