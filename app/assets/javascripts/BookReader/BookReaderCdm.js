@@ -24,7 +24,6 @@ br.getPageURI = function(index, reduce, rotate) {
     // or pass the information to an image server
     var imgStr = (br.pageList[index]).toString();
     var url = br.cdmArchive + '/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=10';
-    console.log (url);
     return url;
 }
 
