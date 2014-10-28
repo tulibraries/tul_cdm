@@ -90,6 +90,7 @@ module TulCdmHelper
   end
   
   def render_compound_pageturner(document)
+    config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
     model = model_from_document(document)
     output=''
     cpd = ''
@@ -105,6 +106,7 @@ module TulCdmHelper
       end
     end
     if(cpd == "index.cpd")
+      content_server = "https://cdm16002.contentdm.oclc.org"
       api_path="https://server16002.contentdm.oclc.org/dmwebservices/index.php?q=dmGetCompoundObjectInfo/#{cdm_coll}/#{cdm_num}/xml"
       xml = Nokogiri::XML(open(api_path))
       pamphlets_xpath="/cpd/node/page"
@@ -119,15 +121,11 @@ module TulCdmHelper
       page_titles = xml.xpath("#{xpath_var}/pagetitle/text()")
       page_ids.length.times do |i|
         page_ids_array[i] = page_ids[i].to_s
-#        small_path="http://digital.library.temple.edu/utils/ajaxhelper/?CISOROOT=#{cdm_coll}&CISOPTR=#{page_ids[i].to_s.to_i}&action=2&DMSCALE=5&DMWIDTH=2000&DMHEIGHT=4000"
-#        inv_path="http://digital.library.temple.edu/utils/ajaxhelper/?CISOROOT=#{cdm_coll}&CISOPTR=#{page_ids[i].to_s.to_i}&action=2&DMSCALE=0.1&DMWIDTH=2000&DMHEIGHT=4000"
-#        full_path="http://digital.library.temple.edu/utils/ajaxhelper/?CISOROOT=#{cdm_coll}&CISOPTR=#{page_ids[i].to_s.to_i}&action=2&DMSCALE=20&DMWIDTH=2000&DMHEIGHT=4000"
       end
     end
-    output << content_tag(:div, "", id: "page-list", data: {pageids: page_ids_array.to_json, cdmColl: cdm_coll})
+    output << content_tag(:div, "", id: "page-list", data: {pageids: page_ids_array.to_json, cdmColl: cdm_coll, cdmArchive: config["cdm_archive"], leafCount: page_ids.length})
     bookreader_message = simple_format "The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings."
     bookreader_title = "Internet Archive BookReader"
-    bookreader_message =  "The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings."
     output << content_tag(:div, simple_format(bookreader_title) + content_tag(:noscript, bookreader_message), id: "BookReader")
     output.html_safe
   end
