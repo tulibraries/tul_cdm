@@ -11,10 +11,10 @@
 // about supported directives.
 //
 // BookReader
-//= require bookreader/jquery-1.4.2.min
-//= require bookreader/jquery-ui-1.8.5.custom.min
-//= require bookreader/dragscrollable
-//= require bookreader/jquery.colorbox-min
-//= require bookreader/jquery.ui.ipad
-//= require bookreader/jquery.bt.min
-//= require bookreader/BookReader
+//= require BookReader/jquery-1.4.2.min
+//= require BookReader/jquery-ui-1.8.5.custom.min
+//= require BookReader/dragscrollable
+//= require BookReader/jquery.colorbox-min
+//= require BookReader/jquery.ui.ipad
+//= require BookReader/jquery.bt.min
+//= require BookReader/BookReader
