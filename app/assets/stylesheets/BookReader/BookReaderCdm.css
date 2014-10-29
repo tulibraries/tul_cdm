@@ -6,3 +6,26 @@
 #BRtoolbar .embed, .print {
     display: none;
 }
+
+#BookReader {
+  position: relative;
+}
+
+#BRtoolbar {
+  position: relative;
+}
+
+#BRcontainer {
+  position: relative;
+  height: 640px;
+  top: 40px;
+}
+
+#BookReader #BRnav {
+  position: relative;
+}
+
+#BRnav #BRpage {
+  width: 300px;
+}
+
