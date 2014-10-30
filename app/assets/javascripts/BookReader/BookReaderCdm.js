@@ -246,8 +246,7 @@ br.initNavbar = function() {
     */
 }
 
-$(function() {
-  if ($("#BookReader noscript")) {
+br.renderBookreader = function() {
     // Total number of leafs
     br.numLeafs = parseInt($('#page-list').attr('data-leafcount'));
 
@@ -273,5 +272,4 @@ $(function() {
     $('#BRtoolbar').find('.read').hide();
     $('#textSrch').hide();
     $('#btnSrch').hide();
-  }
-});
+}
