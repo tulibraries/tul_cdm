@@ -1,4 +1,6 @@
 class Pamphlet < TulCdm::Models::Base
+
+  belongs_to :collection, :property=> :is_member_of, :class_name => "ActiveFedora::Base"
   
   has_metadata "descMetadata", type: PamphletMetadata
   has_metadata "geographicMetadata", :type => TulCdm::Datastreams::GeographicDatastream

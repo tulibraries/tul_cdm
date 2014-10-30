@@ -94,8 +94,8 @@ module TulCdmHelper
     output=''
     cpd = ''
     page_ids_array=[]
-    cdm_coll=document["contentdm_collection_id_tesim"].to_sentence
-    cdm_num=document["contentdm_number_tesim"].to_sentence
+    cdm_coll=document["contentdm_collection_id_tesim"].to_sentence if document["contentdm_collection_id_tesim"]
+    cdm_num=document["contentdm_number_tesim"].to_sentence if document["contentdm_number_tesim"]
     if(document["file_name_ssm"])
       cpd = document["file_name_ssm"].to_sentence
     else
@@ -184,6 +184,21 @@ module TulCdmHelper
   
   def query_subject display_field
     flash[:notice] = "Display: #{display_field.items.length}"
+  end
+
+
+  def set_children_link(document)
+    model = model_from_document(document)
+    if model == "Collection"
+      link_to "Show all in collection", "/?q=is_member_of_ssim:info:fedora/#{document.id}"
+    end
+  end
+
+  def set_collection_link(document)
+    model = model_from_document(document)
+    if model != "Collection"
+      link_to "More like this", "/?q=is_member_of_ssim:#{document['is_member_of_ssim'].to_sentence if document['is_member_of_ssim']}"
+    end
   end
   
 end

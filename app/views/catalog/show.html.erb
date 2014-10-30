@@ -1,6 +1,6 @@
  <div class="cpd-thumb">
- <%= @document['model_ssi']
- render_compound_pageturner @document %>
+ <%= @document['model_ssi'] if @document['model_ssi']
+ render_compound_pageturner @document if @document["contentdm_number_tesim"] %>
  </div> 
 
 <div id="content" class="col-md-9 col-sm-8 show-document">
@@ -20,17 +20,8 @@
  
   </div>
 </div>
-
-
-
-  <% if @document.respond_to?(:export_as_openurl_ctx_kev) %>
-    <!-- 
-         // COinS, for Zotero among others. 
-         // This document_partial_name(@document) business is not quite right,
-         // but has been there for a while. 
-    -->
-    <span class="Z3988" title="<%= @document.export_as_openurl_ctx_kev(document_partial_name(@document)) %>"></span>
-  <% end %>
+<dd><%= set_children_link(@document) %></dd>
+<dd><%= set_collection_link(@document) %></dd>
 
 </div>
 

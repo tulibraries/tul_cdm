@@ -34,7 +34,8 @@ class CatalogController < ApplicationController
               repository_tesim
               repository_collection_tesim
               identifier_tesim
-              author_tesim',
+              author_tesim
+              is_part_of_ssim',
       :qt => 'search',
       :rows => 10
     }
@@ -42,7 +43,8 @@ class CatalogController < ApplicationController
     # solr field configuration for search results/index views
     config.index.title_field = 'title_tesim'
     config.index.display_type_field = 'active_fedora_model_ssi'
-
+    config.show.display_type_field = 'active_fedora_model_ssi'
+    
     config.index.thumbnail_field = 'path_to_thumbnail_ssm'
 
 
@@ -81,7 +83,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('series', :facetable), :label => 'Series', :limit => 5
     config.add_facet_field solr_name('advisor', :facetable), :label => 'Series', :limit => 5
     config.add_facet_field solr_name('degree_granting_institution', :facetable), :label => 'Series', :limit => 5
-
+    config.add_facet_field solr_name('is_part_of_ssim', :facetable), :label => 'Part Of'
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
