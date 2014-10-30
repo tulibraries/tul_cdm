@@ -18,3 +18,4 @@
 //= require BookReader/jquery.ui.ipad
 //= require BookReader/jquery.bt.min
 //= require BookReader/BookReader
+//= require BookReader/BookReaderCdm

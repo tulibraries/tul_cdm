@@ -122,12 +122,18 @@ module TulCdmHelper
       page_ids.length.times do |i|
         page_ids_array[i] = page_ids[i].to_s
       end
+
+      cdm_data = { pageids:    page_ids_array.to_json,
+                   cdmColl:    cdm_coll,
+                   cdmArchive: config["cdm_archive"],
+                   cdmTitle:   document["title_tesim"].to_sentence,
+                   cdmUrl:     document["reference_url_ssm"].to_sentence,
+                   leafCount:  page_ids.length }
+      output << content_tag(:div, "", id: "page-list", data: cdm_data )
+      bookreader_message = simple_format "The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings."
+      bookreader_title = "Internet Archive BookReader"
+      output << content_tag(:div, simple_format(bookreader_title) + content_tag(:noscript, bookreader_message), id: "BookReader")
     end
-    output << content_tag(:div, "", id: "page-list", data: {pageids: page_ids_array.to_json, cdmColl: cdm_coll, cdmArchive: config["cdm_archive"], leafCount: page_ids.length})
-    bookreader_message = simple_format "The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings."
-    bookreader_title = "Internet Archive BookReader"
-    output << content_tag(:div, simple_format(bookreader_title) + content_tag(:noscript, bookreader_message), id: "BookReader")
-    output << content_tag(:script, "", type: "text/javascript", src: "/assets/BookReader/BookReaderCdm.js")
     output.html_safe
   end
   
