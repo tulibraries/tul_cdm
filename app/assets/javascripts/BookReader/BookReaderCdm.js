@@ -6,12 +6,12 @@ br = new BookReader();
 
 // Return the width of a given page.  Here we assume all images are 800 pixels wide
 br.getPageWidth = function(index) {
-    return 800;
+    return parseInt($('#page-list').attr('data-pagewidth'));
 }
 
 // Return the height of a given page.  Here we assume all images are 1200 pixels high
 br.getPageHeight = function(index) {
-    return 1200;
+    return parseInt($('#page-list').attr('data-pageheight'));
 }
 
 // We load the images from archive.org -- you can modify this function to retrieve images
@@ -91,8 +91,8 @@ br.initToolbar = function(mode, ui) {
         //+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
         +     "<button class='BRicon play'></button>"
         +     "<button class='BRicon pause'></button>"
-        +     "<button class='BRicon info'></button>"
-        +     "<button class='BRicon share'></button>"
+        //+     "<button class='BRicon info'></button>"
+        //+     "<button class='BRicon share'></button>"
         //+     readIcon
         //+     "<button class='BRicon full'></button>"
         +   "</span>"

@@ -128,7 +128,9 @@ module TulCdmHelper
                    cdmArchive: config["cdm_archive"],
                    cdmTitle:   document["title_tesim"].to_sentence,
                    cdmUrl:     document["reference_url_ssm"].to_sentence,
-                   leafCount:  page_ids.length }
+                   leafCount:  page_ids.length,
+                   pageWidth:  800,
+                   pageHeight: 1200 }
       output << content_tag(:div, "", id: "page-list", data: cdm_data )
       bookreader_message = simple_format "The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings."
       bookreader_title = "Internet Archive BookReader"
