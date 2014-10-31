@@ -15,11 +15,6 @@
   position: relative;
 }
 
-#BRcontainer {
-  position: relative;
-  height: 640px;
-}
-
 #BookReader #BRnav {
   position: relative;
 }
@@ -28,3 +23,11 @@
   width: 300px;
 }
 
+#BRcontainer {
+    position: relative;
+	height: 640px;
+}
+
+#BRtoolbar, div#BRnav {
+    background-color: #e2dcc5;    
+}

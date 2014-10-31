@@ -23,7 +23,9 @@ br.getPageURI = function(index, reduce, rotate) {
     // could e.g. look at reduce and load images from a different directory
     // or pass the information to an image server
     var imgStr = (br.pageList[index]).toString();
-    var url = br.cdmArchive + '/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=50&DMWIDTH=3000&DMHEIGHT=4000';
+
+    //&action=2&DMSCALE=50&DMWIDTH=3000&DMHEIGHT=4000 <-- High res, zoomable but so sloooooow
+    var url = br.cdmArchive + '/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=20&DMWIDTH=2000&DMHEIGHT=4000';
     return url;
 }
 
