@@ -21,7 +21,7 @@ br.getPageURI = function(index, reduce, rotate) {
     // could e.g. look at reduce and load images from a different directory
     // or pass the information to an image server
     var imgStr = (br.pageList[index]).toString();
-    var url = br.cdmArchive + '/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=' + br.pageScale + 
+    var url = br.cdmArchive + '/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=' + br.cdmScale + 
               '&DMWIDTH=' + br.cdmWidth + '&DMHEIGHT=' + br.cdmHeight ;
     return url;
 }
@@ -268,7 +268,7 @@ br.renderBookreader = function() {
     br.cdmServer= ($('#page-list').attr('data-cdmserver'));
     br.cdmWidth = ($('#page-list').attr('data-pagewidth'));
     br.cdmHeight = ($('#page-list').attr('data-pageheight'));
-    br.pageScale = ($('#page-list').attr('data-pagescale'));
+    br.cdmScale = ($('#page-list').attr('data-pagescale'));
 
     // Let's go!
     br.init();

@@ -127,7 +127,7 @@ module TulCdmHelper
       xml = Nokogiri::XML(open(api_path))
       pageWidth = xml.xpath("imageinfo/width/text()").to_s 
       pageHeight = xml.xpath("imageinfo/height/text()").to_s 
-      pageScale = "90"
+      pageScale = "20"
 
       cdm_data = { pageids:    page_ids_array.to_json,
                    cdmColl:    cdm_coll,
@@ -141,10 +141,8 @@ module TulCdmHelper
                    pageScale:  pageScale }
 
       output << content_tag(:div, "", id: "page-list", data: cdm_data )
-      bookreader_message = simple_format "The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings."
-      bookreader_title = "Internet Archive BookReader"
       bookreader_invocation = "br.renderBookreader();"
-      output << content_tag(:div, simple_format(bookreader_title) + content_tag(:noscript, bookreader_message), id: "BookReader")
+      output << content_tag(:div, simple_format(t('tul_cdm.bookreader.title')) + content_tag(:noscript, t('tul_cdm.bookreader.caveat')), id: "BookReader")
       output << content_tag(:script, bookreader_invocation, type: "text/javascript")
     end
     output.html_safe
