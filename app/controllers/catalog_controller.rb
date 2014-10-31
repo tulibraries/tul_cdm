@@ -5,7 +5,10 @@ class CatalogController < ApplicationController
 
   include Blacklight::Catalog
   include Hydra::Controller::ControllerBehavior
-  include BlacklightAdvancedSearch::ParseBasicQ
+  
+  #TODO: Figure out why BL Advanced search makes has_member_ssim not work, make it work
+  #include BlacklightAdvancedSearch::ParseBasicQ
+  
   include TulCdm::SolrHelper::Behaviors
   
   # These before_filters apply the hydra access controls
@@ -14,6 +17,11 @@ class CatalogController < ApplicationController
   #CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
   
   CatalogController.solr_search_params_logic += [:exclude_unwanted_models]
+
+  # def index
+  #   super
+  #   display_collection
+  # end
 
   configure_blacklight do |config|
     config.default_solr_params = {
@@ -35,14 +43,15 @@ class CatalogController < ApplicationController
               repository_collection_tesim
               identifier_tesim
               author_tesim
-              is_part_of_ssim',
+              is_part_of_ssim
+              about_statement_tesim',
       :qt => 'search',
       :rows => 10
     }
 
     # solr field configuration for search results/index views
     config.index.title_field = 'title_tesim'
-    config.index.display_type_field = 'active_fedora_model_ssi'
+    config.index.display_type_field = 'has_model_ssim'
     config.show.display_type_field = 'active_fedora_model_ssi'
     
     config.index.thumbnail_field = 'path_to_thumbnail_ssm'
@@ -84,7 +93,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('advisor', :facetable), :label => 'Series', :limit => 5
     config.add_facet_field solr_name('degree_granting_institution', :facetable), :label => 'Series', :limit => 5
     config.add_facet_field solr_name('is_part_of_ssim', :facetable), :label => 'Part Of'
-
+    
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
     # handler defaults, or have no facets.
@@ -98,9 +107,14 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name('title', :stored_searchable, type: :string), :label => 'Title'
     config.add_index_field solr_name('subject', :stored_searchable, type: :string), :label => 'Subject', :link_to_search => 'subject_sim'
     config.add_index_field solr_name('format', :stored_searchable, type: :string), :label => 'Format', :link_to_search => 'format_sim'
+    
+    # Collection-only metadata
+    config.add_index_field solr_name('about_statement', :stored_searchable, type: :string), :label => 'About this Collection'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
+    
+    # Records and shared metadata
     config.add_show_field solr_name('title', :stored_searchable, type: :string), :label => 'Title'
     config.add_show_field solr_name('alternate_title', :stored_searchable, type: :string), :label => 'Alternate Title'
     config.add_show_field solr_name('date', :stored_searchable, type: :string), :label => 'Date', :link_to_search => 'date_sim'
@@ -160,6 +174,9 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name('source', :stored_searchable, type: :string), :label => 'Source'
     config.add_show_field solr_name('year_degree_awarded', :stored_searchable, type: :string), :label => 'Year Degree Awarded'
 
+    # Collection-only metadata
+    config.add_show_field solr_name('about_statement', :stored_searchable, type: :string), :label => 'About this Collection'
+
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
     #
@@ -184,7 +201,7 @@ class CatalogController < ApplicationController
       solr_name = solr_name("title_tesim", :stored_searchable, type: :string)
       field.qt = 'search'
       field.solr_local_parameters = {
-        :qf => 'title_tesim',
+        :qf => '$title_qf',
         :pf => '$title_pf'
       }
     end
@@ -193,7 +210,7 @@ class CatalogController < ApplicationController
       solr_name = solr_name("subject_tesim", :stored_searchable, type: :string)
       field.qt = 'search'
       field.solr_local_parameters = {
-        :qf => 'subject_tesim',
+        :qf => '$subject_qf',
         :pf => '$subject_pf'
       }
     end
@@ -228,4 +245,16 @@ class CatalogController < ApplicationController
     #Add unwanted models below
     return []
   end
+
+  def display_collection
+    (resp, doc_list) = get_search_results(:q =>"{!lucene q.op=AND df=Food+conservation+--+United+States.}",
+    :sort=>sort_field,
+    :rows=>3)
+    @document_list = doc_list[0..3]
+  end
+
+  def sort_field
+    "#{self.class.solr_name('desc_metadata__title', :stored_sortable, type: :date)} desc"
+  end
+
 end
