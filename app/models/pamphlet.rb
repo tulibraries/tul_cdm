@@ -1,12 +1,12 @@
 class Pamphlet < TulCdm::Models::Base
-  
+
   has_metadata "descMetadata", type: PamphletMetadata
   has_metadata "geographicMetadata", :type => TulCdm::Datastreams::GeographicDatastream
   has_metadata "physicalMetadata", :type => TulCdm::Datastreams::PhysicalDatastream
   has_metadata "notationsMetadata", :type => TulCdm::Datastreams::NotationsDatastream
   has_metadata "digitalMetadata", :type => TulCdm::Datastreams::DigitalDatastream
   has_metadata "creationMetadata", :type => TulCdm::Datastreams::CreationDatastream
-  
+    
   has_attributes :title,:format,:type, :publisher,:digital_collection,:digital_publisher,
       :digital_specifications,:contact,:repository,:repository_collection, :language, 
       :identifier, datastream: :objectMetadata, multiple: true

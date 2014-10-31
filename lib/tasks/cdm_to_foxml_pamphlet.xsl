@@ -59,6 +59,7 @@
                                                   <xsl:text>&#xa;</xsl:text>
                                         </foxml:objectProperties>                                        
                                         <xsl:text>&#xa;</xsl:text>
+                                        
                                         <foxml:datastream ID="objectMetadata" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
                                         <xsl:text>&#xa;</xsl:text>
                                           <foxml:datastreamVersion ID="objectMetadata.0" LABEL="Object metadata" MIMETYPE="text/xml">

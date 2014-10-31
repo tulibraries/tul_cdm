@@ -1,8 +1,7 @@
 require "open-uri"
 
-
-
 module TulCdmHelper
+
 
   def display_field(document, solr_fname, label_text='', html_class)
     display_dt_dd_element(label_text, solr_field_value(document, solr_fname), html_class)
@@ -95,8 +94,8 @@ module TulCdmHelper
     output=''
     cpd = ''
     page_ids_array=[]
-    cdm_coll=document["contentdm_collection_id_tesim"].to_sentence
-    cdm_num=document["contentdm_number_tesim"].to_sentence
+    cdm_coll=document["contentdm_collection_id_tesim"].to_sentence if document["contentdm_collection_id_tesim"]
+    cdm_num=document["contentdm_number_tesim"].to_sentence if document["contentdm_number_tesim"]
     if(document["file_name_ssm"])
       cpd = document["file_name_ssm"].to_sentence
     else
@@ -195,5 +194,48 @@ module TulCdmHelper
   def query_subject display_field
     flash[:notice] = "Display: #{display_field.items.length}"
   end
-  
+
+  def set_children_link(document)
+    model = model_from_document(document)
+    if model == "Collection"
+      link_to "Show all in collection", "/?q=is_member_of_ssim:info:fedora/#{document.id}"
+    end
+  end
+
+  def set_collection_link(document)
+    model = model_from_document(document)
+    if model != "Collection"
+      link_to "More like this", "/?q=is_member_of_ssim:#{document['is_member_of_ssim'].to_sentence if document['is_member_of_ssim']}"
+    end
+  end
+
+def render_collection(collection_id)
+    # b = get_related_objects(collection_id);
+    # collection_set = Array.new
+    # b.each do |b_obj|
+    #   pid=b_obj.id
+    #   object = locate_by_model(pid)
+    #   if(object)
+    #    collection_item = [object.title.first]
+    #    (collection_set ||= []) << collection_item
+    #  end
+    # end
+    collection_set = 'placeholder for thumbnails'
+    return collection_set
+  end
+
+  def get_related_objects(collection_id)
+    related_objects = ActiveFedora::Base.where(is_member_of_ssim: collection_id).to_a
+    return related_objects
+  end
+
+  def locate_by_model(pid)
+    pid_fragments = pid.split(":");
+    content_model = pid_fragments.first;
+    case content_model
+      when 'poster' then object = Poster.find(pid)
+      when 'pamphlet' then object = Pamphlet.find(pid)
+      else nil
+    end
+  end
 end

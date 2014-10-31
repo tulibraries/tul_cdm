@@ -1,4 +1,5 @@
 module TulCdm::SolrHelper::Behaviors
+
 #  You could also add the logic here
 #  def self.included base
 #    base.solr_search_params_logic << :show_only_public_records
@@ -43,13 +44,15 @@ module TulCdm::SolrHelper::Behaviors
 
     #solr_parameters[:fq].delete(fq)
     solr_parameters
-
-    
   end
-  
   
   def facets_from_request(fields = solr_parameters[:fq])
       fields.map { |solr_field| facet_by_field_name(solr_field) }.compact
-    end
+  end
+
+  def show_only_collection solr_parameters, user_parameters
+    solr_parameters[:fq] ||= []
+    solr_parameters[:fq] << 'subject_sim:Fund raising -- United States.'
+  end
 
 end
