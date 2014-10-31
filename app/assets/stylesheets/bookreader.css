@@ -31,3 +31,13 @@
 #BRtoolbar, div#BRnav {
     background-color: #e2dcc5;    
 }
+
+/*
+* 
+  Hiding share, info, and show/hide buttons that 
+  ship with Bookreader -- comment out to add them
+*
+*/
+.BRicon.info, .BRicon.share, #BRnavCntlBtm.BRdn {
+    display: none;
+}

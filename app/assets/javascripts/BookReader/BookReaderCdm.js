@@ -80,8 +80,8 @@ br.getPageNum = function(index) {
 br.numLeafs = parseInt($('#page-list').attr('data-leafcount'));
 
 // Book title and the URL used for the book title link
-br.bookTitle= 'BookReader Prototype';
-br.bookUrl  = 'http://0.0.0.0:3000';
+br.bookTitle= '';
+br.bookUrl  = '';
 
 // Override the path used to find UI images
 br.imagesBaseURL = '/assets/BookReader/images/';
