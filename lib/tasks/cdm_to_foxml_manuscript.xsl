@@ -34,7 +34,7 @@
         <xsl:attribute name="xsi:schemaLocation">info:fedora/fedora-system:def/foxml# http://www.fedora.info/definitions/1/0/foxml1-1.xsd</xsl:attribute>
         <foxml:objectProperties>
           <foxml:property NAME="info:fedora/fedora-system:def/model#state" VALUE="Active"/>
-          <foxml:property NAME="info:fedora/fedora-system:def/model#label" VALUE="FOXML Reference Example"/>
+          <foxml:property NAME="info:fedora/fedora-system:def/model#label" VALUE="{$pidPrefix}"/>
           <foxml:property NAME="info:fedora/fedora-system:def/model#ownerId" VALUE=""/>
           <foxml:property NAME="info:fedora/fedora-system:def/model#createdDate" VALUE="{$current_time}"/>
           <foxml:property NAME="info:fedora/fedora-system:def/view#lastModifiedDate" VALUE=""/>

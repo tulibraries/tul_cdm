@@ -1,280 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
-        xmlns:foxml="info:fedora/fedora-system:def/foxml#"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:exsl="http://exslt.org/common"
-        extension-element-prefixes="exsl">
-        <xsl:output method="xml" indent="yes"/>
-        <xsl:template match="metadata">
-        <xsl:copy>
-	<xsl:variable name="collection">
-	  <xsl:value-of select="manifest/contentdm_collection_id" />
-	</xsl:variable>
-  <xsl:variable name="foxmlDir">
-    <xsl:value-of select="manifest/foxml_dir" />
+  <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:foxml="info:fedora/fedora-system:def/foxml#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:exsl="http://exslt.org/common" xmlns:ex="http://exslt.org/dates-and-times" extension-element-prefixes="exsl ex">
+  <xsl:variable name="collection">
+    <xsl:value-of select="metadata/manifest/contentdm_collection_id" />
   </xsl:variable>
-                <xsl:for-each select="record">
-                        <xsl:variable name="cdmfile">
-                        
-                                <xsl:value-of select="concat($collection,'x',CONTENTdm_number)"/>
-                        </xsl:variable>
-                        
-                        <xsl:variable name="pid">
-                                <xsl:value-of select="concat('noncustom:',$cdmfile)" />
-                        </xsl:variable>
-                        <exsl:document method="xml" href="{$foxmlDir}/{$cdmfile}.xml">
-                                
-                                <xsl:element name="foxml:digitalObject"
-                                        xmlns:foxml="info:fedora/fedora-system:def/foxml#"
-                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                        
-                                        <xsl:attribute name="VERSION">
-                                                <xsl:value-of select="1.1"/>
-                                        </xsl:attribute>
-                                        <xsl:attribute name="PID">
-                                                <xsl:value-of select="$pid"/>
-                                        </xsl:attribute>
+  <xsl:variable name="foxml_dir">
+    <xsl:value-of select="metadata/manifest/foxml_dir" />
+  </xsl:variable>
+  <xsl:output method="xml" indent="yes"/>
+  <xsl:template match="metadata/record">
+    <xsl:copy>
+      <xsl:variable name="current_time">
+        <xsl:value-of select="ex:date-time()"/>
+      </xsl:variable>
+      <xsl:variable name="cdmfile">
+        <xsl:value-of select="concat($collection,'x',CONTENTdm_number)"/>
+      </xsl:variable>
+      <xsl:variable name="pidPrefix">
+        <xsl:value-of select="'tulcdm'"/>
+      </xsl:variable>
+      <xsl:variable name="pid">
+        <xsl:value-of select="concat($pidPrefix,':',$cdmfile)" />
+      </xsl:variable>
+      <xsl:variable name="rdfAbout">
+        <xsl:value-of select="concat('info:fedora/', $pid)" />
+      </xsl:variable>
+      <xsl:variable name="rdfResource">
+        <xsl:value-of select="concat('info:fedora/afmodel:', $pidPrefix)" />
+      </xsl:variable>
+      <exsl:document method="xml" href="{$foxml_dir}/{$cdmfile}.xml">
+        <xsl:element name="foxml:digitalObject" xmlns:foxml="info:fedora/fedora-system:def/foxml#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <xsl:attribute name="VERSION"><xsl:value-of select="1.1"/></xsl:attribute>
+        <xsl:attribute name="PID"><xsl:value-of select="$pid"/></xsl:attribute>
         <xsl:attribute name="xsi:schemaLocation">info:fedora/fedora-system:def/foxml# http://www.fedora.info/definitions/1/0/foxml1-1.xsd</xsl:attribute>
-                                        
-                                        <foxml:objectProperties>
-                                                <foxml:property
-                                                  NAME="info:fedora/fedora-system:def/model#state"
-                                                  VALUE="Active"/>
-                                                  <xsl:text>&#xa;</xsl:text>
-                                                <foxml:property
-                                                  NAME="info:fedora/fedora-system:def/model#label"
-                                                  VALUE="FOXML Reference Example"/>
-                                                  <xsl:text>&#xa;</xsl:text>
-                                                <foxml:property
-                                                  NAME="info:fedora/fedora-system:def/model#ownerId"
-                                                  VALUE=""/>
-                                                  <xsl:text>&#xa;</xsl:text>
-                                                <foxml:property
-                                                  NAME="info:fedora/fedora-system:def/model#createdDate"
-                                                  VALUE="2013-11-06T21:24:13.236Z"/>
-                                                  <xsl:text>&#xa;</xsl:text>
-                                                <foxml:property
-                                                  NAME="info:fedora/fedora-system:def/view#lastModifiedDate"
-                                                  VALUE="2013-11-06T21:24:13.236Z"/>
-                                                  <xsl:text>&#xa;</xsl:text>
-                                        </foxml:objectProperties>                                        
-                                        <xsl:text>&#xa;</xsl:text>
-                                        <foxml:datastream ID="objectMetadata" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
-                                        <xsl:text>&#xa;</xsl:text>
-                                          <foxml:datastreamVersion ID="objectMetadata.0" LABEL="Object metadata" MIMETYPE="text/xml">
-                                          <xsl:text>&#xa;</xsl:text>
-                                            <foxml:xmlContent>
-                                            <xsl:text>&#xa;</xsl:text>
-                                              <fields>
-                                              <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Title">  
-                                                                  <xsl:element name="title">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Date">  
-                                                                  <xsl:element name="date">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Subject">  
-                                                                  <xsl:element name="subject">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Description">  
-                                                                  <xsl:element name="description">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Format">  
-                                                                  <xsl:element name="format">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Type">  
-                                                                  <xsl:element name="type">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Publisher">  
-                                                                  <xsl:element name="publisher">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Digital_Collection">  
-                                                                  <xsl:element name="digital_collection">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Digital_Publisher">  
-                                                                  <xsl:element name="digital_publisher">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Digital_Specifications">  
-                                                                  <xsl:element name="digital_specifications">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Contact">  
-                                                                  <xsl:element name="contact">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Repository">  
-                                                                  <xsl:element name="repository">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Repository_Collection">  
-                                                                  <xsl:element name="repository_collection">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Language">  
-                                                                  <xsl:element name="language">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Identifier">  
-                                                                  <xsl:element name="identifier">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                  </fields>
-                                                  <xsl:text>&#xa;</xsl:text>
-                                                  </foxml:xmlContent>
-                                                  <xsl:text>&#xa;</xsl:text>
-                                                </foxml:datastreamVersion>
-                                                <xsl:text>&#xa;</xsl:text>
-                                        </foxml:datastream>
-                                        <xsl:text>&#xa;</xsl:text>
-                                        
-                                        <foxml:datastream ID="contentdmMetadata" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
-                                          <foxml:datastreamVersion ID="contentdmMetadata.0" LABEL="ContentDM metadata" MIMETYPE="text/xml">
-                                            <foxml:xmlContent>
-                                              <fields>
-                                                 <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Item_URL">  
-                                                                  <xsl:element name="item_url">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each> 
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="OCLC_number">  
-                                                                  <xsl:element name="oclc_number">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each> 
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Date_created">  
-                                                                  <xsl:element name="date_created">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each> 
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Date_modified">  
-                                                                  <xsl:element name="date_modified">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each> 
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="CONTENTdm_number">  
-                                                                  <xsl:element name="contentdm_number">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each> 
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="CONTENTdm_file_name">  
-                                                                  <xsl:element name="contentdm_file_name">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each> 
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="CONTENTdm_file_path">  
-                                                                  <xsl:element name="contentdm_file_path">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each> 
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:element name="contentdm_collection_id">
-                                                              <xsl:value-of select="$collection" />
-                                                          </xsl:element>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:element name="path_to_thumbnail">
-                                                              <xsl:value-of select="concat('http://cdm15037.contentdm.oclc.org/utils/getthumbnail/collection/',$collection,'/id/',CONTENTdm_number)" />
-                                                          </xsl:element>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:element name="reference_url">
-                                                              <xsl:value-of select="concat('/catalog/',$pid)" />
-                                                          </xsl:element>
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                  </fields>
-                                                  </foxml:xmlContent>
-                                                </foxml:datastreamVersion>
-                                        </foxml:datastream>
-                                        
-                                        <foxml:datastream ID="descMetadata" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
-                                          <foxml:datastreamVersion ID="descMetadata.0" LABEL="ContentDM metadata" MIMETYPE="text/xml">
-                                            <foxml:xmlContent>
-                                              <fields>
-                                              <xsl:text>&#xa;</xsl:text>
-                                              <xsl:for-each select="Title">  
-                                                                  <xsl:element name="title">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each> 
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Date">  
-                                                                  <xsl:element name="date">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each> 
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Subject">  
-                                                                  <xsl:element name="subject">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each> 
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Description">  
-                                                                  <xsl:element name="description">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each> 
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                          <xsl:for-each select="Created">  
-                                                                  <xsl:element name="created">  
-                                                                          <xsl:value-of select="." />  
-                                                                  </xsl:element>
-                                                          </xsl:for-each> 
-                                                          <xsl:text>&#xa;</xsl:text>
-                                                  </fields>
-                                                  </foxml:xmlContent>
-                                                </foxml:datastreamVersion>
-                                        </foxml:datastream>
-                                    <xsl:text>&#xa;</xsl:text>
-                                </xsl:element>
-                                
-                        </exsl:document>
-                </xsl:for-each>
-</xsl:copy>
-        </xsl:template>
+        <foxml:objectProperties>
+          <foxml:property NAME="info:fedora/fedora-system:def/model#state" VALUE="Active"/>
+          <foxml:property NAME="info:fedora/fedora-system:def/model#label" VALUE="{$pidPrefix}"/>
+          <foxml:property NAME="info:fedora/fedora-system:def/model#ownerId" VALUE=""/>
+          <foxml:property NAME="info:fedora/fedora-system:def/model#createdDate" VALUE="{$current_time}"/>
+          <foxml:property NAME="info:fedora/fedora-system:def/view#lastModifiedDate" VALUE=""/>
+        </foxml:objectProperties>                                        
+        <foxml:datastream ID="RELS-EXT" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
+          <foxml:datastreamVersion ID="RELS-EXT.0" LABEL="Fedora Object-to-Object Relationship Metadata" MIMETYPE="application/rdf+xml" >
+            <foxml:xmlContent>
+              <rdf:RDF xmlns:ns0="info:fedora/fedora-system:def/model#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+              <xsl:element name="rdf:Description">
+              <xsl:attribute name="rdf:about"><xsl:value-of select="$rdfAbout"/></xsl:attribute>
+              <xsl:element name="ns0:hasModel">
+              <xsl:attribute name="rdf:resource"><xsl:value-of select="$rdfResource"/></xsl:attribute>
+              </xsl:element>
+              </xsl:element>
+              </rdf:RDF>
+            </foxml:xmlContent>
+          </foxml:datastreamVersion>
+        </foxml:datastream>
+        <foxml:datastream ID="objectMetadata" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
+          <foxml:datastreamVersion ID="objectMetadata.0" LABEL="Object metadata" MIMETYPE="text/xml">
+            <foxml:xmlContent>
+              <fields>
+                <xsl:apply-templates select="Title"/>
+                <xsl:apply-templates select="Date"/>
+                <xsl:apply-templates select="Subject"/>
+                <xsl:apply-templates select="Description"/>
+              </fields>
+            </foxml:xmlContent>
+          </foxml:datastreamVersion>
+        </foxml:datastream>
+        <foxml:datastream ID="contentdmMetadata" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
+          <foxml:datastreamVersion ID="contentdmMetadata.0" LABEL="CONTENTdm metadata" MIMETYPE="text/xml">
+            <foxml:xmlContent>
+              <fields>
+                <xsl:apply-templates select="Item_URL"/>
+                <xsl:apply-templates select="OCLC_number"/>
+                <xsl:apply-templates select="Date_created"/>
+                <xsl:apply-templates select="Date_modified"/>
+                <xsl:apply-templates select="CONTENTdm_number"/>
+                <xsl:apply-templates select="CONTENTdm_file_name"/>
+                <xsl:apply-templates select="CONTENTdm_file_path"/>
+                <contentdm_collection_id><xsl:value-of select="$collection" /></contentdm_collection_id>
+                <path_to_thumbnail><xsl:value-of select="concat('http://cdm15037.contentdm.oclc.org/utils/getthumbnail/collection/',$collection,'/id/',CONTENTdm_number)" /></path_to_thumbnail>
+                <reference_url><xsl:value-of select="concat('/catalog/',$pid)" /></reference_url>
+              </fields>
+            </foxml:xmlContent>
+          </foxml:datastreamVersion>
+        </foxml:datastream>
+        <foxml:datastream ID="descMetadata" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
+          <foxml:datastreamVersion ID="descMetadata.0" LABEL="Descriptive metadata" MIMETYPE="text/xml">
+            <foxml:xmlContent>
+              <fields>
+                <xsl:apply-templates select="Title"/>
+                <xsl:apply-templates select="Date"/>
+                <xsl:apply-templates select="Subject"/>
+                <xsl:apply-templates select="Description"/>
+              </fields>
+            </foxml:xmlContent>
+          </foxml:datastreamVersion>
+        </foxml:datastream>
+        </xsl:element>
+      </exsl:document>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="Title">
+    <title><xsl:apply-templates /></title>
+  </xsl:template>
+  <xsl:template match="Date">
+    <date><xsl:apply-templates /></date>
+  </xsl:template>
+  <xsl:template match="Subject">
+    <subject><xsl:apply-templates /></subject>
+  </xsl:template>
+  <xsl:template match="Description">
+    <description><xsl:apply-templates /></description>
+  </xsl:template>
 </xsl:stylesheet>
-                                                          
