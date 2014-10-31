@@ -1,8 +1,3 @@
- <div class="cpd-thumb">
- <%= @document['model_ssi'] if @document['model_ssi']
- render_compound_pageturner @document if @document["contentdm_number_tesim"] %>
- </div> 
-
 <div id="content" class="col-md-9 col-sm-8 show-document">
 
   <%= render 'previous_next_doc' %>
@@ -26,4 +21,6 @@
 
 <div id="sidebar" class="col-md-3 col-sm-4">
    <%= render_document_sidebar_partial %>
+</div>
+
 </div>
