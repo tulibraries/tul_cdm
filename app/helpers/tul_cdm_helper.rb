@@ -99,7 +99,7 @@ module TulCdmHelper
     if(document["file_name_ssm"])
       cpd = document["file_name_ssm"].to_sentence
     else
-      fext = File.extname(document["contentdm_file_name_tesim"].to_sentence)
+      fext = File.extname(document["contentdm_file_name_tesim"].to_sentence) if document["contentdm_file_name_tesim"]
       if(fext == ".cpd")
         cpd = "index.cpd"
       end
@@ -121,13 +121,14 @@ module TulCdmHelper
       page_ids.length.times do |i|
         page_ids_array[i] = page_ids[i].to_s
       end
+      output << content_tag(:div, "", id: "page-list", data: {pageids: page_ids_array.to_json, cdmColl: cdm_coll, cdmArchive: config["cdm_archive"], leafCount: page_ids.length})
+      bookreader_message = simple_format "The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings."
+      bookreader_title = "Internet Archive BookReader"
+      output << content_tag(:div, simple_format(bookreader_title) + content_tag(:noscript, bookreader_message), id: "BookReader")
+      output << content_tag(:script, "", type: "text/javascript", src: "/assets/BookReader/BookReaderCdm.js")
+      output.html_safe
     end
-    output << content_tag(:div, "", id: "page-list", data: {pageids: page_ids_array.to_json, cdmColl: cdm_coll, cdmArchive: config["cdm_archive"], leafCount: page_ids.length})
-    bookreader_message = simple_format "The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings."
-    bookreader_title = "Internet Archive BookReader"
-    output << content_tag(:div, simple_format(bookreader_title) + content_tag(:noscript, bookreader_message), id: "BookReader")
-    output << content_tag(:script, "", type: "text/javascript", src: "/assets/BookReader/BookReaderCdm.js")
-    output.html_safe
+    
   end
   
 ###

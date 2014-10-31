@@ -33,11 +33,13 @@
 }
 
 /*
-* 
-  Hiding share, info, and show/hide buttons that 
-  ship with Bookreader -- comment out to add them
-*
-*/
-.BRicon.info, .BRicon.share, #BRnavCntlBtm.BRdn {
+ * 
+  Hiding print, embed, share, info, and 
+  show/hide buttons that ship with 
+  Bookreader -- comment out to add them
+ *
+ */
+
+.BRicon.embed, .BRicon.print, .BRicon.info, .BRicon.share, #BRnavCntlBtm.BRdn {
     display: none;
 }
