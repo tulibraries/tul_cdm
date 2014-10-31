@@ -7,5 +7,5 @@ require_relative 'datastreams/notations_datastream'
 require_relative 'datastreams/physical_datastream'
 require_relative 'datastreams/volume_datastream'
 
-module TulCdm::Datastream
+module TulCdm::Datastreams
 end

@@ -1,15 +1,9 @@
 Rails.application.routes.draw do
-  get "collection/show"
-  get "collection/index"
 
   root :to => "catalog#index"
   blacklight_for :catalog
   devise_for :users
   
-  get "/collection/index/:collection_id" => "collection#show"  
-
-  #get '/sheet-music-home' => "landing#sheetmusichome"
-
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
