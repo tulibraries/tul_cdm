@@ -6,12 +6,12 @@ br = new BookReader();
 
 // Return the width of a given page.  Here we assume all images are 800 pixels wide
 br.getPageWidth = function(index) {
-    return parseInt($('#page-list').attr('data-pagewidth'));
+    return parseInt(br.cdmWidth)
 }
 
 // Return the height of a given page.  Here we assume all images are 1200 pixels high
 br.getPageHeight = function(index) {
-    return parseInt($('#page-list').attr('data-pageheight'));
+    return parseInt(br.cdmHeight)
 }
 
 // We load the images from archive.org -- you can modify this function to retrieve images
@@ -21,7 +21,8 @@ br.getPageURI = function(index, reduce, rotate) {
     // could e.g. look at reduce and load images from a different directory
     // or pass the information to an image server
     var imgStr = (br.pageList[index]).toString();
-    var url = br.cdmArchive + '/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=10';
+    var url = br.cdmArchive + '/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=' + br.pageScale + 
+              '&DMWIDTH=' + br.cdmWidth + '&DMHEIGHT=' + br.cdmHeight ;
     return url;
 }
 
@@ -264,6 +265,10 @@ br.renderBookreader = function() {
     br.pageList = jQuery.parseJSON($('#page-list').attr('data-pageids'));
     br.cdmColl = ($('#page-list').attr('data-cdmcoll'));
     br.cdmArchive = ($('#page-list').attr('data-cdmarchive'));
+    br.cdmServer= ($('#page-list').attr('data-cdmserver'));
+    br.cdmWidth = ($('#page-list').attr('data-pagewidth'));
+    br.cdmHeight = ($('#page-list').attr('data-pageheight'));
+    br.pageScale = ($('#page-list').attr('data-pagescale'));
 
     // Let's go!
     br.init();

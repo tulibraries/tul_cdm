@@ -122,14 +122,24 @@ module TulCdmHelper
         page_ids_array[i] = page_ids[i].to_s
       end
 
+      # Get height and width of first image
+      api_path="https://server16002.contentdm.oclc.org/dmwebservices/index.php?q=dmGetImageInfo/#{cdm_coll}/#{page_ids.first.to_s}/xml"
+      xml = Nokogiri::XML(open(api_path))
+      pageWidth = xml.xpath("imageinfo/width/text()").to_s 
+      pageHeight = xml.xpath("imageinfo/height/text()").to_s 
+      pageScale = "90"
+
       cdm_data = { pageids:    page_ids_array.to_json,
                    cdmColl:    cdm_coll,
                    cdmArchive: config["cdm_archive"],
+                   cdmServer:  config["cdm_server"],
                    cdmTitle:   document["title_tesim"].to_sentence,
                    cdmUrl:     document["reference_url_ssm"].to_sentence,
                    leafCount:  page_ids.length,
-                   pageWidth:  800,
-                   pageHeight: 1200 }
+                   pageWidth:  pageWidth,
+                   pageHeight: pageHeight,
+                   pageScale:  pageScale }
+
       output << content_tag(:div, "", id: "page-list", data: cdm_data )
       bookreader_message = simple_format "The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings."
       bookreader_title = "Internet Archive BookReader"
