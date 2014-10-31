@@ -1,8 +1,45 @@
 /*
- * This is a manifest file that'll be compiled into bookreader.css, which will include all the files
- * listed below.
- *
- *
- *= require BookReader/BookReader.css
- *= require BookReader/BookReaderCdm.css
+ * Custom overrides for BookReader Demo.
  */
+
+/* Hide print and embed functionality */
+#BRtoolbar .embed, .print {
+    display: none;
+}
+
+#BookReader {
+  position: relative;
+}
+
+#BRtoolbar {
+  position: relative;
+}
+
+#BookReader #BRnav {
+  position: relative;
+}
+
+#BRnav #BRpage {
+  width: 300px;
+}
+
+#BRcontainer {
+    position: relative;
+	height: 640px;
+}
+
+#BRtoolbar, div#BRnav {
+    background-color: #e2dcc5;    
+}
+
+/*
+ * 
+  Hiding print, embed, share, info, and 
+  show/hide buttons that ship with 
+  Bookreader -- comment out to add them
+ *
+ */
+
+.BRicon.embed, .BRicon.print, .BRicon.info, .BRicon.share, #BRnavCntlBtm.BRdn {
+    display: none;
+}

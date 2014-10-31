@@ -121,6 +121,7 @@ module TulCdmHelper
       page_ids.length.times do |i|
         page_ids_array[i] = page_ids[i].to_s
       end
+<<<<<<< HEAD
 
       # Get height and width of first image
       api_path="https://server16002.contentdm.oclc.org/dmwebservices/index.php?q=dmGetImageInfo/#{cdm_coll}/#{page_ids.first.to_s}/xml"
@@ -146,6 +147,16 @@ module TulCdmHelper
       output << content_tag(:script, bookreader_invocation, type: "text/javascript")
     end
     output.html_safe
+=======
+      output << content_tag(:div, "", id: "page-list", data: {pageids: page_ids_array.to_json, cdmColl: cdm_coll, cdmArchive: config["cdm_archive"], leafCount: page_ids.length})
+      bookreader_message = simple_format "The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings."
+      bookreader_title = "Internet Archive BookReader"
+      output << content_tag(:div, simple_format(bookreader_title) + content_tag(:noscript, bookreader_message), id: "BookReader")
+      output << content_tag(:script, "", type: "text/javascript", src: "/assets/BookReader/BookReaderCdm.js")
+      output.html_safe
+    end
+    
+>>>>>>> feature/TULCDM-9-Refactor_XSLT
   end
   
 ###

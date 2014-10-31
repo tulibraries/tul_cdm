@@ -18,5 +18,3 @@
 //= require blacklight/blacklight
 //= require_tree .
 
-//require shadowbox
-//=require facets

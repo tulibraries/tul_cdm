@@ -21,9 +21,14 @@ br.getPageURI = function(index, reduce, rotate) {
     // could e.g. look at reduce and load images from a different directory
     // or pass the information to an image server
     var imgStr = (br.pageList[index]).toString();
+<<<<<<< HEAD
+    var url = br.cdmArchive + '/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=' + br.cdmScale + 
+              '&DMWIDTH=' + br.cdmWidth + '&DMHEIGHT=' + br.cdmHeight ;
+=======
 
     //&action=2&DMSCALE=50&DMWIDTH=3000&DMHEIGHT=4000 <-- High res, zoomable but so sloooooow
     var url = br.cdmArchive + '/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=20&DMWIDTH=2000&DMHEIGHT=4000';
+>>>>>>> feature/TULCDM-9-Refactor_XSLT
     return url;
 }
 
@@ -231,10 +236,16 @@ br.initNavbar = function() {
         }
     );
 
+<<<<<<< HEAD
     //append icon to handle
     var handleHelper = $('#BRpager .ui-slider-handle')
     .append('<div id="pagenum"><span class="currentpage"></span></div>');
     //.wrap('<div class="ui-handle-helper-parent"></div>').parent(); // XXXmang is this used for hiding the tooltip?
+=======
+// Book title and the URL used for the book title link
+br.bookTitle= '';
+br.bookUrl  = '';
+>>>>>>> feature/TULCDM-9-Refactor_XSLT
 
     this.updateNavPageNum(this.currentIndex());
 

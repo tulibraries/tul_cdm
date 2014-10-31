@@ -1,4 +1,10 @@
-<dl class="defList">
+ <div class="cpd-thumb">
+
+ <%= @document['model_ssi'] if @document['model_ssi']
+ render_compound_pageturner @document if @document["contentdm_number_tesim"] %>
+ </div> 
+
+ <dl class="defList">
   <% document_show_fields.each do |solr_fname, field| -%>
     <% if document.has? solr_fname %>
       <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_document_show_field_label :field => solr_fname %></dt>
