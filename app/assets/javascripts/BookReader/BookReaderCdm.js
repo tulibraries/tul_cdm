@@ -23,7 +23,7 @@ br.getPageURI = function(index, reduce, rotate) {
     var imgStr = (br.pageList[index]).toString();
 
     //&action=2&DMSCALE=50&DMWIDTH=3000&DMHEIGHT=4000 <-- High res, zoomable but so sloooooow
-    var url = br.cdmArchive + '/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=20&DMWIDTH=2000&DMHEIGHT=4000';
+    var url = br.cdmArchive + '/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=' + br.cdmScale + '&DMWIDTH=' + br.cdmWidth + '&DMHEIGHT=' + br.cdmHeight;
     return url;
 }
 
