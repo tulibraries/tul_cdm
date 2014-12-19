@@ -10,21 +10,26 @@ Here are the basic steps to get TUL_Cdm up and running.
 
 Edit `config/contentdm.yml`. Replace samples with your ContentDM parameters
 
-Complete the installation.
+Generate the TUL_CDM application. Answer `n` to all prompts
 
-    rake db:migrate
+    bundle exec rails generate hydra:install
 
-    # The following step is missing from Hydra instructions.
-    # Do it or you'll be reindexing whenever you restart jetty.
-    rails generate hydra:jetty 
+Restore files the hydra install modified
 
-    rake jetty:config
-    rake jetty:start
-    rails s -d
+    git checkout -- .
+
+Prepare Jetty for Sufia
+
+    bundle exec rails generate hydra:jetty
+    bundle exec rake jetty:config
+    bundle exec rake jetty:start
+    bundle exec rails s -d
+
+Visit the Hydra TUL_CDM site at `http://0.0.0.0:3000`
 
 * Ruby version
 
-We use Ruby 2.1.2+
+We use Ruby 2.1.4+
 
 * System dependencies
 
