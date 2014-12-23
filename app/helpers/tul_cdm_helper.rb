@@ -61,7 +61,7 @@ module TulCdmHelper
                  cdmArchive: config["cdm_archive"],
                  cdmServer:  config["cdm_server"],
                  cdmTitle:   document["title_tesim"].to_sentence,
-                 cdmUrl:     document["reference_url_ssm"].to_sentence,
+                 cdmUrl:     path,
                  leafCount:  1,
                  pageWidth:  pageWidth,
                  pageHeight: pageHeight,
