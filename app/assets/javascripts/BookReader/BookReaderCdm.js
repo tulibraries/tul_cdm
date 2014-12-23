@@ -270,6 +270,7 @@ br.renderBookreader = function() {
     br.cdmWidth = ($('#page-list').attr('data-pagewidth'));
     br.cdmHeight = ($('#page-list').attr('data-pageheight'));
     br.cdmScale = ($('#page-list').attr('data-pagescale'));
+    br.logoURL = '/'
 
     // Let's go!
     br.init();
@@ -278,4 +279,20 @@ br.renderBookreader = function() {
     $('#BRtoolbar').find('.read').hide();
     $('#textSrch').hide();
     $('#btnSrch').hide();
+}
+
+
+br.renderPagereader = function() {
+    br.renderBookreader();
+    // read-aloud and search need backend compenents and are not supported in the demo
+    $('#BRtoolbar').find('.read').hide();
+    $('#textSrch').hide();
+    $('#btnSrch').hide();
+    $('#BRpager').hide();
+    $('#BRnavline').hide();
+    $('.BRicon.onepg').hide();
+    $('.BRicon.twopg').hide();
+    $('.BRicon.thumb').hide();
+    $('.BRicon.book_left').hide();
+    $('.BRicon.book_right').hide();
 }

@@ -29,6 +29,53 @@ module TulCdmHelper
     link_to image_tag("#{config['cdm_archive']}/utils/ajaxhelper/?CISOROOT=#{collection_id}&CISOPTR=#{cdm_number}&action=2&DMSCALE=#{access_scale}&DMWIDTH=#{access_width}&DMHEIGHT=#{access_height}"), path.html_safe, :rel => "shadowbox[#{collection_id}-#{cdm_number}];width=#{w_sb}"
   end
   
+  def render_image_viewer(document, collection_id, cdm_number)
+
+    config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
+    model = model_from_document(document)
+    case model
+      when 'Photograph'
+        hr_scale = "25.000"
+        hr_width = hr_height = 1400
+        access_scale="10"
+        access_width="512"
+        access_height="414"
+      when 'Poster'
+        hr_scale="200"
+        hr_width = hr_height = "2000"
+      else
+        path_end = ""
+	  end
+    path = "#{config['cdm_archive']}/utils/ajaxhelper/?CISOROOT=/#{collection_id}&CISOPTR=#{cdm_number}&action=2&DMSCALE=#{hr_scale}&DMWIDTH=#{hr_width}&DMHEIGHT=#{hr_height}"
+
+    # New stuff
+
+    api_path="https://server16002.contentdm.oclc.org/dmwebservices/index.php?q=dmGetImageInfo/#{collection_id}/#{cdm_number.to_s}/xml"
+    xml = Nokogiri::XML(open(api_path))
+    pageWidth = xml.xpath("imageinfo/width/text()").to_s 
+    pageHeight = xml.xpath("imageinfo/height/text()").to_s 
+    pageScale = "100"
+
+    cdm_data = { pageids:    [cdm_number].to_json,
+                 cdmColl:    collection_id,
+                 cdmArchive: config["cdm_archive"],
+                 cdmServer:  config["cdm_server"],
+                 cdmTitle:   document["title_tesim"].to_sentence,
+                 cdmUrl:     path,
+                 leafCount:  1,
+                 pageWidth:  pageWidth,
+                 pageHeight: pageHeight,
+                 pageScale:  pageScale }
+
+    output = ''
+    output << content_tag(:div, "", id: "page-list", data: cdm_data )
+    bookreader_invocation = "br.renderPagereader();"
+    output << content_tag(:div, simple_format(t('tul_cdm.bookreader.title')) + content_tag(:noscript, t('tul_cdm.bookreader.caveat')), id: "BookReader")
+    output << content_tag(:script, bookreader_invocation, type: "text/javascript")
+
+    output.html_safe
+  end
+  
   # Returns the ActiveFedora model from the Solr document
   def model_from_document(document)
     active_fedora_model = document["active_fedora_model_ssi"]
