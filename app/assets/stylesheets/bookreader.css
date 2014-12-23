@@ -43,3 +43,8 @@
 .BRicon.embed, .BRicon.print, .BRicon.info, .BRicon.share, #BRnavCntlBtm.BRdn {
     display: none;
 }
+
+#BookReader a.logo {
+    background: transparent url(logo.png) no-repeat 0 0;
+    background-size: 200px;
+}

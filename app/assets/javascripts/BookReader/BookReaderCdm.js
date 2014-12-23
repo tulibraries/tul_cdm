@@ -270,6 +270,7 @@ br.renderBookreader = function() {
     br.cdmWidth = ($('#page-list').attr('data-pagewidth'));
     br.cdmHeight = ($('#page-list').attr('data-pageheight'));
     br.cdmScale = ($('#page-list').attr('data-pagescale'));
+    br.logoURL = '/'
 
     // Let's go!
     br.init();
