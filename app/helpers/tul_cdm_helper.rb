@@ -54,32 +54,25 @@ module TulCdmHelper
     xml = Nokogiri::XML(open(api_path))
     pageWidth = xml.xpath("imageinfo/width/text()").to_s 
     pageHeight = xml.xpath("imageinfo/height/text()").to_s 
-    pageScale = "20"
+    pageScale = "100"
 
-    osd_script = %Q^var viewer = OpenSeadragon({ id: 'osdImage', prefixUrl: '#{path.html_safe}' });^
-    osd_script = <<-EOF
-      var viewer = OpenSeadragon({
-        id: 'osdImage',
-        prefixUrl: '/assets/openseadragon/images/',
-        tileSources: {
-            Image: {
-                xmlns:    "http://schemas.microsoft.com/deepzoom/2008",
-                Url:      '#{path.html_safe}',
-                Format:   "jpg", 
-                Overlap:  "2", 
-                TileSize: "512",
-                Size: {
-                    Height: "#{pageHeight}",
-                    Width:  "#{pageWidth}"
-                }
-            }
-        }
-      });
-    EOF
+    cdm_data = { pageids:    [cdm_number].to_json,
+                 cdmColl:    collection_id,
+                 cdmArchive: config["cdm_archive"],
+                 cdmServer:  config["cdm_server"],
+                 cdmTitle:   document["title_tesim"].to_sentence,
+                 cdmUrl:     document["reference_url_ssm"].to_sentence,
+                 leafCount:  1,
+                 pageWidth:  pageWidth,
+                 pageHeight: pageHeight,
+                 pageScale:  pageScale }
 
     output = ''
-    output << content_tag(:div, "", id: 'osdImage', style: "width: 650px; height: 480px;" )
-    output << content_tag(:script, osd_script.html_safe, type: "text/javascript")
+    output << content_tag(:div, "", id: "page-list", data: cdm_data )
+    bookreader_invocation = "br.renderPagereader();"
+    output << content_tag(:div, simple_format(t('tul_cdm.bookreader.title')) + content_tag(:noscript, t('tul_cdm.bookreader.caveat')), id: "BookReader")
+    output << content_tag(:script, bookreader_invocation, type: "text/javascript")
+
     output.html_safe
   end
   
