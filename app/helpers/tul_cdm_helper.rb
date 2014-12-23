@@ -60,7 +60,7 @@ module TulCdmHelper
     osd_script = <<-EOF
       var viewer = OpenSeadragon({
         id: 'osdImage',
-        prefixUrl: '/assets/openseadragon/',
+        prefixUrl: '/assets/openseadragon/images/',
         tileSources: {
             Image: {
                 xmlns:    "http://schemas.microsoft.com/deepzoom/2008",
