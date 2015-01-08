@@ -104,7 +104,6 @@
             </foxml:xmlContent>
           </foxml:datastreamVersion>
         </foxml:datastream>
-        </foxml:datastream>
         <foxml:datastream ID="notationsMetadata" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
           <foxml:datastreamVersion ID="notationsMetadata.0" LABEL="Notations metadata" MIMETYPE="text/xml">
             <foxml:xmlContent>

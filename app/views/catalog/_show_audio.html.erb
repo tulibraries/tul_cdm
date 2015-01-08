@@ -1,6 +1,10 @@
 Ensemble player here
 
-<%= link_to_high_res(document, document["contentdm_collection_id_tesim"].to_sentence, document["contentdm_number_tesim"].to_sentence) %>
+<%= link_to_download(document, document["contentdm_collection_id_tesim"].to_sentence, document["contentdm_number_tesim"].to_sentence) %>
+<div class="cpd-thumb">
+  <%= @document['model_ssi'] if @document['model_ssi']
+  render_compound_pageturner @document if @document["contentdm_number_tesim"] %>
+</div> 
 <dl class="defList">
   <% document_show_fields.each do |solr_fname, field| -%>
     <% if document.has? solr_fname %>

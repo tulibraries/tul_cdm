@@ -29,6 +29,31 @@ module TulCdmHelper
     link_to image_tag("#{config['cdm_archive']}/utils/ajaxhelper/?CISOROOT=#{collection_id}&CISOPTR=#{cdm_number}&action=2&DMSCALE=#{access_scale}&DMWIDTH=#{access_width}&DMHEIGHT=#{access_height}"), path.html_safe, :rel => "shadowbox[#{collection_id}-#{cdm_number}];width=#{w_sb}"
   end
   
+  def link_to_download(document, collection_id, cdm_number)
+
+    output = ''
+    config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
+    model = model_from_document(document)
+    case model
+    when 'Clipping'
+      hr_scale = "30.000"
+    else
+      hr_scale = "10.000"
+    end
+    hr_width="2000"
+    hr_height="2000"
+    file_name = document[:contentdm_file_name_tesim].first
+    if (/\.(cpd|pdf)$/ =~ file_name)
+        file_name = document[:contentdm_file_name_tesim].first.gsub(/\.cpd$/, ".pdf")
+        path = "#{config['cdm_archive']}/utils/getfile/collection/#{collection_id}/id/#{cdm_number}/filename/#{file_name}"
+    else
+        file_name = document[:contentdm_file_name_tesim].first.gsub(/\.jp2$/, ".jpg")
+        path = "#{config['cdm_archive']}/utils/ajaxhelper/?CISOROOT=/#{collection_id}&CISOPTR=#{cdm_number}&action=2&DMSCALE=#{hr_scale}&DMWIDTH=#{hr_width}&DMHEIGHT=#{hr_height}"
+    end
+    download_link = link_to t('tul_cdm.viewer.download_text'), path.html_safe, download: file_name, id: "download-link" 
+    content_tag(:div, download_link, id: "download-link")
+  end
+  
   def render_image_viewer(document, collection_id, cdm_number)
 
     config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
@@ -36,12 +61,12 @@ module TulCdmHelper
     case model
       when 'Photograph'
         hr_scale = "25.000"
-        hr_width = hr_height = 1400
+        hr_width = hr_height = "1400"
         access_scale="10"
         access_width="512"
         access_height="414"
       when 'Poster'
-        hr_scale="200"
+        hr_scale="800"
         hr_width = hr_height = "2000"
       else
         path_end = ""
