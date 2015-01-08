@@ -37,6 +37,8 @@ module TulCdmHelper
     case model
     when 'Clipping'
       hr_scale = "30.000"
+    when 'Poster'
+      hr_scale = "100"
     else
       hr_scale = "10.000"
     end
