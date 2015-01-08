@@ -106,3 +106,7 @@ h6{
 #header-title{
   clear:both;
 }
+
+#download-link {
+  text-align: right;
+}

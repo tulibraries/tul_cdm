@@ -122,7 +122,8 @@ br.initToolbar = function(mode, ui) {
        $('#BRtoolbarbuttons .share').hide();
     }
 
-    $('#BRreturn a').attr('href', this.bookUrl).text(this.bookTitle);
+    // Hidden - Unused button
+    $('#BRreturn a').attr('href', this.bookUrl).text(this.bookTitle).hide();
 
     $('#BRtoolbar .BRnavCntl').addClass('BRup');
     $('#BRtoolbar .pause').hide();
