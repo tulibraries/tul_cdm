@@ -291,7 +291,7 @@ module TulCdmHelper
     end
   end
 
-def render_collection(collection_id)
+  def render_collection(collection_id)
     # b = get_related_objects(collection_id);
     # collection_set = Array.new
     # b.each do |b_obj|
@@ -320,4 +320,15 @@ def render_collection(collection_id)
       else nil
     end
   end
+
+  def object_model(object_type)
+    object_map = YAML.load_file(File.expand_path("#{Rails.root}/config/object_mappings.yml", __FILE__))
+    object_map[object_type]
+  end
+
+  def render_object_partial (document)
+    partial = "show_" + object_model(model_from_document(document).downcase.to_sym)
+    render partial, document: document
+  end
+
 end

@@ -11,7 +11,15 @@
   <div id="doc_<%= @document.id.to_s.parameterize %>">
   
     <% # bookmark/folder functions -%>
-    <%= render_document_partials @document, blacklight_config.view_config(:show).partials %>
+    <%= render_object_partial @document -%>
+
+    <dl>
+      <dt>Acknowledgements:</dt>
+      <dl><%= @document["acknowledgment_tesim"].to_sentence if @document["acknowledgment_tesim"] %></dl>
+      <dl><%= @document["embargo_statement"].to_sentence if @document["embargo_statement"] %></dl>
+      <dl><%= @document["restriction_note"].to_sentence if @document["restriction_note"] %></dl>
+      <dl><%= @document["ocr_note"].to_sentence if @document["ocr_note"] %></dl>
+    </dl>
  
   </div>
 </div>
