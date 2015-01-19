@@ -7,7 +7,7 @@ class CatalogController < ApplicationController
   include Hydra::Controller::ControllerBehavior
   
   #TODO: Figure out why BL Advanced search makes has_member_ssim not work, make it work
-  #include BlacklightAdvancedSearch::ParseBasicQ
+  include BlacklightAdvancedSearch::ParseBasicQ
   
   include TulCdm::SolrHelper::Behaviors
   
@@ -82,7 +82,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('format', :facetable), :label => 'Format', :limit => 5
     config.add_facet_field solr_name('type', :facetable), :label => 'Type', :limit => 5
     config.add_facet_field solr_name('publisher_sim', :facetable), :label => 'Publisher', :limit => 5
-    config.add_facet_field solr_name('digital_collection', :facetable), :label => 'Digital Collection', :limit => 5
+    config.add_facet_field solr_name('digital_collection', :facetable), :label => 'Digital Collection', :limit => 5, :single => false, :collapse => false 
     config.add_facet_field solr_name('digital_publisher', :facetable), :label => 'Digital Publisher', :limit => 5
     config.add_facet_field solr_name('repository', :facetable), :label => 'Repository', :limit => 5
     config.add_facet_field solr_name('language', :facetable), :label => 'Language', :limit => 5
@@ -215,6 +215,13 @@ class CatalogController < ApplicationController
       }
     end
 
+    config.advanced_search = {
+      :form_solr_parameters => {
+        "facet.field" => ["digital_collection_sim"],
+        "facet.limit" => -1, # return all facet values
+        "facet.sort" => "index" # sort by byte order of values
+      }
+    }
 
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and
