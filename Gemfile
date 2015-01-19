@@ -57,4 +57,5 @@ group :development, :test do
   gem "capybara"
   gem "byebug"
   gem "pry-rails"
+  gem "foreman"
 end
