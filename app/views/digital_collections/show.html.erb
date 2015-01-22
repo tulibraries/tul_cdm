@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Collection Alias:</strong>
+  <%= @digital_collection.collection_alias %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @digital_collection.name %>
+</p>
+
+<p>
+  <strong>Thumbnail url:</strong>
+  <%= @digital_collection.thumbnail_url %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @digital_collection.description %>
+</p>
+
+<%= link_to 'Edit', edit_digital_collection_path(@digital_collection) %> |
+<%= link_to 'Back', digital_collections_path %>

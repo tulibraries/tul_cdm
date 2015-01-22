@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :digital_collections
+
   root :to => "catalog#index"
   blacklight_for :catalog
   devise_for :users
