@@ -9,6 +9,12 @@ module CDMUtils
     all_aliases = xml.xpath("/collections/collection/alias/text()")
   end
 
+  def self.getCollectionName(server, coll)
+    cdm_url = "#{server}/dmwebservices/index.php?q=dmGetCollectionParameters/#{coll}/xml"
+    xml = Nokogiri::XML(open(cdm_url))
+    xml.xpath("/parameters/name/text()").to_s
+  end
+
   private
   def download_one_collection(config, coll)
     Download.init_download
