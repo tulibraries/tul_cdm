@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "digital_collections/edit", :type => :view do
   before(:each) do
     @digital_collection = assign(:digital_collection, DigitalCollection.create!(
-      :alias => "MyString",
+      :collection_alias => "MyString",
       :name => "MyString",
       :thumbnail_url => "MyString",
       :description => "MyText"
@@ -15,7 +15,7 @@ RSpec.describe "digital_collections/edit", :type => :view do
 
     assert_select "form[action=?][method=?]", digital_collection_path(@digital_collection), "post" do
 
-      assert_select "input#digital_collection_alias[name=?]", "digital_collection[alias]"
+      assert_select "input#digital_collection_collection_alias[name=?]", "digital_collection[collection_alias]"
 
       assert_select "input#digital_collection_name[name=?]", "digital_collection[name]"
 
