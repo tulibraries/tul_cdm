@@ -14,9 +14,9 @@
   <tbody>
     <% @digital_collections.each do |digital_collection| %>
       <tr>
-        <td><%= digital_collection.collection_alias %></td>
-        <td><%= digital_collection.name %></td>
-        <td><%= digital_collection.thumbnail_url %></td>
+        <td><%= link_to digital_collection.collection_alias, path(digital_collection) %></td>
+        <td><%= image_tag digital_collection.thumbnail_url %> <br/> <%= digital_collection.thumbnail_url %></td>
+        <td><%= link_to digital_collection.name, path(digital_collection) %></td>
         <td><%= digital_collection.description %></td>
         <td><%= link_to 'Show', digital_collection %></td>
         <td><%= link_to 'Edit', edit_digital_collection_path(digital_collection) %></td>

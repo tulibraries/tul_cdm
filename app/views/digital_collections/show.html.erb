@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Collection Alias:</strong>
   <%= @digital_collection.collection_alias %>
@@ -12,12 +10,18 @@
 
 <p>
   <strong>Thumbnail url:</strong>
+  <%= image_tag @digital_collection.thumbnail_url %>
   <%= @digital_collection.thumbnail_url %>
 </p>
 
 <p>
   <strong>Description:</strong>
   <%= @digital_collection.description %>
+</p>
+
+<p>
+  <strong>Collection Path:</strong>
+  <%= link_to path(@digital_collection), path(@digital_collection) %>
 </p>
 
 <%= link_to 'Edit', edit_digital_collection_path(@digital_collection) %> |
