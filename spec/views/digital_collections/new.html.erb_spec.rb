@@ -5,6 +5,7 @@ RSpec.describe "digital_collections/new", :type => :view do
     assign(:digital_collection, DigitalCollection.new(
       :collection_alias => "MyString",
       :name => "MyString",
+      :image_url => "MyString",
       :thumbnail_url => "MyString",
       :description => "MyText"
     ))
@@ -18,6 +19,8 @@ RSpec.describe "digital_collections/new", :type => :view do
       assert_select "input#digital_collection_collection_alias[name=?]", "digital_collection[collection_alias]"
 
       assert_select "input#digital_collection_name[name=?]", "digital_collection[name]"
+
+      assert_select "input#digital_collection_image_url[name=?]", "digital_collection[image_url]"
 
       assert_select "input#digital_collection_thumbnail_url[name=?]", "digital_collection[thumbnail_url]"
 

@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory :digital_collection do
     collection_alias "p16002coll14"
     name "Franklin H. Littell Papers"
+    image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll14/images/Littell_Landing_Pagev3.jpg"
     thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/littell_dtl.jpg"
     description <<EOT
 A portion of the Franklin H. Littell papers has been digitized to offer online access.

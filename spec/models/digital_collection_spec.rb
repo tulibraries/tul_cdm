@@ -7,6 +7,7 @@ RSpec.describe DigitalCollection, :type => :model do
 
     it { is_expected.to have_attribute(:collection_alias) }
     it { is_expected.to have_attribute(:name) }
+    it { is_expected.to have_attribute(:image_url) }
     it { is_expected.to have_attribute(:thumbnail_url) }
     it { is_expected.to have_attribute(:description) }
   end
@@ -24,7 +25,7 @@ RSpec.describe DigitalCollection, :type => :model do
       end
 
       it "Must not have a nil collection alias" do
-        expect(DigitalCollection.new(collection_alias: nil)).to be_valid
+        expect(DigitalCollection.new(collection_alias: nil)).to_not be_valid
       end
 
       it "Must be a unique collection" do

@@ -17,6 +17,10 @@ RSpec.describe DigitalCollectionsHelper, :type => :helper do
     expect(name(collection_id)).to eq(digital_collection.name)
   end
 
+  it "gets the collection_image from the collection_alias" do
+    expect(image(collection_id)).to eq(digital_collection.image_url)
+  end
+
   it "gets the collection_thumbnail from the collection_alias" do
     expect(thumbnail(collection_id)).to eq(digital_collection.thumbnail_url)
   end

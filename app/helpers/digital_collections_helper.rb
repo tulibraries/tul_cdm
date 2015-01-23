@@ -8,6 +8,10 @@ module DigitalCollectionsHelper
     DigitalCollection.where(collection_alias: collection_id).first.name
   end
 
+  def image(collection_id)
+    DigitalCollection.where(collection_alias: collection_id).first.image_url
+  end
+
   def thumbnail(collection_id)
     DigitalCollection.where(collection_alias: collection_id).first.thumbnail_url
   end

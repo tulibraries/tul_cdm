@@ -5,6 +5,7 @@
     <tr>
       <th>Alias</th>
       <th>Name</th>
+      <th>Image url</th>
       <th>Thumbnail url</th>
       <th>Description</th>
       <th colspan="3"></th>
@@ -15,6 +16,7 @@
     <% @digital_collections.each do |digital_collection| %>
       <tr>
         <td><%= link_to digital_collection.collection_alias, path(digital_collection) %></td>
+        <td><%= image_tag digital_collection.image_url %> <br/> <%= digital_collection.image_url %></td>
         <td><%= image_tag digital_collection.thumbnail_url %> <br/> <%= digital_collection.thumbnail_url %></td>
         <td><%= link_to digital_collection.name, path(digital_collection) %></td>
         <td><%= digital_collection.description %></td>

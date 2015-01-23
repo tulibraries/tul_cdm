@@ -5,7 +5,8 @@ RSpec.describe "digital_collections/show", :type => :view do
     @digital_collection = assign(:digital_collection, DigitalCollection.create!(
       :collection_alias => "Collection Alias",
       :name => "Name",
-      :thumbnail_url => "Thumbnail Url",
+      :image_url => "ImageUrl.png",
+      :thumbnail_url => "ThumbnailUrl.png",
       :description => "MyText"
     ))
   end
@@ -14,7 +15,8 @@ RSpec.describe "digital_collections/show", :type => :view do
     render
     expect(rendered).to match(/Collection Alias/)
     expect(rendered).to match(/Name/)
-    expect(rendered).to match(/Thumbnail Url/)
+    expect(rendered).to match(/ImageUrl.png/)
+    expect(rendered).to match(/ThumbnailUrl.png/)
     expect(rendered).to match(/MyText/)
   end
 end

@@ -41,6 +41,6 @@ class DigitalCollectionsController < ApplicationController
     end
 
     def digital_collection_params
-      params.require(:digital_collection).permit(:collection_alias, :name, :thumbnail_url, :description)
+      params.require(:digital_collection).permit(:collection_alias, :name, :image_url, :thumbnail_url, :description)
     end
 end
