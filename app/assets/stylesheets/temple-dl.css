@@ -111,19 +111,38 @@ h6{
   text-align: right;
 }
 
-/* Digital Collection */
-#digital_collection-index thead {
-  display: none;
+/* Digital Collection index */
+#digital_collection-index .collection-thumbnail {
+  display: block;
 }
 
-#digital_collection-index #collection-alias, #collection-image, #thumbnail-url {
-  display: none;
+#digital_collection-index .collection-item {
+  padding: 10px 0px;
 }
 
-#digital_collection-index #collection-text {
-  padding: 20px;
+#digital_collection-index .collection-name {
+  padding: 10px 0px;
 }
 
 #digital_collection-index .admin {
+  display: none;
+}
+
+/* Digital Collection landing page */
+
+#digital_collection-show .collection-alias, .collection-thumbnail, .collection-path {
+  display: none;
+}
+
+#digital_collection-show .collection-image {
+  display: block;
+  padding: 10px 0px 20px;
+}
+
+#digital_collection-show .collection-text {
+  padding: 20px;
+}
+
+#digital_collection-show .admin {
   display: none;
 }
