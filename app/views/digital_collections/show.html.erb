@@ -14,9 +14,9 @@
     <%= @digital_collection.thumbnail_url %>
   </p>
 
-  <p class="collection-description">
-    <%= @digital_collection.description %>
-  </p>
+  <span class="collection-description">
+    <%= @digital_collection.description.html_safe %>
+  </span>
 
   <p class="collection-path">
     <strong>Collection Path:</strong>
