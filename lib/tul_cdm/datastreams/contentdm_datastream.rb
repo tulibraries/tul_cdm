@@ -13,7 +13,7 @@ module TulCdm
       t.contentdm_number index_as: :stored_searchable
       t.contentdm_file_name index_as: :stored_searchable
       t.contentdm_file_path index_as: :stored_searchable
-      t.contentdm_collection_id index_as: :stored_searchable
+      t.contentdm_collection_id(:index_as => [:facetable, :sortable, :stored_searchable], :type=>:string)
       t.path_to_thumbnail index_as: :displayable
       t.reference_url index_as: :displayable
       t.compound index_as: :displayable

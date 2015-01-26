@@ -4,6 +4,7 @@ describe 'List CONTENTdm collections' do
 
   let (:config) { YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__)) }
   let (:collection_name) { "p16002coll9" }
+  let (:collection_title) { "Allied Posters of World War I" }
   let (:private_collection_name) { "p16002coll11" }
   let (:cdm_data_root) { "#{Rails.root}/spec/fixtures/fedora/cdm" }
   let (:schema_url) { "http://www.fedora.info/definitions/1/0/foxml1-1.xsd" }
@@ -16,6 +17,13 @@ describe 'List CONTENTdm collections' do
     it "should list ContentDM collections" do
       collections = CDMUtils.list(config['cdm_server'])
       expect(collections.length).to be >= number_of_collections
+    end
+  end
+
+  describe 'dmGetCollectionParameters' do
+    it "should show collection name" do
+      title = CDMUtils.getCollectionName(config['cdm_server'], collection_name)
+      expect(title).to eq(collection_title)
     end
   end
 

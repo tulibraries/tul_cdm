@@ -110,3 +110,20 @@ h6{
 #download-link {
   text-align: right;
 }
+
+/* Digital Collection */
+#digital_collection-index thead {
+  display: none;
+}
+
+#digital_collection-index #collection-alias, #collection-image, #thumbnail-url {
+  display: none;
+}
+
+#digital_collection-index #collection-text {
+  padding: 20px;
+}
+
+#digital_collection-index .admin {
+  display: none;
+}
