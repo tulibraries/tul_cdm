@@ -205,8 +205,8 @@ module TulCdmHelper
       api_path="#{content_server}/dmwebservices/index.php?q=dmGetImageInfo/#{cdm_coll}/#{page_ids.first.to_s}/xml"
       xml = Nokogiri::XML(open(api_path))
       if (compound_type == "Document-PDF") 
-        pageWidth = "720"
-        pageHeight = "1024"
+        pageWidth = "850"
+        pageHeight = "1100"
         pageScale = "20"
       else
         pageWidth = xml.xpath("imageinfo/width/text()").to_s 

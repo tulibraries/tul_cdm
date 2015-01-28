@@ -21,9 +21,8 @@ a:active, a:hover{
 }
 
 .cpd-thumb{
-  width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 980px;
+  padding-bottom: 20px
 }
 
 .cpd-thumb .thumb-single{
