@@ -21,9 +21,15 @@ br.getPageURI = function(index, reduce, rotate) {
     // could e.g. look at reduce and load images from a different directory
     // or pass the information to an image server
     var imgStr = (br.pageList[index]).toString();
+    var url = br.cdmArchive;
 
     //&action=2&DMSCALE=50&DMWIDTH=3000&DMHEIGHT=4000 <-- High res, zoomable but so sloooooow
-    var url = br.cdmArchive + '/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=' + br.cdmScale + '&DMWIDTH=' + br.cdmWidth + '&DMHEIGHT=' + br.cdmHeight;
+    if (br.cpdType == "Document-PDF") {
+      url += '/utils/getfile/collection/' + br.cdmColl + '/id/' + br.cdmNum + '/page/' + imgStr;
+    } else {
+      url += '/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=' + br.cdmScale + '&DMWIDTH=' + br.cdmWidth + '&DMHEIGHT=' + br.cdmHeight;
+    }
+    console.log("getPageURI(" + index + ") = " + url);
     return url;
 }
 
@@ -260,12 +266,16 @@ br.renderBookreader = function() {
     // Override the path used to find UI images
     br.imagesBaseURL = '/assets/BookReader/images/';
 
+    // Compound Object Type
+    br.cpdType = ($('#page-list').attr('data-cpdtype'));
+
     br.getEmbedCode = function(frameWidth, frameHeight, viewParams) {
         return "Embed code not supported in bookreader demo.";
     }
 
     br.pageList = jQuery.parseJSON($('#page-list').attr('data-pageids'));
     br.cdmColl = ($('#page-list').attr('data-cdmcoll'));
+    br.cdmNum = ($('#page-list').attr('data-cdmnum'));
     br.cdmArchive = ($('#page-list').attr('data-cdmarchive'));
     br.cdmServer= ($('#page-list').attr('data-cdmserver'));
     br.cdmWidth = ($('#page-list').attr('data-pagewidth'));

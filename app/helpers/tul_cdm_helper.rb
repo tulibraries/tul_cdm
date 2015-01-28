@@ -179,9 +179,10 @@ module TulCdmHelper
       end
     end
     if(cpd == "index.cpd")
-      content_server = "https://cdm16002.contentdm.oclc.org"
-      api_path="https://server16002.contentdm.oclc.org/dmwebservices/index.php?q=dmGetCompoundObjectInfo/#{cdm_coll}/#{cdm_num}/xml"
+      content_server = config["cdm_server"]
+      api_path="#{content_server}/dmwebservices/index.php?q=dmGetCompoundObjectInfo/#{cdm_coll}/#{cdm_num}/xml"
       xml = Nokogiri::XML(open(api_path))
+      compound_type = xml.xpath("/cpd/type/text()").to_s
       pamphlets_xpath="/cpd/node/page"
       default_xpath, manuscripts_xpath="/cpd/page"
       case model
@@ -193,18 +194,30 @@ module TulCdmHelper
       page_ids = xml.xpath("#{xpath_var}/pageptr/text()")
       page_titles = xml.xpath("#{xpath_var}/pagetitle/text()")
       page_ids.length.times do |i|
-        page_ids_array[i] = page_ids[i].to_s
+        if (compound_type == "Document-PDF")
+          page_ids_array[i] = (i+1).to_s
+        else
+          page_ids_array[i] = page_ids[i].to_s
+        end
       end
 
       # Get height and width of first image
-      api_path="https://server16002.contentdm.oclc.org/dmwebservices/index.php?q=dmGetImageInfo/#{cdm_coll}/#{page_ids.first.to_s}/xml"
+      api_path="#{content_server}/dmwebservices/index.php?q=dmGetImageInfo/#{cdm_coll}/#{page_ids.first.to_s}/xml"
       xml = Nokogiri::XML(open(api_path))
-      pageWidth = xml.xpath("imageinfo/width/text()").to_s 
-      pageHeight = xml.xpath("imageinfo/height/text()").to_s 
-      pageScale = "20"
+      if (compound_type == "Document-PDF") 
+        pageWidth = "720"
+        pageHeight = "1024"
+        pageScale = "20"
+      else
+        pageWidth = xml.xpath("imageinfo/width/text()").to_s 
+        pageHeight = xml.xpath("imageinfo/height/text()").to_s 
+        pageScale = "20"
+      end
 
-      cdm_data = { pageids:    page_ids_array.to_json,
+      cdm_data = { cpdType:    compound_type,
+                   pageids:    page_ids_array.to_json,
                    cdmColl:    cdm_coll,
+                   cdmNum:     cdm_num,
                    cdmArchive: config["cdm_archive"],
                    cdmServer:  config["cdm_server"],
                    cdmTitle:   document["title_tesim"].to_sentence,
