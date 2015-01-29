@@ -234,7 +234,23 @@ module TulCdmHelper
     end
     output.html_safe
   end
-  
+ 
+  def render_video_player(document)
+    output = ''
+    config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
+    model = model_from_document(document)
+    ensemble_identifier = document[:ensemble_identifier_tesim].first
+    width = "640"
+    height = "416"
+    video_height = "360"
+    
+    output =<<PLAYER
+<div id="ensembleEmbeddedContent_#{ensemble_identifier}" class="ensembleEmbeddedContent" style="width: #{width}px; height: #{height}px;" height="#{width}" width="#{height}">
+<script type="text/javascript" src="https://ensemble.temple.edu/ensemble/app/plugin/plugin.aspx?contentID=#{ensemble_identifier}&embed=true&useIFrame=true&displayTitle=false&startTime=0&autoPlay=true&hideControls=false&showCaptions=false&width=#{width}&height=#{video_height}&displaySharing=false"></script></div>
+PLAYER
+    output.html_safe
+  end
+
 ###
 #Temporary solution -- when we are OUT OF ContentDM, revisit this for addition to a datastream
 ###
