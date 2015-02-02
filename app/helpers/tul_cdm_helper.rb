@@ -309,9 +309,7 @@ module TulCdmHelper
                           content_tag(:script,
                             "",
                             type: "text/javascript",
-                            src: player_src,
-                            frameborder: "0",
-                            escape: true).html_safe,
+                            src: player_src).html_safe,
                           class: "ensembleEmbeddedContent",
                           id: "ensembleEmbeddedContent_#{ensemble_identifier}")
 
