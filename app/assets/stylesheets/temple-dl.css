@@ -29,6 +29,23 @@ a:active, a:hover{
   text-align:center;
 }
 
+#document-pdf {
+  width:  100%;
+  height: 800px;
+  clear: both;
+  margin-left: 0px;
+  margin-right: auto;
+
+  p {
+    padding: 1em;
+  }
+
+  object {
+    display: block;
+    border: solid 1px $temple-black;
+  }
+}
+
 .video-player{
   width: 640px;
   padding-bottom: 20px

@@ -195,7 +195,6 @@ module TulCdmHelper
         document_pdf = contentdm_file_url(cdm_coll, cdm_num, '')
         pdf_object = content_tag(:object,'', data: document_pdf, type: "application/pdf", width: "100%", height: "100%")
         output << content_tag(:div, pdf_object, id: 'document-pdf')
-        #<div id="transcript-pdf"><object data="<%= transcript_pdf %>" type="application/pdf" width="100%" height="100%"></object></div>
       else
         page_ids = xml.xpath("#{xpath_var}/pageptr/text()")
         page_titles = xml.xpath("#{xpath_var}/pagetitle/text()")
