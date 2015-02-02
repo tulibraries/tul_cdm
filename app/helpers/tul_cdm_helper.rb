@@ -250,26 +250,26 @@ module TulCdmHelper
     ensemble_style_sheet = "https://ensemble.temple.edu/ensemble/app/plugin/css/ensembleEmbeddedContent.css"
 
     player_options = {
-      "insideIFrame"   => true,
       "styleSheetUrl"  => ensemble_style_sheet,
       "contentID"      => ensemble_identifier,
+      "useIFrame"      => true,
       "embed"          => true,
       "displayTitle"   => true,
       "startTime"      => 0,
-      "autoPlay"       => false,
+      "autoPlay"       => true,
       "hideControls"   => false,
-      "showCaptions"   => false, 
+      "showCaptions"   => false,
       "width"          => video_width,
-      "height"         => video_height, 
+      "height"         => video_height,
       "displaySharing" => false,
       "q"              => "0.0.0.0"
     }
 
-    player_src = ensemble_plugin + '?' + player_options.to_query + "%3A3000"
+    player_src = ensemble_plugin + '?' + player_options.to_query
     output << content_tag(:div,
-                          content_tag(:iframe,
+                          content_tag(:script,
                             "",
-                            id: "iframe_ensembleEmbeddedContent_" + ensemble_identifier,
+                            type: "text/javascript",
                             src: player_src,
                             frameborder: "0",
                             style: ["width: #{frame_width}px;", "height: #{frame_height}px;"],
@@ -277,12 +277,7 @@ module TulCdmHelper
                           class: "ensembleEmbeddedContent",
                           id: "ensembleEmbeddedContent_#{ensemble_identifier}",
                           style: ["width: #{width}px;", "height: #{height}px;"])
-    #binding.pry
-    
-#    output =<<PLAYER
-#<div id="ensembleEmbeddedContent_#{ensemble_identifier}" class="ensembleEmbeddedContent" style="width: #{width}px; height: #{height}px;" height="#{width}" width="#{height}">
-#<script type="text/javascript" src="https://ensemble.temple.edu/ensemble/app/plugin/plugin.aspx?contentID=#{ensemble_identifier}&embed=true&useIFrame=true&displayTitle=false&startTime=0&autoPlay=false&hideControls=false&showCaptions=false&width=#{width}&height=#{video_height}&displaySharing=false"></script></div>
-#PLAYER
+
     output.html_safe
   end
 
