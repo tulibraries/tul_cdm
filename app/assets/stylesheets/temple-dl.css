@@ -29,6 +29,11 @@ a:active, a:hover{
   text-align:center;
 }
 
+.video-viewer{
+  width: 640px;
+  padding-bottom: 20px
+}
+
 .sort-by-facets .a-z{
   float: right;
   margin-right: 10px;
