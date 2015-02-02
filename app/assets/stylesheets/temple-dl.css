@@ -29,6 +29,20 @@ a:active, a:hover{
   text-align:center;
 }
 
+.video-player{
+  width: 640px;
+  padding-bottom: 20px
+}
+
+.audio-player{
+  width: 640px;
+  padding-bottom: 20px
+}
+
+.audio-player iframe {
+  width: 640px;
+}
+
 .sort-by-facets .a-z{
   float: right;
   margin-right: 10px;

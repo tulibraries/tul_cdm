@@ -234,7 +234,88 @@ module TulCdmHelper
     end
     output.html_safe
   end
-  
+ 
+  def render_video_player(document)
+    output = ''
+    config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
+    model = model_from_document(document)
+    ensemble_identifier = document[:ensemble_identifier_tesim].first
+    width = "640"
+    height = "416"
+    frame_width = 660
+    frame_height = 436 
+    video_width = 640
+    video_height = 360
+    ensemble_plugin = "https://ensemble.temple.edu/ensemble/app/plugin/plugin.aspx"
+    ensemble_style_sheet = "https://ensemble.temple.edu/ensemble/app/plugin/css/ensembleEmbeddedContent.css"
+
+    player_options = {
+      "styleSheetUrl"  => ensemble_style_sheet,
+      "contentID"      => ensemble_identifier,
+      "useIFrame"      => true,
+      "embed"          => true,
+      "displayTitle"   => false,
+      "startTime"      => 0,
+      "autoPlay"       => true,
+      "hideControls"   => false,
+      "showCaptions"   => false,
+      "width"          => video_width,
+      "height"         => video_height,
+      "displaySharing" => false,
+      "q"              => config['cdm_archive']
+    }
+
+    player_src = ensemble_plugin + '?' + player_options.to_query
+    output << content_tag(:div,
+                          content_tag(:script,
+                            "",
+                            type: "text/javascript",
+                            src: player_src,
+                            frameborder: "0",
+                            style: ["width: #{frame_width}px;", "height: #{frame_height}px;"],
+                            escape: true).html_safe,
+                          class: "ensembleEmbeddedContent",
+                          id: "ensembleEmbeddedContent_#{ensemble_identifier}",
+                          style: ["width: #{width}px;", "height: #{height}px;"])
+
+    output.html_safe
+  end
+
+  def render_audio_player(document)
+    output = ''
+    config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
+    model = model_from_document(document)
+    ensemble_identifier = document[:ensemble_identifier_tesim].first
+    ensemble_plugin = "https://ensemble.temple.edu/ensemble/app/plugin/plugin.aspx"
+    ensemble_style_sheet = "https://ensemble.temple.edu/ensemble/app/plugin/css/ensembleEmbeddedContent.css"
+
+    player_options = {
+      "styleSheetUrl"  => ensemble_style_sheet,
+      "contentID"      => ensemble_identifier,
+      "useIFrame"      => true,
+      "embed"          => true,
+      "displayTitle"   => false,
+      "startTime"      => 0,
+      "autoPlay"       => false,
+      "hideControls"   => false,
+      "showCaptions"   => false,
+      "audio"          => true,
+      "q"              => config['cdm_archive'],
+      "frameborder"    => 0
+    }
+
+    player_src = ensemble_plugin + '?' + player_options.to_query
+    output << content_tag(:div,
+                          content_tag(:script,
+                            "",
+                            type: "text/javascript",
+                            src: player_src).html_safe,
+                          class: "ensembleEmbeddedContent",
+                          id: "ensembleEmbeddedContent_#{ensemble_identifier}")
+
+    output.html_safe
+  end
+
 ###
 #Temporary solution -- when we are OUT OF ContentDM, revisit this for addition to a datastream
 ###

@@ -1,7 +1,8 @@
-Ensemble player here
+<div class="video-player">
+  <%= link_to_download(document, document["contentdm_collection_id_tesim"].to_sentence, document["contentdm_number_tesim"].to_sentence) %>
+  <%= render_video_player document %>
+</div> 
 
-<%= link_to_download(document, document["contentdm_collection_id_tesim"].to_sentence, document["contentdm_number_tesim"].to_sentence) %>
-<%= link_to_high_res(document, document["contentdm_collection_id_tesim"].to_sentence, document["contentdm_number_tesim"].to_sentence) %>
 <dl class="defList">
   <% document_show_fields.each do |solr_fname, field| -%>
     <% if document.has? solr_fname %>
