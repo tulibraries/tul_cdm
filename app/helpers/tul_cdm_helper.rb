@@ -191,46 +191,43 @@ module TulCdmHelper
         else
           xpath_var = default_xpath
       end
-      page_ids = xml.xpath("#{xpath_var}/pageptr/text()")
-      page_titles = xml.xpath("#{xpath_var}/pagetitle/text()")
-      page_ids.length.times do |i|
-        if (compound_type == "Document-PDF")
-          page_ids_array[i] = (i+1).to_s
-        else
+      if (compound_type == "Document-PDF")
+        document_pdf = contentdm_file_url(cdm_coll, cdm_num, '')
+        pdf_object = content_tag(:object,'', data: document_pdf, type: "application/pdf", width: "100%", height: "100%")
+        output << content_tag(:div, pdf_object, id: 'document-pdf')
+        #<div id="transcript-pdf"><object data="<%= transcript_pdf %>" type="application/pdf" width="100%" height="100%"></object></div>
+      else
+        page_ids = xml.xpath("#{xpath_var}/pageptr/text()")
+        page_titles = xml.xpath("#{xpath_var}/pagetitle/text()")
+        page_ids.length.times do |i|
           page_ids_array[i] = page_ids[i].to_s
         end
-      end
 
-      # Get height and width of first image
-      api_path="#{content_server}/dmwebservices/index.php?q=dmGetImageInfo/#{cdm_coll}/#{page_ids.first.to_s}/xml"
-      xml = Nokogiri::XML(open(api_path))
-      if (compound_type == "Document-PDF") 
-        pageWidth = "850"
-        pageHeight = "1100"
-        pageScale = "20"
-      else
+        # Get height and width of first image
+        api_path="#{content_server}/dmwebservices/index.php?q=dmGetImageInfo/#{cdm_coll}/#{page_ids.first.to_s}/xml"
+        xml = Nokogiri::XML(open(api_path))
         pageWidth = xml.xpath("imageinfo/width/text()").to_s 
         pageHeight = xml.xpath("imageinfo/height/text()").to_s 
         pageScale = "20"
+
+        cdm_data = { cpdType:    compound_type,
+                     pageids:    page_ids_array.to_json,
+                     cdmColl:    cdm_coll,
+                     cdmNum:     cdm_num,
+                     cdmArchive: config["cdm_archive"],
+                     cdmServer:  config["cdm_server"],
+                     cdmTitle:   document["title_tesim"].to_sentence,
+                     cdmUrl:     document["reference_url_ssm"].to_sentence,
+                     leafCount:  page_ids.length,
+                     pageWidth:  pageWidth,
+                     pageHeight: pageHeight,
+                     pageScale:  pageScale }
+
+        output << content_tag(:div, "", id: "page-list", data: cdm_data )
+        bookreader_invocation = "br.renderBookreader();"
+        output << content_tag(:div, simple_format(t('tul_cdm.bookreader.title')) + content_tag(:noscript, t('tul_cdm.bookreader.caveat')), id: "BookReader")
+        output << content_tag(:script, bookreader_invocation, type: "text/javascript")
       end
-
-      cdm_data = { cpdType:    compound_type,
-                   pageids:    page_ids_array.to_json,
-                   cdmColl:    cdm_coll,
-                   cdmNum:     cdm_num,
-                   cdmArchive: config["cdm_archive"],
-                   cdmServer:  config["cdm_server"],
-                   cdmTitle:   document["title_tesim"].to_sentence,
-                   cdmUrl:     document["reference_url_ssm"].to_sentence,
-                   leafCount:  page_ids.length,
-                   pageWidth:  pageWidth,
-                   pageHeight: pageHeight,
-                   pageScale:  pageScale }
-
-      output << content_tag(:div, "", id: "page-list", data: cdm_data )
-      bookreader_invocation = "br.renderBookreader();"
-      output << content_tag(:div, simple_format(t('tul_cdm.bookreader.title')) + content_tag(:noscript, t('tul_cdm.bookreader.caveat')), id: "BookReader")
-      output << content_tag(:script, bookreader_invocation, type: "text/javascript")
     end
     output.html_safe
   end
@@ -403,6 +400,11 @@ module TulCdmHelper
   def get_related_objects(collection_id)
     related_objects = ActiveFedora::Base.where(is_member_of_ssim: collection_id).to_a
     return related_objects
+  end
+
+  def contentdm_file_url(collection, pointer, name)
+    config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
+    "#{config['cdm_archive']}/utils/getfile/collection/#{collection}/id/#{pointer}/filename/#{name}"
   end
 
   def locate_by_model(pid)
