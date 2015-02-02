@@ -256,13 +256,13 @@ module TulCdmHelper
       "embed"          => true,
       "displayTitle"   => false,
       "startTime"      => 0,
-      "autoPlay"       => false,
+      "autoPlay"       => true,
       "hideControls"   => false,
       "showCaptions"   => false,
       "width"          => video_width,
       "height"         => video_height,
       "displaySharing" => false,
-      "q"              => "0.0.0.0"
+      "q"              => config['cdm_archive']
     }
 
     player_src = ensemble_plugin + '?' + player_options.to_query
@@ -277,6 +277,43 @@ module TulCdmHelper
                           class: "ensembleEmbeddedContent",
                           id: "ensembleEmbeddedContent_#{ensemble_identifier}",
                           style: ["width: #{width}px;", "height: #{height}px;"])
+
+    output.html_safe
+  end
+
+  def render_audio_player(document)
+    output = ''
+    config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
+    model = model_from_document(document)
+    ensemble_identifier = document[:ensemble_identifier_tesim].first
+    ensemble_plugin = "https://ensemble.temple.edu/ensemble/app/plugin/plugin.aspx"
+    ensemble_style_sheet = "https://ensemble.temple.edu/ensemble/app/plugin/css/ensembleEmbeddedContent.css"
+
+    player_options = {
+      "styleSheetUrl"  => ensemble_style_sheet,
+      "contentID"      => ensemble_identifier,
+      "useIFrame"      => true,
+      "embed"          => true,
+      "displayTitle"   => false,
+      "startTime"      => 0,
+      "autoPlay"       => false,
+      "hideControls"   => false,
+      "showCaptions"   => false,
+      "audio"          => true,
+      "q"              => config['cdm_archive'],
+      "frameborder"    => 0
+    }
+
+    player_src = ensemble_plugin + '?' + player_options.to_query
+    output << content_tag(:div,
+                          content_tag(:script,
+                            "",
+                            type: "text/javascript",
+                            src: player_src,
+                            frameborder: "0",
+                            escape: true).html_safe,
+                          class: "ensembleEmbeddedContent",
+                          id: "ensembleEmbeddedContent_#{ensemble_identifier}")
 
     output.html_safe
   end
