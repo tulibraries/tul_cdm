@@ -162,6 +162,12 @@ module TulCdmHelper
     output.html_safe
   end
   
+  def render_pdf_reader(collection, pointer, name)
+    document_pdf = contentdm_file_url(collection, pointer, name)
+    pdf_object = content_tag(:object,'', data: document_pdf, type: "application/pdf", width: "100%", height: "100%")
+    content_tag(:div, pdf_object, id: 'document-pdf')
+  end
+
   def render_compound_pageturner(document)
     config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
     model = model_from_document(document)
@@ -192,9 +198,7 @@ module TulCdmHelper
           xpath_var = default_xpath
       end
       if (compound_type == "Document-PDF")
-        document_pdf = contentdm_file_url(cdm_coll, cdm_num, '')
-        pdf_object = content_tag(:object,'', data: document_pdf, type: "application/pdf", width: "100%", height: "100%")
-        output << content_tag(:div, pdf_object, id: 'document-pdf')
+        output << render_pdf_reader(cdm_coll, cdm_num, '')
       else
         page_ids = xml.xpath("#{xpath_var}/pageptr/text()")
         page_titles = xml.xpath("#{xpath_var}/pagetitle/text()")
@@ -403,7 +407,7 @@ module TulCdmHelper
 
   def contentdm_file_url(collection, pointer, name)
     config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
-    "#{config['cdm_archive']}/utils/getfile/collection/#{collection}/id/#{pointer}/filename/#{name}"
+    output = "#{config['cdm_archive']}/utils/getfile/collection/#{collection}/id/#{pointer}/filename/#{name}"
   end
 
   def locate_by_model(pid)

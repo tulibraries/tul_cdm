@@ -18,7 +18,7 @@ Restore files the hydra install modified
 
     git checkout -- .
 
-Prepare Jetty for Sufia
+Prepare Jetty
 
     bundle exec rails generate hydra:jetty
     bundle exec rake jetty:config
@@ -26,6 +26,31 @@ Prepare Jetty for Sufia
     bundle exec rails s -d
 
 Visit the Hydra TUL_CDM site at `http://0.0.0.0:3000`
+
+To get a list of available collecitons to ingest:
+
+    bundle exec rake tu_cdm:list
+
+Ingest data. Replace `collection_name` with one of the collections listed from above.
+
+    bundle exec rake tu_cdm:download[collection_name]
+    bundle exec rake tu_cdm:ingest
+    bundle exec rake tu_cdm:convert
+
+Index objects with one or more of the following tasks:
+
+    bundle exec rake tu_cdm:index:audio
+    bundle exec rake tu_cdm:index:clippings
+    bundle exec rake tu_cdm:index:ephemera
+    bundle exec rake tu_cdm:index:manuscripts
+    bundle exec rake tu_cdm:index:pamphlets
+    bundle exec rake tu_cdm:index:periodicals
+    bundle exec rake tu_cdm:index:photographs
+    bundle exec rake tu_cdm:index:posters
+    bundle exec rake tu_cdm:index:scholarship
+    bundle exec rake tu_cdm:index:sheetmusic
+    bundle exec rake tu_cdm:index:transcripts
+    bundle exec rake tu_cdm:index:video
 
 * Ruby version
 
