@@ -13,6 +13,8 @@
 //= require jquery
 //= require 'blacklight_advanced_search'
 
+//= require PDFObject/pdfobject.min
+
 
 //= require jquery_ujs
 //= require turbolinks

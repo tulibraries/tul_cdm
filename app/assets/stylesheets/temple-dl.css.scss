@@ -1,3 +1,5 @@
+@import "base/colors.scss";
+@import "base/mixins.scss";
 
 a, a:visited{
  color: #000000;
@@ -11,7 +13,7 @@ a:active, a:hover{
 }
 
 
-#sidebar-right{
+#sidebar-righ{
  float: right;
  width: 200px;
 }
@@ -29,18 +31,35 @@ a:active, a:hover{
   text-align:center;
 }
 
+#document-pdf {
+  width:  100%;
+  height: 800px;
+  clear: both;
+  margin-left: 0px;
+  margin-right: auto;
+
+  p {
+      padding: 1em;
+  }
+
+  object {
+      display: block;
+      border: solid 1px $temple-black;
+  }
+}
+
 .video-player{
   width: 640px;
   padding-bottom: 20px
 }
 
 .audio-player{
-  width: 640px;
-  padding-bottom: 20px
-}
+  height: 70px;
+  padding-bottom: 20px;
 
-.audio-player iframe {
-  width: 640px;
+  iframe {
+    width: 366px;
+  }
 }
 
 .sort-by-facets .a-z{
