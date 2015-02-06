@@ -2,7 +2,7 @@
   <h1>Digital Collections</h1>
 
   <div class="digital-collection-list">
-    <% @digital_collections.each do |digital_collection| %>
+    <% @digital_collections.order(:priority).each do |digital_collection| %>
       <div class="collection-item">
         <div class="collection-thumbnail"><%= link_to (image_tag (digital_collection.thumbnail_url)), digital_collection %></div>
         <div class="collection-name"><%= link_to digital_collection.name, digital_collection %></div>

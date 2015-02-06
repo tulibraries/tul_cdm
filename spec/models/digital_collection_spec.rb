@@ -10,6 +10,7 @@ RSpec.describe DigitalCollection, :type => :model do
     it { is_expected.to have_attribute(:image_url) }
     it { is_expected.to have_attribute(:thumbnail_url) }
     it { is_expected.to have_attribute(:description) }
+    it { is_expected.to have_attribute(:priority) }
   end
 
   describe "Object" do
