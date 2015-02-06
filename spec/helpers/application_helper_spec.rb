@@ -21,22 +21,18 @@ RSpec.describe ApplicationHelper, :type => :helper do
     end
   end
 
-  #NOTE: Tests do not pass because I am now hardcoding the test data won't return tesim query.
-  #TODO: Compose tests that will have data that will return the desired data from the title_tesim query.
   describe "#show_document_title" do
     describe "Non video document" do
       let (:manuscript) { FactoryGirl.create(:manuscript); }
       it "returns the object's title if the object is a manuscript" do
-        pending
-        expect(show_document_title(manuscript)).to eq(manuscript.title.first)
+        expect(show_document_title(manuscript.to_solr)).to eq(manuscript.title.first)
       end
     end
 
     describe "Video document" do
       let (:video) { FactoryGirl.create(:video) }
       it "returns the object's clip_title if the object is a video" do
-        pending
-        expect(show_document_title(video)).to eq(video.clip_title.first)
+        expect(show_document_title(video.to_solr)).to eq(video.clip_title.first)
       end
     end
   end
