@@ -24,12 +24,7 @@ br.getPageURI = function(index, reduce, rotate) {
     var url = br.cdmArchive;
 
     //&action=2&DMSCALE=50&DMWIDTH=3000&DMHEIGHT=4000 <-- High res, zoomable but so sloooooow
-    if (br.cpdType == "Document-PDF") {
-      url += '/utils/getfile/collection/' + br.cdmColl + '/id/' + br.cdmNum + '/page/' + imgStr;
-    } else {
-      url += '/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=' + br.cdmScale + '&DMWIDTH=' + br.cdmWidth + '&DMHEIGHT=' + br.cdmHeight;
-    }
-    console.log("getPageURI(" + index + ") = " + url);
+    url += '/utils/ajaxhelper/?CISOROOT=' + br.cdmColl + '&CISOPTR=' + imgStr + '&action=2&DMSCALE=' + br.cdmScale + '&DMWIDTH=' + br.cdmWidth + '&DMHEIGHT=' + br.cdmHeight;
     return url;
 }
 
@@ -135,15 +130,15 @@ br.initToolbar = function(mode, ui) {
         $('#BRcontainer').height(br_container_height);
         $('#BookReader').height("auto");
       }
-      switch (self.mode) {
-        case self.constMode1up:
-          self.prepareOnePageView();
+      switch (br.mode) {
+        case br.constMode1up:
+          br.prepareOnePageView();
           break;
-        case self.constMode2up:
-          self.prepareTwoPageView();
+        case br.constMode2up:
+          br.prepareTwoPageView();
           break;
-        case self.constModeThumb:
-          self.prepareThumbnailView();
+        case br.constModeThumb:
+          br.prepareThumbnailView();
           break;
       }
     });
@@ -308,6 +303,12 @@ br.renderBookreader = function() {
     br.cdmHeight = ($('#page-list').attr('data-pageheight'));
     br.cdmScale = ($('#page-list').attr('data-pagescale'));
     br.logoURL = '/'
+
+    // [NOTE] Workaround: Deallocate _medianPageSize
+    // Fixes scaling problem when moving between images of widely varying image sizes
+    if (br._medianPageSize) {
+      delete br._medianPageSize;
+    }
 
     // Let's go!
     br.init();
