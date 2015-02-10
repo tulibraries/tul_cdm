@@ -135,6 +135,17 @@ br.initToolbar = function(mode, ui) {
         $('#BRcontainer').height(br_container_height);
         $('#BookReader').height("auto");
       }
+      switch (self.mode) {
+        case self.constMode1up:
+          self.prepareOnePageView();
+          break;
+        case self.constMode2up:
+          self.prepareTwoPageView();
+          break;
+        case self.constModeThumb:
+          self.prepareThumbnailView();
+          break;
+      }
     });
 
     // Browser hack - bug with colorbox on iOS 3 see https://bugs.launchpad.net/bookreader/+bug/686220
