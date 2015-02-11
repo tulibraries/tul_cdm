@@ -68,17 +68,16 @@ describe 'Execute the tu_cdm rake tests' do
     end
 
     after :all do
-      FileUtils.rm Dir.glob "#{@download_directory}/*.xml"
       FileUtils.rm Dir.glob "#{@converted_directory}/*.xml"
     end
 
     it "should convert the data" do
       VCR.use_cassette "tu_cdm-convert/should_convert_the_data" do
         Rake::Task['tu_cdm:download'].invoke(download_collection)
+        converted_file_count = `grep -ic "<record>" #{@download_directory}/*`.to_i
 
         Rake::Task['tu_cdm:convert'].invoke
         file_count = Dir[File.join(@converted_directory, '*.xml')].count { |file| File.file?(file) }
-        converted_file_count = `grep -ic "<record>" #{@download_directory}/*`.to_i
         expect(file_count).to eq(converted_file_count)
       end
     end
@@ -95,6 +94,15 @@ describe 'Execute the tu_cdm rake tests' do
           end
           expect(xsd.valid?(doc)).to be
         end
+      end
+    end
+
+    it "should delete the downloaded file when done" do
+      VCR.use_cassette "tu_cdm-convert/should_have_valid_FOXML" do
+        Rake::Task['tu_cdm:download'].invoke(download_collection)
+        Rake::Task['tu_cdm:convert'].invoke
+        file_count = Dir[File.join(@download_directory, '*.xml')].count { |file| File.file?(file) }
+        expect(file_count).to eq(0)
       end
     end
   end

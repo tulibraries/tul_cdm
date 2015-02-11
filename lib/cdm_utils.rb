@@ -181,6 +181,9 @@ module CDMUtils
       end
         
       puts "XSLT transformation complete for #{fname}".green
+
+      # Delete the source XML file
+      File.delete(file_name)
     end
   end
 
