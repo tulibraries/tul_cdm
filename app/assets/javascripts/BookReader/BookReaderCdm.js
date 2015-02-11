@@ -75,6 +75,23 @@ br.getPageNum = function(index) {
     return index+1;
 }
 
+// Redraws the book reader to fit at the current zoom level
+//
+// Called after switching between embedded and full screen view
+br.prepareView = function(mode) {
+    switch (mode) {
+      case br.constMode1up:
+        br.prepareOnePageView();
+        break;
+      case br.constMode2up:
+        br.prepareTwoPageView();
+        break;
+      case br.constModeThumb:
+        br.prepareThumbnailView();
+        break;
+    }
+}
+
 // Custom tool bar
 br.initToolbar = function(mode, ui) {
 
@@ -130,17 +147,7 @@ br.initToolbar = function(mode, ui) {
         $('#BRcontainer').height(br_container_height);
         $('#BookReader').height("auto");
       }
-      switch (br.mode) {
-        case br.constMode1up:
-          br.prepareOnePageView();
-          break;
-        case br.constMode2up:
-          br.prepareTwoPageView();
-          break;
-        case br.constModeThumb:
-          br.prepareThumbnailView();
-          break;
-      }
+      br.prepareView(br.mode);
     });
 
     // Browser hack - bug with colorbox on iOS 3 see https://bugs.launchpad.net/bookreader/+bug/686220
@@ -276,6 +283,15 @@ br.initNavbar = function() {
     */
 }
 
+// resetPageSize
+// [NOTE] Workaround: Deallocate _medianPageSize
+// Fixes scaling problem when moving between images of widely varying image sizes
+br.resetPageSize = function() {
+    if (br._medianPageSize) {
+      delete br._medianPageSize;
+    }
+}
+
 br.renderBookreader = function() {
     // Total number of leafs
     br.numLeafs = parseInt($('#page-list').attr('data-leafcount'));
@@ -304,11 +320,7 @@ br.renderBookreader = function() {
     br.cdmScale = ($('#page-list').attr('data-pagescale'));
     br.logoURL = '/'
 
-    // [NOTE] Workaround: Deallocate _medianPageSize
-    // Fixes scaling problem when moving between images of widely varying image sizes
-    if (br._medianPageSize) {
-      delete br._medianPageSize;
-    }
+    br.resetPageSize();
 
     // Let's go!
     br.init();
