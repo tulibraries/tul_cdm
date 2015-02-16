@@ -362,7 +362,7 @@ br.getAutoFitIndex = function(reductionFactors, autoFitDimension) {
         if (reductionFactors[i].autofit == autoFitDimension)
           return i;
     }
-    return 0;
+    return -1;
 }
 
 // Get the reduction index for the desired scale
@@ -371,7 +371,7 @@ br.getReductionIndex = function(reductionFactors, scale) {
         if (reductionFactors[i].reduce == scale)
           return i;
     }
-    return 0;
+    return -1;
 }
 
 // Fit to page
@@ -379,10 +379,14 @@ br.fitToPage1up = function() {
     // Determine which autofit scale, use the longest dimension of height or width
     var autofitHeightIndex = br.getAutoFitIndex(br.onePage.reductionFactors, 'height');
     var autofitWidthIndex = br.getAutoFitIndex(br.onePage.reductionFactors, 'width');
+    if ((autofitWidthIndex < 0) && (autofitHeightIndex < 0))
+      return;
     var autofitScale = (autofitHeightIndex > autofitWidthIndex) ? autofitHeightIndex : autofitWidthIndex;
 
     // Get the index in the reduction factor arraty for the autofit scale to use
     var reductionIndex = br.getReductionIndex(br.onePage.reductionFactors, br.reduce);
+    if (reductionIndex < 0)
+      return;
 
     if (reductionIndex != autofitScale) {
       // Determine which direction we are zooming
