@@ -216,7 +216,7 @@ br.initNavbar = function() {
         +         '<button class="BRicon twopg"></button>'
         +         '<button class="BRicon thumb"></button>'
         // $$$ not yet implemented
-        //+         '<button class="BRicon fit"></button>'
+        +         '<button class="BRicon fit"></button>'
         +         '<button class="BRicon zoom_in"></button>'
         +         '<button class="BRicon zoom_out"></button>'
         +         '<button class="BRicon book_left"></button>'
@@ -265,6 +265,35 @@ br.initNavbar = function() {
             $("#pagenum").hide();
         }
     );
+
+    var jIcons = $('.BRicon');
+    jIcons.filter('.fit').bind('click', function(e) {
+      autofitHeightIndex = br.getAutoFitIndex(br.onePage.reductionFactors, 'height');
+      autofitWidthIndex = br.getAutoFitIndex(br.onePage.reductionFactors, 'width');
+      if (autofitHeightIndex > autofitWidthIndex) {
+        autofitScale = autofitHeightIndex
+      } else {
+        autofitScale = autofitWidthIndex
+      }
+
+      reductionIndex = br.getReductionIndex(br.onePage.reductionFactors, br.reduce);
+
+      if (reductionIndex != autofitScale) {
+        if (reductionIndex < autofitScale) {
+          direction = 'in';
+          steps = autofitScale - reductionIndex;
+        } else {
+          direction = 'out';
+          steps = reductionIndex - autofitScale;
+        }
+
+        for (var i = 0; i < steps; i++) {
+          br.zoom(direction);
+        }
+      }
+
+    });
+
 
     //append icon to handle
     var handleHelper = $('#BRpager .ui-slider-handle')
@@ -345,4 +374,24 @@ br.renderPagereader = function() {
     $('.BRicon.thumb').hide();
     $('.BRicon.book_left').hide();
     $('.BRicon.book_right').hide();
+}
+
+// Get autofit factor for given dimension
+// reductionFactors should be array of sorted reduction factors
+// e.g. [ {reduce: 0.25, autofit: null}, {reduce: 0.3, autofit: 'width'}, {reduce: 1, autofit: null} ]
+// autoFit should be a string indicating the dimension of autofit either 'width' or 'height'
+br.getAutoFitIndex = function(reductionFactors, autoFitDimension) {
+    for (var i = 0; i < reductionFactors.length; i++) {
+        if (reductionFactors[i].autofit == autoFitDimension)
+          return i;
+    }
+    return -1;
+}
+
+br.getReductionIndex = function(reductionFactors, scale) {
+    for (var i = 0; i < reductionFactors.length; i++) {
+        if (reductionFactors[i].reduce == scale)
+          return i;
+    }
+    return -1;
 }
