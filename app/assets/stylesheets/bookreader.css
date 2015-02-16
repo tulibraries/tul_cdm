@@ -19,12 +19,16 @@
   position: relative;
 }
 
+#BRnavpos {
+  width: 660px;
+}
+
 #BRnav #BRpage {
-  width: 300px;
+  width: 340px;
 }
 
 #BRcontainer {
-    position: relative;
+  position: relative;
 	height: 640px;
 }
 

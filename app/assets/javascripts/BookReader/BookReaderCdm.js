@@ -216,7 +216,7 @@ br.initNavbar = function() {
         +         '<button class="BRicon twopg"></button>'
         +         '<button class="BRicon thumb"></button>'
         // $$$ not yet implemented
-        //+         '<button class="BRicon fit"></button>'
+        +         '<button class="BRicon fit"></button>'
         +         '<button class="BRicon zoom_in"></button>'
         +         '<button class="BRicon zoom_out"></button>'
         +         '<button class="BRicon book_left"></button>'
@@ -265,6 +265,12 @@ br.initNavbar = function() {
             $("#pagenum").hide();
         }
     );
+
+    var jIcons = $('.BRicon');
+    jIcons.filter('.fit').bind('click', function(e) {
+      br.fitToPage1up();
+    });
+
 
     //append icon to handle
     var handleHelper = $('#BRpager .ui-slider-handle')
@@ -346,3 +352,53 @@ br.renderPagereader = function() {
     $('.BRicon.book_left').hide();
     $('.BRicon.book_right').hide();
 }
+
+// Get autofit factor for given dimension
+// reductionFactors should be array of sorted reduction factors
+// e.g. [ {reduce: 0.25, autofit: null}, {reduce: 0.3, autofit: 'width'}, {reduce: 1, autofit: null} ]
+// autoFit should be a string indicating the dimension of autofit either 'width' or 'height'
+br.getAutoFitIndex = function(reductionFactors, autoFitDimension) {
+    for (var i = 0; i < reductionFactors.length; i++) {
+        if (reductionFactors[i].autofit == autoFitDimension)
+          return i;
+    }
+    return -1;
+}
+
+// Get the reduction index for the desired scale
+br.getReductionIndex = function(reductionFactors, scale) {
+    for (var i = 0; i < reductionFactors.length; i++) {
+        if (reductionFactors[i].reduce == scale)
+          return i;
+    }
+    return -1;
+}
+
+// Fit to page
+br.fitToPage1up = function() {
+    // Determine which autofit scale, use the longest dimension of height or width
+    var autofitHeightIndex = br.getAutoFitIndex(br.onePage.reductionFactors, 'height');
+    var autofitWidthIndex = br.getAutoFitIndex(br.onePage.reductionFactors, 'width');
+    if ((autofitWidthIndex < 0) && (autofitHeightIndex < 0))
+      return;
+    var autofitScale = (autofitHeightIndex > autofitWidthIndex) ? autofitHeightIndex : autofitWidthIndex;
+
+    // Get the index in the reduction factor arraty for the autofit scale to use
+    var reductionIndex = br.getReductionIndex(br.onePage.reductionFactors, br.reduce);
+    if (reductionIndex < 0)
+      return;
+
+    if (reductionIndex != autofitScale) {
+      // Determine which direction we are zooming
+      var direction = (reductionIndex < autofitScale) ? -1 : 1;
+
+      // How many zoom steps we need to go
+      var steps = Math.abs(autofitScale - reductionIndex);
+
+      // Zoom to the autofit scale
+      for (var i = 0; i < steps; i++) {
+        br.zoom(direction);
+      }
+    }
+}
+
