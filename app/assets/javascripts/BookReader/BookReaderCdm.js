@@ -268,30 +268,7 @@ br.initNavbar = function() {
 
     var jIcons = $('.BRicon');
     jIcons.filter('.fit').bind('click', function(e) {
-      autofitHeightIndex = br.getAutoFitIndex(br.onePage.reductionFactors, 'height');
-      autofitWidthIndex = br.getAutoFitIndex(br.onePage.reductionFactors, 'width');
-      if (autofitHeightIndex > autofitWidthIndex) {
-        autofitScale = autofitHeightIndex
-      } else {
-        autofitScale = autofitWidthIndex
-      }
-
-      reductionIndex = br.getReductionIndex(br.onePage.reductionFactors, br.reduce);
-
-      if (reductionIndex != autofitScale) {
-        if (reductionIndex < autofitScale) {
-          direction = 'in';
-          steps = autofitScale - reductionIndex;
-        } else {
-          direction = 'out';
-          steps = reductionIndex - autofitScale;
-        }
-
-        for (var i = 0; i < steps; i++) {
-          br.zoom(direction);
-        }
-      }
-
+      br.fitToPage1up();
     });
 
 
@@ -385,13 +362,39 @@ br.getAutoFitIndex = function(reductionFactors, autoFitDimension) {
         if (reductionFactors[i].autofit == autoFitDimension)
           return i;
     }
-    return -1;
+    return 0;
 }
 
+// Get the reduction index for the desired scale
 br.getReductionIndex = function(reductionFactors, scale) {
     for (var i = 0; i < reductionFactors.length; i++) {
         if (reductionFactors[i].reduce == scale)
           return i;
     }
-    return -1;
+    return 0;
 }
+
+// Fit to page
+br.fitToPage1up = function() {
+    // Determine which autofit scale, use the longest dimension of height or width
+    var autofitHeightIndex = br.getAutoFitIndex(br.onePage.reductionFactors, 'height');
+    var autofitWidthIndex = br.getAutoFitIndex(br.onePage.reductionFactors, 'width');
+    var autofitScale = (autofitHeightIndex > autofitWidthIndex) ? autofitHeightIndex : autofitWidthIndex;
+
+    // Get the index in the reduction factor arraty for the autofit scale to use
+    var reductionIndex = br.getReductionIndex(br.onePage.reductionFactors, br.reduce);
+
+    if (reductionIndex != autofitScale) {
+      // Determine which direction we are zooming
+      var direction = (reductionIndex < autofitScale) ? -1 : 1;
+
+      // How many zoom steps we need to go
+      var steps = Math.abs(autofitScale - reductionIndex);
+
+      // Zoom to the autofit scale
+      for (var i = 0; i < steps; i++) {
+        br.zoom(direction);
+      }
+    }
+}
+
