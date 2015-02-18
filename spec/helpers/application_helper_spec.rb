@@ -15,9 +15,14 @@ RSpec.describe ApplicationHelper, :type => :helper do
     let (:digital_collection) { FactoryGirl.create(:digital_collection) }
     let (:collection_alias) { digital_collection.collection_alias }
     let (:collection_name) { digital_collection.name }
+    let (:bogus_collection_name) { "BADDECAF" }
 
     it "returns the collection name when given the alias" do
       expect(render_with_contentdm_collection_name(collection_alias)).to match(/#{collection_name}/)
+    end
+
+    it "returns the alias when given the alias not in digital collection" do
+      expect(render_with_contentdm_collection_name(bogus_collection_name)).to match(/#{bogus_collection_name}/)
     end
   end
 
