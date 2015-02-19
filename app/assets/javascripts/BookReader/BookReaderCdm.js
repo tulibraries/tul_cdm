@@ -307,10 +307,6 @@ br.resetPageSize = function() {
         autofit: autofit                                     // valid values are height, width, none
     };
 
-    br.twoPage = {
-        autofit: 'auto'
-    };
-
 }
 
 br.renderBookreader = function() {
