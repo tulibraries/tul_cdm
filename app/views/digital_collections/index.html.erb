@@ -4,7 +4,9 @@
   <div class="digital-collection-list">
     <% @digital_collections.order(:priority).each do |digital_collection| %>
       <div class="collection-item">
-        <div class="collection-thumbnail"><%= link_to (image_tag (digital_collection.thumbnail_url)), digital_collection %></div>
+        <% if (digital_collection.thumbnail_url) %>
+          <div class="collection-thumbnail"><%= link_to (image_tag (digital_collection.thumbnail_url)), digital_collection %></div>
+        <% end %>
         <div class="collection-name"><%= link_to digital_collection.name, digital_collection %></div>
         <span class="admin">
           <%= link_to 'Show', digital_collection %> |

@@ -5,9 +5,11 @@
 
   <h2>About this collection</h2>
 
-  <span class="collection-image">
-    <%= link_to (image_tag (@digital_collection.image_url)), path(@digital_collection) %>
-  </span>
+  <% if (@digital_collection.image_url) %>
+    <span class="collection-image">
+        <%= link_to (image_tag (@digital_collection.image_url)), path(@digital_collection) %>
+    </span>
+  <% end %>
 
   <p class="collection-thumbnail">
     <%= image_tag @digital_collection.thumbnail_url %>
