@@ -290,12 +290,23 @@ br.initNavbar = function() {
 }
 
 // resetPageSize
-// [NOTE] Workaround: Deallocate _medianPageSize
-// Fixes scaling problem when moving between images of widely varying image sizes
+// resets the page sizing for best fit
 br.resetPageSize = function() {
+    // [NOTE] Workaround: Deallocate _medianPageSize
+    // Fixes scaling problem when moving between images of widely varying image sizes
     if (br._medianPageSize) {
       delete br._medianPageSize;
     }
+
+    // reset page to hold best fit
+    var autofit = 'height';
+    if (br.cdmWidth > br.cdmHeight) {
+      autofit = 'width';
+    }
+    br.onePage = {
+        autofit: autofit                                     // valid values are height, width, none
+    };
+
 }
 
 br.renderBookreader = function() {
