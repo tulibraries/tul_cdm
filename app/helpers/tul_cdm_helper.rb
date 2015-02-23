@@ -168,6 +168,63 @@ module TulCdmHelper
     content_tag(:div, pdf_object, id: 'document-pdf')
   end
 
+  def compound_document_content(document)
+    config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
+    model = model_from_document(document)
+    output=''
+    cpd = ''
+    page_ids_array=[]
+    cdm_coll=document["contentdm_collection_id_tesim"].to_sentence if document["contentdm_collection_id_tesim"]
+    cdm_num=document["contentdm_number_tesim"].to_sentence if document["contentdm_number_tesim"]
+    if(document["file_name_ssm"])
+      cpd = document["file_name_ssm"].to_sentence
+    else
+      fext = File.extname(document["contentdm_file_name_tesim"].to_sentence) if document["contentdm_file_name_tesim"]
+      if(fext == ".cpd")
+        cpd = "index.cpd"
+      end
+    end
+
+    if(document["file_name_ssm"])
+      cpd = document["file_name_ssm"].to_sentence
+    else
+      fext = File.extname(document["contentdm_file_name_tesim"].to_sentence) if document["contentdm_file_name_tesim"]
+      if(fext == ".cpd")
+        cpd = "index.cpd"
+      end
+    end
+    if(cpd == "index.cpd")
+      content_server = config["cdm_server"]
+      api_path="#{content_server}/dmwebservices/index.php?q=dmGetCompoundObjectInfo/#{cdm_coll}/#{cdm_num}/xml"
+      xml = Nokogiri::XML(open(api_path))
+      compound_type = xml.xpath("/cpd/type/text()").to_s
+      pamphlets_xpath="/cpd/node/page"
+      default_xpath, manuscripts_xpath="/cpd/page"
+
+      case model
+        when 'Pamphlet'
+          xpath_var = pamphlets_xpath
+        else
+          xpath_var = default_xpath
+      end
+
+      # Get document content
+      pageptrs = xml.xpath("#{xpath_var}/pageptr/text()")
+      pageptrs.each do |pageptr|
+        api_path="#{content_server}/dmwebservices/index.php?q=dmItemHasOCRText/#{cdm_coll}/#{pageptr.to_s}/xml"
+        xml_ItemHasOCRText = Nokogiri::XML(open(api_path))
+        itemHasOCRText = xml_ItemHasOCRText.xpath("//hasOCR").text.to_i;
+        api_path="#{content_server}/dmwebservices/index.php?q=dmGetItemInfo/#{cdm_coll}/#{pageptr.to_s}/xml"
+        xml_ItemInfo = Nokogiri::XML(open(api_path))
+        document_content = xml_ItemInfo.xpath('//docume')
+        document_content.each do |content|
+          output << content.text + " "
+        end
+      end
+    end
+    output
+  end
+
   def render_compound_pageturner(document)
     config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
     model = model_from_document(document)

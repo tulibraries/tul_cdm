@@ -2,6 +2,13 @@
   <%= link_to_download(document, document["contentdm_collection_id_tesim"].to_sentence, document["contentdm_number_tesim"].to_sentence) %>
   <%= @document['model_ssi'] if @document['model_ssi']
   render_compound_pageturner @document if @document["contentdm_number_tesim"] %>
+  <% document_content = compound_document_content(@document) %>
+  <% if not document_content.blank? %>
+    <textarea id='document-content-viewer'>
+      <%= document_content %>
+    </textarea>
+  <% end %>
+    
 </div> 
 <dl class="defList">
   <% document_show_fields.each do |solr_fname, field| -%>
