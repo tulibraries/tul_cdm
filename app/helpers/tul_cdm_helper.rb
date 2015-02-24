@@ -222,7 +222,7 @@ module TulCdmHelper
         end
       end
     end
-    output
+    output.rstrip
   end
 
   def render_compound_pageturner(document)

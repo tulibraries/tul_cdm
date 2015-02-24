@@ -6,6 +6,7 @@ describe 'List CONTENTdm collections' do
   let (:collection_name) { "p16002coll9" }
   let (:collection_title) { "Allied Posters of World War I" }
   let (:private_collection_name) { "p16002coll11" }
+  let (:yearbook_collection_name) { "p245801coll12" }
   let (:cdm_data_root) { "#{Rails.root}/spec/fixtures/fedora/cdm" }
   let (:schema_url) { "http://www.fedora.info/definitions/1/0/foxml1-1.xsd" }
   let (:download_directory) { config['cdm_download_dir'] }
@@ -52,6 +53,18 @@ describe 'List CONTENTdm collections' do
         expect(file_count).to eq(0)
       end
     end
+
+    it "should harvest yearbook document content" do
+      VCR.use_cassette "cdm-util-download/should_harvest_yearbook_document_content" do
+        downloaded = CDMUtils.download_one_collection(config, yearbook_collection_name)
+        file_count = Dir[File.join(download_directory, '*.xml')].count { |file| File.file?(file) }
+        file = File.join(download_directory, yearbook_collection_name + '.xml')
+        doc = Nokogiri::XML(File.read(file))
+        # Tests for both metadata and attempted access to private collection
+        expect(doc).to have_tag('Document_Content')
+      end
+    end
+
   end
 
   describe 'convert' do

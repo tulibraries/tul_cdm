@@ -34,6 +34,67 @@ module CDMUtils
       OpenURI::Buffer.const_set 'StringMax', 0
     end
 
+    def self.get_compound_document_content (config, cdm_coll, document)
+
+      # Instrumentation
+      doc_times = Array.new()
+      page_times = Array.new()
+      doc_number = 0
+
+      # If collection's document content is to be harvested
+      if (cdm_coll == 'p245801coll12')
+        xml_doc = Nokogiri::HTML(document)
+        pointers = xml_doc.xpath("//record/contentdm_number")
+
+        # For each compound object
+        pointers.each do |p|
+
+          # Instrumentation
+          doc_begin_time = Time.now
+
+          compound_document_content = ''
+          cdm_num = p.text
+          # Get all of its nums
+          api_path = "#{config['cdm_server']}/dmwebservices/index.php?q=dmGetCompoundObjectInfo/#{cdm_coll}/#{cdm_num}/xml"
+          xml = Nokogiri::XML(open(api_path))
+
+          # Get document content
+          pageptrs = xml.xpath("//pageptr")
+
+          # Instrumentation
+          page_count = 0
+
+          pageptrs.each do |pageptr|
+            # For each pointer
+            #api_path="#{config['cdm_server']}/dmwebservices/index.php?q=dmItemHasOCRText/#{cdm_coll}/#{pageptr.text}/xml"
+            #xml_ItemHasOCRText = Nokogiri::XML(open(api_path))
+            #itemHasOCRText = xml_ItemHasOCRText.xpath("//hasOCR").text.to_i;
+            #if itemHasOCRText
+              print "."
+              api_path="#{config['cdm_server']}/dmwebservices/index.php?q=dmGetItemInfo/#{cdm_coll}/#{pageptr.text}/xml"
+              xml_ItemInfo = Nokogiri::XML(open(api_path))
+              document_content = xml_ItemInfo.xpath('//docume')
+              document_content.each do |content|
+                compound_document_content << content.text + " "
+              end
+            #end
+            # Instrumentation
+            page_count += 1
+          end
+          # Instrumentation
+          doc_end_time = Time.now
+          doc_times << (doc_end_time - doc_begin_time)
+          page_times << ((doc_times[doc_number] * 1000.0) / page_count)
+          puts
+          puts "Doc #{doc_number}\nTime: #{doc_times[doc_number]} seconds\nPage count: #{page_count}\nAverage time per page: #{page_times[doc_number]} milliseconds"
+          doc_number += 1
+
+          print "#"
+
+        end
+      end
+    end
+
     def self.download(config, coll=nil)
       # coll is the collection to import
       # If coll is nil, then import all the available collections
@@ -53,6 +114,7 @@ module CDMUtils
           puts "xmlFilePath #{xmlFilePath}"
           source_url = open(dl_url, :http_basic_authentication=>[user, password])
           file = File.read source_url
+          file = get_compound_document_content(config, new_coll[1..-1], file)
           File.open(Rails.root + xmlFilePath, 'w') { |f| f.write(file) }	
           puts "Successfully harvested #{new_coll}"
           harvested_count += 1
