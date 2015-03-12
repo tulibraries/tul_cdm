@@ -37,67 +37,65 @@ module CDMUtils
     def self.get_compound_document_content (config, cdm_coll, document)
 
       # Instrumentation
-      doc_times = Array.new()
-      page_times = Array.new()
-      doc_number = 0
+      compound_document_number = 0
 
-      # If collection's document content is to be harvested
-      if (cdm_coll == 'p245801coll12')
-        xml_doc = Nokogiri::HTML(document)
-        pointers = xml_doc.xpath("//record/contentdm_number")
+      # Get the CDM pointer to the compound object
+      xml_doc = Nokogiri::XML(document)
+      compound_object_xpath = "//record[CONTENTdm_file_name[contains(text(), '.cpd')]]"
+      compound_object_xpath << "[position() <= 1]" if Rails.env.test? # Limit test scope
+      compound_object_xpath << "/CONTENTdm_number"
+      pointers = xml_doc.xpath(compound_object_xpath)
 
-        # For each compound object
-        pointers.each do |p|
+      # For each compound object
+      pointers.each do |item_ptr|
+        cdm_num = item_ptr.text
 
-          # Instrumentation
-          doc_begin_time = Time.now
+        # Initialize the OCR text buffer
+        compound_document_content = ''
 
-          compound_document_content = ''
-          cdm_num = p.text
-          # Get all of its nums
-          api_path = "#{config['cdm_server']}/dmwebservices/index.php?q=dmGetCompoundObjectInfo/#{cdm_coll}/#{cdm_num}/xml"
-          xml = Nokogiri::XML(open(api_path))
+        # Get the pointers to all of the pages of the compound object
+        api_path = "#{config['cdm_server']}/dmwebservices/index.php?q=dmGetCompoundObjectInfo/#{cdm_coll}/#{cdm_num}/xml"
+        compound_object_info_xml = Nokogiri::XML(open(api_path))
+        pageptrs = compound_object_info_xml.xpath("//pageptr")
 
-          # Get document content
-          pageptrs = xml.xpath("//pageptr")
+        # Instrumentation
+        page_count = 0
 
-          # Instrumentation
-          page_count = 0
-
-          pageptrs.each do |pageptr|
-            # For each pointer
-            #api_path="#{config['cdm_server']}/dmwebservices/index.php?q=dmItemHasOCRText/#{cdm_coll}/#{pageptr.text}/xml"
-            #xml_ItemHasOCRText = Nokogiri::XML(open(api_path))
-            #itemHasOCRText = xml_ItemHasOCRText.xpath("//hasOCR").text.to_i;
-            #if itemHasOCRText
-              print "."
-              api_path="#{config['cdm_server']}/dmwebservices/index.php?q=dmGetItemInfo/#{cdm_coll}/#{pageptr.text}/xml"
-              xml_ItemInfo = Nokogiri::XML(open(api_path))
-              document_content = xml_ItemInfo.xpath('//docume')
-              document_content.each do |content|
-                compound_document_content << content.text + " "
-              end
-            #end
-            # Instrumentation
-            page_count += 1
-          end
-          # Instrumentation
-          doc_end_time = Time.now
-          doc_times << (doc_end_time - doc_begin_time)
-          page_times << ((doc_times[doc_number] * 1000.0) / page_count)
-          puts
-          puts "Doc #{doc_number}\nTime: #{doc_times[doc_number]} seconds\nPage count: #{page_count}\nAverage time per page: #{page_times[doc_number]} milliseconds"
-          doc_number += 1
-
-          print "#"
+        pageptrs.each do |pageptr|
+          print "."
+          page_xpath = "//record[CONTENTdm_number[.='#{pageptr.text}']]"
+          xml_ItemInfo = xml_doc.xpath(page_xpath).first
+          document_content = xml_ItemInfo.xpath('Document_Content').text
+          compound_document_content << " " if compound_document_content.size > 0
+          compound_document_content << document_content if document_content.size > 0
+          
+          page_count += 1
+          break if page_count >= 12 and Rails.env.test?
 
         end
+
+        print "#"
+
+        # Get the path to the Document Content mode. We will put the compound ocr text here
+        ocr_xpath = "//record[CONTENTdm_number[.='#{cdm_num}']]/Document_Content"
+        ocr_xml = xml_doc.at_xpath(ocr_xpath)
+        ocr_xml.content = compound_document_content
+
+        # Show progress
+        compound_document_number += 1
+        puts "\nProcessed compound document #{compound_document_number} of #{pointers.count}" unless Rails.env.test?
+        break if compound_document_number >= 10 and Rails.env.test?  # Limit test scope
+
       end
+
+      xml_compound_document = xml_doc.xpath("//record[CONTENTdm_file_name[contains(text(), '.cpd')]]")
+      "<manifest>" + xml_compound_document.to_xml + "</manifest>"
     end
 
     def self.download(config, coll=nil)
       # coll is the collection to import
       # If coll is nil, then import all the available collections
+      ocr_compound_collections = ['p245801coll12']
       user = config['cdm_user']
       password = config['cdm_password']
       cdm_url = "#{config['cdm_server']}/dmwebservices/index.php?q=dmGetCollectionList/xml"
@@ -111,12 +109,13 @@ module CDMUtils
         if coll.nil? or new_coll.eql?(test_coll)
           dl_url = config['cdm_server']+"/cgi-bin/admin/getfile.exe?CISOMODE=1&CISOFILE="+new_coll+"/index/description/export.xml"
           xmlFilePath = "#{config['cdm_download_dir']}" + new_coll + ".xml"
-          puts "xmlFilePath #{xmlFilePath}"
           source_url = open(dl_url, :http_basic_authentication=>[user, password])
           file = File.read source_url
-          file = get_compound_document_content(config, new_coll[1..-1], file)
+          if (ocr_compound_collections.include? coll)
+            file = get_compound_document_content(config, new_coll[1..-1], file)
+          end
           File.open(Rails.root + xmlFilePath, 'w') { |f| f.write(file) }	
-          puts "Successfully harvested #{new_coll}"
+          puts "\nSuccessfully harvested #{new_coll}" unless Rails.env.test?
           harvested_count += 1
         end
       end 
@@ -212,7 +211,9 @@ module CDMUtils
         
         #periodical
         when 'p15037coll4', 'p15037coll9', 'p15037coll6', 'p16002coll8', 'p245801coll12'
-          `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_periodical.xsl #{file_name}`
+          puts "xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_periodical.xsl #{file_name}"
+          #`xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_periodical.xsl #{file_name}`
+          exec "xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_periodical.xsl #{file_name}"
         
         #poster
         when 'p16002coll9'
