@@ -43,6 +43,7 @@ module CDMUtils
       xml_doc = Nokogiri::XML(document)
       compound_object_xpath = "//record[CONTENTdm_file_name[contains(text(), '.cpd')]]"
       compound_object_xpath << "[position() <= 1]" if Rails.env.test? # Limit test scope
+      compound_object_xpath << "[position() <= 6]" if Rails.env.development? # Limit development scope
       compound_object_xpath << "/CONTENTdm_number"
       pointers = xml_doc.xpath(compound_object_xpath)
 
@@ -89,7 +90,7 @@ module CDMUtils
       end
 
       xml_compound_document = xml_doc.xpath("//record[CONTENTdm_file_name[contains(text(), '.cpd')]]")
-      "<manifest>" + xml_compound_document.to_xml + "</manifest>"
+      "<metadata>" + xml_compound_document.to_xml + "</metadata>"
     end
 
     def self.download(config, coll=nil)
@@ -211,9 +212,7 @@ module CDMUtils
         
         #periodical
         when 'p15037coll4', 'p15037coll9', 'p15037coll6', 'p16002coll8', 'p245801coll12'
-          puts "xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_periodical.xsl #{file_name}"
-          #`xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_periodical.xsl #{file_name}`
-          exec "xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_periodical.xsl #{file_name}"
+          `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_periodical.xsl #{file_name}`
         
         #poster
         when 'p16002coll9'
@@ -246,7 +245,7 @@ module CDMUtils
       puts "XSLT transformation complete for #{fname}".green
 
       # Delete the source XML file
-      File.delete(file_name)
+      #File.delete(file_name)
     end
   end
 
