@@ -65,6 +65,24 @@ collections = [
     END
   },
   {
+  collection_alias: 'p245801coll12',
+  name:             'Temple University Yearbooks',
+  thumbnail_url:    'http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/templar65_dtl.jpg',
+  image_url:        'http://digital.library.temple.edu/ui/custom/default/collection/coll_p245801coll12/images/Yearbook_widescreen_3.jpg',
+  priority:         91,
+  description:      <<-END.gsub(/^ {6}/, '')
+      <p><span>Temple University has digitized&nbsp;a majority of its yearbooks, including the <em>Templar</em>, its general yearbook, as well as books from its allied health, dental, medical, nursing, podiatry&nbsp;and pharmacy schools. Some professional schools, such as Nursing, Podiatry, and Medicine, had their own pages in the <em>Templar</em> into the 1920s before starting their own yearbooks.</span></p>
+      <p><span>Both the <em>Templar</em> and the medical school yearbook, <em>The Skull</em>, have enjoyed consistent publication and titling from their inception through to their present editions. Other professional school books have appeared less frequently and feature a wide array of titles. They are</span></p>
+      <ul>
+        <li>Allied Health: <em>Plexus</em></li>
+        <li>Dentistry: <em>The Dental Log</em>, <em>The Dent-Owl</em>, <em>The Dental Ray</em>, <em>The Diamond</em>, <em>The Gateway</em>, <em>The Handpiece</em>, <em>Odontolog, Impressions,</em> and <em>The Record</em></li>
+        <li>Nursing: <em>Cross-Bones</em>, <em>Promethean</em>, <em>Promethian</em>, and <em>Reveille</em></li>
+        <li>Podiatry: <em>Tempodian</em>, <em>Templodian</em>, and <em>Achilles</em></li>
+        <li>Pharmacy: <em>The Alembic</em>, <em>Apothecan</em>, <em>Arrex</em>, <em>Asclepian</em>, <em>The Pharmacopian</em>, <em>Pharmacy</em>, <em>Secundum Artem</em> and <em>The Show Globe</em></li>
+      </ul>
+  END
+  },
+  {
   collection_alias: 'p16002coll1',
   name:             'SCRC Audio',
   priority:         112,
@@ -82,7 +100,7 @@ collections = [
   name:             'SCRC Film and Video',
   priority:         131,
   description:      <<-END.gsub(/^ {6}/, '')
-    <p class="cdm_style" style="margin-top: 10px;">The SCRC Film and Video digital collection contains video files from holdings in the Special Collections Research Center (SCRC). Some of the objects in this collection are better contextualized in the following featured collection(s):</p>
+    <p>The SCRC Film and Video digital collection contains video files from holdings in the Special Collections Research Center (SCRC). Some of the objects in this collection are better contextualized in the following featured collection(s):</p>
     <ul>
       <li>
         <div class="cdm_style" style="margin-top: 10px;"><a href="http://northerncity.library.temple.edu/"> Civil Rights in a Northern City: Philadelphia</a></div>
