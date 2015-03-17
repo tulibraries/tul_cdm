@@ -6,6 +6,7 @@ describe 'List CONTENTdm collections' do
   let (:collection_name) { "p16002coll9" }
   let (:collection_title) { "Allied Posters of World War I" }
   let (:private_collection_name) { "p16002coll11" }
+  let (:yearbook_collection_name) { "p245801coll12" }
   let (:cdm_data_root) { "#{Rails.root}/spec/fixtures/fedora/cdm" }
   let (:schema_url) { "http://www.fedora.info/definitions/1/0/foxml1-1.xsd" }
   let (:download_directory) { config['cdm_download_dir'] }
@@ -35,23 +36,43 @@ describe 'List CONTENTdm collections' do
     it "should download a single collection" do
       VCR.use_cassette "cdm-util-download/should_harvest_a_single_ContentDM_file" do
         downloaded = CDMUtils.download_one_collection(config, collection_name)
-        file_count = Dir[File.join(download_directory, '*.xml')].count { |file| File.file?(file) }
-        expect(file_count).to eq(1)
-        file = File.join(download_directory, collection_name + '.xml')
-        doc = Nokogiri::XML(File.read(file))
-        # Tests for both metadata and attempted access to private collection
-        expect(['metadata', 'getfile']).to include doc.child.name
       end
+      file_count = Dir[File.join(download_directory, '*.xml')].count { |file| File.file?(file) }
+      expect(file_count).to eq(1)
+      file = File.join(download_directory, collection_name + '.xml')
+      doc = Nokogiri::XML(File.read(file))
+      # Tests for both metadata and attempted access to private collection
+      expect(['metadata', 'getfile']).to include doc.child.name
     end
 
     it "should not download a private collection" do
       VCR.use_cassette "cdm-util-download/should_not_harvest_a_private_ContentDM_file" do
-        downloaded = CDMUtils.download_one_collection(config, private_collection_name)
-        expect(downloaded).to eq(0)
+        @downloaded = CDMUtils.download_one_collection(config, private_collection_name)
+      end
+      expect(@downloaded).to eq(0)
+      file_count = Dir[File.join(download_directory, '*.xml')].count { |file| File.file?(file) }
+      expect(file_count).to eq(0)
+    end
+
+    context "OCR Text" do
+
+      let (:ocr_text_tag) { "Document_Content" }
+      let (:ocr_text_xpath) { "//Document_Content" }
+      let (:match_text) { /TEMPLE UNIVERSITY  School of Law  1967/ }
+
+      it "should harvest yearbook document content" do
+        VCR.use_cassette "cdm-util-download/should_harvest_yearbook_document_content" do
+          downloaded = CDMUtils.download_one_collection(config, yearbook_collection_name)
+        end
         file_count = Dir[File.join(download_directory, '*.xml')].count { |file| File.file?(file) }
-        expect(file_count).to eq(0)
+        file = File.join(download_directory, yearbook_collection_name + '.xml')
+        doc = Nokogiri::XML(File.read(file))
+        # Tests for both metadata and attempted access to private collection
+        expect(doc).to have_tag(ocr_text_tag)
+        expect(doc.xpath(ocr_text_xpath).text).to match(match_text)
       end
     end
+
   end
 
   describe 'convert' do

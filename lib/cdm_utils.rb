@@ -34,9 +34,69 @@ module CDMUtils
       OpenURI::Buffer.const_set 'StringMax', 0
     end
 
+    def self.get_compound_document_content (config, cdm_coll, document)
+
+      # Instrumentation
+      compound_document_number = 0
+
+      # Get the CDM pointer to the compound object
+      xml_doc = Nokogiri::XML(document)
+      compound_object_xpath = "//record[CONTENTdm_file_name[contains(text(), '.cpd')]]"
+      compound_object_xpath << "[position() <= 1]" if Rails.env.test? # Limit test scope
+      compound_object_xpath << "[position() <= 6]" if Rails.env.development? # Limit development scope
+      compound_object_xpath << "/CONTENTdm_number"
+      pointers = xml_doc.xpath(compound_object_xpath)
+
+      # For each compound object
+      pointers.each do |item_ptr|
+        cdm_num = item_ptr.text
+
+        # Initialize the OCR text buffer
+        compound_document_content = ''
+
+        # Get the pointers to all of the pages of the compound object
+        api_path = "#{config['cdm_server']}/dmwebservices/index.php?q=dmGetCompoundObjectInfo/#{cdm_coll}/#{cdm_num}/xml"
+        compound_object_info_xml = Nokogiri::XML(open(api_path))
+        pageptrs = compound_object_info_xml.xpath("//pageptr")
+
+        # Instrumentation
+        page_count = 0
+
+        pageptrs.each do |pageptr|
+          print "."
+          page_xpath = "//record[CONTENTdm_number[.='#{pageptr.text}']]"
+          xml_ItemInfo = xml_doc.xpath(page_xpath).first
+          document_content = xml_ItemInfo.xpath('Document_Content').text
+          compound_document_content << " " if compound_document_content.size > 0
+          compound_document_content << document_content if document_content.size > 0
+          
+          page_count += 1
+          break if page_count >= 12 and Rails.env.test?
+
+        end
+
+        print "#"
+
+        # Get the path to the Document Content mode. We will put the compound ocr text here
+        ocr_xpath = "//record[CONTENTdm_number[.='#{cdm_num}']]/Document_Content"
+        ocr_xml = xml_doc.at_xpath(ocr_xpath)
+        ocr_xml.content = compound_document_content
+
+        # Show progress
+        compound_document_number += 1
+        puts "\nProcessed compound document #{compound_document_number} of #{pointers.count}" unless Rails.env.test?
+        break if compound_document_number >= 10 and Rails.env.test?  # Limit test scope
+
+      end
+
+      xml_compound_document = xml_doc.xpath("//record[CONTENTdm_file_name[contains(text(), '.cpd')]]")
+      "<metadata>" + xml_compound_document.to_xml + "</metadata>"
+    end
+
     def self.download(config, coll=nil)
       # coll is the collection to import
       # If coll is nil, then import all the available collections
+      ocr_compound_collections = ['p245801coll12']
       user = config['cdm_user']
       password = config['cdm_password']
       cdm_url = "#{config['cdm_server']}/dmwebservices/index.php?q=dmGetCollectionList/xml"
@@ -50,11 +110,13 @@ module CDMUtils
         if coll.nil? or new_coll.eql?(test_coll)
           dl_url = config['cdm_server']+"/cgi-bin/admin/getfile.exe?CISOMODE=1&CISOFILE="+new_coll+"/index/description/export.xml"
           xmlFilePath = "#{config['cdm_download_dir']}" + new_coll + ".xml"
-          puts "xmlFilePath #{xmlFilePath}"
           source_url = open(dl_url, :http_basic_authentication=>[user, password])
           file = File.read source_url
+          if (ocr_compound_collections.include? coll)
+            file = get_compound_document_content(config, new_coll[1..-1], file)
+          end
           File.open(Rails.root + xmlFilePath, 'w') { |f| f.write(file) }	
-          puts "Successfully harvested #{new_coll}"
+          puts "\nSuccessfully harvested #{new_coll}" unless Rails.env.test?
           harvested_count += 1
         end
       end 
@@ -183,7 +245,7 @@ module CDMUtils
       puts "XSLT transformation complete for #{fname}".green
 
       # Delete the source XML file
-      File.delete(file_name)
+      #File.delete(file_name)
     end
   end
 
