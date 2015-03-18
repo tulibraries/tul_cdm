@@ -247,10 +247,13 @@ module TulCdmHelper
       xml = Nokogiri::XML(open(api_path))
       compound_type = xml.xpath("/cpd/type/text()").to_s
       pamphlets_xpath="/cpd/node/page"
+      periodical_xpath="/cpd/node/node/page"
       default_xpath, manuscripts_xpath="/cpd/page"
       case model
         when 'Pamphlet'
           xpath_var = pamphlets_xpath
+        when 'Periodical'
+          xpath_var = periodical_xpath
         else
           xpath_var = default_xpath
       end

@@ -90,7 +90,8 @@ module CDMUtils
       end
 
       xml_compound_document = xml_doc.xpath("//record[CONTENTdm_file_name[contains(text(), '.cpd')]]")
-      "<metadata>" + xml_compound_document.to_xml + "</metadata>"
+      xml_text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<metadata>\n  " + xml_compound_document.to_xml + "\n</metadata>"
+      xml_text.gsub("</record><record>", "</record>\n  <record>")
     end
 
     def self.download(config, coll=nil)
