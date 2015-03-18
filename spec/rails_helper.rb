@@ -47,4 +47,10 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
+
+  VCR.configure do |c|
+    # Don't record transactions with local Jetty and rails servers
+    c.ignore_localhost = true
+  end
+
 end
