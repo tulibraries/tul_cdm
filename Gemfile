@@ -58,4 +58,5 @@ group :development, :test do
   gem "byebug"
   gem "pry-rails"
   gem "foreman"
+  gem "guard-rspec"
 end
