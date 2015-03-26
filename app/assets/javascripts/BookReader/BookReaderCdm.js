@@ -114,7 +114,6 @@ br.initToolbar = function(mode, ui) {
         //+     "<button class='BRicon info'></button>"
         //+     "<button class='BRicon share'></button>"
         //+     readIcon
-        +     "<button class='BRicon full'></button>"
         +   "</span>"
         +   "<span><a class='logo' href='" + this.logoURL + "'></a></span>"
         +   "<span id='BRreturn'><a></a></span>"
@@ -133,22 +132,6 @@ br.initToolbar = function(mode, ui) {
         + "</div>"
         */
         );
-
-    var jIcons = $('.BRicon');
-    jIcons.filter('.full').bind('click', function(e) {
-      if ( $('#BookReader').parent().get(0).tagName == 'BODY') {
-        $('#wrapper').css('display', 'block');
-        $('#BRcontainer').height("640px");
-        $('#BookReader').appendTo('.cpd-thumb');
-      } else {
-        br_container_height = $(window).height() - $('#BRtoolbar').height() - $('#BRnav').height();
-        $('#wrapper').css('display', 'none');
-        $('#wrapper').before($('#BookReader'));
-        $('#BRcontainer').height(br_container_height);
-        $('#BookReader').height("auto");
-      }
-      br.prepareView(br.mode);
-    });
 
     // Browser hack - bug with colorbox on iOS 3 see https://bugs.launchpad.net/bookreader/+bug/686220
     if ( navigator.userAgent.match(/ipad/i) && $.browser.webkit && (parseInt($.browser.version, 10) <= 531) ) {
@@ -219,6 +202,7 @@ br.initNavbar = function() {
         +         '<button class="BRicon zoom_in"></button>'
         +         '<button class="BRicon zoom_out"></button>'
         +         '<button class="BRicon fit"></button>'
+        +         '<button class="BRicon full"></button>'
         +         '<button class="BRicon book_left"></button>'
         +         '<button class="BRicon book_right"></button>'
         +     '</div>'
@@ -267,8 +251,24 @@ br.initNavbar = function() {
     );
 
     var jIcons = $('.BRicon');
+
     jIcons.filter('.fit').bind('click', function(e) {
       br.fitToPage1up();
+    });
+
+    jIcons.filter('.full').bind('click', function(e) {
+      if ( $('#BookReader').parent().get(0).tagName == 'BODY') {
+        $('#wrapper').css('display', 'block');
+        $('#BRcontainer').height("640px");
+        $('#BookReader').appendTo('.cpd-thumb');
+      } else {
+        br_container_height = $(window).height() - $('#BRtoolbar').height() - $('#BRnav').height();
+        $('#wrapper').css('display', 'none');
+        $('#wrapper').before($('#BookReader'));
+        $('#BRcontainer').height(br_container_height);
+        $('#BookReader').height("auto");
+      }
+      br.prepareView(br.mode);
     });
 
 
