@@ -1,3 +1,39 @@
 // Place all the styles related to the DigitalCollections controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+/* Digital Collection index */
+#digital_collection-index .collection-thumbnail {
+  display: block;
+}
+
+#digital_collection-index .collection-item {
+  padding: 10px 0px;
+}
+
+#digital_collection-index .collection-name {
+  padding: 10px 0px;
+}
+
+#digital_collection-index .admin {
+  display: none;
+}
+
+/* Digital Collection landing page */
+
+#digital_collection-show .collection-alias, .collection-thumbnail, .collection-path {
+  display: none;
+}
+
+#digital_collection-show .collection-image {
+  display: block;
+  padding: 10px 0px 20px;
+}
+
+#digital_collection-show .collection-text {
+  padding: 20px;
+}
+
+#digital_collection-show .admin {
+  display: none;
+}

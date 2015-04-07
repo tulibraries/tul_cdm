@@ -1,3 +1,4 @@
+@import "base/globals.scss";
 @import "base/colors.scss";
 @import "base/mixins.scss";
 
@@ -13,7 +14,7 @@ a:active, a:hover{
 }
 
 
-#sidebar-righ{
+#sidebar-right{
  float: right;
  width: 200px;
 }
@@ -92,95 +93,4 @@ a:active, a:hover{
     background-image: linear-gradient(to bottom, rgb(158,27,52), rgb(102,0,51));
     background-repeat: repeat-x;
     border-color: #420606;
-}
-
-
-/*****
-*
-* Move to Main.css 
-*
-*****/
-
-h1, h2, h3, h4, h5, h6{
-  font-weight: bold;
-}
-
-h1{
-  font-size: 18px;
-}
-
-h2{
-  font-size: 16px;
-}
-
-h3{
-  font-size: 14px;
-}
-
-h4{
-  font-size: 12px;
-}
-
-h5{
-  font-size: 10px;
-}
-
-h6{
-  font-size: 8px;
-}
-
-/* Header */
-#header-title h1{
-  font-size: 24px;
-  font-weight: normal;
-}
-
-#header-title{
-  clear:both;
-}
-
-#download-link {
-  text-align: right;
-}
-
-/* Digital Collection index */
-#digital_collection-index .collection-thumbnail {
-  display: block;
-}
-
-#digital_collection-index .collection-item {
-  padding: 10px 0px;
-}
-
-#digital_collection-index .collection-name {
-  padding: 10px 0px;
-}
-
-#digital_collection-index .admin {
-  display: none;
-}
-
-/* Digital Collection landing page */
-
-#digital_collection-show .collection-alias, .collection-thumbnail, .collection-path {
-  display: none;
-}
-
-#digital_collection-show .collection-image {
-  display: block;
-  padding: 10px 0px 20px;
-}
-
-#digital_collection-show .collection-text {
-  padding: 20px;
-}
-
-#digital_collection-show .admin {
-  display: none;
-}
-
-#document-content-viewer {
-  width: 980px;
-  height: 150px;
-  margin-top: 20px;
 }

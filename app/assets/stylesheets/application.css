@@ -13,7 +13,7 @@
  *= require_tree .
  *= require_self
  *= require BookReader/BookReader.css
- *= require temple-dl
+ *= require tul_cdm
  
  *= require 'blacklight_advanced_search'
 
