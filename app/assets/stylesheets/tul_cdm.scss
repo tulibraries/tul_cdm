@@ -2,70 +2,61 @@
 @import "base/colors.scss";
 @import "base/mixins.scss";
 
-a, a:visited{
- color: #000000;
- text-decoration: none;
+/******
+*
+* Header
+*
+******/
+
+#header-title h1{
+  color: $temple-white;
+  font-size: 24px;
+  font-weight: normal;
 }
 
-a:active, a:hover{
- color: #ad5c2a; 
- text-decoration:underline;
- background-color: #FFFFFF;
+#header-title{
+  clear:both;
 }
 
+#header-title h1 a{
+  color: $temple-white;
+}
+
+/******
+*
+* Sidebar
+*
+******/
 
 #sidebar-right{
  float: right;
  width: 200px;
 }
 
-.hidden{
-  visibility:hidden;
+/******
+*
+* Footer
+*
+******/
+
+@include sticky-footer(100px);
+
+html,body,#wrapper,#main-wrapper,#footer {
+  width:100%;
 }
 
-.cpd-thumb{
-  width: 980px;
-  padding-bottom: 20px
+#footer{
+  background-color: $temple-footer-bottom;
+  min-height: 70px;
+  margin-top: 100px;
 }
 
-.cpd-thumb .thumb-single{
-  text-align:center;
-}
-
-#document-pdf {
-  width:  100%;
-  height: 800px;
-  clear: both;
-  margin-left: 0px;
-  margin-right: auto;
-
-  p {
-      padding: 1em;
-  }
-
-  object {
-      display: block;
-      border: solid 1px $temple-black;
-  }
-}
-
-.video-player{
-  width: 640px;
-  padding-bottom: 20px
-}
-
-.audio-player{
-  height: 70px;
-  padding-bottom: 20px;
-
-  iframe {
-    width: 366px;
-  }
-}
-
-.sort-by-facets .a-z{
-  float: right;
-  margin-right: 10px;
+#footer-runner{
+  background-color: $temple-footer-inner;
+  border-top: 10px solid $temple-footer-gutters;
+  border-bottom: 10px solid $temple-footer-gutters;
+  color: $temple-white;
+  padding: 10px;
 }
 
 /******
@@ -89,8 +80,13 @@ a:active, a:hover{
 .btn-primary {
     color: white;
     text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-    background-color: rgb(0, 108, 204);
-    background-image: linear-gradient(to bottom, rgb(158,27,52), rgb(102,0,51));
+    background-color: $temple-cherry;
+    background-image: linear-gradient(to bottom, $temple-cherry, $temple-dark-cherry);
     background-repeat: repeat-x;
-    border-color: #420606;
+    border-color: $temple-dark-grey;
+}
+
+.sort-by-facets .a-z{
+  float: right;
+  margin-right: 10px;
 }
