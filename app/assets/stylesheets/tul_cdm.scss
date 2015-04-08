@@ -1,0 +1,96 @@
+@import "base/globals.scss";
+@import "base/colors.scss";
+@import "base/mixins.scss";
+
+/******
+*
+* Header
+*
+******/
+
+#header-title h1{
+  color: $temple-white;
+  font-size: 24px;
+  font-weight: normal;
+}
+
+#header-title{
+  clear:both;
+}
+
+#header-title h1 a{
+  color: $temple-white;
+}
+
+/******
+*
+* Sidebar
+*
+******/
+
+#sidebar-right{
+ float: right;
+ width: 200px;
+}
+
+/******
+*
+* Footer
+*
+******/
+
+@include sticky-footer(100px);
+
+html,body,#wrapper,#main-wrapper,#footer {
+  width:100%;
+}
+
+#footer{
+  background-color: $temple-footer-bottom;
+  min-height: 70px;
+  margin-top: 100px;
+}
+
+#footer-runner{
+  background-color: $temple-footer-inner;
+  border-top: 10px solid $temple-footer-gutters;
+  border-bottom: 10px solid $temple-footer-gutters;
+  color: $temple-white;
+  padding: 10px;
+}
+
+/******
+*
+* Overriding Blacklight styles as needed
+*
+******/
+
+#header-navbar .navbar-brand {
+  width: 250px;
+  height: 60px;
+  margin-top: 10px;
+  background: transparent url(/assets/logo.png) no-repeat top left;
+}
+
+.documentHeader {
+  padding: 0px;
+  margin:0px;
+}
+
+.btn-primary {
+    color: white;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+    background-color: $temple-cherry;
+    background-image: linear-gradient(to bottom, $temple-cherry, $temple-dark-cherry);
+    background-repeat: repeat-x;
+    border-color: $temple-dark-grey;
+}
+
+.sort-by-facets .a-z{
+  float: right;
+  margin-right: 10px;
+}
+
+#search-navbar #q {
+  width: 350px;
+}
