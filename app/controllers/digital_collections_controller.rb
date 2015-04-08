@@ -3,6 +3,7 @@ class DigitalCollectionsController < ApplicationController
   before_action :set_digital_collection, only: [:show, :edit, :update, :destroy]
 
   def index
+    @host = "http://#{request.env["HTTP_HOST"]}/digital_collections"
     @digital_collections = DigitalCollection.all
     respond_with(@digital_collections)
   end

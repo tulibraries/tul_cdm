@@ -10,6 +10,10 @@
 
 #digital_collection-index .collection-thumbnail {
   display: block;
+  text-align: center;
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #digital_collection-index .collection-item {
@@ -18,10 +22,15 @@
 
 #digital_collection-index .collection-name {
   padding: 10px 0px;
+  display: block;
 }
 
 #digital_collection-index .admin {
   display: none;
+}
+
+.collection-default-thumb{
+	font-size: 100px;
 }
 
 /******
