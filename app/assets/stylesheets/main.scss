@@ -1,0 +1,97 @@
+@import "base/globals.scss";
+@import "base/colors.scss";
+@import "base/mixins.scss";
+
+body{
+  background-color: $background;
+  color: $temple-black;
+  font-family: $font-stack;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+/******
+*
+* Links
+*
+******/
+
+a, a:visited{
+ color: $text-black;
+ text-decoration: none;
+}
+
+a:active, a:hover{
+ color: $temple-orange; 
+ text-decoration:underline;
+}
+
+/******
+*
+* Headings
+*
+******/
+
+h1, h2, h3, h4, h5, h6{
+  font-weight: bold;
+  color: $temple-cherry;
+  font-family: $font-headers;
+}
+
+h1{
+  font-size: 20px;
+}
+
+h2{
+  font-size: 18px;
+}
+
+h3{
+  font-size: 16px;
+}
+
+h4{
+  font-size: 14px;
+}
+
+h5{
+  font-size: 12px;
+}
+
+h6{
+  font-size: 10px;
+}
+
+/******
+*
+* Content
+*
+******/
+
+p, ol, ul, td {
+  font-family: $font-stack;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+pre {
+  background-color: $pre;
+  padding: 10px;
+  font-size: 11px;
+}
+
+div {
+  &.field, &.actions {
+    margin-bottom: 10px;
+  }
+}
+
+li{
+  color: $temple-cherry;
+  span, dd{
+    color: $text-black;
+  }
+}
+
+
+

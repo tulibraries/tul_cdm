@@ -1,57 +1,29 @@
-body {
-  background-color: #fff;
-  color: #333;
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px;
-  line-height: 18px;
-}
+@import "base/globals.scss";
+@import "base/colors.scss";
 
-p, ol, ul, td {
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px;
-  line-height: 18px;
-}
-
-pre {
-  background-color: #eee;
-  padding: 10px;
-  font-size: 11px;
-}
-
-a {
-  color: #000;
-  &:visited {
-    color: #666;
-  }
-  &:hover {
-    color: #fff;
-    background-color: #000;
-  }
-}
-
-div {
-  &.field, &.actions {
-    margin-bottom: 10px;
-  }
-}
+/******
+*
+* Notices and Error Reporting
+*
+******/
 
 #notice {
-  color: green;
+  color: $success;
 }
 
 .field_with_errors {
   padding: 2px;
-  background-color: red;
+  background-color: $error;
   display: table;
 }
 
 #error_explanation {
   width: 450px;
-  border: 2px solid red;
+  border: 2px solid $error;
   padding: 7px;
   padding-bottom: 0;
   margin-bottom: 20px;
-  background-color: #f0f0f0;
+  background-color: $error-background;
   h2 {
     text-align: left;
     font-weight: bold;
@@ -59,11 +31,69 @@ div {
     font-size: 12px;
     margin: -7px;
     margin-bottom: 0px;
-    background-color: #c00;
-    color: #fff;
+    color: $text-white;
   }
   ul li {
     font-size: 12px;
     list-style: square;
   }
 }
+
+/******
+*
+* Compound Objects
+*
+******/
+
+.cpd-thumb{
+  width: 980px;
+  padding-bottom: 20px
+}
+
+.cpd-thumb .thumb-single{
+  text-align:center;
+}
+
+/******
+*
+* PDFs
+*
+******/
+
+#document-pdf {
+  width:  100%;
+  height: 800px;
+  clear: both;
+  margin-left: 0px;
+  margin-right: auto;
+
+  p {
+      padding: 1em;
+  }
+
+  object {
+      display: block;
+      border: solid 1px $temple-black;
+  }
+}
+
+/******
+*
+* Audio and Video
+*
+******/
+
+.video-player{
+  width: 640px;
+  padding-bottom: 20px
+}
+
+.audio-player{
+  height: 70px;
+  padding-bottom: 20px;
+
+  iframe {
+    width: 366px;
+  }
+}
+
