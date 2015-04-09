@@ -1,6 +1,4 @@
-// Place all the styles related to the DigitalCollections controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "base/colors.scss";
 
 /******
 *
@@ -32,6 +30,24 @@
 .collection-default-thumb{
 	font-size: 100px;
 }
+
+.collection-thumbnail a span{
+	color: $temple-lavendar-grey;
+}
+
+.collection-thumbnail a:hover span{
+	color: $temple-orange;
+}
+
+.collection-thumbnail img:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    left: 0;
+    background: rgba(248, 247, 216, 0.7);
+  }
 
 /******
 *
