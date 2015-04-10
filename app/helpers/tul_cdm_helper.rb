@@ -211,9 +211,6 @@ module TulCdmHelper
       # Get document content
       pageptrs = xml.xpath("#{xpath_var}/pageptr/text()")
       pageptrs.each do |pageptr|
-        api_path="#{content_server}/dmwebservices/index.php?q=dmItemHasOCRText/#{cdm_coll}/#{pageptr.to_s}/xml"
-        xml_ItemHasOCRText = Nokogiri::XML(open(api_path))
-        itemHasOCRText = xml_ItemHasOCRText.xpath("//hasOCR").text.to_i;
         api_path="#{content_server}/dmwebservices/index.php?q=dmGetItemInfo/#{cdm_coll}/#{pageptr.to_s}/xml"
         xml_ItemInfo = Nokogiri::XML(open(api_path))
         document_content = xml_ItemInfo.xpath('//docume')
