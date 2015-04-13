@@ -5,6 +5,8 @@ class CreateDigitalCollections < ActiveRecord::Migration
       t.string :name
       t.string :thumbnail_url
       t.text :description
+      t.boolean :is_private
+      t.string :allowed_ip_addresses
 
       t.timestamps
     end
