@@ -20,3 +20,4 @@ config/contentdm.yml
 *.swp
 /jetty
 /spec/fixtures/vcr_cassettes/
+/public/sitemap.xml.gz

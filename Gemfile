@@ -46,6 +46,8 @@ gem "devise"
 gem "devise-guests", "~> 0.3"
 gem "colorize"
 gem "blacklight_advanced_search"
+gem "sitemap_generator"
+gem "whenever", :require => false
 
 group :test do
   gem "rspec-rails"
