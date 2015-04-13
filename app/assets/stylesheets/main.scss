@@ -1,13 +1,18 @@
 @import "base/globals.scss";
 @import "base/colors.scss";
 @import "base/mixins.scss";
+@import "compass";
 
 body{
-  background-color: $background;
   color: $temple-black;
   font-family: $font-stack;
   font-size: 13px;
   line-height: 18px;
+  background-color: $background; // Old browsers
+  @include filter-gradient($background, #7db9e8, vertical); // IE6-9
+  @include background-image(linear-gradient(top, $background 0%,$background 33%,$background 50%,$temple-light-grey 100%));
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 /******
