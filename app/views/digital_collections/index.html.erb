@@ -1,19 +1,25 @@
 <div class="container" id="digital_collection-index">
-  <h1>Digital Collections</h1>
-
-  <div class="digital-collection-list">
+  <h1>Explore Digital Collections</h1>
+  <div class="digital_collection-list">
     <% @digital_collections.order(:priority).each_slice(3) do |dig_cols| %>
       <div class="row">
         <% dig_cols.each do |digital_collection| %>
           <div class="collection-item col-md-3">
             <div class="collection-thumbnail">
+              <div class="collection-item-attributes digcoll-overlay digcoll-cherry">
+                <div class="digcoll-text">
+                  browse <%= "#{digital_collection.name}" %>
+                </div>
               <% if (digital_collection.thumbnail_url) %>
                 <%= link_to (image_tag (digital_collection.thumbnail_url)), digital_collection %>
                   <% else  %>
                   <a href="<%= "#{@host}/#{digital_collection.id}" %>"><span class="collection-default-thumb glyphicon glyphicon-th"></span></a>
               <% end %>
+          </div>
+            <div class="collection-internals">
               <span class="collection-name"><%= link_to digital_collection.name, digital_collection %></span>
             </div>
+          </div>
             <span class="admin">
               <%= link_to 'Show', digital_collection %> |
               <%= link_to 'Edit', edit_digital_collection_path(digital_collection) %> |

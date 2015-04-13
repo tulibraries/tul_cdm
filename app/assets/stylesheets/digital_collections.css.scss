@@ -1,4 +1,5 @@
 @import "base/colors.scss";
+@import "base/mixins.scss";
 
 /******
 *
@@ -6,16 +7,29 @@
 *
 ******/
 
+#digital_collection-index{
+  margin-left: auto;
+  margin-right: auto;
+  width:1200px;
+}
+
 #digital_collection-index .collection-thumbnail {
   display: block;
   text-align: center;
-  width: 200px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 #digital_collection-index .collection-item {
-  padding: 10px 0px;
+  padding: 5px 0px;
+}
+
+#digital_collection-index .collection-internals{
+	width: 120px;
+	background: none repeat scroll 0% 0% $temple-frost;
+	border: 1px solid $temple-light-blue;
+	height: 67px;
+	font-size: 10px;
+	color: $temple-light-blue;
+	@include rounded-corners-bottom;
 }
 
 #digital_collection-index .collection-name {
@@ -27,17 +41,21 @@
   display: none;
 }
 
+.digital_collection-list{
+  margin-left: auto;
+  margin-right: auto;
+  width:1000px;
+}
+
 .collection-default-thumb{
 	font-size: 100px;
+  background: $temple-frost;
+  padding-left:5px;
+  width:120px;
+  border: 1px solid $temple-light-blue;
+  @include rounded-corners-top;
 }
 
-.collection-thumbnail a span{
-	color: $temple-lavendar-grey;
-}
-
-.collection-thumbnail a:hover span{
-	color: $temple-orange;
-}
 
 .collection-thumbnail img:before {
     content: '';
@@ -46,14 +64,12 @@
     left: 0;
     right: 0;
     left: 0;
-    background: rgba(248, 247, 216, 0.7);
+    background: $temple-cherry;
   }
 
-/******
-*
-* Digital Collection Landing Page
-*
-******/
+.collection-item-attributes {
+	width:120px;
+}
 
 #digital_collection-show .collection-alias, .collection-thumbnail, .collection-path {
   display: none;
@@ -70,4 +86,45 @@
 
 #digital_collection-show .admin {
   display: none;
+}
+
+.digcoll-text{
+	display: none;
+	z-index: 10;
+	position: relative;
+	top: 10px;
+	color: #ffffff;
+	font-weight: bold;
+	text-align: left;
+	width: 100px;
+	height:0px;
+	padding-left: 5px;
+	pointer-events: none;
+}
+
+.digcoll-overlay{
+  position: relative;
+}
+
+.digcoll-cherry:after{
+	background:$temple-lavendar-grey;
+}
+
+.digcoll-overlay:after {
+  position: absolute;
+  content:"";
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  opacity:0;
+  pointer-events: none;
+}
+
+.digcoll-overlay:hover:after  {
+  opacity: .8;
+}
+
+.digcoll-overlay:hover .digcoll-text{
+	display: block;
 }
