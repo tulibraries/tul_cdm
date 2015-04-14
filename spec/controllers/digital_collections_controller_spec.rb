@@ -31,6 +31,14 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
    FactoryGirl.build(:invalid_digital_collection).attributes
   }
 
+  let(:private_attributes_allowed) {
+   FactoryGirl.build(:private_digital_collection_allowed).attributes
+  }
+
+  let(:private_attributes_denied) {
+   FactoryGirl.build(:private_digital_collection_denied).attributes
+  }
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # DigitalCollectionsController. Be sure to keep this updated too.
@@ -41,6 +49,20 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
       digital_collection = DigitalCollection.create! valid_attributes
       get :index, {}, valid_session
       expect(assigns(:digital_collections)).to eq([digital_collection])
+    end
+
+    it "allows the private collection" do
+      attributes = private_attributes_allowed
+      digital_collection = DigitalCollection.create! attributes
+      get :index, {}, valid_session
+      expect(assigns(:digital_collections)).to eq([digital_collection])
+    end
+
+    it "denies the private collection" do
+      attributes = private_attributes_denied
+      digital_collection = DigitalCollection.create! attributes
+      get :index, {}, valid_session
+      expect(assigns(:digital_collections)).to be_empty
     end
   end
 

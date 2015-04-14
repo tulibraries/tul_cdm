@@ -4,7 +4,18 @@ class DigitalCollectionsController < ApplicationController
 
   def index
     @host = "http://#{request.env["HTTP_HOST"]}/digital_collections"
-    @digital_collections = DigitalCollection.all
+    #@digital_collections = DigitalCollection.all
+    @digital_collections = []
+    remote_ip = request.remote_ip
+    DigitalCollection.find_each do |collection|
+      unless collection.is_private
+        @digital_collections << collection
+      else
+        if collection.allowed_ip_addresses.split(%r{,\s*}).include? remote_ip
+          @digital_collections << collection
+        end
+      end
+    end
     respond_with(@digital_collections)
   end
 
