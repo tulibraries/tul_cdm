@@ -7,7 +7,10 @@ RSpec.describe "digital_collections/new", :type => :view do
       :name => "MyString",
       :image_url => "MyString",
       :thumbnail_url => "MyString",
-      :description => "MyText"
+      :description => "MyText",
+      :priority => "0",
+      :is_private => true,
+      :allowed_ip_addresses => "192.168.1.1, 128.0.0.1"
     ))
   end
 
@@ -25,6 +28,12 @@ RSpec.describe "digital_collections/new", :type => :view do
       assert_select "input#digital_collection_thumbnail_url[name=?]", "digital_collection[thumbnail_url]"
 
       assert_select "textarea#digital_collection_description[name=?]", "digital_collection[description]"
+
+      assert_select "input#digital_collection_priority[name=?]", "digital_collection[priority]"
+
+      assert_select "input#digital_collection_is_private[name=?]", "digital_collection[is_private]"
+
+      assert_select "input#digital_collection_allowed_ip_addresses[name=?]", "digital_collection[allowed_ip_addresses]"
     end
   end
 end
