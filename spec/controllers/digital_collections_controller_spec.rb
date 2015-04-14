@@ -24,11 +24,11 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
   # DigitalCollection. As you add validations to DigitalCollection, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+   FactoryGirl.build(:digital_collection).attributes
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+   FactoryGirl.build(:invalid_digital_collection).attributes
   }
 
   # This should return the minimal set of values that should be in the session
@@ -103,14 +103,20 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
   describe "PUT update" do
     describe "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        FactoryGirl.build(:updated_digital_object).attributes
       }
 
       it "updates the requested digital_collection" do
         digital_collection = DigitalCollection.create! valid_attributes
         put :update, {:id => digital_collection.to_param, :digital_collection => new_attributes}, valid_session
         digital_collection.reload
-        skip("Add assertions for updated state")
+        expect(digital_collection.collection_alias).to eq new_attributes["collection_alias"]
+        expect(digital_collection.name).to eq new_attributes["name"]
+        expect(digital_collection.image_url).to eq new_attributes["image_url"]
+        expect(digital_collection.thumbnail_url).to eq new_attributes["thumbnail_url"]
+        expect(digital_collection.description).to eq new_attributes["description"]
+        expect(digital_collection.is_private).to eq new_attributes["is_private"]
+        expect(digital_collection.allowed_ip_addresses).to eq new_attributes["allowed_ip_addresses"]
       end
 
       it "assigns the requested digital_collection as @digital_collection" do

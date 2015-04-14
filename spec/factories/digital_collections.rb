@@ -11,6 +11,37 @@ Franklin Littell (1917-2009), emeritus professor of religion at Temple Universit
 
 Currently, manuscripts of most of Littell's "Speeches, lectures, and article manuscripts" dating from 1940 to 2002 are available digitally, though more will be added. Also available are correspondence and administrative records relating to his work with the National Council of Methodist Youth from 1934 to 1944.
 EOT
+    is_private false
+    allowed_ip_addresses "127.0.0.1, 10.1.1.1, 192.168.1.2"
+  end
+
+  factory :updated_digital_object, class: DigitalCollection do
+    collection_alias "NEWCOLLECTION"
+    name "Updated Collection"
+    image_url "http://localhost/collection_image.jpg"
+    thumbnail_url "http://localhost/thumbnail_image.jpg"
+    description "Updated collection description"
+    is_private true
+    allowed_ip_addresses "127.0.0.1, 10.1.1.2, 192.168.1.3"
+  end
+
+  factory :invalid_digital_collection, class: DigitalCollection do
+    name "Franklin H. Littell Papers"
+    image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll14/images/Littell_Landing_Pagev3.jpg"
+    thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/littell_dtl.jpg"
+    description ""
+    is_private true
+    allowed_ip_addresses "127.0.0.1, 10.1.1.1, 192.168.1.2"
+  end
+
+  factory :private_digital_collection, class: DigitalCollection do
+    collection_alias "p16002coll14"
+    name "Franklin H. Littell Papers"
+    image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll14/images/Littell_Landing_Pagev3.jpg"
+    thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/littell_dtl.jpg"
+    description ""
+    is_private true
+    allowed_ip_addresses "127.0.0.1, 10.1.1.1, 192.168.1.2"
   end
 
 end
