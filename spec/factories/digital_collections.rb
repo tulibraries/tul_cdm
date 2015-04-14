@@ -44,14 +44,4 @@ EOT
     allowed_ip_addresses "127.0.0.1, 10.1.1.1, 192.168.1.2"
   end
 
-  factory :private_digital_collection, class: DigitalCollection do
-    collection_alias "p16002coll14"
-    name "Franklin H. Littell Papers"
-    image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll14/images/Littell_Landing_Pagev3.jpg"
-    thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/littell_dtl.jpg"
-    description ""
-    is_private true
-    allowed_ip_addresses "127.0.0.1, 10.1.1.1, 192.168.1.2"
-  end
-
 end

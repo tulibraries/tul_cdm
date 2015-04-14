@@ -30,8 +30,6 @@ ActiveRecord::Schema.define(version: 20150414174252) do
     t.string   "name"
     t.string   "thumbnail_url"
     t.text     "description"
-    t.boolean  "is_private"
-    t.string   "allowed_ip_addresses"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "image_url"
