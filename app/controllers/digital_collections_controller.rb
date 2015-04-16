@@ -9,7 +9,12 @@ class DigitalCollectionsController < ApplicationController
   end
 
   def show
-    respond_with(@digital_collection)
+    if is_viewable?(@digital_collection)
+      respond_with(@digital_collection)
+    else
+      flash[:error] = t('tul_cdm.digital_collection.not_available')
+      redirect_to(digital_collections_path)
+    end
   end
 
   def new
@@ -39,6 +44,9 @@ class DigitalCollectionsController < ApplicationController
   private
     def set_digital_collection
       @digital_collection = DigitalCollection.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      flash[:error] = t('tul_cdm.digital_collection.not_available')
+      redirect_to(digital_collections_path)
     end
 
     def digital_collection_params

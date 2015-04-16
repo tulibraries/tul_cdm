@@ -52,15 +52,13 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
     end
 
     it "allows the private collection" do
-      attributes = private_attributes_allowed
-      digital_collection = DigitalCollection.create! attributes
+      digital_collection = DigitalCollection.create! private_attributes_allowed
       get :index, {}, valid_session
       expect(assigns(:digital_collections)).to eq([digital_collection])
     end
 
     it "denies the private collection" do
-      attributes = private_attributes_denied
-      digital_collection = DigitalCollection.create! attributes
+      digital_collection = DigitalCollection.create! private_attributes_denied
       get :index, {}, valid_session
       expect(assigns(:digital_collections)).to be_empty
     end
@@ -71,6 +69,20 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
       digital_collection = DigitalCollection.create! valid_attributes
       get :show, {:id => digital_collection.to_param}, valid_session
       expect(assigns(:digital_collection)).to eq(digital_collection)
+    end
+
+    it "assigns the requested private_digital_collection_allowed as @digital_collection" do
+      digital_collection = DigitalCollection.create! private_attributes_allowed
+      get :show, {:id => digital_collection.to_param}, valid_session
+      expect(assigns(:digital_collection)).to eq(digital_collection)
+      expect(flash.now[:error]).to be_nil
+    end
+
+    it "assigns the requested private_digital_collection_denied as @digital_collection" do
+      digital_collection = DigitalCollection.create! private_attributes_denied
+      get :show, {:id => digital_collection.to_param}, valid_session
+      expect(response).to redirect_to(digital_collections_path)
+      expect(flash.now[:error]).to eq I18n.t('tul_cdm.digital_collection.not_available')
     end
   end
 

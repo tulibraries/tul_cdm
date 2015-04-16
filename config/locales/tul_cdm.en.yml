@@ -15,3 +15,4 @@ en:
       download_text: 'Download'
     digital_collection:
       allowed_ip_helper_text: 'comma separated'
+      not_available: 'Collection is unavailable'
