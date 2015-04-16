@@ -43,12 +43,16 @@
 <script type="text/javascript">
   $(document).ready(function() {
   $(function () {
-	$('.bxslider').bxSlider({
-		slideWidth: 300,
-    minSlides: 1,
-    maxSlides: 1,
-    slideMargin: 10
-  });
+	$('.featuredImages').slick({
+		infinite: true,
+		slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 2000,
+  dots: true,
+  centerMode: true,
+  variableWidth: true,
+	});
   });
 });
 

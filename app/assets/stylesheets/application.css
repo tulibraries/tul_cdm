@@ -16,6 +16,7 @@
  *= require tul_cdm
  *= require accessibility
  *= require 'blacklight_advanced_search'
- *= require jquery.bxslider
+ *= require slick
+ *= require slick-theme
 
 */

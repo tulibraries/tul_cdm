@@ -20,6 +20,6 @@
 // Required by Blacklight
 //= require blacklight/blacklight
 
-//= require jquery.bxslider
+//= require jquery.slick
 
 
