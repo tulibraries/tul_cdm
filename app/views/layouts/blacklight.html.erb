@@ -12,8 +12,6 @@
 <![endif]-->
 <title><%= render_page_title %></title>
 <%= opensearch_description_tag application_name, opensearch_catalog_path(:format => 'xml', :only_path => false) %>
-<link href="//cdn.jsdelivr.net/jquery.slick/1.5.0/slick.css" media="all" rel="stylesheet"/>
-<link href="//cdn.jsdelivr.net/jquery.slick/1.5.0/slick-theme.css" media="all" rel="stylesheet"/>
 <%= stylesheet_link_tag "application", media: "all" %>
 <%= stylesheet_link_tag    "bookreader" %>
 <%= javascript_include_tag "application" %>
@@ -39,12 +37,7 @@
 </div>
 </div>
 </div>
-<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.5.0/slick.min.js"></script>
 <%= render :partial => 'shared/footer' %>
-<script type="text/javascript">
-	$(document).ready(function(){
-	  $('.featured-images').slick();
-	});
-</script>
+
 </body>
 </html>

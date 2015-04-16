@@ -16,8 +16,9 @@
 //= require PDFObject/pdfobject.min
 
 //= require jquery_ujs
-//= require slick
+//= require turbolinks
 //
+//= require 'owl-carousel/owl.carousel.min'
 // Required by Blacklight
 //= require blacklight/blacklight
 //= require_tree .
