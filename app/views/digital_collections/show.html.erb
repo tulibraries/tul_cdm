@@ -30,8 +30,7 @@
     <%= @digital_collection.collection_alias %>
   </p>
 
-  <%= link_to "Browse This Collection", path(@digital_collection) %>
-
+  <%= link_to raw("Browse This Collection <span class=\"glyphicon glyphicon-circle-arrow-right\"></span>"), path(@digital_collection) %>
   <span class="admin">
     <%= link_to 'Edit', edit_digital_collection_path(@digital_collection) %> |
     <%= link_to 'Back', digital_collections_path %>
