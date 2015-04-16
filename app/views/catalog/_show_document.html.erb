@@ -7,9 +7,11 @@
   <div id="OCRTextContainer">
     <% document_content = compound_document_content(@document) %>
     <% if not document_content.blank? %>
-      <textarea id='document-content-viewer'>
-        <%= document_content %>
-      </textarea>
+      <div id='document-content-viewer'>
+    <% @document['document_content_tesim'].each do |text_block| %>
+      <%= text_block.to_s %>
+    <% end %>
+    </div>
     <% end %>
   </div>
     

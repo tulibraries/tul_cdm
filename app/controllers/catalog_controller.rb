@@ -83,9 +83,9 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('format', :facetable), :label => 'Format', :limit => 5
     config.add_facet_field solr_name('type', :facetable), :label => 'Type', :limit => 5
     config.add_facet_field solr_name('publisher_sim', :facetable), :label => 'Publisher', :limit => 5
-    config.add_facet_field solr_name('digital_collection', :facetable), :label => 'Digital Collection', :limit => 5, :single => false, :collapse => false, :show => false
+    config.add_facet_field solr_name('digital_collection', :facetable), :label => 'Digital Collection', :limit => 5, :collapse => false
     config.add_facet_field solr_name('digital_publisher', :facetable), :label => 'Digital Publisher', :limit => 5
-    config.add_facet_field solr_name('contentdm_collection_id', :facetable), :label => 'Digital Collection', :limit => 5, :collapse => false, helper_method: :render_with_contentdm_collection_name
+    config.add_facet_field solr_name('contentdm_collection_id', :facetable), :label => 'CONTENTdm Collection ID', :limit => 5, :single => false, :collapse => false, helper_method: :render_with_contentdm_collection_name, :show => false
     config.add_facet_field solr_name('repository', :facetable), :label => 'Repository', :limit => 5
     config.add_facet_field solr_name('language', :facetable), :label => 'Language', :limit => 5
     config.add_facet_field solr_name('contributor', :facetable), :label => 'Contributor', :limit => 5
@@ -128,7 +128,7 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name('publisher', :stored_searchable, type: :string), :label => 'Publisher', :link_to_search => 'publisher_sim'
     config.add_show_field solr_name('digital_collection', :stored_searchable, type: :string), :label => 'Digital Collection', :link_to_search => 'digital_collection_sim'
     config.add_show_field solr_name('digital_publisher', :stored_searchable, type: :string), :label => 'Digital Publisher', :link_to_search => 'digital_publisher_sim'
-    config.add_show_field solr_name('contentdm_collection_id', :stored_searchable, type: :string), :label => 'Contentdm Collection ID', :link_to_search => 'contentdm_collection_id_sim'
+    config.add_show_field solr_name('contentdm_collection_id', :stored_searchable, type: :string), :label => 'Contentdm Collection ID', :link_to_search => 'contentdm_collection_id_sim', :show => false
     config.add_show_field solr_name('contact', :stored_searchable, type: :string), :label => 'Contact'
     config.add_show_field solr_name('repository', :stored_searchable, type: :string), :label => 'Repository', :link_to_search => 'repository_sim'
     config.add_show_field solr_name('repository_collection', :stored_searchable, type: :string), :label => 'Repository Collection'

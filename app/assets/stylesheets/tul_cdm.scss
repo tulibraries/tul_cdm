@@ -96,4 +96,21 @@ html,body,#wrapper,#main-wrapper,#footer {
 }
 
 
+/******
+*
+* Document Content Viewer
+*
+******/
+#document-content-viewer{
+  background-color: $background-white;
+  border: 1px solid $background-black;
+  overflow-y: scroll;
+  height: 100px;
+  width: 980px;
+}
+
+h2.ocr-section-heading{
+  font-size: 12px;
+}
+
 
