@@ -477,7 +477,7 @@ module TulCdmHelper
     images = ''
     DigitalCollection.find_each do |dig_col|
       if dig_col.featured.eql?("Yes")
-        images += image_tag(dig_col.image_url, :alt => dig_col.name)
+        images += content_tag(:div, image_tag(dig_col.image_url, :alt => dig_col.name))
       end
     end
     images.html_safe

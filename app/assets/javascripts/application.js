@@ -15,9 +15,8 @@
 
 //= require PDFObject/pdfobject.min
 
-
 //= require jquery_ujs
-//= require turbolinks
+//= require slick
 //
 // Required by Blacklight
 //= require blacklight/blacklight
