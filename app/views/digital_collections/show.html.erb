@@ -2,13 +2,15 @@
   <h1 class="collection-name">
     <%= @digital_collection.name %>
   </h1>
+  <div class="collection-browse-link">
+    <%= link_to raw("Browse This Collection <span class=\"glyphicon glyphicon-circle-arrow-right\"></span>"), path(@digital_collection) %>
+  </div>
 
-  <h2>About this collection</h2>
 
   <% if (@digital_collection.image_url) %>
-    <span class="collection-image">
+    <div class="collection-image">
         <%= link_to (image_tag (@digital_collection.image_url)), path(@digital_collection) %>
-    </span>
+    </div>
   <% end %>
 
   <p class="collection-thumbnail">
@@ -16,6 +18,7 @@
     <%= @digital_collection.thumbnail_url %>
   </p>
 
+  <h2>About this collection</h2>
   <span class="collection-description">
     <%= @digital_collection.description.html_safe %>
   </span>
@@ -30,7 +33,6 @@
     <%= @digital_collection.collection_alias %>
   </p>
 
-  <%= link_to raw("Browse This Collection <span class=\"glyphicon glyphicon-circle-arrow-right\"></span>"), path(@digital_collection) %>
   <span class="admin">
     <%= link_to 'Edit', edit_digital_collection_path(@digital_collection) %> |
     <%= link_to 'Back', digital_collections_path %>
