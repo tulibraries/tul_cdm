@@ -473,4 +473,14 @@ module TulCdmHelper
     content_tag(:dl, acknowledgements_list.html_safe) unless acknowledgements_list.blank?
   end
 
+  def render_featured
+    images = ''
+    DigitalCollection.find_each do |dig_col|
+      if dig_col.featured.eql?("Yes")
+        images += image_tag(dig_col.image_url, :alt => dig_col.name)
+      end
+    end
+    images.html_safe
+  end
+
 end

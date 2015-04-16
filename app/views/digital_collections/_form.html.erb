@@ -35,6 +35,10 @@
     <%= f.label :priority%><br>
     <%= f.text_field :priority%>
   </div>
+  <div class="field">
+    <%= f.label :featured%><br>
+   <%= f.select :featured, [['No', 'No'], ['Yes', 'Yes']] %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>
