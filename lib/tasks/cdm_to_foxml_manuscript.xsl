@@ -25,7 +25,7 @@
         <xsl:value-of select="concat('info:fedora/', $pid)" />
       </xsl:variable>
       <xsl:variable name="rdfResource">
-        <xsl:value-of select="concat('info:fedora/afmodel:', $pidPrefix)" />
+        <xsl:value-of select="concat('info:fedora/afmodel:', 'manuscript')" />
       </xsl:variable>
       <exsl:document method="xml" href="{$foxml_dir}/{$cdmfile}.xml">
         <xsl:element name="foxml:digitalObject" xmlns:foxml="info:fedora/fedora-system:def/foxml#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">

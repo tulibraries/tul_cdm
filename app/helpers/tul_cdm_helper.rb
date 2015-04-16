@@ -464,13 +464,13 @@ module TulCdmHelper
   end
 
   def render_acknowledgements (document)
-    acknowledgements_list = '<dl>'
-    acknowledgements_list += '<dt>Acknowledgements:</dt><dl>#{document["acknowledgment_tesim"].to_sentence}</dl>' if document["acknowledgment_tesim"] 
-    acknowledgements_list += '<dl>#{document["embargo_statement"].to_sentence}</dl>' if document["embargo_statement"]
-    acknowledgements_list += '<dl>#{document["restriction_note"].to_sentence}</dl>' if document["restriction_note"]
-    acknowledgements_list += '<dl>#{document["ocr_note"].to_sentence}</dl>' if document["ocr_note"]
-    acknowledgements_list += '</dl>'
-    acknowledgements_list.html_safe
+    acknowledgements_list = ''
+    acknowledgements_list += "<dt>Acknowledgements:</dt><dl>#{document["acknowledgment_tesim"].to_sentence}</dl>" if document["acknowledgment_tesim"] 
+    acknowledgements_list += "<dl>#{document["embargo_statement"].to_sentence}</dl>" if document["embargo_statement"]
+    acknowledgements_list += "<dl>#{document["restriction_note"].to_sentence}</dl>" if document["restriction_note"]
+    acknowledgements_list += "<dl>#{document["ocr_note"].to_sentence}</dl>" if document["ocr_note"]
+    acknowledgements_list += ''
+    content_tag(:dl, acknowledgements_list.html_safe) unless acknowledgements_list.blank?
   end
 
 end
