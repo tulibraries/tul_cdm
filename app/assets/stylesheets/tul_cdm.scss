@@ -125,6 +125,10 @@ h2.ocr-section-heading{
   padding: 10px;
 }
 
+.featured-collection-text-container a{
+  color: $text-white;
+}
+
 .featured-collection-text-container{
   z-index: 2;
   position: absolute;
@@ -132,6 +136,15 @@ h2.ocr-section-heading{
   width: 440px;
   padding: 10px;
   margin-top: 80px;
+  -webkit-border-top-right-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  -moz-border-radius-bottomright: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top: 2px solid $temple-lavendar-grey;
+  border-bottom: 2px solid $temple-lavendar-grey;
+  border-right: 2px solid $temple-lavendar-grey;
 }
 
 .featured-collection-name, .featured-collection-descrip{
