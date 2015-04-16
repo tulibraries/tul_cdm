@@ -121,5 +121,29 @@ h2.ocr-section-heading{
 *
 ******/
 
+.featured-collection-image{
+  padding: 10px;
+}
 
+.featured-collection-text-container{
+  z-index: 2;
+  position: absolute;
+  background: none repeat scroll 0% 0% rgba(0, 0, 0, 0.7);
+  width: 440px;
+  padding: 10px;
+  margin-top: 80px;
+}
 
+.featured-collection-name, .featured-collection-descrip{
+  color: $text-white;
+}
+
+.featured-collection-name{
+  padding-bottom: 10px;
+  line-height: 30px;
+}
+
+.featured-collection-name{
+  font-weight: bold;
+  font-size: 24px;
+}

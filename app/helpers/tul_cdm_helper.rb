@@ -477,7 +477,10 @@ module TulCdmHelper
     images = ''
     DigitalCollection.find_each do |dig_col|
       if dig_col.featured.eql?("Yes")
-        images += content_tag(:div, image_tag(dig_col.image_url, :alt => dig_col.name))
+        coll_name = content_tag(:div, dig_col.name, :class => "featured-collection-name")
+        coll_descrip = content_tag(:div, truncate(dig_col.description, length: 300, omission: '...', escape: false, separator: " "), :class => "featured-collection-descrip")
+        slide_content = content_tag(:div, coll_name + coll_descrip.html_safe, :class => "featured-collection-text-container") + image_tag(dig_col.image_url, :alt => dig_col.name) 
+        images += content_tag(:div, slide_content, :class => "featured-collection-image")
       end
     end
     images.html_safe
