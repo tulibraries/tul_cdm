@@ -10,7 +10,7 @@ body{
   line-height: 18px;
   background-color: $background; // Old browsers
   @include filter-gradient($background, #7db9e8, vertical); // IE6-9
-  @include background-image(linear-gradient(top, $background 0%,$background 33%,$background 50%,$temple-light-grey 100%));
+  @include background-image(linear-gradient(top, $background 0%,$background 33%,$background 50%,$background-gradient 100%));
   background-repeat: no-repeat;
   background-attachment: fixed;
 }

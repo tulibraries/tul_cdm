@@ -91,10 +91,6 @@ html,body,#wrapper,#main-wrapper,#footer {
   margin-right: 10px;
 }
 
-#search-navbar #q {
-  width: 350px;
-}
-
 
 /******
 *
@@ -159,4 +155,53 @@ h2.ocr-section-heading{
 .featured-collection-name{
   font-weight: bold;
   font-size: 24px;
+}
+
+/******
+*
+* Search bar
+*
+******/
+
+#search-navbar .search-query-form input.search_q,#search-navbar .input-group-btn button#search{
+  font-size: 24px;
+  height:50px;
+  font-weight: bold;
+}
+
+#search-navbar .container{
+  text-align: center;
+}
+
+#search-navbar .container .search-query-form{
+  margin-right: auto;
+  margin-left: auto;
+  width: 1200px;
+}
+
+#search-navbar #q {
+  width: 500px;
+}
+
+/******
+*
+* Search results
+*
+******/
+
+#documents .document{
+  font-size: 14px;
+  line-height: 30px;
+}
+
+.document-metadata dt{
+  color: $temple-dark-grey;
+}
+
+#document dt, dl, dd{
+  font-size: 14px;
+}
+
+#document .defList dd{
+  padding-bottom: 20px;
 }
