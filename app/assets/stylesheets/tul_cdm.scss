@@ -91,9 +91,117 @@ html,body,#wrapper,#main-wrapper,#footer {
   margin-right: 10px;
 }
 
-#search-navbar #q {
-  width: 350px;
+
+/******
+*
+* Document Content Viewer
+*
+******/
+#document-content-viewer{
+  background-color: $background-white;
+  border: 1px solid $background-black;
+  overflow-y: scroll;
+  height: 100px;
+  width: 980px;
+}
+
+h2.ocr-section-heading{
+  font-size: 12px;
 }
 
 
 
+/******
+*
+* Featured Images Slideshow
+*
+******/
+
+.featured-collection-image{
+  padding: 10px;
+}
+
+.featured-collection-text-container a{
+  color: $text-white;
+}
+
+.featured-collection-text-container{
+  z-index: 2;
+  position: absolute;
+  background: none repeat scroll 0% 0% rgba(0, 0, 0, 0.7);
+  width: 440px;
+  padding: 10px;
+  margin-top: 80px;
+  -webkit-border-top-right-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  -moz-border-radius-bottomright: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top: 2px solid $temple-lavendar-grey;
+  border-bottom: 2px solid $temple-lavendar-grey;
+  border-right: 2px solid $temple-lavendar-grey;
+}
+
+.featured-collection-name, .featured-collection-descrip{
+  color: $text-white;
+}
+
+.featured-collection-name{
+  padding-bottom: 10px;
+  line-height: 30px;
+}
+
+.featured-collection-name{
+  font-weight: bold;
+  font-size: 24px;
+}
+
+/******
+*
+* Search bar
+*
+******/
+
+#search-navbar .search-query-form input.search_q,#search-navbar .input-group-btn button#search{
+  font-size: 24px;
+  height:50px;
+  font-weight: bold;
+}
+
+#search-navbar .container{
+  text-align: center;
+}
+
+#search-navbar .container .search-query-form{
+  margin-right: auto;
+  margin-left: auto;
+  width: 1200px;
+}
+
+#search-navbar #q {
+  width: 500px;
+}
+
+/******
+*
+* Search results
+*
+******/
+
+#documents .document{
+  font-size: 14px;
+  line-height: 30px;
+}
+
+.document-metadata dt{
+  color: $temple-dark-grey;
+}
+
+#document dt, dl, dd{
+  font-size: 14px;
+}
+
+#document .defList dd{
+  padding-bottom: 20px;
+}

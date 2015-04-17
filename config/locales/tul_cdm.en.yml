@@ -6,6 +6,36 @@ en:
     homepage:
       welcome: 'Welcome to the'
       intro_text: "The SCRC is the principal repository for and steward of the Libraries’ rare books, manuscripts, archives and University records. We collect, preserve, and make accessible primary resources and rare or unique materials, to stimulate, enrich, and support research, teaching, learning, and administration at Temple University. SCRC makes these resources available to a broad constituency as part of the University's engagement with the larger community of scholars and independent researchers."
+      featured_collections_heading: "Featured Collections"
+      collections_by_subject_heading: "Browse Collections by Subject"
+      subject_listing: |+
+        <ul>
+          <li><a href="/subject_index#afr">African Americans</a></li>
+          <li><a href="/subject_index#ath">Athletics and Sports</a></li>
+          <li><a href="/subject_index#bus">Business and Economic Development</a></li>
+          <li><a href="/subject_index#com">Community Affairs</a></li>
+          <li><a href="/subject_index#cri">Crime and the Legal System</a></li>
+          <li><a href="/subject_index#cul">Culture</a></li>
+          <li><a href="/subject_index#dan">Dance</a></li>
+          <li><a href="/subject_index#edu">Education</a></li>
+          <li><a href="/subject_index#hea">Health</a></li>
+          <li><a href="/subject_index#hou">Housing</a></li>
+          <li><a href="/subject_index#imm">Immigrant/Ethnic Communities</a></li>
+          <li><a href="/subject_index#lab">Labor</a></li>
+          <li><a href="/subject_index#mus">Music</a></li>
+          <li><a href="/subject_index#new">News Media</a></li>
+          <li><a href="/subject_index#par">Parks</a></li>
+          <li><a href="/subject_index#pla">Planning</a></li>
+          <li><a href="/subject_index#pol">Politics</a></li>
+          <li><a href="/subject_index#pro">Protests and Demonstrations</a></li>
+          <li><a href="/subject_index#rel">Religion</a></li>
+          <li><a href="/subject_index#sci">Science</a></li>
+          <li><a href="/subject_index#sen">Senior Citizens</a></li>
+          <li><a href="/subject_index#soc">Social Services</a></li>
+          <li><a href="/subject_index#temple">Temple History and Publications</a></li>
+          <li><a href="/subject_index#tra">Transportation</a></li>
+          <li><a href="/subject_index#wom">Women</a></li>
+        </ul>
     contact_field:
       text: "Contact SCRC"
     bookreader:
