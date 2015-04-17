@@ -16,6 +16,8 @@
 #digital_collection-index .collection-thumbnail {
   display: block;
   text-align: center;
+  width: 200px;
+  padding-bottom: 20px;
 }
 
 #digital_collection-index .collection-item {
@@ -23,17 +25,16 @@
 }
 
 #digital_collection-index .collection-internals{
-	width: 120px;
+	width: 200px;
 	background: none repeat scroll 0% 0% $temple-frost;
-	border: 1px solid $temple-light-blue;
-	height: 67px;
+	height: 40px;
 	font-size: 10px;
 	color: $temple-light-blue;
 	@include rounded-corners-bottom;
 }
 
 #digital_collection-index .collection-name {
-  padding: 10px 0px;
+  padding: 3px 0px;
   display: block;
 }
 
@@ -69,6 +70,8 @@
 
 .collection-item-attributes {
 	width:120px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #digital_collection-show .collection-alias, .collection-thumbnail, .collection-path {
@@ -121,10 +124,10 @@
   pointer-events: none;
 }
 
-.digcoll-overlay:hover:after  {
+.digcoll-overlay:hover:after, .digcoll-overlay:focus:after{
   opacity: .8;
 }
 
-.digcoll-overlay:hover .digcoll-text{
+.digcoll-overlay:hover .digcoll-text, .digcoll-overlay:focus .digcoll-text{
 	display: block;
 }
