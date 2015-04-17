@@ -151,6 +151,7 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     haml (4.0.6)
       tilt
+    high_voltage (2.2.1)
     hike (1.2.3)
     hitimes (1.2.2)
     hooks (0.3.6)
@@ -474,6 +475,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.0)
   foreman
   guard-rspec
+  high_voltage (~> 2.2.1)
   hydra (~> 7.1.0)
   jbuilder (~> 2.0)
   jettywrapper

@@ -1,7 +1,10 @@
 <h1><%= t('tul_cdm.homepage.welcome') %> <%= t('tul_cdm.general.application_name') %></h1>
 <p><%= t('tul_cdm.homepage.intro_text') %></p>
 
-<h2>Featured Collections</h2>
+<h2><%= t('tul_cdm.homepage.featured_collections_heading') %></h2>
 <div class="featuredImages">
 	<%= render_featured %>
 </div>
+
+<h2><%= t('tul_cdm.homepage.collections_by_subject_heading') %></h2> 
+<%= t('tul_cdm.homepage.subject_listing').html_safe %>
