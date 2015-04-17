@@ -5,18 +5,18 @@ class CatalogController < ApplicationController
 
   include Blacklight::Catalog
   include Hydra::Controller::ControllerBehavior
-  
+
   #TODO: Figure out why BL Advanced search makes has_member_ssim not work, make it work
   include BlacklightAdvancedSearch::ParseBasicQ
-  
+
   include TulCdm::SolrHelper::Behaviors
-  
+
   # These before_filters apply the hydra access controls
   #before_filter :enforce_show_permissions, :only=>:show
   # This applies appropriate access controls to all solr queries
   #CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
-  
-  CatalogController.solr_search_params_logic += [:exclude_unwanted_models]
+
+  CatalogController.solr_search_params_logic += [:exclude_unwanted_models, :exclude_collections_by_ip]
 
   # def index
   #   super
@@ -54,7 +54,7 @@ class CatalogController < ApplicationController
     config.index.title_field = 'title_tesim'
     config.index.display_type_field = 'has_model_ssim'
     config.show.display_type_field = 'active_fedora_model_ssi'
-    
+
     config.index.thumbnail_field = 'path_to_thumbnail_ssm'
 
 
@@ -95,7 +95,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('advisor', :facetable), :label => 'Series', :limit => 5
     config.add_facet_field solr_name('degree_granting_institution', :facetable), :label => 'Series', :limit => 5
     config.add_facet_field solr_name('is_part_of_ssim', :facetable), :label => 'Part Of'
-    
+
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
     # handler defaults, or have no facets.
@@ -109,13 +109,13 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name('title', :stored_searchable, type: :string), :label => 'Title'
     config.add_index_field solr_name('subject', :stored_searchable, type: :string), :label => 'Subject', :link_to_search => 'subject_sim'
     config.add_index_field solr_name('format', :stored_searchable, type: :string), :label => 'Format', :link_to_search => 'format_sim'
-    
+
     # Collection-only metadata
     config.add_index_field solr_name('about_statement', :stored_searchable, type: :string), :label => 'About this Collection'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
-    
+
     # Records and shared metadata
     config.add_show_field solr_name('title', :stored_searchable, type: :string), :label => 'Title'
     config.add_show_field solr_name('alternate_title', :stored_searchable, type: :string), :label => 'Alternate Title'
@@ -276,6 +276,14 @@ class CatalogController < ApplicationController
 
   def sort_field
     "#{self.class.solr_name('desc_metadata__title', :stored_sortable, type: :date)} desc"
+  end
+
+  def exclude_collections_by_ip(solr_parameters, user_parameters)
+    solr_parameters[:fq] ||= []
+    unviewable_collections.each do |vc|
+      solr_parameters[:fq] << "-contentdm_collection_id_sim:#{vc.collection_alias}"
+    end
+    solr_parameters[:fq]
   end
 
 end

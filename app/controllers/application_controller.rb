@@ -18,10 +18,19 @@ class ApplicationController < ActionController::Base
   # Get the list of all the viewable collections depending on the private flag and white-listed remote IP address
   # Returns an ActiveRecord::Relation object just as a DigitalCollection query would
   def viewable_collections
-    viewable = []
-    DigitalCollection.find_each { |collection| viewable << collection if is_viewable?(collection) }
+    collections = []
+    DigitalCollection.find_each { |collection| collections << collection if is_viewable?(collection) }
     # Convert the array of objects into an ActiveRecore::Relation object
-    DigitalCollection.where(id: viewable.map(&:id))
+    DigitalCollection.where(id: collections.map(&:id))
+  end
+
+  # Get the list of all the unviewable collections depending on the private flag and white-listed remote IP address
+  # Returns an ActiveRecord::Relation object just as a DigitalCollection query would
+  def unviewable_collections
+    collections = []
+    DigitalCollection.find_each { |collection| collections << collection if !is_viewable?(collection) }
+    # Convert the array of objects into an ActiveRecore::Relation object
+    DigitalCollection.where(id: collections.map(&:id))
   end
 
 end
