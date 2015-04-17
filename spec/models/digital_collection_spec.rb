@@ -11,6 +11,8 @@ RSpec.describe DigitalCollection, :type => :model do
     it { is_expected.to have_attribute(:thumbnail_url) }
     it { is_expected.to have_attribute(:description) }
     it { is_expected.to have_attribute(:priority) }
+    it { is_expected.to have_attribute(:is_private) }
+    it { is_expected.to have_attribute(:allowed_ip_addresses) }
   end
 
   describe "Object" do
@@ -32,6 +34,17 @@ RSpec.describe DigitalCollection, :type => :model do
       it "Must be a unique collection" do
         expect(DigitalCollection.create(collection_alias: "p1234")).to be_valid
         expect(DigitalCollection.create(collection_alias: "p1234")).to_not be_valid
+      end
+    end
+
+    context "Restricted IP" do
+      subject { FactoryGirl.build(:private_digital_collection) }
+
+      it "Has valid IP addresses" do
+        allowed_ip_addresses = subject.allowed_ip_addresses.split(%r{,\s*})
+        expect(allowed_ip_addresses.length).to eq 3
+        expect(allowed_ip_addresses.first).to eq "127.0.0.1"
+        expect(allowed_ip_addresses.last).to eq "192.168.1.2"
       end
     end
 

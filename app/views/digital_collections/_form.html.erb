@@ -33,7 +33,15 @@
   </div>
   <div class="field">
     <%= f.label :priority%><br>
-    <%= f.text_field :priority%>
+    <%= f.text_field :priority %>
+  </div>
+  <div class="field">
+    <%= f.label :is_private %><br>
+    <%= f.check_box :is_private %>
+  </div>
+  <div class="field">
+    <%= f.label :allowed_ip_addresses %> (<%= t('tul_cdm.digital_collection.allowed_ip_helper_text') %>)<br>
+    <%= f.text_field :allowed_ip_addresses %>
   </div>
   <div class="field">
     <%= f.label :featured%><br>
