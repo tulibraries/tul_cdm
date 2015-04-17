@@ -6,7 +6,7 @@
   </div>
   <div id="OCRTextContainer">
     <% document_content = compound_document_content(@document) %>
-    <% if not document_content.blank? %>
+    <% if @document['document_content_tesim'] %>
       <div id='document-content-viewer'>
     <% @document['document_content_tesim'].each do |text_block| %>
       <%= text_block.to_s %>
