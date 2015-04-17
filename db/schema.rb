@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150206161619) do
+ActiveRecord::Schema.define(version: 20150414174252) do
 
   create_table "bookmarks", force: true do |t|
     t.integer  "user_id",       null: false
@@ -34,6 +34,8 @@ ActiveRecord::Schema.define(version: 20150206161619) do
     t.datetime "updated_at"
     t.string   "image_url"
     t.integer  "priority"
+    t.boolean  "is_private"
+    t.string   "allowed_ip_addresses"
   end
 
   create_table "searches", force: true do |t|
