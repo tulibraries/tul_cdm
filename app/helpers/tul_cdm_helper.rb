@@ -23,7 +23,7 @@ module TulCdmHelper
         hr_width = hr_height = "2000"
       else
         path_end = ""
-	  end
+    end
     path = "#{config['cdm_archive']}/utils/ajaxhelper/?CISOROOT=/#{collection_id}&CISOPTR=#{cdm_number}&action=2&DMSCALE=#{hr_scale}&DMWIDTH=#{hr_width}&DMHEIGHT=#{hr_height}"
     w_sb = 1400;
     link_to image_tag("#{config['cdm_archive']}/utils/ajaxhelper/?CISOROOT=#{collection_id}&CISOPTR=#{cdm_number}&action=2&DMSCALE=#{access_scale}&DMWIDTH=#{access_width}&DMHEIGHT=#{access_height}"), path.html_safe, :rel => "shadowbox[#{collection_id}-#{cdm_number}];width=#{w_sb}"
@@ -72,7 +72,7 @@ module TulCdmHelper
         hr_width = hr_height = "2000"
       else
         path_end = ""
-	  end
+    end
     path = "#{config['cdm_archive']}/utils/ajaxhelper/?CISOROOT=/#{collection_id}&CISOPTR=#{cdm_number}&action=2&DMSCALE=#{hr_scale}&DMWIDTH=#{hr_width}&DMHEIGHT=#{hr_height}"
 
     # New stuff
@@ -431,31 +431,14 @@ module TulCdmHelper
     flash[:notice] = "Display: #{display_field.items.length}"
   end
 
-  def set_children_link(document)
-    model = model_from_document(document)
-    if model == "Collection"
-      link_to "Show all in collection", "/?q=is_member_of_ssim:info:fedora/#{document.id}"
-    end
-  end
-
   def set_collection_link(document)
     model = model_from_document(document)
     if model != "Collection"
-      link_to "More like this", "/?q=is_member_of_ssim:#{document['is_member_of_ssim'].to_sentence if document['is_member_of_ssim']}"
+      link_to "More like this", "/?f[digital_collection_sim][]=#{document['digital_collection_tesim'].first if document['digital_collection_tesim']}"
     end
   end
 
   def render_collection(collection_id)
-    # b = get_related_objects(collection_id);
-    # collection_set = Array.new
-    # b.each do |b_obj|
-    #   pid=b_obj.id
-    #   object = locate_by_model(pid)
-    #   if(object)
-    #    collection_item = [object.title.first]
-    #    (collection_set ||= []) << collection_item
-    #  end
-    # end
     collection_set = 'placeholder for thumbnails'
     return collection_set
   end
@@ -470,16 +453,6 @@ module TulCdmHelper
     output = "#{config['cdm_archive']}/utils/getfile/collection/#{collection}/id/#{pointer}/filename/#{name}"
   end
 
-  def locate_by_model(pid)
-    pid_fragments = pid.split(":");
-    content_model = pid_fragments.first;
-    case content_model
-      when 'poster' then object = Poster.find(pid)
-      when 'pamphlet' then object = Pamphlet.find(pid)
-      else nil
-    end
-  end
-
   def object_model(object_type)
     object_map = YAML.load_file(File.expand_path("#{Rails.root}/config/object_mappings.yml", __FILE__))
     object_map[object_type]
@@ -488,6 +461,29 @@ module TulCdmHelper
   def render_object_partial (document)
     partial = "show_" + object_model(model_from_document(document).downcase.to_sym)
     render partial, document: document
+  end
+
+  def render_acknowledgements (document)
+    acknowledgements_list = ''
+    acknowledgements_list += "<dt>Acknowledgements:</dt><dl>#{document["acknowledgment_tesim"].to_sentence}</dl>" if document["acknowledgment_tesim"] 
+    acknowledgements_list += "<dl>#{document["embargo_statement"].to_sentence}</dl>" if document["embargo_statement"]
+    acknowledgements_list += "<dl>#{document["restriction_note"].to_sentence}</dl>" if document["restriction_note"]
+    acknowledgements_list += "<dl>#{document["ocr_note"].to_sentence}</dl>" if document["ocr_note"]
+    acknowledgements_list += ''
+    content_tag(:dl, acknowledgements_list.html_safe) unless acknowledgements_list.blank?
+  end
+
+  def render_featured
+    images = ''
+    DigitalCollection.find_each do |dig_col|
+      if dig_col.featured.eql?("Yes")
+        coll_name = content_tag(:div, link_to(dig_col.name, "/digital_collections/#{dig_col.id}"), :class => "featured-collection-name")
+        coll_descrip = content_tag(:div, truncate(dig_col.description, length: 300, omission: '...', escape: false, separator: " "), :class => "featured-collection-descrip")
+        slide_content = content_tag(:div, coll_name + coll_descrip.html_safe, :class => "featured-collection-text-container") + image_tag(dig_col.image_url, :alt => dig_col.name) 
+        images += content_tag(:div, slide_content, :class => "featured-collection-image")
+      end
+    end
+    images.html_safe
   end
 
 end

@@ -8,3 +8,6 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 Rails.application.config.assets.precompile += %w( bookreader.css )
 Rails.application.config.assets.precompile += %w( bookreader.js )
+Rails.application.config.assets.precompile += %w( jquery.bxslider.css )
+Rails.application.config.assets.precompile += %w( jquery.bxslider.js )
+
