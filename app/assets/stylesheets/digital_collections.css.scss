@@ -131,3 +131,13 @@
 .digcoll-overlay:hover .digcoll-text, .digcoll-overlay:focus .digcoll-text{
 	display: block;
 }
+
+/******
+*
+* List formatting for accessibility
+*
+******/
+
+.digital_collection-list ul li{
+  list-style: none;
+}
