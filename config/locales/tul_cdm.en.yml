@@ -13,3 +13,6 @@ en:
       caveat: 'The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings.'
     viewer:
       download_text: 'Download'
+    digital_collection:
+      allowed_ip_helper_text: 'comma separated'
+      not_available: 'Collection is unavailable'
