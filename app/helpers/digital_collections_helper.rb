@@ -1,7 +1,7 @@
 module DigitalCollectionsHelper
 
   def path(digital_collection)
-    "/?f[contentdm_collection_id_sim][]=" + digital_collection.collection_alias.to_s
+    "/?f[digital_collection_sim][]=" + digital_collection.name
   end
 
   def name(collection_id)

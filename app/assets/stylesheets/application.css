@@ -16,5 +16,7 @@
  *= require tul_cdm
  *= require accessibility
  *= require 'blacklight_advanced_search'
+ *= require slick
+ *= require slick-theme
 
 */
