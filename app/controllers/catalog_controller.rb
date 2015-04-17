@@ -5,18 +5,18 @@ class CatalogController < ApplicationController
 
   include Blacklight::Catalog
   include Hydra::Controller::ControllerBehavior
-  
+
   #TODO: Figure out why BL Advanced search makes has_member_ssim not work, make it work
   include BlacklightAdvancedSearch::ParseBasicQ
-  
+
   include TulCdm::SolrHelper::Behaviors
-  
+
   # These before_filters apply the hydra access controls
   #before_filter :enforce_show_permissions, :only=>:show
   # This applies appropriate access controls to all solr queries
   #CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
-  
-  CatalogController.solr_search_params_logic += [:exclude_unwanted_models]
+
+  CatalogController.solr_search_params_logic += [:exclude_unwanted_models, :exclude_collections_by_ip]
 
   # def index
   #   super
@@ -54,7 +54,7 @@ class CatalogController < ApplicationController
     config.index.title_field = 'title_tesim'
     config.index.display_type_field = 'has_model_ssim'
     config.show.display_type_field = 'active_fedora_model_ssi'
-    
+
     config.index.thumbnail_field = 'path_to_thumbnail_ssm'
 
 
@@ -83,9 +83,9 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('format', :facetable), :label => 'Format', :limit => 5
     config.add_facet_field solr_name('type', :facetable), :label => 'Type', :limit => 5
     config.add_facet_field solr_name('publisher_sim', :facetable), :label => 'Publisher', :limit => 5
-    config.add_facet_field solr_name('digital_collection', :facetable), :label => 'Digital Collection', :limit => 5, :single => false, :collapse => false, :show => false
+    config.add_facet_field solr_name('digital_collection', :facetable), :label => 'Digital Collection', :limit => 5, :collapse => false
     config.add_facet_field solr_name('digital_publisher', :facetable), :label => 'Digital Publisher', :limit => 5
-    config.add_facet_field solr_name('contentdm_collection_id', :facetable), :label => 'Digital Collection', :limit => 5, :collapse => false, helper_method: :render_with_contentdm_collection_name
+    config.add_facet_field solr_name('contentdm_collection_id', :facetable), :label => 'Digital Collection', :limit => 5, :single => false, :collapse => false, helper_method: :render_with_contentdm_collection_name, :show => false
     config.add_facet_field solr_name('repository', :facetable), :label => 'Repository', :limit => 5
     config.add_facet_field solr_name('language', :facetable), :label => 'Language', :limit => 5
     config.add_facet_field solr_name('contributor', :facetable), :label => 'Contributor', :limit => 5
@@ -95,7 +95,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('advisor', :facetable), :label => 'Series', :limit => 5
     config.add_facet_field solr_name('degree_granting_institution', :facetable), :label => 'Series', :limit => 5
     config.add_facet_field solr_name('is_part_of_ssim', :facetable), :label => 'Part Of'
-    
+
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
     # handler defaults, or have no facets.
@@ -109,13 +109,13 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name('title', :stored_searchable, type: :string), :label => 'Title'
     config.add_index_field solr_name('subject', :stored_searchable, type: :string), :label => 'Subject', :link_to_search => 'subject_sim'
     config.add_index_field solr_name('format', :stored_searchable, type: :string), :label => 'Format', :link_to_search => 'format_sim'
-    
+
     # Collection-only metadata
     config.add_index_field solr_name('about_statement', :stored_searchable, type: :string), :label => 'About this Collection'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
-    
+
     # Records and shared metadata
     config.add_show_field solr_name('title', :stored_searchable, type: :string), :label => 'Title'
     config.add_show_field solr_name('alternate_title', :stored_searchable, type: :string), :label => 'Alternate Title'
@@ -128,7 +128,7 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name('publisher', :stored_searchable, type: :string), :label => 'Publisher', :link_to_search => 'publisher_sim'
     config.add_show_field solr_name('digital_collection', :stored_searchable, type: :string), :label => 'Digital Collection', :link_to_search => 'digital_collection_sim'
     config.add_show_field solr_name('digital_publisher', :stored_searchable, type: :string), :label => 'Digital Publisher', :link_to_search => 'digital_publisher_sim'
-    config.add_show_field solr_name('contentdm_collection_id', :stored_searchable, type: :string), :label => 'Contentdm Collection ID', :link_to_search => 'contentdm_collection_id_sim'
+    config.add_show_field solr_name('contentdm_collection_id', :stored_searchable, type: :string), :label => 'Digital Collection', :link_to_search => 'contentdm_collection_id_sim', :show => false
     config.add_show_field solr_name('contact', :stored_searchable, type: :string), :label => 'Contact'
     config.add_show_field solr_name('repository', :stored_searchable, type: :string), :label => 'Repository', :link_to_search => 'repository_sim'
     config.add_show_field solr_name('repository_collection', :stored_searchable, type: :string), :label => 'Repository Collection'
@@ -218,12 +218,12 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('contentdm_collection_id') do |field|
-      solr_name = solr_name("contentdm_collection_id_tesim", :stored_searchable, type: :string)
+    config.add_search_field('digital_collection') do |field|
+      solr_name = solr_name("digital_collection_tesim", :stored_searchable, type: :string)
       field.qt = 'search'
       field.solr_local_parameters = {
-        :qf => '$contentdm_collection_id_qf',
-        :pf => '$contentdm_collection_id_pf'
+        :qf => '$digital_collection_qf',
+        :pf => '$digital_collection_pf'
       }
     end
 
@@ -276,6 +276,14 @@ class CatalogController < ApplicationController
 
   def sort_field
     "#{self.class.solr_name('desc_metadata__title', :stored_sortable, type: :date)} desc"
+  end
+
+  def exclude_collections_by_ip(solr_parameters, user_parameters)
+    solr_parameters[:fq] ||= []
+    unviewable_collections.each do |vc|
+      solr_parameters[:fq] << "-contentdm_collection_id_sim:#{vc.collection_alias}"
+    end
+    solr_parameters[:fq]
   end
 
 end

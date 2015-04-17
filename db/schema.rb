@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20150415193428) do
     t.string   "featured"
     t.boolean  "is_private"
     t.string   "allowed_ip_addresses"
+    t.string   "featured"
   end
 
   create_table "searches", force: true do |t|
