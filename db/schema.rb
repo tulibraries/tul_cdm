@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20150415193428) do
     t.datetime "updated_at"
     t.string   "image_url"
     t.integer  "priority"
+    t.string   "featured"
     t.boolean  "is_private"
     t.string   "allowed_ip_addresses"
     t.string   "featured"
