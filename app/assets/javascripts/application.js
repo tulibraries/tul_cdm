@@ -14,6 +14,7 @@
 //= require 'blacklight_advanced_search'
 
 //= require PDFObject/pdfobject.min
+//= require reveal
 
 //= require jquery_ujs
 //

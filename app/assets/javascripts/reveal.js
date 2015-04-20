@@ -4,8 +4,8 @@ $(document).ready(function(){
 
   // Trigger wait spinner
   $(".triggerWaiting").click(function(){
-    item = $( this ).parentsUntil(".document").first();
-    $(".loading").insertBefore( item );
-    $(".loading").removeClass("hide");
+    item = $( this ).parents(".row").first();
+
+    $(this).siblings(".loading").removeClass("hide");
   });
 })
