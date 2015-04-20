@@ -3,9 +3,14 @@ $(document).ready(function(){
   $(".document-thumbnail a").addClass("triggerWaiting");
 
   // Trigger wait spinner
-  $(".triggerWaiting").click(function(){
-    item = $( this ).parentsUntil(".document").first();
-    $(".loading").insertBefore( item );
-    $(".loading").removeClass("hide");
+  $(".triggerWaiting").click(function(event){
+    target = $( event.target );
+    if (target.is( "img" ) ) {
+      spinner = $(this).parent().siblings(".row").find(".loading");
+    } else {
+      spinner = $(this).siblings(".loading");
+    }
+    spinner.removeClass("hide");
+    console.log ("Rendering spinner...");
   });
 })

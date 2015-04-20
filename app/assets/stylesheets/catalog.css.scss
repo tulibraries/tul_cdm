@@ -1,12 +1,11 @@
 .loading{
   background: url('/assets/ajax-load.gif') no-repeat scroll center bottom transparent;
   text-align: center;
-  font-size: 12px;
-  width: 300px;
-  height: 120px;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
   margin-left: auto;
   margin-right: auto;
-  background-size: 50px 50px;
-  line-height: 70px;
-  background-position: 130px 45px;
+  background-size: 16px 16px;
+  display: inline-block;
 }
