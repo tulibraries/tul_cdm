@@ -1,5 +1,6 @@
 class DigitalCollectionsController < ApplicationController
   respond_to :html, :xml, :json
+  before_action :verify_signed_in!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_digital_collection, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -51,5 +52,12 @@ class DigitalCollectionsController < ApplicationController
 
     def digital_collection_params
       params.require(:digital_collection).permit(:collection_alias, :name, :image_url, :thumbnail_url, :description, :priority, :is_private, :allowed_ip_addresses, :featured)
+    end
+
+    def verify_signed_in!
+      if !user_signed_in?
+        flash[:error] = t('devise.failure.unauthenticated')
+        redirect_to(root_path)
+      end
     end
 end
