@@ -5,7 +5,8 @@ en:
       footer_content: "This site is run by SCRC, Temple University Libraries"
     homepage:
       welcome: 'Welcome to the'
-      intro_text: "The SCRC is the principal repository for and steward of the Libraries’ rare books, manuscripts, archives and University records. We collect, preserve, and make accessible primary resources and rare or unique materials, to stimulate, enrich, and support research, teaching, learning, and administration at Temple University. SCRC makes these resources available to a broad constituency as part of the University's engagement with the larger community of scholars and independent researchers."
+      intro_text: |+
+        Our Digital Collections site offers free worldwide access to the unique primary historical and cultural resources held by the Temple University Libraries and to selected scholarly works and other publications produced at Temple. We are actively digitizing additional materials; to suggest materials you believe should be digitized, please contact us at: <a href="mailto:diglib@temple.edu">diglib@temple.edu</a>. 
       featured_collections_heading: "Featured Collections"
       collections_by_subject_heading: "Browse Collections by Subject"
       subject_listing: |+
