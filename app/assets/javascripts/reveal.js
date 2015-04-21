@@ -11,6 +11,5 @@ $(document).ready(function(){
       spinner = $(this).siblings(".loading");
     }
     spinner.removeClass("hide");
-    console.log ("Rendering spinner...");
   });
 })
