@@ -15,7 +15,7 @@
               <% if (digital_collection.thumbnail_url) %>
                 <%= link_to (image_tag (digital_collection.thumbnail_url), :alt => "Browse #{digital_collection.name}"), digital_collection %>
                   <% else  %>
-                  <a href="<%= "#{@host}/#{digital_collection.id}" %>"><span class="collection-default-thumb glyphicon glyphicon-th"></span></a>
+                  <a href="<%= "#{@host}/#{digital_collection.collection_alias}" %>"><span class="collection-default-thumb glyphicon glyphicon-th"></span></a>
               <% end %>
           </div>
             <div class="collection-internals">

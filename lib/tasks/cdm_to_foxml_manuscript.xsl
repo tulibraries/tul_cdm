@@ -16,7 +16,7 @@
         <xsl:value-of select="concat($collection,'x',CONTENTdm_number)"/>
       </xsl:variable>
       <xsl:variable name="pidPrefix">
-        <xsl:value-of select="'manuscript'"/>
+        <xsl:value-of select="'tulcdm'"/>
       </xsl:variable>
       <xsl:variable name="pid">
         <xsl:value-of select="concat($pidPrefix,':',$cdmfile)" />
