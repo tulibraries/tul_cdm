@@ -246,7 +246,7 @@
     <identifier><xsl:apply-templates /></identifier>
   </xsl:template>
   <xsl:template match="Downloadable">
-    <identifier><xsl:apply-templates /></identifier>
+    <downloadable><xsl:apply-templates /></downloadable>
   </xsl:template>
   <xsl:template match="Item_URL">
     <item_url><xsl:apply-templates /></item_url>
