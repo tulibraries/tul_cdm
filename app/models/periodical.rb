@@ -7,10 +7,10 @@ class Periodical < TulCdm::Models::Base
 
   has_attributes :title,:format,:type, :publisher,:digital_collection,:digital_publisher,
       :digital_specifications,:contact,:repository,:repository_collection, :language,
-      :identifier, datastream: :objectMetadata, multiple: true
+      :identifier, :downloadable, datastream: :objectMetadata, multiple: true
 
   has_attributes :item_url, :oclc_number, :date_created, :date_modified, :contentdm_number,
-   :contentdm_file_name, :downloadable, :contentdm_file_path, :contentdm_collection_id, datastream: 'contentdmMetadata', multiple: false
+   :contentdm_file_name, :contentdm_file_path, :contentdm_collection_id, datastream: 'contentdmMetadata', multiple: false
 
   has_attributes :issue_title, :ocr_note, datastream: 'descMetadata', multiple: true
 
