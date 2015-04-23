@@ -106,12 +106,11 @@ describe 'List CONTENTdm collections' do
     end
 
     it "should convert a single collection file" do
-      pending ("FIXME: VCR throwing HTTPS error -- version of gem issue?")
       VCR.use_cassette "cdm-util-convert/should_convert_a_ContentDM_file" do
         downloaded = CDMUtils.download_one_collection(config, collection_name)
+        xml_file_count = `grep -ic "<record>" #{download_directory}/*`.to_i
         CDMUtils.convert_file(File.join(download_directory, collection_name + '.xml'), converted_directory)
         file_count = Dir[File.join(converted_directory, '*.xml')].count { |file| File.file?(file) }
-        xml_file_count = `grep -ic "<record>" #{download_directory}/*`.to_i
         expect(file_count).to eq(xml_file_count)
         xsd = Nokogiri::XML::Schema(open(schema_url))
         Dir.glob(File.join(converted_directory, '**', '*.xml')).each do |file|
