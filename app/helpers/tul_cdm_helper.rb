@@ -489,8 +489,9 @@ module TulCdmHelper
   end
 
   def is_downloadable? (document)
-    # It isn't downloadable if there's a "No" in any of the downloadable elements
-    # Otherwise, "Yes" must be explicitly stateda
+    # Assumes downloadable is in an array, eventhough it should not be multivalued.
+    # Item is not downloadable if a "No" exists in any of the downloadable elements
+    # Otherwise, "Yes" must be explicitly stated
     !document['downloadable_ssm'].include?("No") && document['downloadable_ssm'].last.eql?("Yes")
   end
 
