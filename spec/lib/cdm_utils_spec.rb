@@ -67,7 +67,7 @@ describe 'List CONTENTdm collections' do
         file_count = Dir[File.join(download_directory, '*.xml')].count { |file| File.file?(file) }
         file = File.join(download_directory, yearbook_collection_name + '.xml')
         doc = Nokogiri::XML(File.read(file))
-        # Tests for both metadata and attempted access to private collection
+        # Tests for OCR text tag
         expect(doc).to have_tag(ocr_text_tag)
         expect(doc.xpath(ocr_text_xpath).text).to match(match_text)
       end
@@ -101,6 +101,7 @@ describe 'List CONTENTdm collections' do
         expect(doc.search('contentdm_collection_id').text).to include collection_file
         expect(doc).to have_tag('Rails_Root')
         expect(doc).to have_tag('foxml_dir')
+        expect(doc).to have_tag('Downloadable')
       end
     end
 
