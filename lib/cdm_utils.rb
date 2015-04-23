@@ -105,6 +105,10 @@ module CDMUtils
       ocr_compound_collections = ['p245801coll12']
       user = config['cdm_user']
       password = config['cdm_password']
+
+      build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}&CISOTYPE=custom&CISOPAGE=&CISOPTRLIST=&title=Title&altern=Alternate_Title&relati=Series&date=Date&hidden=Hidden_Date&contri=Narrator&descri=Content_Summary&descra=Notes&subjec=Subject&subjea=Corporate_Name&subjed=Personal_Names&format=Format&type=Type&publis=Publisher&langua=Language&rights=Rights&reposi=Repository&reposa=Repository_Collection&digitb=Digital_Collection&publia=Digital_Publisher&source=Physical_Description&digita=Digital_Specifications&contac=Contact&create=Created&folder=Location&tbd=Acknowledgment&identi=Master_Identifier&ada=ADA_Note&file=File_Name&find=Item_URL&dmoclcno=OCLC_number&dmcreated=Date_created&dmmodified=Date_modified&dmrecord=CONTENTdm_number&cdmfile=CONTENTdm_file_name&cdmpath=CONTENTdm_file_path&CISOMODE1=rep&CISOMODE2=rep"
+      open(build_xml_url, :http_basic_authentication=>[user, password])
+
       cdm_url = "#{config['cdm_server']}/dmwebservices/index.php?q=dmGetCollectionList/xml"
       xml = Nokogiri::XML(open(cdm_url))
       FileUtils::mkdir_p config['cdm_download_dir']
