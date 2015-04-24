@@ -24,3 +24,5 @@ config/contentdm.yml
 /jetty
 /spec/fixtures/vcr_cassettes/
 /public/sitemap.xml.gz
+
+/coverage
