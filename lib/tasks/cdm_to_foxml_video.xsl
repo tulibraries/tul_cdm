@@ -38,7 +38,7 @@
           <foxml:property NAME="info:fedora/fedora-system:def/model#ownerId" VALUE=""/>
           <foxml:property NAME="info:fedora/fedora-system:def/model#createdDate" VALUE="{$current_time}"/>
           <foxml:property NAME="info:fedora/fedora-system:def/view#lastModifiedDate" VALUE=""/>
-        </foxml:objectProperties>                                        
+        </foxml:objectProperties>
         <foxml:datastream ID="RELS-EXT" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
           <foxml:datastreamVersion ID="RELS-EXT.0" LABEL="Fedora Object-to-Object Relationship Metadata" MIMETYPE="application/rdf+xml" >
             <foxml:xmlContent>
@@ -72,6 +72,7 @@
                 <xsl:apply-templates select="Repository_Collection"/>
                 <xsl:apply-templates select="Language"/>
                 <xsl:apply-templates select="Identifier"/>
+                <xsl:apply-templates select="Downloadable"/>
               </fields>
             </foxml:xmlContent>
           </foxml:datastreamVersion>
@@ -228,6 +229,9 @@
   </xsl:template>
   <xsl:template match="Identifier">
     <identifier><xsl:apply-templates /></identifier>
+  </xsl:template>
+  <xsl:template match="Downloadable">
+    <downloadable><xsl:apply-templates /></downloadable>
   </xsl:template>
   <xsl:template match="Item_URL">
     <item_url><xsl:apply-templates /></item_url>

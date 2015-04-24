@@ -67,7 +67,7 @@ describe 'List CONTENTdm collections' do
         file_count = Dir[File.join(download_directory, '*.xml')].count { |file| File.file?(file) }
         file = File.join(download_directory, yearbook_collection_name + '.xml')
         doc = Nokogiri::XML(File.read(file))
-        # Tests for both metadata and attempted access to private collection
+        # Tests for OCR text tag
         expect(doc).to have_tag(ocr_text_tag)
         expect(doc.xpath(ocr_text_xpath).text).to match(match_text)
       end
@@ -101,16 +101,16 @@ describe 'List CONTENTdm collections' do
         expect(doc.search('contentdm_collection_id').text).to include collection_file
         expect(doc).to have_tag('Rails_Root')
         expect(doc).to have_tag('foxml_dir')
+        expect(doc).to have_tag('Downloadable')
       end
     end
 
     it "should convert a single collection file" do
-      pending ("FIXME: VCR throwing HTTPS error -- version of gem issue?")
       VCR.use_cassette "cdm-util-convert/should_convert_a_ContentDM_file" do
         downloaded = CDMUtils.download_one_collection(config, collection_name)
+        xml_file_count = `grep -ic "<record>" #{download_directory}/*`.to_i
         CDMUtils.convert_file(File.join(download_directory, collection_name + '.xml'), converted_directory)
         file_count = Dir[File.join(converted_directory, '*.xml')].count { |file| File.file?(file) }
-        xml_file_count = `grep -ic "<record>" #{download_directory}/*`.to_i
         expect(file_count).to eq(xml_file_count)
         xsd = Nokogiri::XML::Schema(open(schema_url))
         Dir.glob(File.join(converted_directory, '**', '*.xml')).each do |file|

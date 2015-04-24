@@ -31,6 +31,8 @@ module TulCdmHelper
   
   def link_to_download(document, collection_id, cdm_number)
 
+    return if !is_downloadable?(document)
+
     output = ''
     config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
     model = model_from_document(document)
@@ -484,6 +486,13 @@ module TulCdmHelper
       end
     end
     images.html_safe
+  end
+
+  def is_downloadable? (document)
+    # Assumes downloadable is in an array, eventhough it should not be multivalued.
+    # Item is not downloadable if a "No" exists in any of the downloadable elements
+    # Otherwise, "Yes" must be explicitly stated
+    !document['downloadable_ssm'].include?("No") && document['downloadable_ssm'].last.eql?("Yes")
   end
 
 end

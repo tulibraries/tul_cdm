@@ -94,6 +94,11 @@ module CDMUtils
       xml_text.gsub("</record><record>", "</record>\n  <record>")
     end
 
+    def self.insert_download_tag(document)
+      # Prohibit download by default
+      document.gsub("</record>", "  <Downloadable>No</Downloadable>\n  </record>")
+    end
+
     def self.download(config, coll=nil)
       # coll is the collection to import
       # If coll is nil, then import all the available collections
@@ -140,7 +145,22 @@ module CDMUtils
   module_function :convert_file # :nodoc:
 
   class Convert
+
+    def self.insert_downloadable_tag(document)
+      # Inserts default downloadable tag if it doesn't exist
+      xml_doc = Nokogiri::XML(document)
+      xml_doc.xpath("//record").each do |xml_element|
+        if xml_element.xpath("Downloadable").empty?
+          # Prohibit download by default
+          xml_element.add_child("<Downloadable>No</Downloadable>")
+        end
+      end
+      xml_doc.to_xml
+    end
+
     def self.conform(doc, collection_file_name, target_dir)
+
+      doc = insert_downloadable_tag(doc)
       
       #Strip out any bad keying from CDM
       replace = doc.gsub("&amp<", "<")
@@ -182,7 +202,7 @@ module CDMUtils
       replace32 = replace31.gsub("<Audio_Filename/>", "<File_Name/>")
       replace33 = replace32.gsub("<Video_Filename/>", "<File_Name/>")
       replace34 = replace33.gsub("<metadata>", "<metadata>\n  <manifest>\n    <contentdm_collection_id>#{collection_file_name}</contentdm_collection_id>\n    <Rails_Root>#{Rails.root}</Rails_Root>\n    <foxml_dir>#{target_dir}</foxml_dir>\n  </manifest>")
-      
+
     end
 
     def self.convert_file(file_name, foxml_dir)
