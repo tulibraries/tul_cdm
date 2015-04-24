@@ -77,13 +77,21 @@ module TulCdmHelper
     end
     path = "#{config['cdm_archive']}/utils/ajaxhelper/?CISOROOT=/#{collection_id}&CISOPTR=#{cdm_number}&action=2&DMSCALE=#{hr_scale}&DMWIDTH=#{hr_width}&DMHEIGHT=#{hr_height}"
 
-    # New stuff
+    # Viewer Parameters
+
+    api_path="https://server16002.contentdm.oclc.org/dmwebservices/index.php?q=dmGetCollectionImageSettings/#{collection_id}/xml"
+    xml = Nokogiri::XML(open(api_path))
+    zoom_levels = xml.xpath("imagesettings/zoomlevels")
+    # Use zoom level one less than full resolution, unless smaller zoom levels don't exist
+    zoom_level = zoom_levels.children[-2]
+    pageScale = zoom_level ? zoom_level.text.to_i : 100
+
+    # Image Parameters
 
     api_path="https://server16002.contentdm.oclc.org/dmwebservices/index.php?q=dmGetImageInfo/#{collection_id}/#{cdm_number.to_s}/xml"
     xml = Nokogiri::XML(open(api_path))
     pageWidth = xml.xpath("imageinfo/width/text()").to_s 
     pageHeight = xml.xpath("imageinfo/height/text()").to_s 
-    pageScale = "100"
 
     cdm_data = { pageids:    [cdm_number].to_json,
                  cdmColl:    collection_id,
