@@ -63,6 +63,7 @@ group :test do
   gem "webmock"
   gem "factory_girl_rails", "~> 4.0"
   gem "database_cleaner"
+  gem 'simplecov', :require => false
 end
 
 group :development, :test do
