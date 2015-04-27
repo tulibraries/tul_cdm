@@ -178,22 +178,46 @@ module TulCdmHelper
     content_tag(:div, pdf_object, id: 'document-pdf')
   end
 
-  def compound_document_content(document)
+  def get_item_info(cdm_server, collection, pointer, document)
+    api_path="#{cdm_server}/dmwebservices/index.php?q=dmGetItemInfo/#{collection}/#{pointer}/xml"
+    xml = Nokogiri::XML(open(api_path))
+  end
+
+  def get_document_content(document)
     config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
+    cdm_coll=document["contentdm_collection_id_tesim"].to_sentence if document["contentdm_collection_id_tesim"]
+    cdm_num=document["contentdm_number_tesim"].to_sentence if document["contentdm_number_tesim"]
+    document_content_blocks = []
+
+    if (document['document_content_tesim'])
+      document['document_content_tesim'].each do |text_block|
+        document_content_blocks << text_block
+      end
+    else
+      xml_ItemInfo = get_item_info(config["cdm_server"], cdm_coll, cdm_num, document)
+      document_content = xml_ItemInfo.xpath('//docume')
+      if (!document_content.empty?)
+        document_content.each do |content|
+          document_content_blocks << content.text
+        end
+      end
+    end
+
+    document_content_blocks
+  end
+
+  def get_compound_document_content(document)
+    config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
+    cdm_coll=document["contentdm_collection_id_tesim"].to_sentence if document["contentdm_collection_id_tesim"]
+    cdm_num=document["contentdm_number_tesim"].to_sentence if document["contentdm_number_tesim"]
+    document_content_blocks = []
+
     model = model_from_document(document)
     output=''
     cpd = ''
     page_ids_array=[]
-    cdm_coll=document["contentdm_collection_id_tesim"].to_sentence if document["contentdm_collection_id_tesim"]
-    cdm_num=document["contentdm_number_tesim"].to_sentence if document["contentdm_number_tesim"]
-    if(document["file_name_ssm"])
-      cpd = document["file_name_ssm"].to_sentence
-    else
-      fext = File.extname(document["contentdm_file_name_tesim"].to_sentence) if document["contentdm_file_name_tesim"]
-      if(fext == ".cpd")
-        cpd = "index.cpd"
-      end
-    end
+
+    # Get compound document name
 
     if(document["file_name_ssm"])
       cpd = document["file_name_ssm"].to_sentence
@@ -203,6 +227,9 @@ module TulCdmHelper
         cpd = "index.cpd"
       end
     end
+
+    # If it's a compound document, get the items
+
     if(cpd == "index.cpd")
       content_server = config["cdm_server"]
       api_path="#{content_server}/dmwebservices/index.php?q=dmGetCompoundObjectInfo/#{cdm_coll}/#{cdm_num}/xml"
@@ -218,21 +245,20 @@ module TulCdmHelper
           xpath_var = default_xpath
       end
 
-      # Get document content
+      # Get document content of each item
+
       pageptrs = xml.xpath("#{xpath_var}/pageptr/text()")
       pageptrs.each do |pageptr|
-        api_path="#{content_server}/dmwebservices/index.php?q=dmItemHasOCRText/#{cdm_coll}/#{pageptr.to_s}/xml"
-        xml_ItemHasOCRText = Nokogiri::XML(open(api_path))
-        itemHasOCRText = xml_ItemHasOCRText.xpath("//hasOCR").text.to_i;
-        api_path="#{content_server}/dmwebservices/index.php?q=dmGetItemInfo/#{cdm_coll}/#{pageptr.to_s}/xml"
-        xml_ItemInfo = Nokogiri::XML(open(api_path))
+        xml_ItemInfo = get_item_info(content_server, cdm_coll, cdm_num, document)
         document_content = xml_ItemInfo.xpath('//docume')
         document_content.each do |content|
           output << content.text + " "
         end
+        document_content_blocks << output
       end
     end
-    output.rstrip
+
+    document_content_blocks
   end
 
   def render_compound_pageturner(document)

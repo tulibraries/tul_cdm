@@ -5,13 +5,11 @@
     render_compound_pageturner @document if @document["contentdm_number_tesim"] %>
   </div>
   <div id="OCRTextContainer">
-    <% document_content = compound_document_content(@document) %>
-    <% if @document['document_content_tesim'] %>
+    <% document_content = get_compound_document_content(@document) %>
+    <% if document_content %>
       <div id='document-content-viewer'>
-    <% @document['document_content_tesim'].each do |text_block| %>
-      <%= text_block.to_s %>
-    <% end %>
-    </div>
+        <%= document_content.join(" ") %>
+      </div>
     <% end %>
   </div>
     
