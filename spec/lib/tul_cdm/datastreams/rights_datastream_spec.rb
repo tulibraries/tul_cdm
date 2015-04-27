@@ -18,14 +18,4 @@ EODS
 
   it { is_expected.to have_term(:rights) }
 
-  context 'Rights Datastream Class' do
-    it "Should not use a prefix" do
-      expect(subject.prefix).to be_blank 
-    end
-
-    it "Should have no fields" do
-      expect(TulCdm::Datastreams::RightsDatastream.xml_template.children[0].children.count).to eq 0
-    end
-    
-  end
 end
