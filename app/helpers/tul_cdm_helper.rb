@@ -254,7 +254,7 @@ module TulCdmHelper
         document_content.each do |content|
           output << content.text + " "
         end
-        document_content_blocks << output
+        document_content_blocks << output.rstrip
       end
     end
 
