@@ -249,7 +249,7 @@ module TulCdmHelper
 
       pageptrs = xml.xpath("#{xpath_var}/pageptr/text()")
       pageptrs.each do |pageptr|
-        xml_ItemInfo = get_item_info(content_server, cdm_coll, cdm_num, document)
+        xml_ItemInfo = get_item_info(content_server, cdm_coll, pageptr, document)
         document_content = xml_ItemInfo.xpath('//docume')
         document_content.each do |content|
           output << content.text + " "
