@@ -1,14 +1,15 @@
 <div class="cpd-thumb">
   <%= link_to_download(document, document["contentdm_collection_id_tesim"].to_sentence, document["contentdm_number_tesim"].to_sentence) %>
   <%= render_image_viewer(document, document["contentdm_collection_id_tesim"].to_sentence, document["contentdm_number_tesim"].to_sentence) if document["contentdm_collection_id_tesim"] %>
-  <% if @document['document_content_tesim'] %>
-    <h2 class="ocr-section-heading">OCR Text (may contain machine-generated errors)</h2>
-    <div id='document-content-viewer'>
-    <% @document['document_content_tesim'].each do |text_block| %>
-      <%= text_block.to_s %>
+  <div id="OCRTextContainer">
+    <% document_content = get_document_content(document) %>
+    <% if document_content %>
+      <h2 class="ocr-section-heading">OCR Text (may contain machine-generated errors)</h2>
+      <div id='document-content-viewer'>
+        <%= document_content.join(" ") %>
+      </div>
     <% end %>
-    </div>
-  <% end %>
+  </div>
 </div>
 <dl class="defList">
   <% document_show_fields.each do |solr_fname, field| -%>
