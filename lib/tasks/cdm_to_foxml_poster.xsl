@@ -73,6 +73,7 @@
                 <xsl:apply-templates select="Language"/>
                 <xsl:apply-templates select="Identifier"/>
                 <xsl:apply-templates select="Downloadable"/>
+                <xsl:apply-templates select="Downloadable_OCR"/>
               </fields>
             </foxml:xmlContent>
           </foxml:datastreamVersion>
@@ -235,6 +236,9 @@
   </xsl:template>
   <xsl:template match="Downloadable">
     <downloadable><xsl:apply-templates /></downloadable>
+  </xsl:template>
+  <xsl:template match="Downloadable_OCR">
+    <downloadable_ocr><xsl:apply-templates /></downloadable_ocr>
   </xsl:template>
   <xsl:template match="Item_URL">
     <item_url><xsl:apply-templates /></item_url>

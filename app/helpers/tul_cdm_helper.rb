@@ -29,6 +29,11 @@ module TulCdmHelper
     link_to image_tag("#{config['cdm_archive']}/utils/ajaxhelper/?CISOROOT=#{collection_id}&CISOPTR=#{cdm_number}&action=2&DMSCALE=#{access_scale}&DMWIDTH=#{access_width}&DMHEIGHT=#{access_height}"), path.html_safe, :rel => "shadowbox[#{collection_id}-#{cdm_number}];width=#{w_sb}"
   end
 
+  def link_to_download_ocr (document)
+    return if !is_downloadable_ocr?(document)
+    content_tag :button, t('tul_cdm.viewer.download_ocr_text'), target: valid_filename(document["id"], "txt"), class: "downloadTrigger"
+  end
+
   def link_to_download(document, collection_id, cdm_number)
 
     return if !is_downloadable?(document)
@@ -527,6 +532,13 @@ module TulCdmHelper
     # Item is not downloadable if a "No" exists in any of the downloadable elements
     # Otherwise, "Yes" must be explicitly stated
     !document['downloadable_ssm'].include?("No") && document['downloadable_ssm'].last.eql?("Yes")
+  end
+
+  def is_downloadable_ocr?(document)
+    # Assumes downloadable is in an array, eventhough it should not be multivalued.
+    # Item is not downloadable if a "No" exists in any of the downloadable elements
+    # Otherwise, "Yes" must be explicitly stated
+    !document['downloadable_ocr_ssm'].include?("No") && document['downloadable_ocr_ssm'].last.eql?("Yes")
   end
 
   def valid_filename (basename, extension)

@@ -69,7 +69,7 @@ module CDMUtils
           document_content = xml_ItemInfo.xpath('Document_Content').text
           compound_document_content << " " if compound_document_content.size > 0
           compound_document_content << document_content if document_content.size > 0
-          
+
           page_count += 1
           break if page_count >= 12 and Rails.env.test?
 
@@ -92,11 +92,6 @@ module CDMUtils
       xml_compound_document = xml_doc.xpath("//record[CONTENTdm_file_name[contains(text(), '.cpd')]]")
       xml_text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<metadata>\n  " + xml_compound_document.to_xml + "\n</metadata>"
       xml_text.gsub("</record><record>", "</record>\n  <record>")
-    end
-
-    def self.insert_download_tag(document)
-      # Prohibit download by default
-      document.gsub("</record>", "  <Downloadable>No</Downloadable>\n  </record>")
     end
 
     def self.download(config, coll=nil)
@@ -125,11 +120,11 @@ module CDMUtils
           if (ocr_compound_collections.include? coll)
             file = get_compound_document_content(config, new_coll[1..-1], file)
           end
-          File.open(Rails.root + xmlFilePath, 'w') { |f| f.write(file) }	
+          File.open(Rails.root + xmlFilePath, 'w') { |f| f.write(file) }
           puts "\nSuccessfully harvested #{new_coll}" unless Rails.env.test?
           harvested_count += 1
         end
-      end 
+      end
       harvested_count
     end
   end
@@ -158,15 +153,29 @@ module CDMUtils
       xml_doc.to_xml
     end
 
+    def self.insert_downloadable_ocr_tag(document)
+      # Inserts default downloadable tag if it doesn't exist
+      xml_doc = Nokogiri::XML(document)
+      xml_doc.xpath("//record").each do |xml_element|
+        if xml_element.xpath("Downloadable_OCR").empty?
+          # Prohibit download by default
+          xml_element.add_child("<Downloadable_OCR>No</Downloadable_OCR>")
+        end
+      end
+      xml_doc.to_xml
+    end
+
     def self.conform(doc, collection_file_name, target_dir)
 
+      #Insert new downloadable tags
       doc = insert_downloadable_tag(doc)
-      
+      doc = insert_downloadable_ocr_tag(doc)
+
       #Strip out any bad keying from CDM
       replace = doc.gsub("&amp<", "<")
       replace2 = replace.gsub("&quot<", "<")
       replace3 = replace2.gsub("", "")
-      
+
       #Normalize inconsistent CDM metadata vocabulary
       #So ugly -- remove when vocab is normalized by staff
       replace4 = replace3.gsub("<Filename>", "<File_Name>")
@@ -179,7 +188,7 @@ module CDMUtils
       replace11 = replace10.gsub("<Call_Number>", "<Local_Call_Number>")
       replace12 = replace11.gsub("<Audio_Filename>", "<File_Name>")
       replace13 = replace12.gsub("<Video_Filename>", "<File_Name>")
-      
+
       replace14 = replace13.gsub("</Filename>", "</File_Name>")
       replace15 = replace14.gsub("</Created_by>", "</Created>")
       replace16 = replace15.gsub("</Personal_Name>", "</Personal_Names>")
@@ -209,15 +218,15 @@ module CDMUtils
       fname = File.basename(file_name, ".xml")
       text = File.read(file_name)
       conformed_text = CDMUtils.conform(text, fname, foxml_dir)
-	
+
       FileUtils::mkdir_p foxml_dir
       File.open(file_name, "w") { |file| file.puts conformed_text }
-	
+
       case fname
         #clipping
         when 'p15037coll7'
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_clipping.xsl #{file_name}`
-        
+
         #ephemera
         when 'p16002coll6', 'p16002coll7'
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_ephemera.xsl #{file_name}`
@@ -226,7 +235,7 @@ module CDMUtils
         when 'p15037coll5', 'p245801coll13', 'p15037coll17', 'p15037coll10', 'p15037coll3', 'p15037coll15', 'p245801coll0', 'p16002coll3', 'p16002coll2', 'p15037coll8', 'p16002coll13', 'p16002coll17', 'p16002coll19'
 
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_photograph.xsl #{file_name}`
-        
+
         #manuscript
         when 'p15037coll18', 'p16002coll4', 'p15037coll19', 'p16002coll14'
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_manuscript.xsl #{file_name}`
@@ -234,23 +243,23 @@ module CDMUtils
         #pamphlet
         when 'p16002coll5', 'p15037coll14'
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_pamphlet.xsl #{file_name}`
-        
+
         #periodical
         when 'p15037coll4', 'p15037coll9', 'p15037coll6', 'p16002coll8', 'p245801coll12'
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_periodical.xsl #{file_name}`
-        
+
         #poster
         when 'p16002coll9'
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_poster.xsl #{file_name}`
-        
+
         #scholarship
         when 'p15037coll12', 'p245801coll10'
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_scholarship.xsl #{file_name}`
-        
+
         #sheet music
         when 'p15037coll1'
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_sheetmusic.xsl #{file_name}`
-        
+
         #video
         when 'p15037coll2'
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_video.xsl #{file_name}`
@@ -266,7 +275,7 @@ module CDMUtils
         else
           `xsltproc #{Rails.root}/lib/tasks/cdm_to_foxml_noncustom.xsl #{file_name}`
       end
-        
+
       puts "XSLT transformation complete for #{fname}".green
 
       # Delete the source XML file
@@ -337,4 +346,3 @@ module CDMUtils
     end
   end
 end
-
