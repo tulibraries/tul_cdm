@@ -10,10 +10,11 @@
       <div id='document-content-viewer'>
         <%= document_content.join(" ") %>
       </div>
+      <%= content_tag :a, "Download OCR Text", class: "downloadTrigger" %>
     <% end %>
   </div>
-    
-</div> 
+
+</div>
 <dl class="defList">
   <% document_show_fields.each do |solr_fname, field| -%>
     <% if document.has? solr_fname %>
@@ -22,4 +23,3 @@
     <% end -%>
   <% end -%>
 </dl>
-
