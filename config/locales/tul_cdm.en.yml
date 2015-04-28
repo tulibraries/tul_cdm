@@ -6,7 +6,7 @@ en:
     homepage:
       welcome: 'Welcome to the'
       intro_text: |+
-        Our Digital Collections site offers free worldwide access to the unique primary historical and cultural resources held by the Temple University Libraries and to selected scholarly works and other publications produced at Temple. We are actively digitizing additional materials; to suggest materials you believe should be digitized, please contact us at: <a href="mailto:diglib@temple.edu">diglib@temple.edu</a>. 
+        Our Digital Collections site offers free worldwide access to the unique primary historical and cultural resources held by the Temple University Libraries and to selected scholarly works and other publications produced at Temple. We are actively digitizing additional materials; to suggest materials you believe should be digitized, please contact us at: <a href="mailto:diglib@temple.edu">diglib@temple.edu</a>.
       featured_collections_heading: "Featured Collections"
       collections_by_subject_heading: "Browse Collections by Subject"
       subject_listing: |+
@@ -44,6 +44,8 @@ en:
       caveat: 'The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings.'
     viewer:
       download_text: 'Download'
+      download_ocr_text: 'Download OCR Text'
+      possible_ocr_errors: 'OCR Text (may contain machine-generated errors)'
     digital_collection:
       allowed_ip_helper_text: 'comma separated'
       not_available: 'Collection is unavailable'

@@ -4,11 +4,11 @@
   <div id="OCRTextContainer">
     <% document_content = get_document_content(document) %>
     <% if document_content %>
-      <h2 class="ocr-section-heading">OCR Text (may contain machine-generated errors)</h2>
+      <h2 class="ocr-section-heading"><%= t('tul_cdm.viewer.possible_ocr_errors') %></h2>
       <div id='document-content-viewer'>
         <%= document_content.join(" ") %>
       </div>
-      <%= content_tag :button, "Download OCR Text", target: valid_filename(document["id"], "txt"), class: "downloadTrigger" %>
+      <%= content_tag :button, t('tul_cdm.viewer.download_ocr_text'), target: valid_filename(document["id"], "txt"), class: "downloadTrigger" %>
     <% end %>
   </div>
 </div>
