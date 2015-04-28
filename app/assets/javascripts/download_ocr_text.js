@@ -1,6 +1,9 @@
 $(document).ready(function(){
-  // Trigger download
   $(".downloadTrigger").click(function(event){
-    window.open("data:text/plain;charset=utf-8," + escape($("#document-content-viewer").text()));
+    var target = $( event.target );
+    var filename = target.attr("target");
+    var ocr_text = $("#document-content-viewer").text();
+    var blob = new Blob([ocr_text], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, filename);
   });
 })

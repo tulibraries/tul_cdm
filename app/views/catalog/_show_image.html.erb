@@ -8,7 +8,7 @@
       <div id='document-content-viewer'>
         <%= document_content.join(" ") %>
       </div>
-      <%= content_tag :a, "Download OCR Text", target: document["contentdm_number_tesim"].to_sentence + ".txt", class: "downloadTrigger" %>
+      <%= content_tag :a, "Download OCR Text", target: valid_filename(document["id"], "txt"), class: "downloadTrigger" %>
     <% end %>
   </div>
 </div>

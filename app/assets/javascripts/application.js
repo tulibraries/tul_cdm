@@ -15,6 +15,7 @@
 
 //= require PDFObject/pdfobject.min
 //= require reveal
+//= require FileSaver.min.js
 //= require download_ocr_text
 
 //= require jquery_ujs
