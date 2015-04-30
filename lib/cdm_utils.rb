@@ -107,6 +107,51 @@ module CDMUtils
       password = config['cdm_password']
 
       build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}&CISOTYPE=custom&CISOPAGE=&CISOPTRLIST=&title=Title&altern=Alternate_Title&relati=Series&date=Date&hidden=Hidden_Date&contri=Narrator&descri=Content_Summary&descra=Notes&subjec=Subject&subjea=Corporate_Name&subjed=Personal_Names&format=Format&type=Type&publis=Publisher&langua=Language&rights=Rights&reposi=Repository&reposa=Repository_Collection&digitb=Digital_Collection&publia=Digital_Publisher&source=Physical_Description&digita=Digital_Specifications&contac=Contact&create=Created&folder=Location&tbd=Acknowledgment&identi=Master_Identifier&ada=ADA_Note&file=File_Name&find=Item_URL&dmoclcno=OCLC_number&dmcreated=Date_created&dmmodified=Date_modified&dmrecord=CONTENTdm_number&cdmfile=CONTENTdm_file_name&cdmpath=CONTENTdm_file_path&CISOMODE1=rep&CISOMODE2=rep"
+
+        case coll
+        #clipping
+        when 'p15037coll7'
+          build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}&CISOTYPE=custom&CISOPAGE=&CISOPTRLIST=&title=Title&date=Date&creato=Author&subjec=Subject&organi=Organization_Building&coverab=Geographic_Subject&subjea=Personal_Names&descri=Description&format=Format&type=Type&publis=Publisher&source=Physical_Description&rights=Rights&reposi=Repository&reposa=Repository_Collection&locati=Folder&digitb=Digital_Collection&catalo=Digital_Publisher&digiti=Digitization_Specifications&create=Created&contac=Contact&last=Last_Updated&identa=Image_Number&ada=ADA_Note&docume=Document_Content&find=Item_URL&dmoclcno=OCLC_number&dmcreated=Date_created&dmmodified=Date_modified&dmrecord=CONTENTdm_number&cdmfile=CONTENTdm_file_name&cdmpath=CONTENTdm_file_path&CISOMODE1=rep&CISOMODE2=rep"    
+        #ephemera
+        when 'p16002coll6'
+          build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}&CISOTYPE=custom&CISOPAGE=&CISOPTRLIST=&title=Title&issue=Series&date=Date&creato=Creator&descri=Notes&subjec=Subject&corpor=Corporate_Name&geogra=Geographic_Subject&person=Personal_Names&format=Format&type=Type&langua=Language&rights=Rights&reposi=Repository&reposa=Repository_Collection&digitb=Digital_Collection&publis=Digital_Publisher&physic=Physical_Description&digita=Digital_Specifications&contac=Contact&create=Created&last=Last_Updated&folder=Folder&identi=Identifier&ada=ADA_Note&docume=Document_Content&file=File_Name&find=Item_URL&dmoclcno=OCLC_number&dmcreated=Date_created&dmmodified=Date_modified&dmrecord=CONTENTdm_number&cdmfile=CONTENTdm_file_name&cdmpath=CONTENTdm_file_path&CISOMODE1=rep&CISOMODE2=rep"
+        when 'p16002coll7'
+          build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}&CISOTYPE=custom&CISOPAGE=&CISOPTRLIST=&title=Title&issue=Series&date=Date&creato=Creator&descri=Notes&subjec=Subject&corpor=Corporate_Name&geogra=Geographic_Subject&person=Personal_Names&format=Format&type=Type&langua=Language&rights=Rights&reposi=Repository&reposa=Repository_Collection&digitb=Digital_Collection&publis=Digital_Publisher&physic=Physical_Description&digita=Digital_Specifications&contac=Contact&create=Created&last=Last_Updated&folder=Folder&identi=Identifier&ada=ADA_Note&docume=Document_Content&file=File_Name&find=Item_URL&dmoclcno=OCLC_number&dmcreated=Date_created&dmmodified=Date_modified&dmrecord=CONTENTdm_number&cdmfile=CONTENTdm_file_name&cdmpath=CONTENTdm_file_path&CISOMODE1=rep&CISOMODE2=rep"
+        #photograph
+        when 'p15037coll5', 'p245801coll13', 'p15037coll17', 'p15037coll10', 'p15037coll3', 'p15037coll15', 'p245801coll0', 'p16002coll3', 'p16002coll2', 'p15037coll8', 'p16002coll13', 'p16002coll17', 'p16002coll19'
+          build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}&CISOTYPE=custom&CISOPAGE=&CISOPTRLIST=&title=Title&date=Date&creato=Photographer&locata=Organization_Building&subjec=Subject&inters=Intersection&coverab=Geographic_Subject&subjea=Personal_Names&descri=Description&descria=Original_Notes&format=Format&type=Type&source=Physical_Description&rights=Rights&reposi=Repository&reposa=Repository_Collection&locati=Folder&digita=Digital_Collection&catalo=Digital_Publisher&digiti=Digitization_Specifications&contac=Contact&create=Created&last=Last_Updated&identi=Identifier&ada=ADA_Note&file=File_Name&find=Item_URL&dmoclcno=OCLC_number&dmcreated=Date_created&dmmodified=Date_modified&dmrecord=CONTENTdm_number&cdmfile=CONTENTdm_file_name&cdmpath=CONTENTdm_file_path&CISOMODE1=rep&CISOMODE2=rep"        
+        #manuscript
+        when 'p15037coll18', 'p16002coll4', 'p15037coll19', 'p16002coll14'
+          build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}&CISOTYPE=custom&CISOPAGE=&CISOPTRLIST=&title=Title&date=Date&creato=Creator_Person&creata=Other_Creator_Person&organi=Creator_Organization&subjec=Subject&subjea=Organization&covera=Geographic_Subject&subjeb=Personal_Names&descri=Description&notes=Notes&extent=Number_of_Pages&format=Format&type=Type&langua=Language&rights=Rights&reposi=Repository&reposa=Repository_Collection&digita=Digital_Collection&digitb=Digital_Publisher&digitc=Digital_Specifications&contac=Contact&create=Created_by&identi=Identifier&ada=ADA_Note&docume=Document_Content&find=Item_URL&dmoclcno=OCLC_number&dmcreated=Date_created&dmmodified=Date_modified&dmrecord=CONTENTdm_number&cdmfile=CONTENTdm_file_name&cdmpath=CONTENTdm_file_path&CISOMODE1=rep&CISOMODE2=rep"
+        #pamphlet
+        when 'p16002coll5', 'p15037coll14'
+          build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}"        
+        #periodical
+        when 'p15037coll4', 'p15037coll9', 'p15037coll6', 'p16002coll8', 'p245801coll12'
+          build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}"        
+        #poster
+        when 'p16002coll9'
+          build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}"        
+        #scholarship
+        when 'p15037coll12', 'p245801coll10'
+          build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}"        
+        #sheet music
+        when 'p15037coll1'
+          build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}"        
+        #video
+        when 'p15037coll2'
+          build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}"
+        #audio
+        when 'p16002coll1'
+          build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}"
+        #oral history
+        when 'p16002coll21'
+          build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}"
+        else
+          build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}"      
+        end
+
+
       open(build_xml_url, :http_basic_authentication=>[user, password])
 
       cdm_url = "#{config['cdm_server']}/dmwebservices/index.php?q=dmGetCollectionList/xml"
