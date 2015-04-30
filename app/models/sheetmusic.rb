@@ -1,6 +1,6 @@
-class SheetMusic < TulCdm::Models::Base
+class Sheetmusic < TulCdm::Models::Base
 
-  has_metadata "descMetadata", type: SheetMusicMetadata
+  has_metadata "descMetadata", type: SheetmusicMetadata
   has_metadata "physicalMetadata", :type => TulCdm::Datastreams::PhysicalDatastream
   has_metadata "digitalMetadata", :type => TulCdm::Datastreams::DigitalDatastream
   has_metadata "creationMetadata", :type => TulCdm::Datastreams::CreationDatastream

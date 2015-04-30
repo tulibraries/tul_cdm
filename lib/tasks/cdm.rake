@@ -3,13 +3,13 @@ require "open-uri"
 require "fileutils"
 
 namespace :tu_cdm do
-  
+
   OpenURI::Buffer.send :remove_const, 'StringMax'
   OpenURI::Buffer.const_set 'StringMax', 0
 
   config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
 
-  desc "List current ContentDM collections on the CDM server"  
+  desc "List current ContentDM collections on the CDM server"
   task :list => :environment do
     collections = CDMUtils.list(config['cdm_server'])
     collections.each do |c|
@@ -35,25 +35,25 @@ namespace :tu_cdm do
   task :convert => :environment do
     u_files = Dir.glob("#{config['cdm_download_dir']}/*.xml").select { |fn| File.file?(fn) }
     puts "#{u_files.length} collections detected"
-    
+
     #TODO: exclude p16002coll10 and p16002coll18
     u_files.length.times do |i|
       CDMUtils.convert_file(u_files[i], config['cdm_foxml_dir'])
     end
 
   end
-  
-    
-  desc "Ingest all converted and up-to-date ContentDM objects into Fedora"  
+
+
+  desc "Ingest all converted and up-to-date ContentDM objects into Fedora"
   task :ingest => :environment do
     contents = ENV['DIR'] ? Dir.glob(File.join(ENV['DIR'], "*.xml")) : Dir.glob("#{config['cdm_foxml_dir']}/*.xml")
     contents.each do |file|
       pid = CDMUtils.ingest_file(file)
     end
     puts "All files ingested -- phew!".green
-    
+
   end
-    
+
   namespace :solr do
     desc "Reindex everything in Solr"
     task :reindex_all => :environment do
@@ -66,16 +66,16 @@ namespace :tu_cdm do
       solr.delete_by_id("dpla:dpla_2", params: {'softCommit' => true})
     end
   end
-    
-    
-    
-    
+
+
+
+
   namespace :index do
     desc 'Index all Photograph objects in Fedora repo.'
     task :photographs => :environment do
       CDMUtils.index(Photograph)
     end
-    
+
     desc 'Index all Transcript objects in Fedora repo.'
     task :transcripts => :environment do
       CDMUtils.index(Transcript)
@@ -93,7 +93,7 @@ namespace :tu_cdm do
 
     desc 'Index all Sheet Music objects in Fedora repo.'
     task :sheetmusic => :environment do
-      CDMUtils.index(SheetMusic)
+      CDMUtils.index(Sheetmusic)
     end
 
     desc 'Index all Clipping objects in Fedora repo.'
@@ -138,4 +138,3 @@ namespace :tu_cdm do
 
   end
 end
-
