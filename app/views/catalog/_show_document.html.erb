@@ -11,7 +11,7 @@
       <div id='document-content-viewer'>
         <%= document_content.join(" ") %>
       </div>
-      <%= content_tag :button, t('tul_cdm.viewer.download_ocr_text'), target: valid_filename(document["id"], "txt"), class: "downloadTrigger" %>
+      <%= link_to_download_ocr(document) %>
     <% end %>
   </div>
 

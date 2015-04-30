@@ -83,7 +83,7 @@ describe 'List CONTENTdm collections' do
       FileUtils.rm Dir.glob "#{download_directory}/*.xml"
       FileUtils.rm Dir.glob "#{converted_directory}/*.xml"
     end
- 
+
     it "should conform a single collection file" do
       VCR.use_cassette "cdm-util-convert/should_conform_a_ContentDM_file" do
         downloaded = CDMUtils.download_one_collection(config, collection_name)
@@ -91,7 +91,7 @@ describe 'List CONTENTdm collections' do
 
         text = File.read(File.join(download_directory, collection_file))
         doc = Nokogiri::XML(CDMUtils.conform(text, collection_file, converted_directory))
-        
+
         expect(doc).to have_tag('manifest')
         expect(doc).to_not have_tag('Title_Alternative')
         expect(doc).to have_tag('Alternate_Title')
@@ -102,6 +102,7 @@ describe 'List CONTENTdm collections' do
         expect(doc).to have_tag('Rails_Root')
         expect(doc).to have_tag('foxml_dir')
         expect(doc).to have_tag('Downloadable')
+        expect(doc).to have_tag('Downloadable_OCR')
       end
     end
 
@@ -132,7 +133,7 @@ describe 'List CONTENTdm collections' do
       FileUtils.rm Dir.glob "#{download_directory}/*.xml"
       FileUtils.rm Dir.glob "#{converted_directory}/*.xml"
     end
- 
+
     it "should ingest a collection" do
       downloaded = CDMUtils.download_one_collection(config, collection_name)
       CDMUtils.convert_file(File.join(download_directory, collection_name + '.xml'), converted_directory)
