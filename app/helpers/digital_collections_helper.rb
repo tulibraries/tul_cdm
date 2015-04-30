@@ -20,4 +20,16 @@ module DigitalCollectionsHelper
     DigitalCollection.where(collection_alias: collection_id).first.description
   end
 
+  def landing_page(host, digital_collection)
+    if digital_collection.is_custom_landing_page? && !digital_collection.custom_url.blank?
+      return digital_collection.custom_url
+    end
+    return "#{host}/#{digital_collection.slug}"
+  end
+
+  def link_to_digital_collection(digital_collection)
+    digital_collection_path = digital_collection.custom_url.blank? ? path(digital_collection) : digital_collection.custom_url
+    link_to raw("Browse This Collection <span class=\"glyphicon glyphicon-circle-arrow-right\"></span>"), digital_collection_path
+  end
+
 end

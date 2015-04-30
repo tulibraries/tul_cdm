@@ -13,13 +13,13 @@
                   browse <%= "#{digital_collection.name}" %>
                 </div>
               <% if (digital_collection.thumbnail_url) %>
-                <%= link_to (image_tag (digital_collection.thumbnail_url), :alt => "Browse #{digital_collection.name}"), digital_collection %>
+                <%= link_to (image_tag (digital_collection.thumbnail_url), :alt => "Browse #{digital_collection.name}"), landing_page(@host, digital_collection) %>
                   <% else  %>
                   <a href="<%= "#{@host}/#{digital_collection.collection_alias}" %>"><span class="collection-default-thumb glyphicon glyphicon-th"></span></a>
               <% end %>
           </div>
             <div class="collection-internals">
-              <span class="collection-name"><%= link_to digital_collection.name, digital_collection, :title => "Browse #{digital_collection.name}" %></span>
+              <span class="collection-name"><%= link_to digital_collection.name, landing_page(@host, digital_collection), :title => "Browse #{digital_collection.name}" %></span>
             </div>
           </div>
             <span class="admin">
