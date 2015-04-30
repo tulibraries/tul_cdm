@@ -10,7 +10,7 @@
             <div class="collection-thumbnail">
               <div class="collection-item-attributes digcoll-overlay digcoll-cherry">
                 <div class="digcoll-text">
-                  browse <%= "#{digital_collection.name}" %>
+                  <%= "#{t('tul_cdm.digital_collection.browse_short')} #{digital_collection.name}" %>
                 </div>
               <% if (digital_collection.thumbnail_url) %>
                 <%= link_to (image_tag (digital_collection.thumbnail_url), :alt => "Browse #{digital_collection.name}"), landing_page(@host, digital_collection) %>

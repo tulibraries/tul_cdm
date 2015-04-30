@@ -29,7 +29,7 @@ module DigitalCollectionsHelper
 
   def link_to_digital_collection(digital_collection)
     digital_collection_path = digital_collection.custom_url.blank? ? path(digital_collection) : digital_collection.custom_url
-    link_to raw("Browse This Collection <span class=\"glyphicon glyphicon-circle-arrow-right\"></span>"), digital_collection_path
+    link_to raw("#{t('tul_cdm.digital_collection.browse_collection')} <span class=\"glyphicon glyphicon-circle-arrow-right\"></span>"), digital_collection_path
   end
 
 end
