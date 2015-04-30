@@ -9,7 +9,7 @@ class Audio < TulCdm::Models::Audiovisual
 
   has_attributes :title,:format,:type, :publisher,:digital_collection,:digital_publisher,
     :digital_specifications,:contact,:repository,:repository_collection, :language,
-    :identifier, :downloadable, datastream: 'objectMetadata', multiple: true
+    :identifier, :downloadable, :downloadable_ocr, datastream: 'objectMetadata', multiple: true
 
   has_attributes :avsource, :clip_summary, :date_broadcast, :ensemble_identifier,
     :timecode_begin, :timecode_end, :transcript_filename, :original_source_summary,

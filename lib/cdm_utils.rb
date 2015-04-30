@@ -94,11 +94,6 @@ module CDMUtils
       xml_text.gsub("</record><record>", "</record>\n  <record>")
     end
 
-    def self.insert_download_tag(document)
-      # Prohibit download by default
-      document.gsub("</record>", "  <Downloadable>No</Downloadable>\n  </record>")
-    end
-
     def self.download(config, coll=nil)
       # coll is the collection to import
       # If coll is nil, then import all the available collections
@@ -158,9 +153,23 @@ module CDMUtils
       xml_doc.to_xml
     end
 
+    def self.insert_downloadable_ocr_tag(document)
+      # Inserts default downloadable tag if it doesn't exist
+      xml_doc = Nokogiri::XML(document)
+      xml_doc.xpath("//record").each do |xml_element|
+        if xml_element.xpath("Downloadable_OCR").empty?
+          # Prohibit download by default
+          xml_element.add_child("<Downloadable_OCR>No</Downloadable_OCR>")
+        end
+      end
+      xml_doc.to_xml
+    end
+
     def self.conform(doc, collection_file_name, target_dir)
 
+      #Insert new downloadable tags
       doc = insert_downloadable_tag(doc)
+      doc = insert_downloadable_ocr_tag(doc)
 
       #Strip out any bad keying from CDM
       replace = doc.gsub("&amp<", "<")
