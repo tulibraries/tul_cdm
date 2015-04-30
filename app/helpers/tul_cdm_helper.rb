@@ -28,7 +28,12 @@ module TulCdmHelper
     w_sb = 1400;
     link_to image_tag("#{config['cdm_archive']}/utils/ajaxhelper/?CISOROOT=#{collection_id}&CISOPTR=#{cdm_number}&action=2&DMSCALE=#{access_scale}&DMWIDTH=#{access_width}&DMHEIGHT=#{access_height}"), path.html_safe, :rel => "shadowbox[#{collection_id}-#{cdm_number}];width=#{w_sb}"
   end
-  
+
+  def link_to_download_ocr (document)
+    return if !is_downloadable_ocr?(document)
+    content_tag :button, t('tul_cdm.viewer.download_ocr_text'), target: valid_filename(document["id"], "txt"), class: "downloadTrigger"
+  end
+
   def link_to_download(document, collection_id, cdm_number)
 
     return if !is_downloadable?(document)
@@ -54,10 +59,10 @@ module TulCdmHelper
         file_name = document[:contentdm_file_name_tesim].first.gsub(/\.jp2$/, ".jpg")
         path = "#{config['cdm_archive']}/utils/ajaxhelper/?CISOROOT=/#{collection_id}&CISOPTR=#{cdm_number}&action=2&DMSCALE=#{hr_scale}&DMWIDTH=#{hr_width}&DMHEIGHT=#{hr_height}"
     end
-    download_link = link_to t('tul_cdm.viewer.download_text'), path.html_safe, download: file_name, id: "download-link" 
+    download_link = link_to t('tul_cdm.viewer.download_text'), path.html_safe, download: file_name, id: "download-link"
     content_tag(:div, download_link, id: "download-link")
   end
-  
+
   def render_image_viewer(document, collection_id, cdm_number)
 
     config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
@@ -90,8 +95,8 @@ module TulCdmHelper
 
     api_path="https://server16002.contentdm.oclc.org/dmwebservices/index.php?q=dmGetImageInfo/#{collection_id}/#{cdm_number.to_s}/xml"
     xml = Nokogiri::XML(open(api_path))
-    pageWidth = xml.xpath("imageinfo/width/text()").to_s 
-    pageHeight = xml.xpath("imageinfo/height/text()").to_s 
+    pageWidth = xml.xpath("imageinfo/width/text()").to_s
+    pageHeight = xml.xpath("imageinfo/height/text()").to_s
 
     cdm_data = { pageids:    [cdm_number].to_json,
                  cdmColl:    collection_id,
@@ -112,23 +117,23 @@ module TulCdmHelper
 
     output.html_safe
   end
-  
+
   # Returns the ActiveFedora model from the Solr document
   def model_from_document(document)
     active_fedora_model = document["active_fedora_model_ssi"]
   end
-  
+
   def render_facet_widget(facet, option1)
     facet_chosen = [facet]
     options = [option1]
     render_facet_partials(facet_chosen,options)
   end
-  
+
   def render_facet(facet)
     facet_select = [facet]
     render_facet_partials(facet_select)
   end
-  
+
   def render_facet_groupings(group)
     sortby=["title_sim","date_range_sim","pub_date_dtsi"]
     geo=["geographic_subject_sim", "organization_building_sim","intersection_sim"]
@@ -139,30 +144,30 @@ module TulCdmHelper
       when 'geo'
         grouping = geo
       when 'general'
-        grouping = general  
+        grouping = general
       else
         grouping = nil
       end
-    
+
     render_facet_partials(grouping)
 
   end
-  
+
   def render_facets_sortby
     output = ''
     title_sort_a = "?facet.sort=index&search_field=all_fields&sort=title_si+asc"
     title_sort_z = "?facet.sort=index&search_field=all_fields&sort=title_si+desc"
     date_sort_a = "?facet.sort=index&search_field=all_fields&sort=date_si+asc"
     date_sort_z = "?facet.sort=index&search_field=all_fields&sort=date_si+desc"
-    
+
     title_full = link_to("Title", title_sort_a)
     title_a = link_to("[A - Z]", title_sort_a)
     title_z = link_to("[Z - A]", title_sort_z)
-    
+
     date_full = link_to("Date", date_sort_a)
     date_a = link_to("[A - Z]", date_sort_a)
     date_z = link_to("[Z - A]", date_sort_z)
-    
+
     output << "<ul>"
     output << '<div class="facet_limit">'
     output << "<li>#{title_full} <span class=\"a-z\">#{title_a}&nbsp;&nbsp;&nbsp;#{title_z}</span></li></div>"
@@ -171,29 +176,53 @@ module TulCdmHelper
     output << "</ul>"
     output.html_safe
   end
-  
+
   def render_pdf_reader(collection, pointer, name)
     document_pdf = contentdm_file_url(collection, pointer, name)
     pdf_object = content_tag(:object,'', data: document_pdf, type: "application/pdf", width: "100%", height: "100%")
     content_tag(:div, pdf_object, id: 'document-pdf')
   end
 
-  def compound_document_content(document)
+  def get_item_info(cdm_server, collection, pointer, document)
+    api_path="#{cdm_server}/dmwebservices/index.php?q=dmGetItemInfo/#{collection}/#{pointer}/xml"
+    xml = Nokogiri::XML(open(api_path))
+  end
+
+  def get_document_content(document)
     config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
+    cdm_coll=document["contentdm_collection_id_tesim"].to_sentence if document["contentdm_collection_id_tesim"]
+    cdm_num=document["contentdm_number_tesim"].to_sentence if document["contentdm_number_tesim"]
+    document_content_blocks = []
+
+    if (document['document_content_tesim'])
+      document['document_content_tesim'].each do |text_block|
+        document_content_blocks << text_block
+      end
+    else
+      xml_ItemInfo = get_item_info(config["cdm_server"], cdm_coll, cdm_num, document)
+      document_content = xml_ItemInfo.xpath('//docume')
+      if (!document_content.empty?)
+        document_content.each do |content|
+          document_content_blocks << content.text
+        end
+      end
+    end
+
+    document_content_blocks
+  end
+
+  def get_compound_document_content(document)
+    config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
+    cdm_coll=document["contentdm_collection_id_tesim"].to_sentence if document["contentdm_collection_id_tesim"]
+    cdm_num=document["contentdm_number_tesim"].to_sentence if document["contentdm_number_tesim"]
+    document_content_blocks = []
+
     model = model_from_document(document)
     output=''
     cpd = ''
     page_ids_array=[]
-    cdm_coll=document["contentdm_collection_id_tesim"].to_sentence if document["contentdm_collection_id_tesim"]
-    cdm_num=document["contentdm_number_tesim"].to_sentence if document["contentdm_number_tesim"]
-    if(document["file_name_ssm"])
-      cpd = document["file_name_ssm"].to_sentence
-    else
-      fext = File.extname(document["contentdm_file_name_tesim"].to_sentence) if document["contentdm_file_name_tesim"]
-      if(fext == ".cpd")
-        cpd = "index.cpd"
-      end
-    end
+
+    # Get compound document name
 
     if(document["file_name_ssm"])
       cpd = document["file_name_ssm"].to_sentence
@@ -203,6 +232,9 @@ module TulCdmHelper
         cpd = "index.cpd"
       end
     end
+
+    # If it's a compound document, get the items
+
     if(cpd == "index.cpd")
       content_server = config["cdm_server"]
       api_path="#{content_server}/dmwebservices/index.php?q=dmGetCompoundObjectInfo/#{cdm_coll}/#{cdm_num}/xml"
@@ -218,21 +250,20 @@ module TulCdmHelper
           xpath_var = default_xpath
       end
 
-      # Get document content
+      # Get document content of each item
+
       pageptrs = xml.xpath("#{xpath_var}/pageptr/text()")
       pageptrs.each do |pageptr|
-        api_path="#{content_server}/dmwebservices/index.php?q=dmItemHasOCRText/#{cdm_coll}/#{pageptr.to_s}/xml"
-        xml_ItemHasOCRText = Nokogiri::XML(open(api_path))
-        itemHasOCRText = xml_ItemHasOCRText.xpath("//hasOCR").text.to_i;
-        api_path="#{content_server}/dmwebservices/index.php?q=dmGetItemInfo/#{cdm_coll}/#{pageptr.to_s}/xml"
-        xml_ItemInfo = Nokogiri::XML(open(api_path))
+        xml_ItemInfo = get_item_info(content_server, cdm_coll, pageptr, document)
         document_content = xml_ItemInfo.xpath('//docume')
         document_content.each do |content|
           output << content.text + " "
         end
+        document_content_blocks << output.rstrip
       end
     end
-    output.rstrip
+
+    document_content_blocks
   end
 
   def render_compound_pageturner(document)
@@ -279,8 +310,8 @@ module TulCdmHelper
         # Get height and width of first image
         api_path="#{content_server}/dmwebservices/index.php?q=dmGetImageInfo/#{cdm_coll}/#{page_ids.first.to_s}/xml"
         xml = Nokogiri::XML(open(api_path))
-        pageWidth = xml.xpath("imageinfo/width/text()").to_s 
-        pageHeight = xml.xpath("imageinfo/height/text()").to_s 
+        pageWidth = xml.xpath("imageinfo/width/text()").to_s
+        pageHeight = xml.xpath("imageinfo/height/text()").to_s
         pageScale = "20"
 
         cdm_data = { cpdType:    compound_type,
@@ -304,7 +335,7 @@ module TulCdmHelper
     end
     output.html_safe
   end
- 
+
   def render_video_player(document)
     output = ''
     config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
@@ -313,7 +344,7 @@ module TulCdmHelper
     width = "640"
     height = "416"
     frame_width = 660
-    frame_height = 436 
+    frame_height = 436
     video_width = 640
     video_height = 360
     ensemble_plugin = "https://ensemble.temple.edu/ensemble/app/plugin/plugin.aspx"
@@ -395,10 +426,10 @@ module TulCdmHelper
     output << link_to(text, document["reference_url_ssm"].to_sentence)
     output.html_safe
   end
-  
-###  
+
+###
 #Solr methods for field collapse
-###  
+###
   def less_important? field
     should_collapse = false
     less_important=["geographic_subject_sim", "organization_building_sim","intersection_sim"]
@@ -407,15 +438,15 @@ module TulCdmHelper
     end
     return should_collapse
   end
-  
+
   def should_collapse_facet? facet_field
      less_important?(facet_field.field)
   end
-     
+
   def facet_field_id facet_field
     "facet-#{facet_field.field.parameterize}"
   end
-  
+
   ##
   # Look up the label for the facet field
   def facet_field_label field
@@ -426,8 +457,8 @@ module TulCdmHelper
       :"blacklight.search.fields.#{field}"
     )
   end
-  
-  
+
+
   def solr_field_label label, *i18n_keys
     if label.is_a? Symbol
       return t(label)
@@ -436,7 +467,7 @@ module TulCdmHelper
     rest << label
     t(first, default: rest)
   end
-  
+
   def query_subject display_field
     flash[:notice] = "Display: #{display_field.items.length}"
   end
@@ -475,7 +506,7 @@ module TulCdmHelper
 
   def render_acknowledgements (document)
     acknowledgements_list = ''
-    acknowledgements_list += "<dt>Acknowledgements:</dt><dl>#{document["acknowledgment_tesim"].to_sentence}</dl>" if document["acknowledgment_tesim"] 
+    acknowledgements_list += "<dt>Acknowledgements:</dt><dl>#{document["acknowledgment_tesim"].to_sentence}</dl>" if document["acknowledgment_tesim"]
     acknowledgements_list += "<dl>#{document["embargo_statement"].to_sentence}</dl>" if document["embargo_statement"]
     acknowledgements_list += "<dl>#{document["restriction_note"].to_sentence}</dl>" if document["restriction_note"]
     acknowledgements_list += "<dl>#{document["ocr_note"].to_sentence}</dl>" if document["ocr_note"]
@@ -489,7 +520,7 @@ module TulCdmHelper
       if dig_col.featured.eql?("Yes")
         coll_name = content_tag(:div, link_to(dig_col.name, "/digital_collections/#{dig_col.collection_alias}"), :class => "featured-collection-name")
         coll_descrip = content_tag(:div, truncate(dig_col.description, length: 300, omission: '...', escape: false, separator: " "), :class => "featured-collection-descrip")
-        slide_content = content_tag(:div, coll_name + coll_descrip.html_safe, :class => "featured-collection-text-container") + image_tag(dig_col.image_url, :alt => dig_col.name) 
+        slide_content = content_tag(:div, coll_name + coll_descrip.html_safe, :class => "featured-collection-text-container") + image_tag(dig_col.image_url, :alt => dig_col.name)
         images += content_tag(:div, slide_content, :class => "featured-collection-image")
       end
     end
@@ -501,6 +532,20 @@ module TulCdmHelper
     # Item is not downloadable if a "No" exists in any of the downloadable elements
     # Otherwise, "Yes" must be explicitly stated
     !document['downloadable_ssm'].include?("No") && document['downloadable_ssm'].last.eql?("Yes")
+  end
+
+  def is_downloadable_ocr?(document)
+    # Assumes downloadable is in an array, eventhough it should not be multivalued.
+    # Item is not downloadable if a "No" exists in any of the downloadable elements
+    # Otherwise, "Yes" must be explicitly stated
+    !document['downloadable_ocr_ssm'].include?("No") && document['downloadable_ocr_ssm'].last.eql?("Yes")
+  end
+
+  def valid_filename (basename, extension)
+      filename = basename + "." + extension
+      filename = filename.gsub(":", "-")
+      filename = filename.gsub("\/", "-")
+      filename = filename.gsub("\\", "-")
   end
 
 end

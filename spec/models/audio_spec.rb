@@ -13,5 +13,6 @@ RSpec.describe Audio, :type => :model do
 
     it { is_expected.to respond_to(:title) }
     it { is_expected.to respond_to(:downloadable) }
+    it { is_expected.to respond_to(:Downloadable_OCR) }
   end
 end

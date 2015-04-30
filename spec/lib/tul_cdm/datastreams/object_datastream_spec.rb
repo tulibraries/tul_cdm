@@ -22,6 +22,7 @@ describe "NotationsDatastream" do
         <language>English</language>
         <identifier>AB1234</identifier>
         <downloadable>Yes</downloadable>
+        <downloadable_ocr>Yes</downloadable_ocr>
       </fields>
     </foxml:xmlContent>
   </foxml:datastreamVersion>
@@ -46,5 +47,6 @@ EODS
   it { is_expected.to have_term(:language) }
   it { is_expected.to have_term(:identifier) }
   it { is_expected.to have_term(:downloadable) }
+  it { is_expected.to have_term(:Downloadable_OCR) }
 
 end
