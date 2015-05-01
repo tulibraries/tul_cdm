@@ -44,6 +44,10 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
   # DigitalCollectionsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  before (:each) do
+    sign_in FactoryGirl.create(:user)
+  end
+
   describe "GET index" do
     it "assigns all digital_collections as @digital_collections" do
       digital_collection = DigitalCollection.create! valid_attributes
