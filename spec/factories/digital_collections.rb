@@ -64,4 +64,15 @@ EOT
     allowed_ip_addresses "1.1.1.1"
   end
 
+  factory :custom_collection, class: DigitalCollection do
+    collection_alias ""
+    name "Custom Collection"
+    image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll14/images/Littell_Landing_Pagev3.jpg"
+    thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/littell_dtl.jpg"
+    description "A combination of muiltiple collections"
+    is_private false
+    allowed_ip_addresses ""
+    custom_url "/?utf8=✓&f%5Bdigital_collection_sim%5D%5B%5D=Stereotypical+Images+Teaching+Collection&search_field=digital_collection&q=p15037coll1+OR+p16002coll7"
+  end
+
 end

@@ -358,7 +358,7 @@ module CDMUtils
       when 'poster' then object = Poster.find(pid)
       when 'pamphlet' then object = Pamphlet.find(pid)
       when 'manuscript' then object = Manuscript.find(pid)
-      when 'sheetmusic' then object = SheetMusic.find(pid)
+      when 'sheetmusic' then object = Sheetmusic.find(pid)
       when 'clipping' then object = Clipping.find(pid)
       when 'ephemera' then object = Ephemera.find(pid)
       when 'periodical' then object = Periodical.find(pid)
