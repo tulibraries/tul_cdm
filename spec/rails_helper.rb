@@ -52,6 +52,7 @@ RSpec.configure do |config|
 
   # Custom helpers
   config.include Devise::TestHelpers, :type => :controller
+  config.include Devise::TestHelpers, :type => :view
 
   VCR.configure do |c|
     # Don't record transactions with local Jetty and rails servers
