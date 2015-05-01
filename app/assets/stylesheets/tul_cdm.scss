@@ -114,20 +114,26 @@ html,body,#wrapper,#main-wrapper,#footer {
   float: left;
   border-right: $background-black 1px solid;
   height: 30px;
-  width: 300px;
+  width: 200px;
   text-align: center;
   padding-top: 5px;
 }
 
-.prim-nav ul{
-  border-left: $background-black 1px solid;
-  margin-left: 200px;
+.center-nav{
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
+
+.prim-nav ul li.first{
+  border-left: $background-black 1px solid;
+}
+
 
 .prim-nav a{
   color: $text-white;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 
