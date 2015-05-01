@@ -51,7 +51,7 @@ class DigitalCollectionsController < ApplicationController
     end
 
     def digital_collection_params
-      params.require(:digital_collection).permit(:collection_alias, :name, :image_url, :thumbnail_url, :description, :priority, :is_private, :allowed_ip_addresses, :featured)
+      params.require(:digital_collection).permit(:collection_alias, :name, :image_url, :thumbnail_url, :description, :priority, :is_private, :allowed_ip_addresses, :featured, :custom_url, :is_custom_landing_page)
     end
 
     def verify_signed_in!
