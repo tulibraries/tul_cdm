@@ -22,6 +22,11 @@
   color: $temple-white;
 }
 
+.navbar-inverse {
+  background: transparent url(/assets/navbar.jpg) top left;
+    border-color: #090909;
+}
+
 /******
 *
 * Sidebar
@@ -89,6 +94,46 @@ html,body,#wrapper,#main-wrapper,#footer {
 .sort-by-facets .a-z{
   float: right;
   margin-right: 10px;
+}
+
+
+/******
+*
+* Primary Navigation
+*
+******/
+.prim-nav{
+  background-color: $temple-dark-grey;
+  height:30px;
+  border-bottom: $background-black solid 1px;
+  width: 100%;
+}
+
+.prim-nav ul li{
+  list-style: none;
+  float: left;
+  border-right: $background-black 1px solid;
+  height: 30px;
+  width: 200px;
+  text-align: center;
+  padding-top: 5px;
+}
+
+.center-nav{
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.prim-nav ul li.first{
+  border-left: $background-black 1px solid;
+}
+
+
+.prim-nav a{
+  color: $text-white;
+  font-weight: bold;
+  font-size: 12px;
 }
 
 

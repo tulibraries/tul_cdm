@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   get 'subject_index' => 'high_voltage/pages#show', id: 'subject_index'
+  get 'about' => 'high_voltage/pages#show', id: 'about'
 
 
   
