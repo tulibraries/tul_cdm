@@ -84,58 +84,159 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
       expect(response).to redirect_to(digital_collections_path)
       expect(flash.now[:error]).to eq I18n.t('tul_cdm.digital_collection.not_available')
     end
-  end
 
-  describe "GET new" do
-    it "assigns a new digital_collection as @digital_collection" do
-      get :new, {}, valid_session
-      expect(assigns(:digital_collection)).to be_a_new(DigitalCollection)
+    it "Attempts to show a non-existent record" do
+      get :show, {:id => -1}, valid_session
+      expect(response).to redirect_to(digital_collections_path)
+      expect(flash.now[:error]).to eq I18n.t('tul_cdm.digital_collection.not_available')
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested digital_collection as @digital_collection" do
-      digital_collection = DigitalCollection.create! valid_attributes
-      get :edit, {:id => digital_collection.to_param}, valid_session
-      expect(assigns(:digital_collection)).to eq(digital_collection)
-    end
-  end
-
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new DigitalCollection" do
-        expect {
-          post :create, {:digital_collection => valid_attributes}, valid_session
-        }.to change(DigitalCollection, :count).by(1)
-      end
-
-      it "assigns a newly created digital_collection as @digital_collection" do
-        post :create, {:digital_collection => valid_attributes}, valid_session
-        expect(assigns(:digital_collection)).to be_a(DigitalCollection)
-        expect(assigns(:digital_collection)).to be_persisted
-      end
-
-      it "redirects to the created digital_collection" do
-        post :create, {:digital_collection => valid_attributes}, valid_session
-        expect(response).to redirect_to(DigitalCollection.last)
-      end
+  context "With valid session" do
+    before (:each) do
+      sign_in FactoryGirl.create(:user)
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved digital_collection as @digital_collection" do
-        post :create, {:digital_collection => invalid_attributes}, valid_session
+    describe "GET new" do
+      it "assigns a new digital_collection as @digital_collection" do
+        get :new, {}, valid_session
         expect(assigns(:digital_collection)).to be_a_new(DigitalCollection)
       end
+    end
 
-      it "re-renders the 'new' template" do
-        post :create, {:digital_collection => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
+    describe "GET edit" do
+      it "assigns the requested digital_collection as @digital_collection" do
+        digital_collection = DigitalCollection.create! valid_attributes
+        get :edit, {:id => digital_collection.to_param}, valid_session
+        expect(assigns(:digital_collection)).to eq(digital_collection)
+      end
+    end
+
+    describe "POST create" do
+      describe "with valid params" do
+        it "creates a new DigitalCollection" do
+          expect {
+            post :create, {:digital_collection => valid_attributes}, valid_session
+          }.to change(DigitalCollection, :count).by(1)
+        end
+
+        it "assigns a newly created digital_collection as @digital_collection" do
+          post :create, {:digital_collection => valid_attributes}, valid_session
+          expect(assigns(:digital_collection)).to be_a(DigitalCollection)
+          expect(assigns(:digital_collection)).to be_persisted
+        end
+
+        it "redirects to the created digital_collection" do
+          post :create, {:digital_collection => valid_attributes}, valid_session
+          expect(response).to redirect_to(DigitalCollection.last)
+        end
+      end
+
+      describe "with invalid params" do
+        it "assigns a newly created but unsaved digital_collection as @digital_collection" do
+          post :create, {:digital_collection => invalid_attributes}, valid_session
+          expect(assigns(:digital_collection)).to be_a_new(DigitalCollection)
+        end
+
+        it "re-renders the 'new' template" do
+          post :create, {:digital_collection => invalid_attributes}, valid_session
+          expect(response).to render_template("new")
+        end
+      end
+    end
+
+    describe "PUT update" do
+      describe "with valid params" do
+        let(:new_attributes) {
+          FactoryGirl.build(:updated_digital_object).attributes
+        }
+
+        it "updates the requested digital_collection" do
+          digital_collection = DigitalCollection.create! valid_attributes
+          put :update, {:id => digital_collection.to_param, :digital_collection => new_attributes}, valid_session
+          digital_collection.reload
+          expect(digital_collection.collection_alias).to eq new_attributes["collection_alias"]
+          expect(digital_collection.name).to eq new_attributes["name"]
+          expect(digital_collection.image_url).to eq new_attributes["image_url"]
+          expect(digital_collection.thumbnail_url).to eq new_attributes["thumbnail_url"]
+          expect(digital_collection.description).to eq new_attributes["description"]
+          expect(digital_collection.is_private).to eq new_attributes["is_private"]
+          expect(digital_collection.allowed_ip_addresses).to eq new_attributes["allowed_ip_addresses"]
+          expect(digital_collection.featured).to eq new_attributes["featured"]
+          expect(digital_collection.custom_url).to eq new_attributes["custom_url"]
+        end
+
+        it "assigns the requested digital_collection as @digital_collection" do
+          digital_collection = DigitalCollection.create! valid_attributes
+          put :update, {:id => digital_collection.to_param, :digital_collection => valid_attributes}, valid_session
+          expect(assigns(:digital_collection)).to eq(digital_collection)
+        end
+
+        it "redirects to the digital_collection" do
+          digital_collection = DigitalCollection.create! valid_attributes
+          put :update, {:id => digital_collection.to_param, :digital_collection => valid_attributes}, valid_session
+          expect(response).to redirect_to(digital_collection)
+        end
+      end
+
+      describe "with invalid params" do
+        it "assigns the digital_collection as @digital_collection" do
+          digital_collection = DigitalCollection.create! valid_attributes
+          put :update, {:id => digital_collection.to_param, :digital_collection => invalid_attributes}, valid_session
+          expect(assigns(:digital_collection)).to eq(digital_collection)
+        end
+
+        it "re-renders the 'edit' template" do
+          digital_collection = DigitalCollection.create! valid_attributes
+          put :update, {:id => digital_collection.to_param, :digital_collection => invalid_attributes}, valid_session
+          expect(response).to render_template("edit")
+        end
+      end
+    end
+
+    describe "DELETE destroy" do
+      it "destroys the requested digital_collection" do
+        digital_collection = DigitalCollection.create! valid_attributes
+        expect {
+          delete :destroy, {:id => digital_collection.to_param}, valid_session
+        }.to change(DigitalCollection, :count).by(-1) end
+
+      it "redirects to the digital_collections list" do
+        digital_collection = DigitalCollection.create! valid_attributes
+        delete :destroy, {:id => digital_collection.to_param}, valid_session
+        expect(response).to redirect_to(digital_collections_url)
       end
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
+  context "Unauthenticated session" do
+
+    describe "GET new" do
+      it "assigns a new digital_collection as @digital_collection" do
+        get :new, {}, valid_session
+        expect(flash.now[:error]).to eq I18n.t('devise.failure.unauthenticated')
+        expect(response).to redirect_to(root_path)
+      end
+    end
+
+    describe "GET edit" do
+      it "assigns the requested digital_collection as @digital_collection" do
+        digital_collection = DigitalCollection.create! valid_attributes
+        get :edit, {:id => digital_collection.to_param}, valid_session
+        expect(flash.now[:error]).to eq I18n.t('devise.failure.unauthenticated')
+        expect(response).to redirect_to(root_path)
+      end
+    end
+
+    describe "POST create" do
+      it "creates a new DigitalCollection" do
+        post :create, {:digital_collection => valid_attributes}
+        expect(flash.now[:error]).to eq I18n.t('devise.failure.unauthenticated')
+        expect(response).to redirect_to(root_path)
+      end
+    end
+
+    describe "PUT update" do
       let(:new_attributes) {
         FactoryGirl.build(:updated_digital_object).attributes
       }
@@ -143,58 +244,18 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
       it "updates the requested digital_collection" do
         digital_collection = DigitalCollection.create! valid_attributes
         put :update, {:id => digital_collection.to_param, :digital_collection => new_attributes}, valid_session
-        digital_collection.reload
-        expect(digital_collection.collection_alias).to eq new_attributes["collection_alias"]
-        expect(digital_collection.name).to eq new_attributes["name"]
-        expect(digital_collection.image_url).to eq new_attributes["image_url"]
-        expect(digital_collection.thumbnail_url).to eq new_attributes["thumbnail_url"]
-        expect(digital_collection.description).to eq new_attributes["description"]
-        expect(digital_collection.is_private).to eq new_attributes["is_private"]
-        expect(digital_collection.allowed_ip_addresses).to eq new_attributes["allowed_ip_addresses"]
-        expect(digital_collection.featured).to eq new_attributes["featured"]
-        expect(digital_collection.custom_url).to eq new_attributes["custom_url"]
-      end
-
-      it "assigns the requested digital_collection as @digital_collection" do
-        digital_collection = DigitalCollection.create! valid_attributes
-        put :update, {:id => digital_collection.to_param, :digital_collection => valid_attributes}, valid_session
-        expect(assigns(:digital_collection)).to eq(digital_collection)
-      end
-
-      it "redirects to the digital_collection" do
-        digital_collection = DigitalCollection.create! valid_attributes
-        put :update, {:id => digital_collection.to_param, :digital_collection => valid_attributes}, valid_session
-        expect(response).to redirect_to(digital_collection)
+        expect(flash.now[:error]).to eq I18n.t('devise.failure.unauthenticated')
+        expect(response).to redirect_to(root_path)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the digital_collection as @digital_collection" do
+    describe "DELETE destroy" do
+      it "redirects to the digital_collections list" do
         digital_collection = DigitalCollection.create! valid_attributes
-        put :update, {:id => digital_collection.to_param, :digital_collection => invalid_attributes}, valid_session
-        expect(assigns(:digital_collection)).to eq(digital_collection)
-      end
-
-      it "re-renders the 'edit' template" do
-        digital_collection = DigitalCollection.create! valid_attributes
-        put :update, {:id => digital_collection.to_param, :digital_collection => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
-      end
-    end
-  end
-
-  describe "DELETE destroy" do
-    it "destroys the requested digital_collection" do
-      digital_collection = DigitalCollection.create! valid_attributes
-      expect {
         delete :destroy, {:id => digital_collection.to_param}, valid_session
-      }.to change(DigitalCollection, :count).by(-1)
-    end
-
-    it "redirects to the digital_collections list" do
-      digital_collection = DigitalCollection.create! valid_attributes
-      delete :destroy, {:id => digital_collection.to_param}, valid_session
-      expect(response).to redirect_to(digital_collections_url)
+        expect(flash.now[:error]).to eq I18n.t('devise.failure.unauthenticated')
+        expect(response).to redirect_to(root_path)
+      end
     end
   end
 

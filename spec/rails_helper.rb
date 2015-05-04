@@ -50,6 +50,9 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
 
+  # Custom helpers
+  config.include Devise::TestHelpers, :type => :controller
+
   VCR.configure do |c|
     # Don't record transactions with local Jetty and rails servers
     c.ignore_localhost = true
