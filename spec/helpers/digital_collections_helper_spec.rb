@@ -6,7 +6,7 @@ require 'rails_helper'
 RSpec.describe DigitalCollectionsHelper, :type => :helper do
 
   let (:digital_collection) { FactoryGirl.create(:digital_collection) }
-  let (:collection_path) { "/?f[contentdm_collection_id_sim][]=#{digital_collection.collection_alias}"}
+  let (:collection_path) { "/?f[digital_collection_sim][]=#{digital_collection.name}"}
   let (:collection_id) { digital_collection.collection_alias }
 
   it "creates a link to a blacklight collection" do

@@ -47,6 +47,6 @@ EODS
   it { is_expected.to have_term(:language) }
   it { is_expected.to have_term(:identifier) }
   it { is_expected.to have_term(:downloadable) }
-  it { is_expected.to have_term(:Downloadable_OCR) }
+  it { is_expected.to have_term(:downloadable_ocr) }
 
 end
