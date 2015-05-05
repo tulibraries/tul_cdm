@@ -527,6 +527,16 @@ module TulCdmHelper
     images.html_safe
   end
 
+  def render_ocr (document)
+    document_content = get_document_content(document)
+    unless document_content.all? &:blank?
+      inner_content = content_tag :h2, t('tul_cdm.viewer.possible_ocr_errors'), class: "ocr-section-heading"
+      inner_content += content_tag :div, document_content.join(" "), id: "document-content-viewer"
+      inner_content += content_tag :button, t('tul_cdm.viewer.download_ocr_text'), target: valid_filename(document["id"], "txt"), class: "downloadTrigger"
+    end
+    content_tag :div, inner_content, id: "OCRTextContainer"
+  end
+
   def is_downloadable? (document)
     # Assumes downloadable is in an array, eventhough it should not be multivalued.
     # Item is not downloadable if a "No" exists in any of the downloadable elements
