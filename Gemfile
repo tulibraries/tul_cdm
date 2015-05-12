@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'hydra', '~> 7.1.0'
-
+gem 'hydra', '9.1.0.rc1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
 # Use sqlite3 as the database for Active Record
@@ -73,4 +72,8 @@ group :development, :test do
   gem "pry-rails"
   gem "foreman"
   gem "guard-rspec"
+end
+
+gem "rsolr", "~> 1.0.6"
+group :development, :test do
 end

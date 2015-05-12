@@ -3,49 +3,16 @@ require 'blacklight/catalog'
 
 class CatalogController < ApplicationController
 
-  include Blacklight::Catalog
-  include Hydra::Controller::ControllerBehavior
-
-  #TODO: Figure out why BL Advanced search makes has_member_ssim not work, make it work
-  include BlacklightAdvancedSearch::ParseBasicQ
-
-  include TulCdm::SolrHelper::Behaviors
-
+  include Hydra::Catalog
   # These before_filters apply the hydra access controls
-  #before_filter :enforce_show_permissions, :only=>:show
+  before_filter :enforce_show_permissions, :only=>:show
   # This applies appropriate access controls to all solr queries
-  #CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
+  CatalogController.search_params_logic += [:add_access_controls_to_solr_params]
 
-  CatalogController.solr_search_params_logic += [:exclude_unwanted_models, :exclude_collections_by_ip]
-
-  # def index
-  #   super
-  #   display_collection
-  # end
 
   configure_blacklight do |config|
+    config.search_builder_class = Hydra::SearchBuilder
     config.default_solr_params = {
-      :qf => 'creator_tesim
-              document_content_tesim
-              geographic_subject_tesim
-              organization_building_tesim
-              personal_names_tesim
-              title_tesim
-              date_tesim
-              subject_tesim
-              description_tesim
-              format_tesim
-              type_tesim
-              publisher_tesim
-              digital_collection_tesim
-              digital_publisher_tesim
-              contentdm_collection_id_tesim
-              repository_tesim
-              repository_collection_tesim
-              identifier_tesim
-              author_tesim
-              is_part_of_ssim
-              about_statement_tesim',
       :qt => 'search',
       :rows => 10
     }
@@ -53,9 +20,6 @@ class CatalogController < ApplicationController
     # solr field configuration for search results/index views
     config.index.title_field = 'title_tesim'
     config.index.display_type_field = 'has_model_ssim'
-    config.show.display_type_field = 'active_fedora_model_ssi'
-
-    config.index.thumbnail_field = 'path_to_thumbnail_ssm'
 
 
     # solr fields that will be treated as facets by the blacklight application
@@ -77,24 +41,13 @@ class CatalogController < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
-
-    config.add_facet_field solr_name('subject', :facetable), :label => 'Subject', :limit => 5, :collapse => false
-    config.add_facet_field solr_name('date', :facetable), :label => 'Date', :limit => 5
-    config.add_facet_field solr_name('format', :facetable), :label => 'Format', :limit => 5
-    config.add_facet_field solr_name('type', :facetable), :label => 'Type', :limit => 5
-    config.add_facet_field solr_name('publisher_sim', :facetable), :label => 'Publisher', :limit => 5
-    config.add_facet_field solr_name('digital_collection', :facetable), :label => 'Digital Collection', :limit => 5, :collapse => false
-    config.add_facet_field solr_name('digital_publisher', :facetable), :label => 'Digital Publisher', :limit => 5
-    config.add_facet_field solr_name('contentdm_collection_id', :facetable), :label => 'Digital Collection', :limit => 5, :single => false, :collapse => false, helper_method: :render_with_contentdm_collection_name, :show => false
-    config.add_facet_field solr_name('repository', :facetable), :label => 'Repository', :limit => 5
-    config.add_facet_field solr_name('language', :facetable), :label => 'Language', :limit => 5
-    config.add_facet_field solr_name('contributor', :facetable), :label => 'Contributor', :limit => 5
-    config.add_facet_field solr_name('author', :facetable), :label => 'Author', :limit => 5
-    config.add_facet_field solr_name('corporate_name', :facetable), :label => 'Corporate Name', :limit => 5
-    config.add_facet_field solr_name('series', :facetable), :label => 'Series', :limit => 5
-    config.add_facet_field solr_name('advisor', :facetable), :label => 'Series', :limit => 5
-    config.add_facet_field solr_name('degree_granting_institution', :facetable), :label => 'Series', :limit => 5
-    config.add_facet_field solr_name('is_part_of_ssim', :facetable), :label => 'Part Of'
+    config.add_facet_field solr_name('object_type', :facetable), :label => 'Format'
+    config.add_facet_field solr_name('pub_date', :facetable), :label => 'Publication Year'
+    config.add_facet_field solr_name('subject_topic', :facetable), :label => 'Topic', :limit => 20
+    config.add_facet_field solr_name('language', :facetable), :label => 'Language', :limit => true
+    config.add_facet_field solr_name('lc1_letter', :facetable), :label => 'Call Number'
+    config.add_facet_field solr_name('subject_geo', :facetable), :label => 'Region'
+    config.add_facet_field solr_name('subject_era', :facetable), :label => 'Era'
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
@@ -106,79 +59,32 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
-    config.add_index_field solr_name('title', :stored_searchable, type: :string), :label => 'Title'
-    config.add_index_field solr_name('subject', :stored_searchable, type: :string), :label => 'Subject', :link_to_search => 'subject_sim'
-    config.add_index_field solr_name('format', :stored_searchable, type: :string), :label => 'Format', :link_to_search => 'format_sim'
-
-    # Collection-only metadata
-    config.add_index_field solr_name('about_statement', :stored_searchable, type: :string), :label => 'About this Collection'
+    config.add_index_field solr_name('title', :stored_searchable, type: :string), :label => 'Title:'
+    config.add_index_field solr_name('title_vern', :stored_searchable, type: :string), :label => 'Title:'
+    config.add_index_field solr_name('author', :stored_searchable, type: :string), :label => 'Author:'
+    config.add_index_field solr_name('author_vern', :stored_searchable, type: :string), :label => 'Author:'
+    config.add_index_field solr_name('format', :symbol), :label => 'Format:'
+    config.add_index_field solr_name('language', :stored_searchable, type: :string), :label => 'Language:'
+    config.add_index_field solr_name('published', :stored_searchable, type: :string), :label => 'Published:'
+    config.add_index_field solr_name('published_vern', :stored_searchable, type: :string), :label => 'Published:'
+    config.add_index_field solr_name('lc_callnum', :stored_searchable, type: :string), :label => 'Call number:'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
-
-    # Records and shared metadata
-    config.add_show_field solr_name('title', :stored_searchable, type: :string), :label => 'Title'
-    config.add_show_field solr_name('alternate_title', :stored_searchable, type: :string), :label => 'Alternate Title'
-    config.add_show_field solr_name('date', :stored_searchable, type: :string), :label => 'Date', :link_to_search => 'date_sim'
-    config.add_show_field solr_name('date_range', :stored_searchable, type: :string), :label => 'Date Range'
-    config.add_show_field solr_name('subject', :stored_searchable, type: :string), :label => 'Subject', :link_to_search => 'subject_sim'
-    config.add_show_field solr_name('description', :stored_searchable, type: :string), :label => 'Description'
-    config.add_show_field solr_name('format', :stored_searchable, type: :string), :label => 'Format', :link_to_search => 'format_sim'
-    config.add_show_field solr_name('type', :stored_searchable, type: :string), :label => 'Type', :link_to_search => 'type_sim'
-    config.add_show_field solr_name('publisher', :stored_searchable, type: :string), :label => 'Publisher', :link_to_search => 'publisher_sim'
-    config.add_show_field solr_name('digital_collection', :stored_searchable, type: :string), :label => 'Digital Collection', :link_to_search => 'digital_collection_sim'
-    config.add_show_field solr_name('digital_publisher', :stored_searchable, type: :string), :label => 'Digital Publisher', :link_to_search => 'digital_publisher_sim'
-    config.add_show_field solr_name('contentdm_collection_id', :stored_searchable, type: :string), :label => 'Digital Collection', :link_to_search => 'contentdm_collection_id_sim', :show => false
-    config.add_show_field solr_name('contact', :stored_searchable, type: :string), :label => 'Contact'
-    config.add_show_field solr_name('repository', :stored_searchable, type: :string), :label => 'Repository', :link_to_search => 'repository_sim'
-    config.add_show_field solr_name('repository_collection', :stored_searchable, type: :string), :label => 'Repository Collection'
-    config.add_show_field solr_name('language', :stored_searchable, type: :string), :label => 'Language', :link_to_search => 'language_sim'
-    config.add_show_field solr_name('identifier', :stored_searchable, type: :string), :label => 'Identifier'
-
-    config.add_show_field solr_name('adapted_from', :stored_searchable, type: :string), :label => 'Adapted From'
-    config.add_show_field solr_name('lithographer_printer', :stored_searchable, type: :string), :label => 'Lithographer / Printer'
-    config.add_show_field solr_name('contributor', :stored_searchable, type: :string), :label => 'Contributor', :link_to_search => 'contributor_sim'
-    config.add_show_field solr_name('cover_description', :stored_searchable, type: :string), :label => 'Cover Description'
-    config.add_show_field solr_name('stereotypical_object_note', :stored_searchable, type: :string), :label => 'Object Note'
-    config.add_show_field solr_name('donor_information', :stored_searchable, type: :string), :label => 'Donor Information'
-    config.add_show_field solr_name('display_format', :stored_searchable, type: :string), :label => 'Display Format'
-
-    config.add_show_field solr_name('series', :stored_searchable, type: :string), :label => 'Series'
-    config.add_show_field solr_name('corporate_name', :stored_searchable, type: :string), :label => 'Corporate Name'
-    config.add_show_field solr_name('volume', :stored_searchable, type: :string), :label => 'Volume'
-
-    config.add_show_field solr_name('original_notes', :stored_searchable, type: :string), :label => 'Original Notes'
-    config.add_show_field solr_name('photographer', :stored_searchable, type: :string), :label => 'Photographer'
-    config.add_show_field solr_name('intersection', :stored_searchable, type: :string), :label => 'Intersection'
-
-    config.add_show_field solr_name('author', :stored_searchable, type: :string), :label => 'Author'
-    config.add_show_field solr_name('date_of_publication', :stored_searchable, type: :string), :label => 'Date of Publication'
-    config.add_show_field solr_name('internal_note', :stored_searchable, type: :string), :label => 'Internal Note'
-
-    config.add_show_field solr_name('creator_person', :stored_searchable, type: :string), :label => 'Creator (Individual)'
-    config.add_show_field solr_name('other_creator_person', :stored_searchable, type: :string), :label => 'Additional Creator (Individual)'
-    config.add_show_field solr_name('creator_organization', :stored_searchable, type: :string), :label => 'Creator (Organization)'
-    config.add_show_field solr_name('other_creator_organization', :stored_searchable, type: :string), :label => 'Additional Creator (Organization)'
-
-    config.add_show_field solr_name('image_number', :stored_searchable, type: :string), :label => 'Image Number'
-
-    config.add_show_field solr_name('clip_title', :stored_searchable, type: :string), :label => 'Clip Title'
-
-    config.add_show_field solr_name('abstract', :stored_searchable, type: :string), :label => 'Abstract'
-    config.add_show_field solr_name('accompanied_by', :stored_searchable, type: :string), :label => 'Accompanied By'
-    config.add_show_field solr_name('accompanies', :stored_searchable, type: :string), :label => 'Accompanies'
-    config.add_show_field solr_name('advisor', :stored_searchable, type: :string), :label => 'Advisor'
-    config.add_show_field solr_name('committee_members', :stored_searchable, type: :string), :label => 'Committee Members'
-    config.add_show_field solr_name('degree', :stored_searchable, type: :string), :label => 'Degree'
-    config.add_show_field solr_name('degree_granting_institution', :stored_searchable, type: :string), :label => 'Degree Granting Institution'
-    config.add_show_field solr_name('department', :stored_searchable, type: :string), :label => 'Department'
-    config.add_show_field solr_name('file_size', :stored_searchable, type: :string), :label => 'File Size'
-    config.add_show_field solr_name('keywords', :stored_searchable, type: :string), :label => 'Keywords'
-    config.add_show_field solr_name('source', :stored_searchable, type: :string), :label => 'Source'
-    config.add_show_field solr_name('year_degree_awarded', :stored_searchable, type: :string), :label => 'Year Degree Awarded'
-
-    # Collection-only metadata
-    config.add_show_field solr_name('about_statement', :stored_searchable, type: :string), :label => 'About this Collection'
+    config.add_show_field solr_name('title', :stored_searchable, type: :string), :label => 'Title:'
+    config.add_show_field solr_name('title_vern', :stored_searchable, type: :string), :label => 'Title:'
+    config.add_show_field solr_name('subtitle', :stored_searchable, type: :string), :label => 'Subtitle:'
+    config.add_show_field solr_name('subtitle_vern', :stored_searchable, type: :string), :label => 'Subtitle:'
+    config.add_show_field solr_name('author', :stored_searchable, type: :string), :label => 'Author:'
+    config.add_show_field solr_name('author_vern', :stored_searchable, type: :string), :label => 'Author:'
+    config.add_show_field solr_name('format', :symbol), :label => 'Format:'
+    config.add_show_field solr_name('url_fulltext_tsim', :stored_searchable, type: :string), :label => 'URL:'
+    config.add_show_field solr_name('url_suppl_tsim', :stored_searchable, type: :string), :label => 'More Information:'
+    config.add_show_field solr_name('language', :stored_searchable, type: :string), :label => 'Language:'
+    config.add_show_field solr_name('published', :stored_searchable, type: :string), :label => 'Published:'
+    config.add_show_field solr_name('published_vern', :stored_searchable, type: :string), :label => 'Published:'
+    config.add_show_field solr_name('lc_callnum', :stored_searchable, type: :string), :label => 'Call number:'
+    config.add_show_field solr_name('isbn', :stored_searchable, type: :string), :label => 'ISBN:'
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
@@ -200,17 +106,33 @@ class CatalogController < ApplicationController
 
     config.add_search_field 'all_fields', :label => 'All Fields'
 
+
+    # Now we see how to over-ride Solr request handler defaults, in this
+    # case for a BL "search field", which is really a dismax aggregate
+    # of Solr search fields.
+
     config.add_search_field('title') do |field|
-      solr_name = solr_name("title_tesim", :stored_searchable, type: :string)
-      field.qt = 'search'
+      # :solr_local_parameters will be sent using Solr LocalParams
+      # syntax, as eg {! qf=$title_qf }. This is neccesary to use
+      # Solr parameter de-referencing like $title_qf.
+      # See: http://wiki.apache.org/solr/LocalParams
       field.solr_local_parameters = {
         :qf => '$title_qf',
         :pf => '$title_pf'
       }
     end
 
+    config.add_search_field('author') do |field|
+      field.solr_local_parameters = {
+        :qf => '$author_qf',
+        :pf => '$author_pf'
+      }
+    end
+
+    # Specifying a :qt only to show it's possible, and so our internal automated
+    # tests can test it. In this case it's the same as
+    # config[:default_solr_parameters][:qt], so isn't actually neccesary.
     config.add_search_field('subject') do |field|
-      solr_name = solr_name("subject_tesim", :stored_searchable, type: :string)
       field.qt = 'search'
       field.solr_local_parameters = {
         :qf => '$subject_qf',
@@ -218,28 +140,13 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('digital_collection') do |field|
-      solr_name = solr_name("digital_collection_tesim", :stored_searchable, type: :string)
-      field.qt = 'search'
-      field.solr_local_parameters = {
-        :qf => '$digital_collection_qf',
-        :pf => '$digital_collection_pf'
-      }
-    end
-
-    config.advanced_search = {
-      :form_solr_parameters => {
-        "facet.field" => ["digital_collection_sim"],
-        "facet.limit" => -1, # return all facet values
-        "facet.sort" => "index" # sort by byte order of values
-      }
-    }
-
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc
     # except in the relevancy case).
     config.add_sort_field 'score desc, pub_date_dtsi desc, title_tesi asc', :label => 'relevance'
+    config.add_sort_field 'pub_date_dtsi desc, title_tesi asc', :label => 'year'
+    config.add_sort_field 'author_tesi asc, title_tesi asc', :label => 'author'
     config.add_sort_field 'title_tesi asc, pub_date_dtsi desc', :label => 'title'
 
     # If there are more than this many search results, no spelling ("did you
@@ -247,43 +154,6 @@ class CatalogController < ApplicationController
     config.spell_max = 5
   end
 
-  def exclude_unwanted_models(solr_parameters, user_parameters)
-    solr_parameters[:fq] ||= []
-    unwanted_models.each do |um|
-    if um.kind_of?(String)
-      model_uri = um
-    else
-      model_uri = um.to_class_uri
-      end
-    solr_parameters[:fq] << "-has_model_ssim:\"#{model_uri}\""
-    end
-    #[FIXME] using "-has_model_s" generatest error: "org.apache.solr.common.SolrException: undefined field has_model_s". Workaround below
-    #solr_parameters[:fq] << "-has_model_s:\"info:fedora/afmodel:FileAsset\""
-    solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:FileAsset\""
-  end
 
-  def unwanted_models
-    #Add unwanted models below
-    return []
-  end
-
-  def display_collection
-    (resp, doc_list) = get_search_results(:q =>"{!lucene q.op=AND df=Food+conservation+--+United+States.}",
-    :sort=>sort_field,
-    :rows=>3)
-    @document_list = doc_list[0..3]
-  end
-
-  def sort_field
-    "#{self.class.solr_name('desc_metadata__title', :stored_sortable, type: :date)} desc"
-  end
-
-  def exclude_collections_by_ip(solr_parameters, user_parameters)
-    solr_parameters[:fq] ||= []
-    unviewable_collections.each do |vc|
-      solr_parameters[:fq] << "-contentdm_collection_id_sim:#{vc.collection_alias}"
-    end
-    solr_parameters[:fq]
-  end
 
 end
