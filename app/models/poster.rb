@@ -1,27 +1,141 @@
-class Poster < TulCdm::Models::Base
+class Poster < ActiveFedora::Base
+  
+  contains 'descMetadata', class_name: 'PosterMetadata'
 
-  has_metadata "descMetadata", type:PosterMetadata
-  has_metadata "physicalMetadata", :type => TulCdm::Datastreams::PhysicalDatastream
-  has_metadata "digitalMetadata", :type => TulCdm::Datastreams::DigitalDatastream
-  has_metadata "notationsMetadata", :type => TulCdm::Datastreams::NotationsDatastream
-  has_metadata "creationMetadata", :type => TulCdm::Datastreams::CreationDatastream
-
-  has_attributes :title,:format,:type, :publisher,:digital_collection,:digital_publisher,
-      :digital_specifications,:contact,:repository,:repository_collection, :language,
-      :identifier, :downloadable, :downloadable_ocr, datastream: :objectMetadata, multiple: true
-
-  has_attributes :item_url, :oclc_number, :date_created, :date_modified, :contentdm_number,
-   :contentdm_file_name, :contentdm_file_path, :contentdm_collection_id, datastream: 'contentdmMetadata', multiple: false
-
-  has_attributes :alternate_title, :acknowledgment, :alternate_title, :contributor, :corporate_name,
-      :hidden_date, :series, :volume, datastream: 'descMetadata', multiple: true
-
-  has_attributes :folder, :location, :physical_description, datastream: 'physicalMetadata', multiple: true
-
-  has_attributes :notes, :personal_names, datastream: 'notationsMetadata', multiple: true
-
-  has_attributes :file_name, :document_content, datastream: 'digitalMetadata', multiple: true
-
-  has_attributes :created, :creator, datastream: 'creationMetadata', multiple: true
-
+  property :title, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :format, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :object_type, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :publisher, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :digital_collection, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :digital_publisher, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :digital_specifications, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :contact, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :repository, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :repository_collection, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :language, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :identifier, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :downloadable, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :downloadable_ocr, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :item_url, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :oclc_number, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :date_created, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :date_modified, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :contentdm_number, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :contentdm_file_name, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :contentdm_file_path, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :contentdm_collection_id, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :alternate_title, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :acknowledgment, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :contributor, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :corporate_name, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :hidden_date, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :series, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :volume, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :folder, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :location, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :physical_description, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :notes, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :personal_names, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :file_name, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :document_content, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :created, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :creator, delegate_to: 'descMetadata', multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+  
+  # Uncomment the following lines to add an #attachment method that is a file
+  #
+  # contains "attachment"
+  
+  #
+  # If you need to add additional attributes to the SOLR document, extend the default indexer:
+  #
+  # def indexer
+  #   MyApp::IndexingService
+  # end
+  #
+  # This can go into app/services/my_app/indexing_service.rb
+  # module MyApp
+  #   class IndexingService < ActiveFedora::IndexingService
+  #     def generate_solr_document
+  #       super.tap do |solr_doc|
+  #         solr_doc["my_attribute_s"] = objecproperty :my_attribute
+  #       end
+  #     end
+  #   end
+  # end
 end
