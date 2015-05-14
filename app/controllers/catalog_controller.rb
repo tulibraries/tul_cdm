@@ -94,6 +94,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('series', :facetable), :label => 'Series', :limit => 5
     config.add_facet_field solr_name('advisor', :facetable), :label => 'Series', :limit => 5
     config.add_facet_field solr_name('degree_granting_institution', :facetable), :label => 'Series', :limit => 5
+    config.add_facet_field solr_name('year_prize_awarded', :facetable), :label => 'Prize Award Year', :limit => 5
     config.add_facet_field solr_name('is_part_of_ssim', :facetable), :label => 'Part Of'
 
     # Have BL send all facet field names to Solr, which has been the default
@@ -172,10 +173,11 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name('degree', :stored_searchable, type: :string), :label => 'Degree'
     config.add_show_field solr_name('degree_granting_institution', :stored_searchable, type: :string), :label => 'Degree Granting Institution'
     config.add_show_field solr_name('department', :stored_searchable, type: :string), :label => 'Department'
-    config.add_show_field solr_name('file_size', :stored_searchable, type: :string), :label => 'File Size'
+    config.add_show_field solr_name('file_size', :displayable, type: :string), :label => 'File Size'
     config.add_show_field solr_name('keywords', :stored_searchable, type: :string), :label => 'Keywords'
     config.add_show_field solr_name('source', :stored_searchable, type: :string), :label => 'Source'
     config.add_show_field solr_name('year_degree_awarded', :stored_searchable, type: :string), :label => 'Year Degree Awarded'
+    config.add_show_field solr_name('year_prize_awarded', :stored_searchable, type: :string), :label => 'Year Prize Awarded'
 
     # Collection-only metadata
     config.add_show_field solr_name('about_statement', :stored_searchable, type: :string), :label => 'About this Collection'
