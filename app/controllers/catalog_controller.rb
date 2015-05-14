@@ -41,6 +41,7 @@ class CatalogController < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
+    config.add_facet_field solr_name('publisher', :facetable), :label => 'Publisher', :limit => 2
     config.add_facet_field solr_name('object_type', :facetable), :label => 'Format'
     config.add_facet_field solr_name('title', :facetable), :label => 'Title'
     config.add_facet_field solr_name('pub_date', :facetable), :label => 'Publication Year'
@@ -54,6 +55,9 @@ class CatalogController < ApplicationController
     # previously. Simply remove these lines if you'd rather use Solr request
     # handler defaults, or have no facets.
     config.default_solr_params[:'facet.field'] = config.facet_fields.keys
+
+    config.add_facet_fields_to_solr_request!
+
     #use this instead if you don't want to query facets marked :show=>false
     #config.default_solr_params[:'facet.field'] = config.facet_fields.select{ |k, v| v[:show] != false}.keys
 
