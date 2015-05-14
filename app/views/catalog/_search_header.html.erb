@@ -1,0 +1,8 @@
+<% add_breadcrumb "Home", :root_path %>
+<% add_breadcrumb "Explore Digital Collections", '/digital_collections' %>
+<% add_breadcrumb "Browse", request.path %>
+<% #add_breadcrumb render_search_to_s_filters(params), request.path %>
+
+<%= render 'did_you_mean' %>
+<%= render 'constraints' %>
+<%= render 'sort_and_per_page' %>

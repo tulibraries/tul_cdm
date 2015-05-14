@@ -10,7 +10,7 @@ class CatalogController < ApplicationController
   include BlacklightAdvancedSearch::ParseBasicQ
 
   include TulCdm::SolrHelper::Behaviors
-
+  
   # These before_filters apply the hydra access controls
   #before_filter :enforce_show_permissions, :only=>:show
   # This applies appropriate access controls to all solr queries
@@ -265,13 +265,6 @@ class CatalogController < ApplicationController
   def unwanted_models
     #Add unwanted models below
     return []
-  end
-
-  def display_collection
-    (resp, doc_list) = get_search_results(:q =>"{!lucene q.op=AND df=Food+conservation+--+United+States.}",
-    :sort=>sort_field,
-    :rows=>3)
-    @document_list = doc_list[0..3]
   end
 
   def sort_field

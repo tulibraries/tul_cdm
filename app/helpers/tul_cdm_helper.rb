@@ -548,4 +548,10 @@ module TulCdmHelper
       filename = filename.gsub("\\", "-")
   end
 
+  def get_collection_alias(collection_name)
+    dca = DigitalCollection.where("name LIKE '#{collection_name}'").to_a
+    #binding.pry()
+    dca.any? ? dca.first.collection_alias : "#"
+  end
+
 end
