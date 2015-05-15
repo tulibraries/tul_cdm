@@ -129,12 +129,12 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name('publisher', :stored_searchable, type: :string), :label => 'Publisher', :link_to_search => 'publisher_sim'
     config.add_show_field solr_name('digital_collection', :stored_searchable, type: :string), :label => 'Digital Collection', :link_to_search => 'digital_collection_sim'
     config.add_show_field solr_name('digital_publisher', :stored_searchable, type: :string), :label => 'Digital Publisher', :link_to_search => 'digital_publisher_sim'
-    config.add_show_field solr_name('contentdm_collection_id', :stored_searchable, type: :string), :label => 'Digital Collection', :link_to_search => 'contentdm_collection_id_sim', :show => false
-    config.add_show_field solr_name('contact', :stored_searchable, type: :string), :label => 'Contact'
+    config.add_show_field solr_name('contentdm_collection_id', :stored_searchable, type: :string), :label => 'Digital Collection ID', :link_to_search => 'contentdm_collection_id_sim', :show => false
+    config.add_show_field solr_name('contact', :displayable, type: :string), :label => 'Contact'
     config.add_show_field solr_name('repository', :stored_searchable, type: :string), :label => 'Repository', :link_to_search => 'repository_sim'
     config.add_show_field solr_name('repository_collection', :stored_searchable, type: :string), :label => 'Repository Collection'
     config.add_show_field solr_name('language', :stored_searchable, type: :string), :label => 'Language', :link_to_search => 'language_sim'
-    config.add_show_field solr_name('identifier', :stored_searchable, type: :string), :label => 'Identifier'
+    config.add_show_field solr_name('identifier', :displayable, type: :string), :label => 'Identifier'
 
     config.add_show_field solr_name('adapted_from', :stored_searchable, type: :string), :label => 'Adapted From'
     config.add_show_field solr_name('lithographer_printer', :stored_searchable, type: :string), :label => 'Lithographer / Printer'
@@ -154,7 +154,7 @@ class CatalogController < ApplicationController
 
     config.add_show_field solr_name('author', :stored_searchable, type: :string), :label => 'Author'
     config.add_show_field solr_name('date_of_publication', :stored_searchable, type: :string), :label => 'Date of Publication'
-    config.add_show_field solr_name('internal_note', :stored_searchable, type: :string), :label => 'Internal Note'
+    config.add_show_field solr_name('internal_note', :displayable, type: :string), :label => 'Internal Note'
 
     config.add_show_field solr_name('creator_person', :stored_searchable, type: :string), :label => 'Creator (Individual)'
     config.add_show_field solr_name('other_creator_person', :stored_searchable, type: :string), :label => 'Additional Creator (Individual)'
