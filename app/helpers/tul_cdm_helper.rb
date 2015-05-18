@@ -29,14 +29,14 @@ module TulCdmHelper
     link_to image_tag("#{config['cdm_archive']}/utils/ajaxhelper/?CISOROOT=#{collection_id}&CISOPTR=#{cdm_number}&action=2&DMSCALE=#{access_scale}&DMWIDTH=#{access_width}&DMHEIGHT=#{access_height}"), path.html_safe, :rel => "shadowbox[#{collection_id}-#{cdm_number}];width=#{w_sb}"
   end
 
-  def link_to_download_ocr (document)
-    return if !is_downloadable_ocr?(document)
+  def link_to_download_ocr(document)
+    return if !allowed?(document, 'downloadable_ocr_ssm')
     content_tag :button, t('tul_cdm.viewer.download_ocr_text'), target: valid_filename(document["id"], "txt"), class: "downloadTrigger"
   end
 
   def link_to_download(document, collection_id, cdm_number)
 
-    return if !is_downloadable?(document)
+    return if !allowed?(document, 'downloadable_ssm')
 
     output = ''
     config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
@@ -224,18 +224,18 @@ module TulCdmHelper
 
     # Get compound document name
 
-    if(document["file_name_ssm"])
+    if (document["file_name_ssm"])
       cpd = document["file_name_ssm"].to_sentence
     else
       fext = File.extname(document["contentdm_file_name_tesim"].to_sentence) if document["contentdm_file_name_tesim"]
-      if(fext == ".cpd")
+      if (fext == ".cpd")
         cpd = "index.cpd"
       end
     end
 
     # If it's a compound document, get the items
 
-    if(cpd == "index.cpd")
+    if (cpd == "index.cpd")
       content_server = config["cdm_server"]
       api_path="#{content_server}/dmwebservices/index.php?q=dmGetCompoundObjectInfo/#{cdm_coll}/#{cdm_num}/xml"
       xml = Nokogiri::XML(open(api_path))
@@ -274,15 +274,16 @@ module TulCdmHelper
     page_ids_array=[]
     cdm_coll=document["contentdm_collection_id_tesim"].to_sentence if document["contentdm_collection_id_tesim"]
     cdm_num=document["contentdm_number_tesim"].to_sentence if document["contentdm_number_tesim"]
-    if(document["file_name_ssm"])
+    if (document["file_name_ssm"])
       cpd = document["file_name_ssm"].to_sentence
     else
       fext = File.extname(document["contentdm_file_name_tesim"].to_sentence) if document["contentdm_file_name_tesim"]
-      if(fext == ".cpd")
+      if (fext == ".cpd")
         cpd = "index.cpd"
       end
     end
-    if(cpd == "index.cpd")
+
+    if (cpd == "index.cpd")
       content_server = config["cdm_server"]
       api_path="#{content_server}/dmwebservices/index.php?q=dmGetCompoundObjectInfo/#{cdm_coll}/#{cdm_num}/xml"
       xml = Nokogiri::XML(open(api_path))
@@ -499,12 +500,12 @@ module TulCdmHelper
     object_map[object_type]
   end
 
-  def render_object_partial (document)
+  def render_object_partial(document)
     partial = "show_" + object_model(model_from_document(document).downcase.to_sym)
     render partial, document: document
   end
 
-  def render_acknowledgements (document)
+  def render_acknowledgements(document)
     acknowledgements_list = ''
     acknowledgements_list += "<dt>Acknowledgements:</dt><dl>#{document["acknowledgment_tesim"].to_sentence}</dl>" if document["acknowledgment_tesim"]
     acknowledgements_list += "<dl>#{document["embargo_statement"].to_sentence}</dl>" if document["embargo_statement"]
@@ -527,21 +528,14 @@ module TulCdmHelper
     images.html_safe
   end
 
-  def is_downloadable? (document)
+  def allowed?(document, solr_key)
     # Assumes downloadable is in an array, eventhough it should not be multivalued.
     # Item is not downloadable if a "No" exists in any of the downloadable elements
     # Otherwise, "Yes" must be explicitly stated
-    !document['downloadable_ssm'].include?("No") && document['downloadable_ssm'].last.eql?("Yes")
+    document.has_key?(solr_key) && !document[solr_key].include?("No") && document[solr_key].include?("Yes")
   end
 
-  def is_downloadable_ocr?(document)
-    # Assumes downloadable is in an array, eventhough it should not be multivalued.
-    # Item is not downloadable if a "No" exists in any of the downloadable elements
-    # Otherwise, "Yes" must be explicitly stated
-    !document['downloadable_ocr_ssm'].include?("No") && document['downloadable_ocr_ssm'].last.eql?("Yes")
-  end
-
-  def valid_filename (basename, extension)
+  def valid_filename(basename, extension)
       filename = basename + "." + extension
       filename = filename.gsub(":", "-")
       filename = filename.gsub("\/", "-")
