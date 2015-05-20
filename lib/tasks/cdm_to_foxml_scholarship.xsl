@@ -117,6 +117,7 @@
                 <xsl:apply-templates select="Source"/>
                 <xsl:apply-templates select="Alternate_Title"/>
                 <xsl:apply-templates select="Year_Degree_Awarded"/>
+                <xsl:apply-templates select="Year_Prize_Awarded"/>
                 <xsl:apply-templates select="OCR_Note"/>
               </fields>
             </foxml:xmlContent>
@@ -228,6 +229,9 @@
   </xsl:template>
   <xsl:template match="Year_Degree_Awarded">
     <year_degree_awarded><xsl:apply-templates /></year_degree_awarded>
+  </xsl:template>
+  <xsl:template match="Year_Prize_Awarded">
+    <year_prize_awarded><xsl:apply-templates /></year_prize_awarded>
   </xsl:template>
   <xsl:template match="OCR_Note">
     <ocr_note><xsl:apply-templates /></ocr_note>

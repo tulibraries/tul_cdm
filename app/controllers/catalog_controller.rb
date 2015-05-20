@@ -94,6 +94,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('series', :facetable), :label => 'Series', :limit => 5
     config.add_facet_field solr_name('advisor', :facetable), :label => 'Series', :limit => 5
     config.add_facet_field solr_name('degree_granting_institution', :facetable), :label => 'Series', :limit => 5
+    config.add_facet_field solr_name('year_prize_awarded', :facetable), :label => 'Prize Award Year', :limit => 5
     config.add_facet_field solr_name('is_part_of_ssim', :facetable), :label => 'Part Of'
 
     # Have BL send all facet field names to Solr, which has been the default
@@ -128,12 +129,12 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name('publisher', :stored_searchable, type: :string), :label => 'Publisher', :link_to_search => 'publisher_sim'
     config.add_show_field solr_name('digital_collection', :stored_searchable, type: :string), :label => 'Digital Collection', :link_to_search => 'digital_collection_sim'
     config.add_show_field solr_name('digital_publisher', :stored_searchable, type: :string), :label => 'Digital Publisher', :link_to_search => 'digital_publisher_sim'
-    config.add_show_field solr_name('contentdm_collection_id', :stored_searchable, type: :string), :label => 'Digital Collection', :link_to_search => 'contentdm_collection_id_sim', :show => false
-    config.add_show_field solr_name('contact', :stored_searchable, type: :string), :label => 'Contact'
+    config.add_show_field solr_name('contentdm_collection_id', :stored_searchable, type: :string), :label => 'Digital Collection ID', :link_to_search => 'contentdm_collection_id_sim', :show => false
+    config.add_show_field solr_name('contact', :displayable, type: :string), :label => 'Contact'
     config.add_show_field solr_name('repository', :stored_searchable, type: :string), :label => 'Repository', :link_to_search => 'repository_sim'
     config.add_show_field solr_name('repository_collection', :stored_searchable, type: :string), :label => 'Repository Collection'
     config.add_show_field solr_name('language', :stored_searchable, type: :string), :label => 'Language', :link_to_search => 'language_sim'
-    config.add_show_field solr_name('identifier', :stored_searchable, type: :string), :label => 'Identifier'
+    config.add_show_field solr_name('identifier', :displayable, type: :string), :label => 'Identifier'
 
     config.add_show_field solr_name('adapted_from', :stored_searchable, type: :string), :label => 'Adapted From'
     config.add_show_field solr_name('lithographer_printer', :stored_searchable, type: :string), :label => 'Lithographer / Printer'
@@ -153,7 +154,7 @@ class CatalogController < ApplicationController
 
     config.add_show_field solr_name('author', :stored_searchable, type: :string), :label => 'Author'
     config.add_show_field solr_name('date_of_publication', :stored_searchable, type: :string), :label => 'Date of Publication'
-    config.add_show_field solr_name('internal_note', :stored_searchable, type: :string), :label => 'Internal Note'
+    config.add_show_field solr_name('internal_note', :displayable, type: :string), :label => 'Internal Note'
 
     config.add_show_field solr_name('creator_person', :stored_searchable, type: :string), :label => 'Creator (Individual)'
     config.add_show_field solr_name('other_creator_person', :stored_searchable, type: :string), :label => 'Additional Creator (Individual)'
@@ -172,10 +173,11 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name('degree', :stored_searchable, type: :string), :label => 'Degree'
     config.add_show_field solr_name('degree_granting_institution', :stored_searchable, type: :string), :label => 'Degree Granting Institution'
     config.add_show_field solr_name('department', :stored_searchable, type: :string), :label => 'Department'
-    config.add_show_field solr_name('file_size', :stored_searchable, type: :string), :label => 'File Size'
+    config.add_show_field solr_name('file_size', :displayable, type: :string), :label => 'File Size'
     config.add_show_field solr_name('keywords', :stored_searchable, type: :string), :label => 'Keywords'
     config.add_show_field solr_name('source', :stored_searchable, type: :string), :label => 'Source'
     config.add_show_field solr_name('year_degree_awarded', :stored_searchable, type: :string), :label => 'Year Degree Awarded'
+    config.add_show_field solr_name('year_prize_awarded', :stored_searchable, type: :string), :label => 'Year Prize Awarded'
 
     # Collection-only metadata
     config.add_show_field solr_name('about_statement', :stored_searchable, type: :string), :label => 'About this Collection'
