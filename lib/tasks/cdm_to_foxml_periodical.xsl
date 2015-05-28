@@ -239,10 +239,10 @@
     <page><xsl:apply-templates /></page>
   </xsl:template>
   <xsl:template match="Page_Ptr">
-    <page_ptr><xsl:apply-templates /></page_ptr>
+    <contentdm_ptr><xsl:apply-templates /></contentdm_ptr>
   </xsl:template>
   <xsl:template match="Page_Text">
-    <page_text><xsl:apply-templates /></page_text>
+    <text><xsl:apply-templates /></text>
   </xsl:template>
   <xsl:template match="Created">
     <created><xsl:apply-templates /></created>

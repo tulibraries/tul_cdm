@@ -16,7 +16,7 @@ class Periodical < TulCdm::Models::Base
 
   has_attributes :notes, :personal_names, datastream: 'notationsMetadata', multiple: true
 
-  has_attributes :file_name, :document_content, :page, :page_ptr, :page_text, datastream: 'digitalMetadata', multiple: true
+  has_attributes :file_name, :document_content, :page, :contentdm_ptr, :text, datastream: 'digitalMetadata', multiple: true
 
   has_attributes :created, :creator, datastream: 'creationMetadata', multiple: true
 

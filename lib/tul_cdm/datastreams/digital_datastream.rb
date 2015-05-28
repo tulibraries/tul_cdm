@@ -7,8 +7,8 @@ module TulCdm::Datastreams
       t.file_name index_as: :displayable
       t.document_content {
         t.page {
-          t.page_ptr(:index_as=>:stored_searchable, :type=>:string)
-          t.page_text(:index_as=>:stored_searchable, :type=>:string)
+          t.contentdm_ptr(:index_as=>:stored_searchable, :type=>:string)
+          t.text(:index_as=>:stored_searchable, :type=>:string)
         }
       }
 

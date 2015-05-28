@@ -64,8 +64,8 @@ describe 'List CONTENTdm collections' do
       let (:ocr_page_text_tag) { "Page_Text" }
       let (:ocr_text_foxml_tag) { "document_content" }
       let (:ocr_page_foxml_tag) { "page" }
-      let (:ocr_page_ptr_foxml_tag) { "page_ptr" }
-      let (:ocr_page_text_foxml_tag) { "page_text" }
+      let (:ocr_page_ptr_foxml_tag) { "contentdm_ptr" }
+      let (:ocr_page_text_foxml_tag) { "text" }
       let (:match_text) { /TEMPLE UNIVERSITY  School of Law  1967/ }
       let (:yearbook_object) { 'p245801coll12x1645' }
 
