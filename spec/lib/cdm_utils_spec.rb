@@ -31,6 +31,7 @@ describe 'List CONTENTdm collections' do
   describe 'download' do
     after :each do
       FileUtils.rm Dir.glob "#{download_directory}/*.xml"
+      FileUtils.rm Dir.glob "#{converted_directory}/*.xml"
     end
 
     it "should download a single collection" do
@@ -58,7 +59,15 @@ describe 'List CONTENTdm collections' do
 
       let (:ocr_text_tag) { "Document_Content" }
       let (:ocr_text_xpath) { "//Document_Content" }
+      let (:ocr_page_tag) { "Page" }
+      let (:ocr_page_ptr_tag) { "Page_Ptr" }
+      let (:ocr_page_text_tag) { "Page_Text" }
+      let (:ocr_text_foxml_tag) { "document_content" }
+      let (:ocr_page_foxml_tag) { "page" }
+      let (:ocr_page_ptr_foxml_tag) { "page_ptr" }
+      let (:ocr_page_text_foxml_tag) { "page_text" }
       let (:match_text) { /TEMPLE UNIVERSITY  School of Law  1967/ }
+      let (:yearbook_object) { 'p245801coll12x1645' }
 
       it "should harvest yearbook document content" do
         VCR.use_cassette "cdm-util-download/should_harvest_yearbook_document_content" do
@@ -69,14 +78,29 @@ describe 'List CONTENTdm collections' do
         doc = Nokogiri::XML(File.read(file))
         # Tests for OCR text tag
         expect(doc).to have_tag(ocr_text_tag)
+        expect(doc).to have_tag(ocr_page_tag)
+        expect(doc).to have_tag(ocr_page_ptr_tag)
+        expect(doc).to have_tag(ocr_page_text_tag)
         expect(doc.xpath(ocr_text_xpath).text).to match(match_text)
+      end
+
+      it "should get the whole document's OCR text" do
+        VCR.use_cassette "cdm-util-download/should_harvest_yearbook_document_content" do
+          downloaded = CDMUtils.download_one_collection(config, yearbook_collection_name)
+        end
+
+        CDMUtils.convert_file(File.join(download_directory, yearbook_collection_name + '.xml'), converted_directory)
+        doc = Nokogiri::XML(File.read(File.join(converted_directory, yearbook_object + '.xml')))
+        expect(doc).to have_tag(ocr_text_foxml_tag)
+        expect(doc).to have_tag(ocr_page_foxml_tag)
+        expect(doc).to have_tag(ocr_page_ptr_foxml_tag)
+        expect(doc).to have_tag(ocr_page_text_foxml_tag)
       end
     end
 
   end
 
   describe 'convert' do
-    include TagMatchers
     let (:source_file_name) { collection_name + '.xml' }
 
     after :each do
@@ -129,7 +153,7 @@ describe 'List CONTENTdm collections' do
     let (:source_file_name) { collection_name + '.xml' }
     let (:ingest_pid) { "pid:001" }
 
-    after :each do
+      after :each do
       FileUtils.rm Dir.glob "#{download_directory}/*.xml"
       FileUtils.rm Dir.glob "#{converted_directory}/*.xml"
     end

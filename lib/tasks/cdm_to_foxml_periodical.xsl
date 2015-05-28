@@ -122,6 +122,9 @@
               <fields>
                 <xsl:apply-templates select="File_Name"/>
                 <xsl:apply-templates select="Document_Content"/>
+                <xsl:apply-templates select="Page"/>
+                <xsl:apply-templates select="Page_Ptr"/>
+                <xsl:apply-templates select="Page_Text"/>
               </fields>
             </foxml:xmlContent>
           </foxml:datastreamVersion>
@@ -231,6 +234,15 @@
   </xsl:template>
   <xsl:template match="Document_Content">
     <document_content><xsl:apply-templates /></document_content>
+  </xsl:template>
+  <xsl:template match="Page">
+    <page><xsl:apply-templates /></page>
+  </xsl:template>
+  <xsl:template match="Page_Ptr">
+    <page_ptr><xsl:apply-templates /></page_ptr>
+  </xsl:template>
+  <xsl:template match="Page_Text">
+    <page_text><xsl:apply-templates /></page_text>
   </xsl:template>
   <xsl:template match="Created">
     <created><xsl:apply-templates /></created>

@@ -51,13 +51,14 @@ module CDMUtils
       pointers.each do |item_ptr|
         cdm_num = item_ptr.text
 
-        # Initialize the OCR text buffer
-        compound_document_content = ''
-
         # Get the pointers to all of the pages of the compound object
         api_path = "#{config['cdm_server']}/dmwebservices/index.php?q=dmGetCompoundObjectInfo/#{cdm_coll}/#{cdm_num}/xml"
         compound_object_info_xml = Nokogiri::XML(open(api_path))
         pageptrs = compound_object_info_xml.xpath("//pageptr")
+
+        # Get the path to the Document Content mode. We will put the compound ocr text here
+        ocr_xpath = "//record[CONTENTdm_number[.='#{cdm_num}']]/Document_Content"
+        ocr_xml = xml_doc.at_xpath(ocr_xpath)
 
         # Instrumentation
         page_count = 0
@@ -67,8 +68,13 @@ module CDMUtils
           page_xpath = "//record[CONTENTdm_number[.='#{pageptr.text}']]"
           xml_ItemInfo = xml_doc.xpath(page_xpath).first
           document_content = xml_ItemInfo.xpath('Document_Content').text
-          compound_document_content << " " if compound_document_content.size > 0
-          compound_document_content << document_content if document_content.size > 0
+          if page_count == 0
+            page_text = "\n    "
+          else
+            page_text = ""
+          end
+          page_text += "  <Page>\n        <Page_Ptr>#{pageptr.text}</Page_Ptr>\n        <Page_Text>#{document_content if document_content.size > 0}</Page_Text>\n      </Page>\n    "
+          ocr_xml.add_child(page_text)
 
           page_count += 1
           break if page_count >= 12 and Rails.env.test?
@@ -76,11 +82,6 @@ module CDMUtils
         end
 
         print "#"
-
-        # Get the path to the Document Content mode. We will put the compound ocr text here
-        ocr_xpath = "//record[CONTENTdm_number[.='#{cdm_num}']]/Document_Content"
-        ocr_xml = xml_doc.at_xpath(ocr_xpath)
-        ocr_xml.content = compound_document_content
 
         # Show progress
         compound_document_number += 1
