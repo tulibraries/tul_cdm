@@ -22,6 +22,7 @@ module TulCdm::Datastreams
       # [TODO] Make the downloadable fields indexible, not-multivalued, and accessible in document returned by Solr, idealy displayable_si insteads of displayable_ssm
       t.downloadable(index_as: :displayable)
       t.downloadable_ocr(index_as: :displayable)
+      t.all_content(index_as: :stored_searchable, :type=>:string)
     end
 
     def self.xml_template

@@ -26,6 +26,7 @@ class CatalogController < ApplicationController
   configure_blacklight do |config|
     config.default_solr_params = {
       :qf => 'creator_tesim
+              all_content_tesim
               document_content_tesim
               geographic_subject_tesim
               organization_building_tesim
