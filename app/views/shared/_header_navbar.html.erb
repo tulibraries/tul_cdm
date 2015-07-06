@@ -1,27 +1,17 @@
 <div id="header-navbar" class="navbar navbar-inverse navbar-static-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#user-util-collapse">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
     <%= link_to application_name, root_path, class: "navbar-brand" %>
     </div>
 
-    <div class="collapse navbar-collapse" id="user-util-collapse">
-      <%= render :partial=>'/user_util_links' %>
-    </div>
-  </div>
-  <div class="prim-nav">
-      <div class="center-nav">
-      <ul>
-        <li class="first"><a href="/">Digital Collections Home</a></li>
-        <li><a href="/?utf8=✓&search_field=all_fields&q=">Browse All Collections</a></li>
-        <li><a href="/about">About Temple Digital Collections</a></li>
-        <li><a href="/digital_collections">Explore Digital Collections</a></li>
-      </ul>
+    <div class="prim-nav">
+      <div class="right-nav">
+        <ul>
+          <li><a href="/">Digital Collections Home</a></li>
+          <li><a href="/about">About Temple Digital Collections</a></li>
+          <li><a href="/digital_collections">Our Digital Collections</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
