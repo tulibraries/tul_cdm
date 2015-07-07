@@ -14,6 +14,9 @@
 # Ignore CONTENTdm configuration
 config/contentdm.yml
 
+# Ignore tul_cdm configuration
+config/tul_cdm.yml
+
 # Ignore static pages
 /app/views/pages
 
