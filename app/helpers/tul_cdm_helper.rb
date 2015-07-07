@@ -137,7 +137,7 @@ module TulCdmHelper
   def render_facet_groupings(group)
     sortby=["title_sim","date_range_sim","pub_date_dtsi"]
     geo=["geographic_subject_sim", "organization_building_sim","intersection_sim"]
-    general=["type_sim", "subject_sim", "language_sim", "digital_collection_sim", "contentdm_collection_id_sim"]
+    general=["contentdm_collection_id_sim", "subject_sim", "personal_names_sim", "type_sim", "language_sim" ]
     case group
       when 'sortby'
         grouping = sortby
