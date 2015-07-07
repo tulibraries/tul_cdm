@@ -83,9 +83,9 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('format', :facetable), :label => 'Format', :limit => 5
     config.add_facet_field solr_name('type', :facetable), :label => 'Type', :limit => 5
     config.add_facet_field solr_name('publisher_sim', :facetable), :label => 'Publisher', :limit => 5
-    config.add_facet_field solr_name('digital_collection', :facetable), :label => 'Digital Collection', :limit => 5, :collapse => false
+    config.add_facet_field solr_name('digital_collection', :facetable), :label => 'Digital Collection', :limit => 5, :collapse => false, :show => false
     config.add_facet_field solr_name('digital_publisher', :facetable), :label => 'Digital Publisher', :limit => 5
-    config.add_facet_field solr_name('contentdm_collection_id', :facetable), :label => 'Digital Collection', :limit => 5, :single => false, :collapse => false, helper_method: :render_with_contentdm_collection_name, :show => false
+    config.add_facet_field solr_name('contentdm_collection_id', :facetable), :label => 'Digital Collection', :limit => 5, :single => false, :collapse => false, helper_method: :render_with_contentdm_collection_name
     config.add_facet_field solr_name('repository', :facetable), :label => 'Repository', :limit => 5
     config.add_facet_field solr_name('language', :facetable), :label => 'Language', :limit => 5
     config.add_facet_field solr_name('contributor', :facetable), :label => 'Contributor', :limit => 5
@@ -96,6 +96,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('degree_granting_institution', :facetable), :label => 'Series', :limit => 5
     config.add_facet_field solr_name('year_prize_awarded', :facetable), :label => 'Prize Award Year', :limit => 5
     config.add_facet_field solr_name('is_part_of_ssim', :facetable), :label => 'Part Of'
+    config.add_facet_field solr_name('personal_names', :facetable), :label => 'Personal Names', :limit => 5, :collapse => false, :show => true
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
