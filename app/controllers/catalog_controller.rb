@@ -82,9 +82,9 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('date', :facetable), :label => 'Date', :limit => 3
     config.add_facet_field solr_name('format', :facetable), :label => 'Format', :limit => 3
     config.add_facet_field solr_name('type', :facetable), :label => 'Type', :limit => 3, :collapse => true
-    config.add_facet_field solr_name('publisher_sim', :facetable), :label => 'Publisher', :limit => 3
+    config.add_facet_field solr_name('publisher_sim', :facetable), :label => 'Publisher', :limit => 3, :collapse => true
     config.add_facet_field solr_name('digital_collection', :facetable), :label => 'Digital Collection', :limit => 3, :collapse => false, :show => false
-    config.add_facet_field solr_name('digital_publisher', :facetable), :label => 'Digital Publisher', :limit => 3
+    config.add_facet_field solr_name('digital_publisher', :facetable), :label => 'Digital Publisher', :limit => 3, :collapse => true
     config.add_facet_field solr_name('contentdm_collection_id', :facetable), :label => 'Digital Collection', :limit => 3, :single => false, :collapse => false, helper_method: :render_with_contentdm_collection_name
     config.add_facet_field solr_name('repository', :facetable), :label => 'Repository', :limit => 3
     config.add_facet_field solr_name('language', :facetable), :label => 'Language', :limit => 3, :collapse => true
