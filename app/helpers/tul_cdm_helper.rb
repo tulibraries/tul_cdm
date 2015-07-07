@@ -63,6 +63,11 @@ module TulCdmHelper
     content_tag(:div, download_link, id: "download-link")
   end
 
+  def link_to_organization
+    config = YAML.load_file(File.expand_path("#{Rails.root}/config/tul_cdm.yml", __FILE__))
+    config['tul_cdm_organization_url']
+  end
+
   def render_image_viewer(document, collection_id, cdm_number)
 
     config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
