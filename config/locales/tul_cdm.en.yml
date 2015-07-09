@@ -1,10 +1,10 @@
 en:
   tul_cdm:
     general:
-      application_name: 'Temple University Libraries Digital Collections'
+      application_name: 'Temple Digital Collections'
       footer_content: "This site is run by SCRC, Temple University Libraries"
     homepage:
-      welcome: 'Welcome to the'
+      welcome: 'About'
       intro_text: |+
         Our Digital Collections site offers free worldwide access to the unique primary historical and cultural resources held by the Temple University Libraries and to selected scholarly works and other publications produced at Temple. We are actively digitizing additional materials; to suggest materials you believe should be digitized, please contact us at: <a href="mailto:diglib@temple.edu">diglib@temple.edu</a>.
       featured_collections_heading: "Featured Collections"
@@ -37,6 +37,7 @@ en:
           <li><a href="/subject_index#tra">Transportation</a></li>
           <li><a href="/subject_index#wom">Women</a></li>
         </ul>
+      learn_more: "Click to learn more"
     contact_field:
       text: "Contact SCRC"
     bookreader:
