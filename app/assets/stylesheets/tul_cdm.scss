@@ -1,6 +1,7 @@
 @import "base/globals.scss";
 @import "base/colors.scss";
 @import "base/mixins.scss";
+@import "blacklight.css.scss";
 
 /******
 *
@@ -96,6 +97,50 @@ html,body,#wrapper,#main-wrapper,#footer {
   margin-right: 10px;
 }
 
+@media (min-width: $screen-md-min) {
+  #search-navbar {
+    .secondary-input-group {
+      .btn {
+        height: 50px;
+        line-height: 36px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+@media (min-width: $screen-lg-min) {
+  #search-navbar {
+    .secondary-input-group {
+      display: inline-block;
+      padding-left: 10px;
+    }
+  }
+}
+
+@media (max-width: $screen-lg-min) {
+  #search-navbar {
+    .secondary-input-group {
+      display: block;
+    }
+  }
+}
+
+@media (max-width: $screen-md-min) {
+  #search-navbar {
+    float: left;
+    .input-group {
+      #q {
+        width: 250px;
+        font-weight: normal;
+      }
+    }
+    .secondary-input-group {
+      display: block;
+    }
+  }
+}
 
 /******
 *
