@@ -287,3 +287,17 @@ h2.ocr-section-heading{
 #document .defList dd{
   padding-bottom: 20px;
 }
+
+/******
+*
+* Advance Search Form
+*
+******/
+
+// Hide the first advanced start-over button
+
+.advanced.page-header {
+  .advanced-search-start-over {
+    display: none;
+  }
+}
