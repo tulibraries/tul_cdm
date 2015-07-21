@@ -97,50 +97,20 @@ html,body,#wrapper,#main-wrapper,#footer {
   margin-right: 10px;
 }
 
-@media (min-width: $screen-md-min) {
-  #search-navbar {
-    .secondary-input-group {
-      .btn {
-        height: 50px;
-        line-height: 36px;
-        font-size: 18px;
-        font-weight: bold;
-      }
-    }
-  }
-}
-
-@media (min-width: $screen-lg-min) {
-  #search-navbar {
-    .secondary-input-group {
-      display: inline-block;
-      padding-left: 10px;
-    }
-  }
-}
-
-@media (max-width: $screen-lg-min) {
-  #search-navbar {
-    .secondary-input-group {
-      display: block;
-    }
-  }
-}
-
-@media (max-width: $screen-md-min) {
-  #search-navbar {
-    float: left;
-    .input-group {
-      #q {
-        width: 250px;
-        font-weight: normal;
-      }
-    }
-    .secondary-input-group {
-      display: block;
-    }
-  }
-}
+//@media (max-width: $screen-md-min) {
+//  #search-navbar {
+//    float: left;
+//    .input-group {
+//      #q {
+//        width: 250px;
+//        font-weight: normal;
+//      }
+//    }
+//    .secondary-input-group {
+//      display: block;
+//    }
+//  }
+//}
 
 /******
 *
@@ -270,11 +240,64 @@ h2.ocr-section-heading{
 #search-navbar .container .search-query-form{
   margin-right: auto;
   margin-left: auto;
-  width: 1200px;
+  width: auto;
 }
 
-#search-navbar #q {
-  width: 500px;
+//#search-navbar #q {
+//  width: 500px;
+//}
+
+//@media (min-width: $screen-md-min) {
+  #search-navbar {
+    #q {
+      width: 500px;
+    }
+    .secondary-input-group {
+      .btn {
+        height: 50px;
+        line-height: 36px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+  }
+//}
+
+@media (min-width: $screen-lg-min) {
+  #search-navbar {
+    .secondary-input-group {
+      display: inline-block;
+      padding-left: 10px;
+    }
+  }
+}
+
+@media (max-width: $screen-lg-min) {
+  #search-navbar {
+    .container .search-query-form {
+      width: auto;
+      #q {
+        width: 400px;
+      }
+    }
+    .secondary-input-group {
+      display: inline-block;
+    }
+  }
+}
+
+@media (max-width: $screen-md-min) {
+  #search-navbar {
+    .container .search-query-form {
+      width: auto;
+      #q: {
+        width: 200px;
+      }
+    }
+    .secondary-input-group {
+      display: block;
+    }
+  }
 }
 
 /******
