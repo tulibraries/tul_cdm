@@ -1,6 +1,7 @@
 @import "base/globals.scss";
 @import "base/colors.scss";
 @import "base/mixins.scss";
+@import "blacklight.css.scss";
 
 /******
 *
@@ -96,6 +97,20 @@ html,body,#wrapper,#main-wrapper,#footer {
   margin-right: 10px;
 }
 
+//@media (max-width: $screen-md-min) {
+//  #search-navbar {
+//    float: left;
+//    .input-group {
+//      #q {
+//        width: 250px;
+//        font-weight: normal;
+//      }
+//    }
+//    .secondary-input-group {
+//      display: block;
+//    }
+//  }
+//}
 
 /******
 *
@@ -225,11 +240,29 @@ h2.ocr-section-heading{
 #search-navbar .container .search-query-form{
   margin-right: auto;
   margin-left: auto;
-  width: 1200px;
+  width: auto;
 }
 
-#search-navbar #q {
-  width: 500px;
+#search-navbar {
+  .secondary-input-group {
+    display: inline-block;
+    .btn {
+      height: 50px;
+      line-height: 36px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+}
+
+@media (min-width: $screen-lg-min) {
+  #search-navbar {
+    .container .search-query-form {
+      #q {
+        width: 500px;
+      }
+    }
+  }
 }
 
 /******
@@ -253,4 +286,18 @@ h2.ocr-section-heading{
 
 #document .defList dd{
   padding-bottom: 20px;
+}
+
+/******
+*
+* Advance Search Form
+*
+******/
+
+// Hide the first advanced start-over button
+
+.advanced.page-header {
+  .advanced-search-start-over {
+    display: none;
+  }
 }
