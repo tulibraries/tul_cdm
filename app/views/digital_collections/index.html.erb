@@ -20,6 +20,7 @@
           </div>
             <div class="collection-internals">
               <span class="collection-name"><%= link_to digital_collection.name, landing_page(@host, digital_collection), :title => "Browse #{digital_collection.name}" %></span>
+              <span class="collection-restriction-note"><%= digital_collection_note(digital_collection) %></span>
             </div>
           </div>
             <span class="admin">

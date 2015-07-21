@@ -53,3 +53,5 @@ en:
       browse_collection: 'Browse This Collection'
       browse_short: 'Browse'
       collection_alias_helper_text: "CONTENTdm alias or collection short name without spaces, e.g., 'stereotypicalimages'."
+      restricted_collection_text: "Access to this collection is restricted to current Temple faculty, staff and students for non-commercial academic use only."
+      restricted_collection_note: "Access restricted"

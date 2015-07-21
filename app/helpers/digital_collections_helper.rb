@@ -1,5 +1,7 @@
 module DigitalCollectionsHelper
 
+  EBOOK_COLLECTION_ID = 'p16002coll8'
+
   def path(digital_collection)
     "/?f[digital_collection_sim][]=" + digital_collection.name
   end
@@ -30,6 +32,13 @@ module DigitalCollectionsHelper
   def link_to_digital_collection(digital_collection)
     digital_collection_path = digital_collection.custom_url.blank? ? path(digital_collection) : digital_collection.custom_url
     link_to raw("#{t('tul_cdm.digital_collection.browse_collection')} <span class=\"glyphicon glyphicon-circle-arrow-right\"></span>"), digital_collection_path
+  end
+
+  def digital_collection_note(digital_collection)
+    case digital_collection.collection_alias
+    when EBOOK_COLLECTION_ID
+      t('tul_cdm.digital_collection.restricted_collection_note')
+    end
   end
 
 end
