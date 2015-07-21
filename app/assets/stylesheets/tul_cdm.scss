@@ -255,14 +255,6 @@ h2.ocr-section-heading{
   }
 }
 
-@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max){
-  #search-navbar {
-    .secondary-input-group {
-      display: block;
-    }
-  }
-}
-
 @media (min-width: $screen-lg-min) {
   #search-navbar {
     .container .search-query-form {
