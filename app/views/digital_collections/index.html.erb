@@ -35,6 +35,7 @@
   </ul>
   </div>
   <h3><%= t('tul_cdm.digital_collection.format_based_collections_title') %></h3>
+  <p><%= t('tul_cdm.digital_collection.format_based_collections_text') %></p>
   <div class="digital_collection-list" id="other-digital-collections">
     <ul>
       <% @digital_collections.where(is_format_based: true).order(:priority).each_slice(3) do |dig_cols| %>
