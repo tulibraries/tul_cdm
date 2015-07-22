@@ -124,35 +124,29 @@ html,body,#wrapper,#main-wrapper,#footer {
   float: right;
 }
 
-.prim-nav ul li{
-  list-style: none;
-  float: left;
-  width: 260px;
-  text-align: left;
-  padding-top: 8px;
-  padding-left: 0px;
-}
-
 .right-nav{
   width: 280px;
   margin-left: auto;
   margin-right: auto;
 }
 
+.prim-nav ul li {
+  list-style: none;
+  float: left;
+  width: 260px;
+  text-align: left;
+  padding: 2px 6px 2px 6px;
+  border: 1px solid $temple-dark-cherry;
+  margin-bottom: 5px;
+  @include rounded-corners-top;
+  @include rounded-corners-bottom;
+
+}
 
 .prim-nav a {
   font: bold 14px Arial;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background-color: $temple-cherry;
-  background-image: linear-gradient(to bottom, $temple-cherry, $temple-dark-cherry);
-  background-repeat: repeat-x;
   color: white;
-  padding: 2px 6px 2px 6px;
-  border-color: $temple-dark-grey;
-  border-top: 1px solid #CCCCCC;
-  border-right: 1px solid #333333;
-  border-bottom: 1px solid #333333;
-  border-left: 1px solid #CCCCCC;
 }
 
 
@@ -221,6 +215,18 @@ h2.ocr-section-heading{
   font-size: 24px;
 }
 
+
+/******
+*
+* Homepage Intro Text
+*
+******/
+
+.homepage-intro h1{
+  font-size:20px;
+  font-weight:bold;
+}
+
 /******
 *
 * Search bar
@@ -247,9 +253,10 @@ h2.ocr-section-heading{
   .secondary-input-group {
     display: inline-block;
     .btn {
+      color: $temple-dark-grey;
       height: 50px;
       line-height: 36px;
-      font-size: 18px;
+      font-size: 14px;
       font-weight: bold;
     }
   }
