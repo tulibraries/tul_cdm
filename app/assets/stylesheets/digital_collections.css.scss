@@ -1,6 +1,26 @@
 @import "base/colors.scss";
 @import "base/mixins.scss";
 
+
+
+/******
+*
+* Digital Collections Overall Styles
+*
+******/
+
+#digital_collection-index h1, #digital_collection-show h1{
+  font-size: 22px;
+  font-weight: bold;
+}
+
+
+#digital_collection-index h2, #digital_collection-show h2{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+
 /******
 *
 * Digital Collection Index Page
