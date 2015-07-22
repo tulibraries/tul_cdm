@@ -1,8 +1,8 @@
 <div class="container" id="digital_collection-index">
-  <h1>Explore Digital Collections</h1>
+  <h1><%= t('tul_cdm.digital_collection.collections_title') %></h1>
   <div class="digital_collection-list">
     <ul>
-    <% @digital_collections.order(:priority).each_slice(3) do |dig_cols| %>
+    <% @digital_collections.where(is_format_based: false).order(:priority).each_slice(3) do |dig_cols| %>
       <div class="row">
         <% dig_cols.each do |digital_collection| %>
         <li>
@@ -33,6 +33,41 @@
       </div>
     <% end %>
   </ul>
+  </div>
+  <h3><%= t('tul_cdm.digital_collection.format_based_collections_title') %></h3>
+  <div class="digital_collection-list" id="other-digital-collections">
+    <ul>
+      <% @digital_collections.where(is_format_based: true).order(:priority).each_slice(3) do |dig_cols| %>
+        <div class="row">
+          <% dig_cols.each do |digital_collection| %>
+          <li>
+            <div class="collection-item col-md-3">
+              <div class="collection-thumbnail">
+                <div class="collection-item-attributes digcoll-overlay digcoll-cherry">
+                  <div class="digcoll-text">
+                    <%= "#{t('tul_cdm.digital_collection.browse_short')} #{digital_collection.name}" %>
+                  </div>
+                <% if (digital_collection.thumbnail_url) %>
+                  <%= link_to (image_tag (digital_collection.thumbnail_url), :alt => "Browse #{digital_collection.name}"), landing_page(@host, digital_collection) %>
+                    <% else  %>
+                    <a href="<%= "#{@host}/#{digital_collection.collection_alias}" %>"><span class="collection-default-thumb glyphicon glyphicon-th"></span></a>
+                <% end %>
+            </div>
+              <div class="collection-internals">
+                <span class="collection-name"><%= link_to digital_collection.name, landing_page(@host, digital_collection), :title => "Browse #{digital_collection.name}" %></span>
+              </div>
+            </div>
+              <span class="admin">
+                <%= link_to 'Show', digital_collection %> |
+                <%= link_to 'Edit', edit_digital_collection_path(digital_collection) %> |
+                <%= link_to 'Destroy', digital_collection, method: :delete, data: { confirm: 'Are you sure?' } %>
+              </span>
+            </div>
+          </li>
+          <% end %>
+        </div>
+      <% end %>
+    </ul>
   </div>
 
   <span class="admin">

@@ -24,3 +24,5 @@ en:
       browse_collection: 'Browse This Collection'
       browse_short: 'Browse'
       collection_alias_helper_text: "CONTENTdm alias or collection short name without spaces, e.g., 'stereotypicalimages'."
+      collections_title: "Explore Digital Collections"
+      format_based_collections_title: "Other Collections"
