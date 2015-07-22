@@ -13,4 +13,7 @@ en:
     and: 'and'
     or: 'or'
 
-
+    search:
+      facets:
+        sort:
+          count: 'Frequency Sort'
