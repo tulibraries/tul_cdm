@@ -40,8 +40,8 @@ br.getPageSide = function(index) {
 // This function returns the left and right indices for the user-visible
 // spread that contains the given index.  The return values may be
 // null if there is no facing page or the index is invalid.
-br.getSpreadIndices = function(pindex) {   
-    var spreadIndices = [null, null]; 
+br.getSpreadIndices = function(pindex) {
+    var spreadIndices = [null, null];
     if ('rl' == this.pageProgression) {
         // Right to Left
         if (this.getPageSide(pindex) == 'R') {
@@ -63,7 +63,7 @@ br.getSpreadIndices = function(pindex) {
             spreadIndices[0] = pindex - 1;
         }
     }
-    
+
     return spreadIndices;
 }
 
@@ -94,99 +94,7 @@ br.prepareView = function(mode) {
 
 // Custom tool bar
 br.initToolbar = function(mode, ui) {
-
-    if (ui == "embed") {
-        return; // No toolbar at top in embed mode
-    }
-
-    // $$$mang should be contained within the BookReader div instead of body
-    var readIcon = '';
-    if (!navigator.userAgent.match(/mobile/i)) {
-        readIcon = "<button class='BRicon read modal'></button>";
-    }
-
-    $("#BookReader").append(
-          "<div id='BRtoolbar'>"
-        +   "<span id='BRtoolbarbuttons'>"
-        //+     "<form action='javascript:br.search($(\"#textSrch\").val());' id='booksearch'><input type='search' id='textSrch' name='textSrch' val='' placeholder='Search inside'/><button type='submit' id='btnSrch' name='btnSrch'>GO</button></form>"
-        +     "<button class='BRicon play'></button>"
-        +     "<button class='BRicon pause'></button>"
-        //+     "<button class='BRicon info'></button>"
-        //+     "<button class='BRicon share'></button>"
-        //+     readIcon
-        +   "</span>"
-        +   "<span><a class='logo' href='" + this.logoURL + "'></a></span>"
-        +   "<span id='BRreturn'><a></a></span>"
-        +   "<div id='BRnavCntlTop' class='BRnabrbuvCntl'></div>"
-        + "</div>"
-        /*
-        + "<div id='BRzoomer'>"
-        +   "<div id='BRzoompos'>"
-        +     "<button class='BRicon zoom_out'></button>"
-        +     "<div id='BRzoomcontrol'>"
-        +       "<div id='BRzoomstrip'></div>"
-        +       "<div id='BRzoombtn'></div>"
-        +     "</div>"
-        +     "<button class='BRicon zoom_in'></button>"
-        +   "</div>"
-        + "</div>"
-        */
-        );
-
-    // Browser hack - bug with colorbox on iOS 3 see https://bugs.launchpad.net/bookreader/+bug/686220
-    if ( navigator.userAgent.match(/ipad/i) && $.browser.webkit && (parseInt($.browser.version, 10) <= 531) ) {
-       $('#BRtoolbarbuttons .info').hide();
-       $('#BRtoolbarbuttons .share').hide();
-    }
-
-    // Hidden - Unused button
-    $('#BRreturn a').attr('href', this.bookUrl).text(this.bookTitle).hide();
-
-    $('#BRtoolbar .BRnavCntl').addClass('BRup');
-    $('#BRtoolbar .pause').hide();
-
-    this.updateToolbarZoom(this.reduce); // Pretty format
-
-    if (ui == "embed" || ui == "touch") {
-        $("#BookReader a.logo").attr("target","_blank");
-    }
-
-    // $$$ turn this into a member variable
-    var jToolbar = $('#BRtoolbar'); // j prefix indicates jQuery object
-
-    // We build in mode 2
-    jToolbar.append();
-
-    // Hide mode buttons and autoplay if 2up is not available
-    // $$$ if we end up with more than two modes we should show the applicable buttons
-    if ( !this.canSwitchToMode(this.constMode2up) ) {
-        jToolbar.find('.two_page_mode, .play, .pause').hide();
-    }
-    if ( !this.canSwitchToMode(this.constModeThumb) ) {
-        jToolbar.find('.thumbnail_mode').hide();
-    }
-
-    // Hide one page button if it is the only mode available
-    if ( ! (this.canSwitchToMode(this.constMode2up) || this.canSwitchToMode(this.constModeThumb)) ) {
-        jToolbar.find('.one_page_mode').hide();
-    }
-
-    // $$$ Don't hardcode ids
-    var self = this;
-    jToolbar.find('.share').colorbox({inline: true, opacity: "0.5", href: "#BRshare", onLoad: function() { self.autoStop(); self.ttsStop(); } });
-    jToolbar.find('.info').colorbox({inline: true, opacity: "0.5", href: "#BRinfo", onLoad: function() { self.autoStop(); self.ttsStop(); } });
-
-    $('<div style="display: none;"></div>').append(this.blankShareDiv()).append(this.blankInfoDiv()).appendTo($('body'));
-
-    $('#BRinfo .BRfloatTitle a').attr( {'href': this.bookUrl} ).text(this.bookTitle).addClass('title');
-
-    // These functions can be overridden
-    this.buildInfoDiv($('#BRinfo'));
-    this.buildShareDiv($('#BRshare'));
-
-    // Switch to requested mode -- binds other click handlers
-    //this.switchToolbarMode(mode);
-
+    return; // Disable toolbar
 }
 // Custom nav bar
 br.initNavbar = function() {
@@ -412,4 +320,3 @@ br.fitToPage1up = function() {
       }
     }
 }
-
