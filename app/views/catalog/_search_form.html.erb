@@ -10,10 +10,10 @@
         <label for="search_field" class="sr-only"><%= t('blacklight.search.form.search_field.label') %></label>
         <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class=>"search_field") %>
         <span class="sr-only"><%= t('blacklight.search.form.search_field.post_label') %></span>
-        </span>
+      </span>
       <% end %>
-        <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
-         <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search_q q form-control", :id => "q", :autofocus => should_autofocus_on_search_box? %>
+      <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
+       <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search_q q form-control", :id => "q", :autofocus => should_autofocus_on_search_box? %>
 
       <span class="input-group-btn">
         <button type="submit" class="btn btn-primary search-btn" id="search">
@@ -21,6 +21,10 @@
           <span class="glyphicon glyphicon-search"></span>
         </button>
         </span>
-      </div>
-  <% end %>
 
+    </div>
+    <div class="secondary-input-group">
+       <a class="btn btn-default advanced-search-start-over" href="/?utf8=%E2%9C%93&search_field=all_fields&q=">Start over</a>
+       <%= render_advanced_search %>
+    </div>
+<% end %>

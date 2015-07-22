@@ -63,6 +63,11 @@ module TulCdmHelper
     content_tag(:div, download_link, id: "download-link")
   end
 
+  def link_to_organization
+    config = YAML.load_file(File.expand_path("#{Rails.root}/config/tul_cdm.yml", __FILE__))
+    config['tul_cdm_organization_url']
+  end
+
   def render_image_viewer(document, collection_id, cdm_number)
 
     config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
@@ -137,7 +142,7 @@ module TulCdmHelper
   def render_facet_groupings(group)
     sortby=["title_sim","date_range_sim","pub_date_dtsi"]
     geo=["geographic_subject_sim", "organization_building_sim","intersection_sim"]
-    general=["type_sim", "subject_sim", "language_sim", "digital_collection_sim", "contentdm_collection_id_sim"]
+    general=["contentdm_collection_id_sim", "subject_sim", "personal_names_sim", "type_sim", "language_sim" ]
     case group
       when 'sortby'
         grouping = sortby
@@ -542,10 +547,18 @@ module TulCdmHelper
       filename = filename.gsub("\\", "-")
   end
 
+<<<<<<< HEAD
   def get_collection_alias(collection_name)
     dca = DigitalCollection.where("name LIKE '#{collection_name}'").to_a
     #binding.pry()
     dca.any? ? dca.first.collection_alias : "#"
   end
+=======
+	def render_advanced_search()
+		path_var = request.path.gsub(/[^0-9A-Za-z]/, '')
+		#if path_var == "advanced" then link_to t('blacklight.basic_search_link'), root_url, :class=>'basic_search' else  link_to t('blacklight.advanced_search_link'), advanced_search_path(params), :class=>'advanced_search' end
+    if path_var.include? "advanced" then link_to t('blacklight.basic_search_link'), root_url, :class=>'btn btn-default basic_search' else  link_to t('blacklight.advanced_search_link'), advanced_search_path(params), :class=>'btn btn-default advanced_search' end
+	end
+>>>>>>> f0b32698ed9a9f7cdbcb27c3b67e932bf7d1f4ab
 
 end
