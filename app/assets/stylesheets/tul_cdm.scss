@@ -234,7 +234,7 @@ h2.ocr-section-heading{
 ******/
 
 #search-navbar .search-query-form input.search_q,#search-navbar .input-group-btn button#search{
-  font-size: 24px;
+  font-size: 20px;
   height:50px;
   font-weight: bold;
 }
@@ -270,6 +270,12 @@ h2.ocr-section-heading{
       }
     }
   }
+}
+
+.secondary-input-group {
+  border-left: $temple-light-grey 1px solid;
+  padding-left:20px;
+  margin-left:20px;
 }
 
 /******
