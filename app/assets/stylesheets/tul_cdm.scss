@@ -97,6 +97,10 @@ html,body,#wrapper,#main-wrapper,#footer {
   margin-right: 10px;
 }
 
+#facets{
+  margin-top: -12px;
+}
+
 //@media (max-width: $screen-md-min) {
 //  #search-navbar {
 //    float: left;
@@ -278,6 +282,14 @@ h2.ocr-section-heading{
   margin-left:20px;
 }
 
+.slick-prev:before, .slick-next:before {
+    font-family: "slick";
+    font-size: 20px;
+    line-height: 1;
+    opacity: 0.75;
+    color: $temple-dark-grey;
+}
+
 /******
 *
 * Search results
@@ -316,11 +328,4 @@ h2.ocr-section-heading{
 }
 
 
-.slick-next:before {
-    font-family: "slick";
-    font-size: 20px;
-    line-height: 1;
-    opacity: 0.75;
-    color: #000000;
-}
 
