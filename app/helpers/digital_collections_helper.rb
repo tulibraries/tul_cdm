@@ -37,7 +37,7 @@ module DigitalCollectionsHelper
   def digital_collection_note(digital_collection)
     case digital_collection.collection_alias
     when EBOOK_COLLECTION_ID
-      link_to raw("#{t('tul_cdm.digital_collection.restricted_collection_note')}"), '#', title: "#{t('tul_cdm.digital_collection.restricted_collection_text')}"
+      t('tul_cdm.digital_collection.restricted_collection_note').html_safe
     end
   end
 
