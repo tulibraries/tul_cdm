@@ -1,4 +1,5 @@
 <%= render_collection(document['is_member_of_ssim']) %>
+
 <dl class="defList">
   <% document_show_fields.each do |solr_fname, field| -%>
     <% if document.has? solr_fname %>

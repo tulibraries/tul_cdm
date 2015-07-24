@@ -21,6 +21,7 @@ collections = [
   featured:         "Yes",
   custom_url:       '',
   is_custom_landing_page: false,
+  is_format_based:  false,
   description:      <<-END.gsub(/^ {6}/, '')
       <p><span>This collection of over 1,500 World War I posters in Temple University Libraries' Special Collections Research Center was donated by George F. Tyler in 1937. The posters provide a graphic portrayal of Allied propaganda used to educate the public and enlist support for the war effort. In addition, they serve as examples of the art, design, and printing techniques of the period.</span></p>
       <p><span>An <a href="http://gamma.library.temple.edu/exhibits/exhibits/show/george-tyler-wwi-poster-exhibi" target="new">exhibition</a> of a selection of the posters is accompanied by primary source material and commentary intended to provide additional context, insight, and interpretation.</span></p>
@@ -37,6 +38,7 @@ collections = [
   featured:         "No",
   custom_url:       'http://northerncity.library.temple.edu/',
   is_custom_landing_page: true,
+  is_format_based:  false,
   description:      '',
   },
   {
@@ -50,6 +52,7 @@ collections = [
   featured:         "No",
   custom_url:       '',
   is_custom_landing_page: false,
+  is_format_based:  false,
   description:      <<-END.gsub(/^ {6}/, '')
       <p>A portion of the Franklin H. Littell papers has been digitized to offer online access.</p>
       <p>Franklin Littell (1917-2009), emeritus professor of religion at Temple University, led a distinguished career that spanned more than seventy years. He was a pacifist and activist, proponent of the Christian Laity and an advocate for new religious movements, an historian, political commentator and supporter of the State of Israel. He devoted ten years to work with the Protestant Churches and Laity in US occupied Germany and more than fifty years to the study and remembrance of the Holocaust and German Church Struggle. Though his activities and affiliations changed over time, he maintained strong beliefs in interfaith understanding and religious liberty his entire life.</p>
@@ -67,6 +70,7 @@ collections = [
   featured:         "Yes",
   custom_url:       '',
   is_custom_landing_page: false,
+  is_format_based:  false,
   description:      <<-END.gsub(/^ {6}/, '')
       <p><span>Search here for sample clippings from the <strong>George D. McDowell Philadelphia Evening Bulletin Collection </strong>digitized in 2010 - 2013.</span></p>
     END
@@ -82,6 +86,7 @@ collections = [
   featured:         "No",
   custom_url:       'http://0.0.0.0:3000/?utf8=✓&f%5Bdigital_collection_sim%5D%5B%5D=Stereotypical+Images+Teaching+Collection&search_field=digital_collection&q=p15037coll1+OR+p16002coll7',
   is_custom_landing_page: false,
+  is_format_based:  false,
   description:      <<-END.gsub(/^ {6}/, '')
     <p>This is a teaching image collection designed to provide resources for faculty and students, studying historical representations of various cultural and ethnic groups.
       The collection provides examples of stereotyping based on race, religion, gender, and other characteristics that have shaped and continue to shape American society,
@@ -103,6 +108,7 @@ collections = [
   featured:         "Yes",
   custom_url:       '',
   is_custom_landing_page: false,
+  is_format_based:  false,
   description:      <<-END.gsub(/^ {6}/, '')
       <p><span>This sheet music published from the early 19th to early 20th centuries, from Temple University Libraries’ collections, contains lithographed and engraved cover art. These covers show remarkable designs and document developing printing techniques throughout more than 100 years. The collections include popular dances and songs, comic tunes that reveal the ironies and anxieties of the time, and music commemorating great exhibitions and honoring heroes and stars.</span></p>
     END
@@ -118,9 +124,27 @@ collections = [
   featured:         "No",
   custom_url:       '',
   is_custom_landing_page: false,
+  is_format_based:  false,
   description:      <<-END.gsub(/^ {6}/, '')
       <p><span>The Library Prize for Undergraduate Research was established in 2004 to encourage the use of Library resources, to enhance the development of library research techniques, and to honor the best research projects produced each year by Temple University undergraduate students. Up to three projects are selected each year to win $1000. Winning entries exhibit: originality, depth, breadth, or sophistication in the use of library collections; exceptional ability to select, evaluate, synthesize, and utilize library resources in the creation of a project in any media; and evidence of personal growth through the acquisition of newfound knowledge.</span></p>
       <p><span>Also included in this collection are the winning entries for <strong>The Library Prize for Undergraduate Research on Sustainability &amp; the Environment</strong>. Established in the 2010-2011 academic year by Temple Libraries and Gale, a leading organization in e-research and educational publishing, this prize encourage undergraduate research and projects in the area of sustainability. Up to two projects are selected each year to win $1000.</span></p>
+    END
+  },
+  {
+  collection_alias: 'p16002coll8',
+  name:             'Temple University Press E-Books',
+  thumbnail_url:    'http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/tu_press_dtl.jpg',
+  image_url:        'http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll8/images/TU_Press_Landing_Page_V3.jpg',
+  priority:         83,
+  is_private:       false,
+  allowed_ip_addresses: "",
+  featured:         "No",
+  custom_url:       '',
+  is_custom_landing_page: false,
+  is_format_based:  false,
+  description:      <<-END.gsub(/^ {6}/, '')
+      <p><span>The Temple University Press has published award-winning academic and trade press books for more than 40 years during which time the Press has become well-known nationally and internationally for the quality of its offerings in the social sciences. All Temple University Press titles are held in print in the Special Collections Research Center of the University Libraries. Most are also available for borrowing from the circulating collection of Paley Library or for purchase from the <a href="http://www.temple.edu/tempress/" target="new">University Press website</a>.</span></p>
+      <p><span>In 2011 the Temple University Libraries partnered with the Press to create epub and pdf versions of 165 of the Press’ backfile in order to offer these selected books in 24/7 full text searchable form. <strong>Access to this collection is restricted to current Temple faculty, staff and students for non-commercial academic use only</strong>. If you are attempting to access these titles from off-campus, you will need to authenticate to the University network.</span></p>
     END
   },
   {
@@ -134,6 +158,7 @@ collections = [
   featured:         "No",
   custom_url:       '',
   is_custom_landing_page: false,
+  is_format_based:  false,
   description:      <<-END.gsub(/^ {6}/, '')
       <p><span>Temple University has digitized&nbsp;a majority of its yearbooks, including the <em>Templar</em>, its general yearbook, as well as books from its allied health, dental, medical, nursing, podiatry&nbsp;and pharmacy schools. Some professional schools, such as Nursing, Podiatry, and Medicine, had their own pages in the <em>Templar</em> into the 1920s before starting their own yearbooks.</span></p>
       <p><span>Both the <em>Templar</em> and the medical school yearbook, <em>The Skull</em>, have enjoyed consistent publication and titling from their inception through to their present editions. Other professional school books have appeared less frequently and feature a wide array of titles. They are</span></p>
@@ -155,6 +180,7 @@ collections = [
   featured:         "No",
   custom_url:       '',
   is_custom_landing_page: false,
+  is_format_based:  true,
   description:      <<-END.gsub(/^ {6}/, '')
       <p>The SCRC Audio digital collection contains audio files from holdings in the Special Collections Research Center (SCRC). Some of the objects in this collection are better contextualized in the following featured collection(s):</p>
       <ul>
@@ -173,6 +199,7 @@ collections = [
   featured:         "No",
   custom_url:       '',
   is_custom_landing_page: false,
+  is_format_based:  true,
   description:      <<-END.gsub(/^ {6}/, '')
     <p>The SCRC Film and Video digital collection contains video files from holdings in the Special Collections Research Center (SCRC). Some of the objects in this collection are better contextualized in the following featured collection(s):</p>
     <ul>
@@ -191,6 +218,7 @@ collections = [
   featured:         "No",
   custom_url:       '',
   is_custom_landing_page: false,
+  is_format_based:  true,
   description:      <<-END.gsub(/^ {6}/, '')
     <p>The SCRC Books and Pamphlets digital collection contains pamphlets and related materials from holdings in the Special Collections Research Center (SCRC). Some of the objects in this collection are better contextualized in the following featured collection(s):</p>
     <ul>
@@ -220,6 +248,7 @@ collections = [
   featured:         "No",
   custom_url:       '',
   is_custom_landing_page: false,
+  is_format_based:  true,
   description:      <<-END.gsub(/^ {6}/, '')
     <p class="cdm_style" style="margin-top: 10px;">The Blockson Ephemera digital collection contains maps and lithographs from holdings in the Charles L. Blockson Afro-American Collection. Some of the objects in this collection are better contextualized in the following featured collection(s):
     </p>
@@ -229,7 +258,7 @@ collections = [
       </li>
     </ul>
   END
-  }
+}
 ]
 
 collections.each do |collection|
