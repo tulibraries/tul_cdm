@@ -141,6 +141,7 @@ collections = [
   featured:         "No",
   custom_url:       '',
   is_custom_landing_page: false,
+  is_format_based:  false,
   description:      <<-END.gsub(/^ {6}/, '')
       <p><span>The Temple University Press has published award-winning academic and trade press books for more than 40 years during which time the Press has become well-known nationally and internationally for the quality of its offerings in the social sciences. All Temple University Press titles are held in print in the Special Collections Research Center of the University Libraries. Most are also available for borrowing from the circulating collection of Paley Library or for purchase from the <a href="http://www.temple.edu/tempress/" target="new">University Press website</a>.</span></p>
       <p><span>In 2011 the Temple University Libraries partnered with the Press to create epub and pdf versions of 165 of the Press’ backfile in order to offer these selected books in 24/7 full text searchable form. <strong>Access to this collection is restricted to current Temple faculty, staff and students for non-commercial academic use only</strong>. If you are attempting to access these titles from off-campus, you will need to authenticate to the University network.</span></p>
