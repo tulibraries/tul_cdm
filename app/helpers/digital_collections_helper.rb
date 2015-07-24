@@ -38,6 +38,17 @@ module DigitalCollectionsHelper
     case digital_collection.collection_alias
     when EBOOK_COLLECTION_ID
       t('tul_cdm.digital_collection.restricted_collection_note').html_safe
+    else
+      ""
+    end
+  end
+
+  def digital_collection_browse_blurb(digital_collection)
+    case digital_collection.collection_alias
+    when EBOOK_COLLECTION_ID
+      t('tul_cdm.digital_collection.restricted_collection_text').html_safe
+    else
+      "Browse #{digital_collection.name}".html_safe
     end
   end
 
