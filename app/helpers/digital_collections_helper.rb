@@ -52,4 +52,12 @@ module DigitalCollectionsHelper
     end
   end
 
+  def browse_digital_collection(digital_collection)
+    unless digital_collection.collection_alias == EBOOK_COLLECTION_ID
+      link_to_digital_collection (digital_collection)
+    else
+      digital_collection_browse_blurb(digital_collection)
+    end
+  end
+
 end
