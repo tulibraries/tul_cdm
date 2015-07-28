@@ -17,3 +17,6 @@ en:
       facets:
         sort:
           count: 'Frequency Sort'
+
+    basic_search_link: "Basic Search"
+    advanced_search_link: "More Search Options"
