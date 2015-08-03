@@ -39,7 +39,7 @@ Run the test suite with the command:
 
 * Deployment instructions
 
-Clone the source files from the Git repository and install the ruby gems.
+Clone the source files from the Git repository and install the Ruby gems.
 
     git clone https://github.com/tulibraries/tul_cdm.git
     cd tul_cdm
@@ -47,23 +47,25 @@ Clone the source files from the Git repository and install the ruby gems.
     git submodule update
     bundle install
 
-Confiure the CONTENTdm parameters:
+Make a copy of the example CONTENTdm parameters file:
 
     cp config/contentdm.yml.example config/contentdm.yml
-    # Edit and replace samples with your ContentDM parameters.
 
-Configure site specific parameters:
+Edit `config/contentdm.yml`, replacing samples with your ContentDM parameters.
+
+Make a copy of the site specific parameters file:
 
     cp config/tul_cdm.yml.example config/tul_cdm.yml
-    # Edit and replace sample parameters with your site specific values
 
-Generate the TUL_CDM application. Answer `n` to all prompts
+Edit `config/tul_cdm.yml`, replacing sample parameters with your site specific values
 
-    bundle exec rails generate hydra:install
+Migrate the digital collection database
 
-Restore files the hydra install modified
+    bundle exec rake db:migrate
 
-    git checkout -- .
+Seed the digital collection database with default data (if desired)
+
+    bundle exec rake db:seed
 
 Prepare and run the Jetty server
 
