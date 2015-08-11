@@ -1,41 +1,97 @@
-== README
+README
+======
 
-Here are the basic steps to get TUL_Cdm up and running.
+## Creating the TUL_CDM application
 
-    git clone git@github.com:tulibraries/tul_cdm.git
+This application has been tested on Ubuntu 14.04, CentOS 6.6, and MacOS X, 10.9 and 10.10.
+
+* Ruby version
+
+  Ruby 2.1.4+
+
+* System dependencies
+
+  - Java Developers Kit 7 or highter
+  - An SQL DBMS (This installation uses SQLite)
+
+
+* Configuration
+
+This application presumes that you have digital assets in CONTENTdm and that you have your API access information handy. This will go into the config/contentdm.yml file. That file contains the following quoted parameters:
+
+  - cdm_server: URL to your CONTENTdm server, for example: "https://server99999.contentdm.oclc.org"
+  - cdm_archive: Access URL of your digital library
+  - cdm_xpath: "/collections/collection/alias/text()"
+  - cdm_user: "CONTENTdm username"
+  - cdm_password:  "CONTENTdm password"
+  - cdm_download_dir: "/Path/to/hold/downloaded/XML/files"
+  - cdm_foxml_dir: "/Path/to/hold/converted/files/to/upload"
+
+* Database initialization
+
+You may seed the database with collections by modifying db/seeds.rb. Add them to TUL_CDM by typing the command `bundle exec rake db:seed` after you have tul_cdm server running.
+
+* How to run the test suite
+
+Run the test suite with the command:
+
+    rspec spec
+
+* Deployment instructions
+
+Clone the source files from the Git repository and install the Ruby gems.
+
+    git clone https://github.com/tulibraries/tul_cdm.git
+    cd tul_cdm
     git submodule init
     git submodule update
     bundle install
+
+Make a copy of the example CONTENTdm parameters file:
+
     cp config/contentdm.yml.example config/contentdm.yml
 
-Edit `config/contentdm.yml`. Replace samples with your ContentDM parameters
+Edit `config/contentdm.yml`, replacing samples with your ContentDM parameters.
 
-Generate the TUL_CDM application. Answer `n` to all prompts
+Make a copy of the site specific parameters file:
 
-    bundle exec rails generate hydra:install
+    cp config/tul_cdm.yml.example config/tul_cdm.yml
 
-Restore files the hydra install modified
+Edit `config/tul_cdm.yml`, replacing sample parameters with your site specific values
 
-    git checkout -- .
+Migrate the digital collection database
 
-Prepare Jetty
+    bundle exec rake db:migrate
+
+Seed the digital collection database with default data (if desired)
+
+    bundle exec rake db:seed
+
+Prepare and run the Jetty server
 
     bundle exec rails generate hydra:jetty
     bundle exec rake jetty:config
     bundle exec rake jetty:start
-    bundle exec rails s -d
 
-Visit the Hydra TUL_CDM site at `http://0.0.0.0:3000`
+Run the TUL_CDM hydra server
 
-To get a list of available collecitons to ingest:
+    bundle exec rails s -d -b 127.0.0.1
+
+* Use the application
+
+Visit the Hydra TUL_CDM site at `http://localhost:3000`
+
+* Ingest and index assets
+
+To get a list of available collections to ingest:
 
     bundle exec rake tu_cdm:list
 
 Ingest data. Replace `collection_name` with one of the collections listed from above.
 
     bundle exec rake tu_cdm:download[collection_name]
-    bundle exec rake tu_cdm:ingest
     bundle exec rake tu_cdm:convert
+    bundle exec rake tu_cdm:ingest
 
 Index objects with one or more of the following tasks:
 
@@ -51,27 +107,3 @@ Index objects with one or more of the following tasks:
     bundle exec rake tu_cdm:index:sheetmusic
     bundle exec rake tu_cdm:index:transcripts
     bundle exec rake tu_cdm:index:video
-
-* Ruby version
-
-We use Ruby 2.1.4+
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.

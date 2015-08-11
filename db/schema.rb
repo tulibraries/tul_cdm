@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430154153) do
+ActiveRecord::Schema.define(version: 20150722174226) do
 
   create_table "bookmarks", force: true do |t|
     t.integer  "user_id",       null: false
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20150430154153) do
     t.string   "slug"
     t.string   "custom_url"
     t.boolean  "is_custom_landing_page"
+    t.boolean  "is_format_based"
   end
 
   create_table "searches", force: true do |t|

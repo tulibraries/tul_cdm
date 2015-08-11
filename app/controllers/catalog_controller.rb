@@ -78,25 +78,24 @@ class CatalogController < ApplicationController
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
 
-    config.add_facet_field solr_name('subject', :facetable), :label => 'Subject', :limit => 3, :collapse => false, :sort => 'index'
-    config.add_facet_field solr_name('date', :facetable), :label => 'Date', :limit => 3
+    config.add_facet_field solr_name('digital_collection', :facetable), :label => 'Digital Collection', :limit => 3, :collapse => false
+    config.add_facet_field solr_name('subject', :facetable), :label => 'Subject', :limit => 3, :collapse => false
+    config.add_facet_field solr_name('personal_names', :facetable), :label => 'Personal Names', :limit => 3, :collapse => false, :show => true
+    config.add_facet_field solr_name('date', :facetable), :label => 'Date', :limit => 3, :single => false
     config.add_facet_field solr_name('format', :facetable), :label => 'Format', :limit => 3
-    config.add_facet_field solr_name('type', :facetable), :label => 'Type', :limit => 3
-    config.add_facet_field solr_name('publisher_sim', :facetable), :label => 'Publisher', :limit => 3
-    config.add_facet_field solr_name('digital_collection', :facetable), :label => 'Digital Collection', :limit => 3, :collapse => false, :show => false
-    config.add_facet_field solr_name('digital_publisher', :facetable), :label => 'Digital Publisher', :limit => 3
-    config.add_facet_field solr_name('contentdm_collection_id', :facetable), :label => 'Digital Collection', :limit => 3, :single => false, :collapse => false, :sort => 'index', helper_method: :render_with_contentdm_collection_name
+    config.add_facet_field solr_name('type', :facetable), :label => 'Type', :limit => 3, :collapse => true
+    config.add_facet_field solr_name('publisher_sim', :facetable), :label => 'Publisher', :limit => 3, :collapse => true
+    config.add_facet_field solr_name('digital_publisher', :facetable), :label => 'Digital Publisher', :limit => 3, :collapse => true
     config.add_facet_field solr_name('repository', :facetable), :label => 'Repository', :limit => 3
-    config.add_facet_field solr_name('language', :facetable), :label => 'Language', :limit => 3
-    config.add_facet_field solr_name('contributor', :facetable), :label => 'Contributor', :limit => 3
-    config.add_facet_field solr_name('author', :facetable), :label => 'Author', :limit => 3
-    config.add_facet_field solr_name('corporate_name', :facetable), :label => 'Corporate Name', :limit => 3
-    config.add_facet_field solr_name('series', :facetable), :label => 'Series', :limit => 3
-    config.add_facet_field solr_name('advisor', :facetable), :label => 'Series', :limit => 3
-    config.add_facet_field solr_name('degree_granting_institution', :facetable), :label => 'Series', :limit => 3
-    config.add_facet_field solr_name('year_prize_awarded', :facetable), :label => 'Prize Award Year', :limit => 3
-    config.add_facet_field solr_name('is_part_of_ssim', :facetable), :label => 'Part Of'
-    config.add_facet_field solr_name('personal_names', :facetable), :label => 'Personal Names', :limit => 3, :collapse => false, :show => true, :sort => 'index'
+    config.add_facet_field solr_name('language', :facetable), :label => 'Language', :limit => 3, :collapse => true
+    config.add_facet_field solr_name('contributor', :facetable), :label => 'Contributor', :limit => 3, :collapse => true
+    config.add_facet_field solr_name('author', :facetable), :label => 'Author', :limit => 3, :collapse => true
+    config.add_facet_field solr_name('corporate_name', :facetable), :label => 'Corporate Name', :limit => 3, :collapse => true
+    config.add_facet_field solr_name('series', :facetable), :label => 'Series', :limit => 3, :collapse => true
+    config.add_facet_field solr_name('advisor', :facetable), :label => 'Series', :limit => 3, :collapse => true
+    config.add_facet_field solr_name('degree_granting_institution', :facetable), :label => 'Series', :limit => 3, :collapse => true
+    config.add_facet_field solr_name('year_prize_awarded', :facetable), :label => 'Prize Award Year', :limit => 3, :collapse => true
+    config.add_facet_field solr_name('is_part_of_ssim', :facetable), :label => 'Part Of', :collapse => true
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
