@@ -4,14 +4,14 @@
 
   <%= render 'previous_next_doc' %>
 
-   
+
 <% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name).html_safe -%>
 <% content_for(:head) { render_link_rel_alternates } -%>
 <%# this should be in a partial -%>
 
 <div id="document" class="document <%= render_document_class %>" itemscope  itemtype="<%= @document.itemtype %>">
   <div id="doc_<%= @document.id.to_s.parameterize %>">
-  
+
     <% # bookmark/folder functions -%>
     <%= render_object_partial @document -%>
     <%= render_acknowledgements @document -%>
@@ -20,6 +20,7 @@
   </div>
 </div>
 <dd><%= set_collection_link(@document) %></dd>
+<dd><%= render_related_resources(@document.id, @document) %>
 </div>
 
 <div id="sidebar" class="col-md-3 col-sm-4">

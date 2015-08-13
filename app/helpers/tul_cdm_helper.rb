@@ -552,4 +552,59 @@ module TulCdmHelper
     if path_var.include? "advanced" then link_to t('blacklight.basic_search_link'), root_url, :class=>'btn btn-default basic_search' else  link_to t('blacklight.advanced_search_link'), advanced_search_path(params), :class=>'btn btn-default advanced_search' end
 	end
 
+  ###
+  #
+  # Related Resources
+  #
+  ###
+  def render_related_resources(master_identifier, document)
+    related_resources_list = ''
+    rc_label = content_tag("span", nil, class: "related-resource-label") do t('tul_cdm.related_resources.label.repository_collection') end
+    rc_solr_field = render_document_show_field_value(document,'repository_collection_tesim')
+    repository_collection_link = content_tag("li") do
+      link_to rc_solr_field.html_safe, "/?f[digital_collection_sim][]=#{document['digital_collection_tesim'].first if document['digital_collection_tesim']}"
+    end
+    related_resources = related_resources(master_identifier)
+    related_resources_list << render_single_list(related_resources)
+
+    related_resources_list.prepend(repository_collection_link)
+    return content_tag("ul") do related_resources_list.html_safe end
+  end
+
+  ##
+  #
+  # Grab all related resources (links) for the transcript
+  #
+  ##
+  def related_resources(master_identifier)
+    b = get_related_objects(master_identifier);
+    related_resources = Array.new
+    b.each do |b_obj|
+      pid=b_obj.id
+      object = locate_by_model(pid)
+      if(object)
+       finding_aid = [object.finding_aid_link.first,object.finding_aid_title.first,t('tul_cdm.related_resources.label.finding_aid')]
+       online_exhibit = [object.online_exhibit_link.first,object.online_exhibit_title.first, t('tul_cdm.related_resources.label.online_exhibit')]
+       catalog_record = [object.catalog_record_link.first,object.local_call_number.first, t('tul_cdm.related_resources.label.catalog_record')]
+       (related_resources ||= []) << collection << finding_aid << online_exhibit << catalog_record
+     end
+    end
+    return related_resources
+  end
+
+  def render_single_list(links_list)
+    html_list = ''
+      for list_items in links_list do
+        unless list_items.first.nil? or list_items.first.empty?
+          html_list << content_tag("li") do
+          link_text = link_to "#{list_items.second}", "#{list_items.first}"
+          label = content_tag("span", nil, class: "related-resource-label") do "#{list_items.third}" end
+          concat (label + link_text).html_safe
+         end
+        end
+      end
+      return html_list.html_safe
+    end
+
+
 end
