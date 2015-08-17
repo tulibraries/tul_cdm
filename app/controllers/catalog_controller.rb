@@ -47,7 +47,7 @@ class CatalogController < ApplicationController
               is_part_of_ssim
               about_statement_tesim',
       :qt => 'search',
-      :rows => 10
+      :rows => 20
     }
 
     # solr field configuration for search results/index views
