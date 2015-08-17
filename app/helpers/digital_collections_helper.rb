@@ -26,7 +26,7 @@ module DigitalCollectionsHelper
     if digital_collection.is_custom_landing_page? && !digital_collection.custom_url.blank?
       return digital_collection.custom_url
     end
-    return "#{host}/#{digital_collection.slug}"
+    return "#{host}/#{digital_collection.slug+path(digital_collection)}"
   end
 
   def link_to_digital_collection(digital_collection)

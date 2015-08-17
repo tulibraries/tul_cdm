@@ -17,6 +17,8 @@ en:
       facets:
         sort:
           count: 'Frequency Sort'
+      placeholder:
+        digital_collection: 'Search This Collection...'
 
     basic_search_link: "Basic Search"
     advanced_search_link: "More Search Options"
