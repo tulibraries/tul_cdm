@@ -212,7 +212,7 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('subject') do |field|
-      solr_name = solr_name("subject_tesim", :stored_searchable, type: :string)
+      solr_name = solr_name("subject_sim", :stored_searchable, type: :string)
       field.qt = 'search'
       field.solr_local_parameters = {
         :qf => '$subject_qf',
