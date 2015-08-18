@@ -84,7 +84,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('date', :facetable), :label => 'Date', :limit => 3, :single => false
     config.add_facet_field solr_name('format', :facetable), :label => 'Format', :limit => 3
     config.add_facet_field solr_name('type', :facetable), :label => 'Type', :limit => 3, :collapse => true
-    config.add_facet_field solr_name('publisher_sim', :facetable), :label => 'Publisher', :limit => 3, :collapse => true
+    config.add_facet_field solr_name('publisher', :facetable), :label => 'Publisher', :limit => 3, :collapse => true
     config.add_facet_field solr_name('digital_publisher', :facetable), :label => 'Digital Publisher', :limit => 3, :collapse => true
     config.add_facet_field solr_name('repository', :facetable), :label => 'Repository', :limit => 3
     config.add_facet_field solr_name('language', :facetable), :label => 'Language', :limit => 3, :collapse => true
@@ -95,7 +95,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('advisor', :facetable), :label => 'Series', :limit => 3, :collapse => true
     config.add_facet_field solr_name('degree_granting_institution', :facetable), :label => 'Series', :limit => 3, :collapse => true
     config.add_facet_field solr_name('year_prize_awarded', :facetable), :label => 'Prize Award Year', :limit => 3, :collapse => true
-    config.add_facet_field solr_name('is_part_of_ssim', :facetable), :label => 'Part Of', :collapse => true
+    config.add_facet_field solr_name('is_part_of', :facetable), :label => 'Part Of', :collapse => true
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
@@ -203,7 +203,7 @@ class CatalogController < ApplicationController
     config.add_search_field 'all_fields', :label => 'All Fields'
 
     config.add_search_field('title') do |field|
-      solr_name = solr_name("title_tesim", :stored_searchable, type: :string)
+      solr_name = solr_name("title", :stored_searchable, type: :string)
       field.qt = 'search'
       field.solr_local_parameters = {
         :qf => '$title_qf',
@@ -212,7 +212,7 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('subject') do |field|
-      solr_name = solr_name("subject_tesim", :stored_searchable, type: :string)
+      solr_name = solr_name("subject", :stored_searchable, type: :string)
       field.qt = 'search'
       field.solr_local_parameters = {
         :qf => '$subject_qf',
@@ -221,7 +221,7 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('digital_collection') do |field|
-      solr_name = solr_name("digital_collection_tesim", :stored_searchable, type: :string)
+      solr_name = solr_name("digital_collection", :stored_searchable, type: :string)
       field.qt = 'search'
       field.solr_local_parameters = {
         :qf => '$digital_collection_qf',
