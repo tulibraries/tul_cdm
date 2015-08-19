@@ -224,8 +224,7 @@ class CatalogController < ApplicationController
       solr_name = solr_name("digital_collection", :stored_searchable, type: :string)
       field.qt = 'search'
       field.solr_local_parameters = {
-        :qf => 'digital_collection_tesim',
-        :pf => 'digital_collection_tesim'
+        :qf => 'digital_collection_tesim'
       }
     end
 
