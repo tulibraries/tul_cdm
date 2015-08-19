@@ -76,7 +76,7 @@ collections = [
     END
   },
   {
-  collection_alias: 'stereotypicalimgaes',
+  collection_alias: 'stereotypicalimages',
   name:             'Stereotypical Images Teaching Collection',
   thumbnail_url:    'http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/bertw_dtl.jpg',
   image_url:        'http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/stereotypicalimages/cream_of_wheat.jpg',

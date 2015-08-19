@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'cdm/stereotypicalabout'
+
   resources :digital_collections
 
   root :to => "catalog#index"
