@@ -25,27 +25,6 @@ class CatalogController < ApplicationController
 
   configure_blacklight do |config|
     config.default_solr_params = {
-      :qf => 'creator_tesim
-              document_content_tesim
-              geographic_subject_tesim
-              organization_building_tesim
-              personal_names_tesim
-              title_tesim
-              date_tesim
-              subject_tesim
-              description_tesim
-              format_tesim
-              type_tesim
-              publisher_tesim
-              digital_collection_tesim
-              digital_publisher_tesim
-              contentdm_collection_id_tesim
-              repository_tesim
-              repository_collection_tesim
-              identifier_tesim
-              author_tesim
-              is_part_of_ssim
-              about_statement_tesim',
       :qt => 'search',
       :rows => 10
     }
@@ -200,7 +179,74 @@ class CatalogController < ApplicationController
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise.
 
-    config.add_search_field 'all_fields', :label => 'All Fields'
+    config.add_search_field ('all_fields') do |field|
+      field.solr_local_parameters = {
+        :qf => 'creator_tesim
+                document_content_tesim
+                geographic_subject_tesim
+                organization_building_tesim
+                personal_names_tesim
+                title_tesim
+                title_sim
+                date_tesim
+                date_sim
+                subject_tesim
+                subject_sim
+                description_tesim
+                description_sim
+                format_tesim
+                format_sim
+                type_tesim
+                type_sim
+                publisher_tesim
+                publisher_sim
+                digital_collection_tesim
+                digital_collection_sim
+                digital_publisher_tesim
+                digital_publisher_sim
+                contentdm_collection_id_tesim
+                contentdm_collection_id_sim
+                repository_tesim
+                repository_sim
+                repository_collection_tesim
+                identifier_tesim
+                author_tesim
+                is_part_of_ssim
+                about_statement_tesim',
+        :pf => 'creator_tesim
+                document_content_tesim
+                geographic_subject_tesim
+                organization_building_tesim
+                personal_names_tesim
+                title_tesim
+                title_sim
+                date_tesim
+                date_sim
+                subject_tesim
+                subject_sim
+                description_tesim
+                description_sim
+                format_tesim
+                format_sim
+                type_tesim
+                type_sim
+                publisher_tesim
+                publisher_sim
+                digital_collection_tesim
+                digital_collection_sim
+                digital_publisher_tesim
+                digital_publisher_sim
+                contentdm_collection_id_tesim
+                contentdm_collection_id_sim
+                repository_tesim
+                repository_sim
+                repository_collection_tesim
+                identifier_tesim
+                author_tesim
+                is_part_of_ssim
+                about_statement_tesim'
+      }
+    end
 
     config.add_search_field('title') do |field|
       solr_name = solr_name("title", :stored_searchable, type: :string)
