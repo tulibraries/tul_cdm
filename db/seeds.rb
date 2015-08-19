@@ -93,7 +93,7 @@ collections = [
       and some images may be offensive to some viewers. This collection is in the process of being created and eventually a large number of groups will be represented.
     </p>
     <p>
-      To learn more about how the collection is used for pedagogy and scholarship, please see the <a href="/cdm/stereotypicalabout/">About Page</a>.
+      To learn more about how the collection is used for pedagogy and scholarship, please see the <a href="/cdm/stereotypicalabout/?f[digital_collection_sim][]=Stereotypical%20Images%20Teaching%20Collection">About Page</a>.
     </p>
   END
   },
