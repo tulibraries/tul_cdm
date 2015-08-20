@@ -28,6 +28,9 @@ gem 'high_voltage', '~> 2.2.1'
 # For friendly permalinks
 gem 'friendly_id'
 
+# For breadcrumbs
+gem 'breadcrumbs_on_rails'
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

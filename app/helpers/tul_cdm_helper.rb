@@ -547,6 +547,11 @@ module TulCdmHelper
       filename = filename.gsub("\\", "-")
   end
 
+  def get_collection_alias(collection_name)
+    dca = DigitalCollection.where("name LIKE '#{collection_name}'").to_a
+    dca.any? ? dca.first.collection_alias : "#"
+  end
+
 	def render_advanced_search()
 		path_var = request.path.gsub(/[^0-9A-Za-z]/, '')
     if path_var.include? "advanced" then link_to t('blacklight.basic_search_link'), root_url, :class=>'btn btn-default basic_search' else  link_to t('blacklight.advanced_search_link'), advanced_search_path(params), :class=>'btn btn-default advanced_search' end

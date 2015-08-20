@@ -1,3 +1,11 @@
+<% add_breadcrumb "Home", :root_path %>
+<% add_breadcrumb "Explore Digital Collections", '/digital_collections' %>
+<% if @document["digital_collection_tesim"] %>
+  <% @document["digital_collection_tesim"].each do |dc| %>
+    <% add_breadcrumb dc, File.join(['/digital_collections', get_collection_alias(dc)]) %>
+  <% end %>
+<% end %>
+<% add_breadcrumb @document["title_tesim"].to_sentence, request.path %>
 <%= javascript_include_tag "bookreader" %>
 
 <div id="content" class="col-md-9 col-sm-8 show-document">
