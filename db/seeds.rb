@@ -84,7 +84,7 @@ collections = [
   is_private:       false,
   allowed_ip_addresses: "",
   featured:         "No",
-  custom_url:       'http://0.0.0.0:3000/?utf8=✓&f%5Bdigital_collection_sim%5D%5B%5D=Stereotypical+Images+Teaching+Collection&search_field=digital_collection&q=p15037coll1+OR+p16002coll7',
+  custom_url:       '',
   is_custom_landing_page: false,
   is_format_based:  false,
   description:      <<-END.gsub(/^ {6}/, '')
