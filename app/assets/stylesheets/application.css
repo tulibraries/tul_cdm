@@ -10,13 +10,13 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+ *= require slick
+ *= require slick-theme
  *= require_tree .
  *= require_self
  *= require BookReader/BookReader.css
- *= require tul_cdm
  *= require accessibility
  *= require 'blacklight_advanced_search'
- *= require slick
- *= require slick-theme
+ *= require tul_cdm
 
 */

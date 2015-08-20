@@ -524,7 +524,7 @@ module TulCdmHelper
     images = ''
     DigitalCollection.find_each do |dig_col|
       if dig_col.featured.eql?("Yes")
-        coll_name = content_tag(:div, link_to(dig_col.name, "/digital_collections/#{dig_col.collection_alias}"), :class => "featured-collection-name")
+        coll_name = content_tag(:div, link_to(dig_col.name, "/digital_collections/#{dig_col.collection_alias+path(dig_col)}"), :class => "featured-collection-name")
         coll_descrip = content_tag(:div, truncate(dig_col.description, length: 300, omission: '...', escape: false, separator: " "), :class => "featured-collection-descrip")
         slide_content = content_tag(:div, coll_name + coll_descrip.html_safe, :class => "featured-collection-text-container") + image_tag(dig_col.image_url, :alt => dig_col.name)
         images += content_tag(:div, slide_content, :class => "featured-collection-image")
@@ -547,18 +547,14 @@ module TulCdmHelper
       filename = filename.gsub("\\", "-")
   end
 
-<<<<<<< HEAD
   def get_collection_alias(collection_name)
     dca = DigitalCollection.where("name LIKE '#{collection_name}'").to_a
-    #binding.pry()
     dca.any? ? dca.first.collection_alias : "#"
   end
-=======
+
 	def render_advanced_search()
 		path_var = request.path.gsub(/[^0-9A-Za-z]/, '')
-		#if path_var == "advanced" then link_to t('blacklight.basic_search_link'), root_url, :class=>'basic_search' else  link_to t('blacklight.advanced_search_link'), advanced_search_path(params), :class=>'advanced_search' end
     if path_var.include? "advanced" then link_to t('blacklight.basic_search_link'), root_url, :class=>'btn btn-default basic_search' else  link_to t('blacklight.advanced_search_link'), advanced_search_path(params), :class=>'btn btn-default advanced_search' end
 	end
->>>>>>> f0b32698ed9a9f7cdbcb27c3b67e932bf7d1f4ab
 
 end

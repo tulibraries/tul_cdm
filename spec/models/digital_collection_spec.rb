@@ -13,6 +13,7 @@ RSpec.describe DigitalCollection, :type => :model do
     it { is_expected.to have_attribute(:priority) }
     it { is_expected.to have_attribute(:is_private) }
     it { is_expected.to have_attribute(:allowed_ip_addresses) }
+    it { is_expected.to have_attribute(:is_format_based) }
   end
 
   describe "Object" do

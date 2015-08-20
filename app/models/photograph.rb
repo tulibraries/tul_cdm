@@ -9,7 +9,9 @@ class Photograph < TulCdm::Models::Base
 
   has_attributes :title,:format,:type, :publisher,:digital_collection,:digital_publisher,
       :digital_specifications,:contact,:repository,:repository_collection, :language,
-      :identifier, :downloadable, :downloadable_ocr, datastream: :objectMetadata, multiple: true
+      :identifier, datastream: 'objectMetadata', multiple: true
+
+  has_attributes :downloadable, :downloadable_ocr, datastream: 'objectMetadata', multiple: false
 
   has_attributes :item_url, :oclc_number, :date_created, :date_modified, :contentdm_number,
    :contentdm_file_name, :contentdm_file_path, :contentdm_collection_id, datastream: 'contentdmMetadata', multiple: false

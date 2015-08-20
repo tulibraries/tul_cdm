@@ -17,4 +17,12 @@ module ApplicationHelper
     end
   end
 
+  def search_placeholder_text
+    if (controller_name == "digital_collections" && action_name == "show")
+      placeholder_text = t('blacklight.search.placeholder.digital_collection')
+    else
+      t('blacklight.search.form.q')
+    end
+  end
+
 end

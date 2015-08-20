@@ -3,10 +3,10 @@
   <h1 class="collection-name">
     <%= @digital_collection.name %>
   </h1>
-  <div class="collection-browse-link">
-    <%= link_to_digital_collection (@digital_collection)  %>
-  </div>
 
+  <div class="collection-browse-link">
+    <%= browse_digital_collection (@digital_collection) %>
+  </div>
 
   <% if (@digital_collection.image_url) %>
     <div class="collection-image">
@@ -23,16 +23,6 @@
   <span class="collection-description">
     <%= @digital_collection.description.html_safe %>
   </span>
-
-  <p class="collection-path">
-    <strong>Collection Path:</strong>
-    <%= link_to path(@digital_collection), path(@digital_collection) %>
-  </p>
-
-  <p class="collection-alias">
-    <strong>Collection ID:</strong>
-    <%= @digital_collection.collection_alias %>
-  </p>
 
   <span class="admin">
     <%= link_to 'Edit', edit_digital_collection_path(@digital_collection) %> |
