@@ -8,6 +8,9 @@ Rails.application.routes.draw do
 
   get 'subject_index' => 'high_voltage/pages#show', id: 'subject_index'
   get 'about' => 'high_voltage/pages#show', id: 'about'
+  # The /cdm/ path will be deprecated in favor of /digital_collections/...
+  get '/cdm/stereotypicalabout' => 'high_voltage/pages#show', id: 'stereotypicalabout'
+  get '/digital_collections/stereotypicalimages/about' => 'high_voltage/pages#show', id: 'stereotypicalabout'
 
 
   
