@@ -76,7 +76,7 @@ collections = [
     END
   },
   {
-  collection_alias: 'stereotypicalimgaes',
+  collection_alias: 'stereotypicalimages',
   name:             'Stereotypical Images Teaching Collection',
   thumbnail_url:    'http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/bertw_dtl.jpg',
   image_url:        'http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/stereotypicalimages/cream_of_wheat.jpg',
@@ -84,7 +84,7 @@ collections = [
   is_private:       false,
   allowed_ip_addresses: "",
   featured:         "No",
-  custom_url:       'http://0.0.0.0:3000/?utf8=✓&f%5Bdigital_collection_sim%5D%5B%5D=Stereotypical+Images+Teaching+Collection&search_field=digital_collection&q=p15037coll1+OR+p16002coll7',
+  custom_url:       '',
   is_custom_landing_page: false,
   is_format_based:  false,
   description:      <<-END.gsub(/^ {6}/, '')
@@ -93,7 +93,7 @@ collections = [
       and some images may be offensive to some viewers. This collection is in the process of being created and eventually a large number of groups will be represented.
     </p>
     <p>
-      To learn more about how the collection is used for pedagogy and scholarship, please see the <a href="/cdm/stereotypicalabout/">About Page</a>.
+      To learn more about how the collection is used for pedagogy and scholarship, please see the <a href="/cdm/stereotypicalabout/?f[digital_collection_sim][]=Stereotypical%20Images%20Teaching%20Collection">About Page</a>.
     </p>
   END
   },
