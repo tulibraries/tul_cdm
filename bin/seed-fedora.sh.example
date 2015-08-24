@@ -1,0 +1,5 @@
+#!/bin/env bash
+bundle exec rake tu_cdm:download[featrcoll1]
+bundle exec rake tu_cdm:download[reglrcoll1]
+bundle exec rake tu_cdm:convert
+bundle exec rake tu_cdm:ingest
