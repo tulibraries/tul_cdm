@@ -1,9 +1,6 @@
-<% solr_field = "digital_collection_sim" %>
-<% display_facet = facet_by_field_name(solr_field) %>
 <ul class="facet-values list-unstyled blacklight-advanced-facet-select">
-  <%= form_tag catalog_index_path, :class => 'advanced form-horizontal', :method => :get do  %>
-    <% display_facet.items.each do |item| -%>
-    <li>
+  <% display_facet.items.each do |item| -%>
+  <li>
         <span class="facet-checkbox">
             <%= check_box_tag "f_inclusive[#{solr_field}][]", item.value.to_sym, facet_value_checked?(solr_field, item.value), :id =>  "f_inclusive_#{solr_field}_#{item.value.parameterize}"%>
         </span>
@@ -13,10 +10,6 @@
                 <%= render_facet_value(solr_field, item, :suppress_link => true) %>  
             <% end %>
         <span>
-    </li>
-    <% end %>
-    <div class="sort-submit-buttons clearfix">
-      <%= render 'advanced/advanced_search_submit_btns' %>
-    </div>
-  <% end %>
+  </li>
+  <% end -%>
 </ul>
