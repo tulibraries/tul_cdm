@@ -1,5 +1,6 @@
-<% solr_field = "digital_collection_sim" %>
-<% display_facet = facet_by_field_name(solr_field) %>
+<% config = CatalogController.configure_blacklight %>
+<% solr_field= config[:advanced_search][:form_solr_parameters]["facet.field"].first %>
+<% display_facet = multiple_facets(solr_field) %>
 <div class="panel panel-default blacklight-digital_collection_sim ">
   <div class="collapse-toggle panel-heading collapsed" data-toggle="collapse" data-target="#facet-multi-digital_collection_sim" aria-expanded="false">
     <h5 class="panel-title">
