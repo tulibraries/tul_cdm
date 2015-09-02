@@ -17,6 +17,7 @@
 //= require reveal
 //= require FileSaver.min.js
 //= require download_ocr_text
+//= require multifacets
 
 //= require jquery_ujs
 //
