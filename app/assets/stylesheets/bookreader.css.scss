@@ -1,3 +1,8 @@
+@import "base/globals.scss";
+@import "base/colors.scss";
+@import "base/mixins.scss";
+@import "blacklight.css.scss";
+
 /******
 *
 * Custom overrides for BookReader Demo
@@ -6,6 +11,16 @@
 
 #BookReader {
   position: relative;
+
+  @media (max-width: $screen-md) {
+    width: $screen-sm;
+  }
+  @media (max-width: $screen-sm) {
+    width: $screen-xs;
+  }
+  @media (max-width: $screen-xs) {
+    width: $screen-xs* 0.8;
+  }
 
   #BRtoolbar {
     position: relative;
@@ -19,19 +34,32 @@
 
   #BRnav {
     position: relative;
+    height: 40px;
+    @media (max-width: $screen-md) {
+      height: 80px;
+    }
+    @media (max-width: $screen-sm) {
+      height: 120px;
+    }
   }
 
   #BRnavpos {
-    width: 620px;
+    width: 60%;
   }
 
   #BRnav #BRpage {
-    width: 375px;
+    width: 40%;
   }
 
   #BRcontainer {
     position: relative;
     height: 640px;
+    @media (max-width: $screen-sm) {
+      height: 360px;
+    }
+    @media (max-width: $screen-xs) {
+      height: 360px;
+    }
   }
 
   #BRtoolbar, div#BRnav {
