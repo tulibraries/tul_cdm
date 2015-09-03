@@ -1,0 +1,54 @@
+/******
+*
+* Custom overrides for BookReader Demo
+*
+******/
+
+#BookReader {
+  position: relative;
+
+  #BRtoolbar {
+    position: relative;
+
+    /* Hide print and embed functionality */
+    .embed, .print {
+        display: none;
+    }
+
+  }
+
+  #BRnav {
+    position: relative;
+  }
+
+  #BRnavpos {
+    width: 620px;
+  }
+
+  #BRnav #BRpage {
+    width: 375px;
+  }
+
+  #BRcontainer {
+    position: relative;
+    height: 640px;
+  }
+
+  #BRtoolbar, div#BRnav {
+      background-color: #e2dcc5;    
+  }
+
+  /*
+   * 
+    Hiding print, embed, share, info, and 
+    show/hide buttons that ship with 
+    Bookreader -- comment out to add them
+   *
+   */
+
+  .BRicon.embed, .BRicon.print, .BRicon.info, .BRicon.share, #BRnavCntlBtm.BRdn {
+      display: none;
+  }
+
+}
+
