@@ -19,7 +19,7 @@
     width: $screen-xs;
   }
   @media (max-width: $screen-xs) {
-    width: $screen-xs* 0.8;
+    width: 310px;
   }
 
   #BRtoolbar {
@@ -35,27 +35,36 @@
   #BRnav {
     position: relative;
     height: 40px;
-    @media (max-width: $screen-md) {
-      height: 80px;
-    }
     @media (max-width: $screen-sm) {
-      height: 120px;
+      height: 80px;
     }
   }
 
   #BRnavpos {
     width: 60%;
+    @media (max-width: $screen-md) {
+      width: 50%;
+    }
+    @media (max-width: $screen-xs) {
+      width: 30%;
+    }
   }
 
   #BRnav #BRpage {
     width: 40%;
+    @media (max-width: $screen-md) {
+      width: 50%;
+    }
+    @media (max-width: $screen-xs) {
+      width: 70%;
+    }
   }
 
   #BRcontainer {
     position: relative;
     height: 640px;
     @media (max-width: $screen-sm) {
-      height: 360px;
+      height: 480px;
     }
     @media (max-width: $screen-xs) {
       height: 360px;
