@@ -1,0 +1,91 @@
+@import "base/globals.scss";
+@import "base/colors.scss";
+@import "base/mixins.scss";
+@import "blacklight.css.scss";
+
+/******
+*
+* Custom overrides for BookReader Demo
+*
+******/
+
+#BookReader {
+  position: relative;
+
+  @media (max-width: $screen-md) {
+    width: $screen-sm;
+  }
+  @media (max-width: $screen-sm) {
+    width: $screen-xs;
+  }
+  @media (max-width: $screen-xs) {
+    width: 310px;
+  }
+
+  #BRtoolbar {
+    position: relative;
+
+    /* Hide print and embed functionality */
+    .embed, .print {
+        display: none;
+    }
+
+  }
+
+  #BRnav {
+    position: relative;
+    height: 40px;
+    @media (max-width: $screen-sm) {
+      height: 80px;
+    }
+  }
+
+  #BRnavpos {
+    width: 60%;
+    @media (max-width: $screen-md) {
+      width: 50%;
+    }
+    @media (max-width: $screen-xs) {
+      width: 30%;
+    }
+  }
+
+  #BRnav #BRpage {
+    width: 40%;
+    @media (max-width: $screen-md) {
+      width: 50%;
+    }
+    @media (max-width: $screen-xs) {
+      width: 70%;
+    }
+  }
+
+  #BRcontainer {
+    position: relative;
+    height: 640px;
+    @media (max-width: $screen-sm) {
+      height: 480px;
+    }
+    @media (max-width: $screen-xs) {
+      height: 360px;
+    }
+  }
+
+  #BRtoolbar, div#BRnav {
+      background-color: #e2dcc5;    
+  }
+
+  /*
+   * 
+    Hiding print, embed, share, info, and 
+    show/hide buttons that ship with 
+    Bookreader -- comment out to add them
+   *
+   */
+
+  .BRicon.embed, .BRicon.print, .BRicon.info, .BRicon.share, #BRnavCntlBtm.BRdn {
+      display: none;
+  }
+
+}
+
