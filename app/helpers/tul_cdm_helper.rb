@@ -563,4 +563,91 @@ module TulCdmHelper
     display_facet = controller.get_facet_all(facet_field, config.advanced_search)
   end
 
+  ##
+  # Render a collection of facet fields.
+  # @see #render_facet_limit 
+  # 
+  # @param [Array<String>]
+  # @param [Hash] options
+  # @return String
+  def render_multiselect_facet_partials fields = facet_field_names, options = {}
+    safe_join(facets_from_request(fields).map do |display_facet|
+      render_multiselect_facet_limit(display_facet, options)
+    end.compact, "\n")
+  end
+
+  def render_multiselect_facet_limit(display_facet, options = {})
+    puts "***** render_multifacet_limit *****"
+    return if not should_render_facet?(display_facet)
+    options = options.dup
+    options[:partial] ||= facet_partial_name(display_facet)
+    options[:layout] ||= "multiselect_facet_layout" unless options.has_key?(:layout)
+    options[:locals] ||= {}
+    options[:locals][:field_name] ||= display_facet.name
+    options[:locals][:solr_field] ||= display_facet.name # deprecated
+    options[:locals][:facet_field] ||= facet_configuration_for_field(display_facet.name)
+    options[:locals][:display_facet] ||= display_facet 
+
+    render(options)
+  end
+
+  def search_multiselect_facet_url options = {}
+    url_for params.merge(action: "facet").merge(options).except(:page)
+  end
+
+  ##
+  # Renders the list of values 
+  # removes any elements where render_facet_item returns a nil value. This enables an application
+  # to filter undesireable facet items so they don't appear in the UI
+  def render_multiselect_facet_limit_list(paginator, facet_field, wrapping_element=:li)
+    safe_join(paginator.items.
+      map { |item| render_multiselect_facet_item(facet_field, item) }.compact.
+      map { |item| content_tag(wrapping_element,item)}
+    )
+  end
+
+  ##
+  # Renders a single facet item
+  def render_multiselect_facet_item(facet_field, item)
+    render_multiselect_facet_value(facet_field, item)
+  end
+
+
+  ##
+  # Standard display of a facet value in a list. Used in both _facets sidebar
+  # partial and catalog/facet expanded list. Will output facet value name as
+  # a link to add that to your restrictions, with count in parens.
+  #
+  # @param [Blacklight::SolrResponse::Facets::FacetField]
+  # @param [String] facet item
+  # @param [Hash] options
+  # @option options [Boolean] :suppress_link display the facet, but don't link to it
+  # @return [String]
+  def render_multiselect_facet_value(facet_field, item, options ={})
+    content_tag(:span, class: "facet-checkbox") do
+      check_box_tag("f_inclusive[#{facet_field}][]", item.value.to_sym, facet_value_checked?(facet_field, item.value), id: "f_inclusive_#{facet_field}_#{item.value.parameterize}", form: "basic-search") 
+    end +
+    content_tag(:span, class: "label-and-count") do
+      label_tag "f_inclusive_#{facet_field}_#{item.value.parameterize}" do
+        render_facet_value(facet_field, item, suppress_link: true)
+      end
+    end
+  end
+
+end
+
+module Blacklight::FacetsHelperBehavior
+  def render_facet_limit(display_facet, options = {})
+    return if not should_render_facet?(display_facet)
+    options = options.dup
+    options[:partial] ||= facet_partial_name(display_facet)
+    options[:layout] ||= "facet_layout" unless options.has_key?(:layout)
+    options[:locals] ||= {}
+    options[:locals][:field_name] ||= display_facet.name
+    options[:locals][:solr_field] ||= display_facet.name # deprecated
+    options[:locals][:facet_field] ||= facet_configuration_for_field(display_facet.name)
+    options[:locals][:display_facet] ||= display_facet 
+
+    render(options)
+  end
 end
