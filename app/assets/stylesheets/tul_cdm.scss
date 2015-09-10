@@ -33,6 +33,11 @@
 * Sidebar
 *
 ******/
+#sidebar{
+  @media (max-width: $screen-md) {
+    width: 240px;
+  }
+}
 
 #sidebar-right{
  float: right;
@@ -184,6 +189,22 @@ h2.ocr-section-heading{
 *
 ******/
 
+.featuredImages{
+  @media (max-width: $screen-lg) {
+    width: 600px;
+  }
+  @media (max-width: $screen-md) {
+    width: 500px;
+  }
+  @media (max-width: $screen-sm) {
+    width: 400px;
+    margin-left: 35px;
+  }
+  @media (max-width: $screen-xs) {
+    margin-left: 35px;
+    width: 320px;
+  }
+}
 .featured-collection-image{
   padding: 10px;
 }
