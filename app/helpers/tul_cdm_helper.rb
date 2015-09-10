@@ -577,7 +577,6 @@ module TulCdmHelper
   end
 
   def render_multiselect_facet_limit(display_facet, options = {})
-    puts "***** render_multifacet_limit *****"
     return if not should_render_facet?(display_facet)
     options = options.dup
     options[:partial] ||= facet_partial_name(display_facet)
@@ -650,4 +649,14 @@ module Blacklight::FacetsHelperBehavior
 
     render(options)
   end
+
+#  def render_facet_value(facet_field, item, options ={})
+#    if (facet_field == "digital_collection_sim")
+#      content_tag(:span, class: "facet-checkbox") do
+#        check_box_tag("f_inclusive[#{facet_field}][]", item.value.to_sym, facet_value_checked?(facet_field, item.value), id: "f_inclusive_#{facet_field}_#{item.value.parameterize}", form: "basic-search") 
+#      end + super
+#    else
+#      super
+#    end
+#  end
 end
