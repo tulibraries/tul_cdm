@@ -34,9 +34,12 @@
 *
 ******/
 #sidebar{
-  width: 240px;
+  width: 280px;
+  @media (min-width: $screen-xs) and (max-width: $screen-lg) {
+    width: 25%;
+  }
   @media (max-width: $screen-xs) {
-    width: $screen-xs - 40px;
+    width: $screen-xs - 100px;
   }
 }
 
@@ -105,6 +108,12 @@ html,body,#wrapper,#main-wrapper,#footer {
 
 #facets{
   margin-top: -12px;
+  .top-panel-heading {
+  }
+  .facets-toggle {
+    margin-top: 25px;
+    margin-right: -15px;
+  }
 }
 
 //@media (max-width: $screen-md-min) {
