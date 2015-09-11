@@ -37,6 +37,9 @@
   @media (max-width: $screen-md) {
     width: 240px;
   }
+  @media (max-width: $screen-sm) {
+    width: $screen-xs - 40px;
+  }
 }
 
 #sidebar-right{
@@ -123,7 +126,18 @@ html,body,#wrapper,#main-wrapper,#footer {
 
 
 .container{
-  width: 1200px;
+  @media (min-width: $screen-lg) {
+    width: 1200px;
+  }
+  @media (max-width: $screen-lg) {
+    width: $screen-md;
+  }
+  @media (max-width: $screen-md) {
+    width: $screen-sm;
+  }
+  @media (max-width: $screen-sm) {
+    width: $screen-xs - 100px;
+  }
 }
 
 /******
@@ -360,6 +374,4 @@ h2.ocr-section-heading{
     display: none;
   }
 }
-
-
 
