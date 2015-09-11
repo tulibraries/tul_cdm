@@ -34,10 +34,8 @@
 *
 ******/
 #sidebar{
-  @media (max-width: $screen-md) {
-    width: 240px;
-  }
-  @media (max-width: $screen-sm) {
+  width: 240px;
+  @media (max-width: $screen-xs) {
     width: $screen-xs - 40px;
   }
 }
@@ -129,14 +127,18 @@ html,body,#wrapper,#main-wrapper,#footer {
   @media (min-width: $screen-lg) {
     width: 1200px;
   }
-  @media (max-width: $screen-lg) {
-    width: $screen-md;
+  @media (min-width: $screen-md) and (max-width: $screen-lg) {
+    width: 100%;
   }
-  @media (max-width: $screen-md) {
-    width: $screen-sm;
+  @media (min-width: $screen-sm) and (max-width: $screen-md) {
+    margin-left: 2%;
+    margin-right: 2%;
+    width: 96%;
   }
   @media (max-width: $screen-sm) {
-    width: $screen-xs - 120px;
+    margin-right: 5%;
+    margin-left: 5%;
+    width: 90%;
   }
 }
 
@@ -150,7 +152,7 @@ html,body,#wrapper,#main-wrapper,#footer {
   height: 100px;
   width: 280px;
   float: right;
-  @media (max-width: $screen-sm) {
+  @media (max-width: $screen-xs) {
     float: left;
   }
 }
