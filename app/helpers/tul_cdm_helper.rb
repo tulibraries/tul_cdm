@@ -395,8 +395,8 @@ module TulCdmHelper
     ensemble_identifier = document[:ensemble_identifier_tesim].first
     width = "380"
     height = "36"
-    frame_width = 380
-    frame_height = 36 
+    frame_width = 400
+    frame_height = 56 
     audio_width = 380
     audio_height = 36
     ensemble_plugin = "https://ensemble.temple.edu/ensemble/app/plugin/plugin.aspx"
