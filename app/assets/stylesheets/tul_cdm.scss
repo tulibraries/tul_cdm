@@ -324,8 +324,8 @@ h2.ocr-section-heading{
   }
 }
 
-@media (min-width: $screen-lg) {
-  #search-navbar {
+#search-navbar {
+  @media (min-width: $screen-lg) {
     .container .search-query-form {
       #q {
         width: 500px;
@@ -335,9 +335,11 @@ h2.ocr-section-heading{
 }
 
 .secondary-input-group {
-  border-left: $temple-light-grey 1px solid;
-  padding-left:40px;
-  margin-left:40px;
+  @media (min-width: $screen-md) {
+    border-left: $temple-light-grey 1px solid;
+    padding-left:40px;
+    margin-left:40px;
+  }
 }
 
 .navbar-form .input-group {
