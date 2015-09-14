@@ -33,15 +33,6 @@
 * Sidebar
 *
 ******/
-#sidebar{
-  width: 280px;
-  @media (min-width: $screen-xs) and (max-width: $screen-lg) {
-    width: 25%;
-  }
-  @media (max-width: $screen-xs) {
-    width: $screen-xs - 100px;
-  }
-}
 
 #sidebar-right{
  float: right;
@@ -116,38 +107,24 @@ html,body,#wrapper,#main-wrapper,#footer {
   }
 }
 
-//@media (max-width: $screen-md-min) {
-//  #search-navbar {
-//    float: left;
-//    .input-group {
-//      #q {
-//        width: 250px;
-//        font-weight: normal;
-//      }
-//    }
-//    .secondary-input-group {
-//      display: block;
-//    }
-//  }
-//}
-
+/******
+*
+* Container Responsiveness
+*
+******/
 
 .container{
   @media (min-width: $screen-lg) {
     width: 1200px;
   }
   @media (min-width: $screen-md) and (max-width: $screen-lg) {
-    width: 100%;
+    width: $screen-md;
   }
   @media (min-width: $screen-sm) and (max-width: $screen-md) {
-    margin-left: 2%;
-    margin-right: 2%;
-    width: 96%;
+    width: $screen-sm;
   }
   @media (max-width: $screen-sm) {
-    margin-right: 5%;
-    margin-left: 5%;
-    width: 90%;
+    width: $screen-xs;
   }
 }
 
@@ -161,7 +138,7 @@ html,body,#wrapper,#main-wrapper,#footer {
   height: 100px;
   width: 280px;
   float: right;
-  @media (max-width: $screen-xs) {
+  @media (max-width: $screen-sm) {
     float: left;
   }
 }
@@ -224,22 +201,6 @@ h2.ocr-section-heading{
 *
 ******/
 
-.featuredImages{
-  @media (max-width: $screen-lg) {
-    width: 600px;
-  }
-  @media (max-width: $screen-md) {
-    width: 500px;
-  }
-  @media (max-width: $screen-sm) {
-    width: 400px;
-    margin-left: 35px;
-  }
-  @media (max-width: $screen-xs) {
-    margin-left: 35px;
-    width: 320px;
-  }
-}
 .featured-collection-image{
   padding: 10px;
 }
@@ -336,9 +297,9 @@ h2.ocr-section-heading{
 }
 
 #search-navbar {
-  @media (min-width: $screen-lg) {
-    .container .search-query-form {
-      #q {
+  .container .search-query-form {
+    #q {
+      @media (min-width: $screen-lg) {
         width: 500px;
       }
     }
@@ -346,10 +307,10 @@ h2.ocr-section-heading{
 }
 
 .secondary-input-group {
+  padding-left:40px;
+  margin-left:40px;
   @media (min-width: $screen-md) {
     border-left: $temple-light-grey 1px solid;
-    padding-left:40px;
-    margin-left:40px;
   }
 }
 
