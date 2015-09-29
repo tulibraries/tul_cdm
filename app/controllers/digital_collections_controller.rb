@@ -1,14 +1,20 @@
 class DigitalCollectionsController < ApplicationController
   respond_to :html, :xml, :json
-  before_action :verify_signed_in!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :verify_signed_in!, only: [:new, :create, :edit, :update, :destroy, :restricted]
   before_action :set_digital_collection, only: [:show, :edit, :update, :destroy]
-  
+
   add_breadcrumb "Home", :root_path
   add_breadcrumb "Explore Digital Collections", '/digital_collections'
 
   def index
     @host = "http://#{request.env["HTTP_HOST"]}/digital_collections"
     @digital_collections = viewable_collections
+    respond_with(@digital_collections)
+  end
+
+  def restricted
+    @host = "http://#{request.env["HTTP_HOST"]}/digital_collections"
+    @digital_collections = private_collections
     respond_with(@digital_collections)
   end
 
