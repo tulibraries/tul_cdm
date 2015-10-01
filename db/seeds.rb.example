@@ -48,3 +48,28 @@ collections = [
 collections.each do |collection|
   DigitalCollection.create(collection)
 end
+
+User.delete_all;
+
+users = [
+  {
+    email: "user@example.com",
+    password: "tulcdmUser",
+    password_confirmation: "tulcdmUser",
+  },
+  {
+    email: "archivist1@example.com",
+    password: "tulcdmArchivist",
+    password_confirmation: "tulcdmArchivist",
+  },
+  {
+    email: "admin@example.com",
+    password: "tulcdmAdmin",
+    password_confirmation: "tulcdmAdmin",
+  }
+]
+
+users.each do |user|
+  User.create(user)
+end
+

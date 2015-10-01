@@ -31,6 +31,10 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
    FactoryGirl.build(:invalid_digital_collection).attributes
   }
 
+  let(:private_collection) {
+   FactoryGirl.build(:private_digital_collection).attributes
+  }
+
   let(:private_attributes_allowed) {
    FactoryGirl.build(:private_digital_collection_allowed).attributes
   }
@@ -61,6 +65,52 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
       digital_collection = DigitalCollection.create! private_attributes_denied
       get :index, {}, valid_session
       expect(assigns(:digital_collections)).to be_empty
+    end
+  end
+
+  describe "GET restricted" do
+    context "Unauthenticated Session" do
+      it "denies the private collection" do
+        digital_collection = DigitalCollection.create! private_collection
+        get :restricted, {}
+        expect(assigns(:digital_collections)).to be_nil
+      end
+    end
+
+    context "Authenticated Unauthorized Access" do
+      before (:each) do
+        sign_in FactoryGirl.create(:user)
+      end
+
+      it "allows the private collection" do
+        digital_collection = DigitalCollection.create! private_collection
+        get :restricted, {}
+        expect(assigns(:digital_collections)).to be_nil
+      end
+    end
+
+    context "Authenticated Access" do
+      before (:each) do
+        sign_in FactoryGirl.create(:archivist_user)
+      end
+
+      it "allows the private collection" do
+        digital_collection = DigitalCollection.create! private_collection
+        get :restricted, {}
+        expect(assigns(:digital_collections)).to eq([digital_collection])
+      end
+
+      it "allows with allowed IP address" do
+        digital_collection = DigitalCollection.create! private_attributes_allowed
+        get :restricted, {}
+        expect(assigns(:digital_collections)).to eq([digital_collection])
+      end
+
+      it "allows with unrecognized collection" do
+        digital_collection = DigitalCollection.create! private_attributes_denied
+        get :restricted, {}
+        expect(assigns(:digital_collections)).to eq([digital_collection])
+      end
     end
   end
 
