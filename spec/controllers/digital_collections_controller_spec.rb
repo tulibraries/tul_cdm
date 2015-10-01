@@ -77,9 +77,21 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
       end
     end
 
-    context "Authenticated Access" do
+    context "Authenticated Unauthorized Access" do
       before (:each) do
         sign_in FactoryGirl.create(:user)
+      end
+
+      it "allows the private collection" do
+        digital_collection = DigitalCollection.create! private_collection
+        get :restricted, {}
+        expect(assigns(:digital_collections)).to be_nil
+      end
+    end
+
+    context "Authenticated Access" do
+      before (:each) do
+        sign_in FactoryGirl.create(:archivist_user)
       end
 
       it "allows the private collection" do
