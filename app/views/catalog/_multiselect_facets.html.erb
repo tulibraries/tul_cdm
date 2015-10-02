@@ -1,3 +1,4 @@
+<span>_multiselect_facets</span>
 <% config = CatalogController.configure_blacklight %>
 <% solr_field= config[:advanced_search][:form_solr_parameters]["facet.field"].first %>
 <% display_facet = multiple_facets(solr_field) %>
@@ -18,7 +19,7 @@
 
             <span class="label-and-count">
                 <%= label_tag "f_inclusive_#{solr_field}_#{item.value.parameterize}"  do %>
-                    <%= render_facet_value(solr_field, item, :suppress_link => true) %>  
+                    <%= render_multiselect_facet_value(solr_field, item, :suppress_link => true) %>  
                 <% end %>
             <span>
         </li>

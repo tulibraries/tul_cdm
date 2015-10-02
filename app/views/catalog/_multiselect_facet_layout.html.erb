@@ -6,14 +6,14 @@
   </div>
   <div id="facet-multi-digital_collection_sim" class="panel-collapse facet-content collapse" aria-expanded="false" style="height: 0px;">
     <div class="panel-body">
-      <ul class="facet-values list-unstyled blacklight-advanced-facet-select">
+      <ul class="multiselect-facet-values list-unstyled blacklight-advanced-facet-select">
         <% paginator = facet_paginator(facet_field, display_facet) %>
         <%= render_multiselect_facet_limit_list paginator, field_name %>
 
         <% unless paginator.last_page? || params[:action] == "facet" %>
-          <li class="more_facets_link">
+          <li class="more_multiselect_facets_link">
             <%= link_to t("more_#{field_name}_html", scope: 'blacklight.search.facets', default: :more_html, field_name: facet_field.label), 
-              search_multiselect_facet_url(id: field_name), class: "more_facets_link" %>
+              search_multiselect_facet_url(id: field_name), class: "more_multiselect_facets_link" %>
           </li>
         <% end %>
       </ul>

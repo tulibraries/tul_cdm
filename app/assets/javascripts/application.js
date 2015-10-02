@@ -17,11 +17,13 @@
 //= require reveal
 //= require FileSaver.min.js
 //= require download_ocr_text
-//= require multifacets
 
 //= require jquery_ujs
 //
 // Required by Blacklight
 //= require blacklight/blacklight
+
+// Multifacets overrides Blacklight function
+//= require multifacets
 
 //= require jquery.slick

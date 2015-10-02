@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   # The /cdm/ path will be deprecated in favor of /digital_collections/...
   get '/cdm/stereotypicalabout' => 'high_voltage/pages#show', id: 'stereotypicalabout'
   get '/digital_collections/stereotypicalimages/about' => 'high_voltage/pages#show', id: 'stereotypicalabout'
+  get 'catalog/multiselect_facet/:id', to: 'catalog#multiselect_facet'
 
 
   
