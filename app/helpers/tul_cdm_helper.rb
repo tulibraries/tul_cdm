@@ -393,6 +393,12 @@ module TulCdmHelper
     config = YAML.load_file(File.expand_path("#{Rails.root}/config/contentdm.yml", __FILE__))
     model = model_from_document(document)
     ensemble_identifier = document[:ensemble_identifier_tesim].first
+    width = "380"
+    height = "36"
+    frame_width = 400
+    frame_height = 56 
+    audio_width = 380
+    audio_height = 36
     ensemble_plugin = "https://ensemble.temple.edu/ensemble/app/plugin/plugin.aspx"
     ensemble_style_sheet = "https://ensemble.temple.edu/ensemble/app/plugin/css/ensembleEmbeddedContent.css"
 
@@ -406,6 +412,8 @@ module TulCdmHelper
       "autoPlay"       => false,
       "hideControls"   => false,
       "showCaptions"   => false,
+      "width"          => audio_width,
+      "height"         => audio_height,
       "audio"          => true,
       "q"              => config['cdm_archive'],
       "frameborder"    => 0
@@ -416,9 +424,12 @@ module TulCdmHelper
                           content_tag(:script,
                             "",
                             type: "text/javascript",
-                            src: player_src).html_safe,
+                            src: player_src,
+                            style: ["width: #{frame_width}px;", "height: #{frame_height}px;"],
+                            escape: true).html_safe,
                           class: "ensembleEmbeddedContent",
-                          id: "ensembleEmbeddedContent_#{ensemble_identifier}")
+                          id: "ensembleEmbeddedContent_#{ensemble_identifier}",
+                          style: ["width: #{width}px;", "height: #{height}px;"])
 
     output.html_safe
   end
