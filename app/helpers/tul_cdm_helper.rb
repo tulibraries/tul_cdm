@@ -579,7 +579,7 @@ module TulCdmHelper
   def render_multiselect_facet_limit(display_facet, options = {})
     return if not should_render_facet?(display_facet)
     options = options.dup
-    options[:partial] ||= facet_partial_name(display_facet)
+    options[:partial] ||= multiselect_facet_partial_name(display_facet)
     options[:layout] ||= "multiselect_facet_layout" unless options.has_key?(:layout)
     options[:locals] ||= {}
     options[:locals][:field_name] ||= display_facet.name
@@ -611,6 +611,19 @@ module TulCdmHelper
     render_multiselect_facet_value(facet_field, item)
   end
 
+  ##
+  # The name of the partial to use to render a multiselect facet field.
+  # uses the value of the "partial" field if set in the facet configuration
+  # otherwise uses "facet_pivot" if this facet is a pivot facet
+  # defaults to 'multiselect_facet_limit'
+  #
+  # @return [String]
+  def multiselect_facet_partial_name(display_facet = nil)
+    config = facet_configuration_for_field(display_facet.name)
+    name = config.try(:partial)
+    name ||= "facet_pivot" if config.pivot # TBD: multiselect_facet_pivot
+    name ||= "multiselect_facet_limit"
+  end
 
   ##
   # Standard display of a facet value in a list. Used in both _facets sidebar

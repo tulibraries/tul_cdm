@@ -1,4 +1,3 @@
-<span>_multiselect_facets</span>
 <% config = CatalogController.configure_blacklight %>
 <% solr_field= config[:advanced_search][:form_solr_parameters]["facet.field"].first %>
 <% display_facet = multiple_facets(solr_field) %>
