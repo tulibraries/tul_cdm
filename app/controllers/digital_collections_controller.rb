@@ -1,14 +1,21 @@
 class DigitalCollectionsController < ApplicationController
   respond_to :html, :xml, :json
-  before_action :verify_signed_in!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :verify_signed_in!, only: [:new, :create, :edit, :update, :destroy, :restricted]
+  before_action :verify_user_archivist!, only: [:restricted]
   before_action :set_digital_collection, only: [:show, :edit, :update, :destroy]
-  
+
   add_breadcrumb "Home", :root_path
   add_breadcrumb "Explore Digital Collections", '/digital_collections'
 
   def index
     @host = "http://#{request.env["HTTP_HOST"]}/digital_collections"
     @digital_collections = viewable_collections
+    respond_with(@digital_collections)
+  end
+
+  def restricted
+    @host = "http://#{request.env["HTTP_HOST"]}/digital_collections"
+    @digital_collections = private_collections
     respond_with(@digital_collections)
   end
 
@@ -59,8 +66,15 @@ class DigitalCollectionsController < ApplicationController
     end
 
     def verify_signed_in!
-      if !user_signed_in?
+      unless user_signed_in?
         flash[:error] = t('devise.failure.unauthenticated')
+        redirect_to(root_path)
+      end
+    end
+
+    def verify_user_archivist!
+      unless (RoleMapper.roles(current_user.email).include? "archivist")
+        flash[:error] = t('tul_cdm.digital_collection.restricted_collection_note')
         redirect_to(root_path)
       end
     end

@@ -1,0 +1,22 @@
+<div class="container" id="digital_collection-index">
+  <h1><%= t('tul_cdm.digital_collection.restricted_collection_title') %></h1>
+
+  <div class="digital-collection-list">
+    <% @digital_collections.order(:priority).each do |digital_collection| %>
+      <div class="collection-item">
+        <div class="collection-thumbnail"><%= link_to (image_tag (digital_collection.thumbnail_url)), digital_collection %></div>
+        <div class="collection-name"><%= link_to digital_collection.name, digital_collection %></div>
+        <span class="admin">
+          <%= link_to 'Show', digital_collection %> |
+          <%= link_to 'Edit', edit_digital_collection_path(digital_collection) %> |
+          <%= link_to 'Destroy', digital_collection, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </span>
+      </div>
+    <% end %>
+  </div>
+
+  <span class="admin">
+    <br>
+    <%= link_to 'New Digital collection', new_digital_collection_path %>
+  </span>
+</div>
