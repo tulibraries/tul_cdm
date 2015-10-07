@@ -87,6 +87,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('publisher', :facetable), :label => 'Publisher', :limit => 3, :collapse => true
     config.add_facet_field solr_name('digital_publisher', :facetable), :label => 'Digital Publisher', :limit => 3, :collapse => true
     config.add_facet_field solr_name('repository', :facetable), :label => 'Repository', :limit => 3
+    config.add_facet_field solr_name('repository_collection', :facetable), :label => 'Repository', :limit => 3, :show => false
     config.add_facet_field solr_name('language', :facetable), :label => 'Language', :limit => 3, :collapse => true
     config.add_facet_field solr_name('contributor', :facetable), :label => 'Contributor', :limit => 3, :collapse => true
     config.add_facet_field solr_name('author', :facetable), :label => 'Author', :limit => 3, :collapse => true
@@ -132,7 +133,7 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name('contentdm_collection_id', :stored_searchable, type: :string), :label => 'Digital Collection ID', :link_to_search => 'contentdm_collection_id_sim', :show => false
     config.add_show_field solr_name('contact', :displayable, type: :string), :label => 'Contact'
     config.add_show_field solr_name('repository', :stored_searchable, type: :string), :label => 'Repository', :link_to_search => 'repository_sim'
-    config.add_show_field solr_name('repository_collection', :stored_searchable, type: :string), :label => 'Repository Collection'
+    config.add_show_field solr_name('repository_collection', :stored_searchable, type: :string), :label => 'Repository Collection', :link_to_search => 'repository_collection_sim'
     config.add_show_field solr_name('language', :stored_searchable, type: :string), :label => 'Language', :link_to_search => 'language_sim'
     config.add_show_field solr_name('identifier', :displayable, type: :string), :label => 'Identifier'
 
