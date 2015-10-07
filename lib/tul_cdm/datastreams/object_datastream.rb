@@ -16,7 +16,7 @@ module TulCdm::Datastreams
       t.digital_specifications
       t.contact index_as: :displayable
       t.repository(:index_as=>[:facetable, :stored_searchable], :type=>:string)
-      t.repository_collection index_as: :stored_searchable
+      t.repository_collection(:index_as=>[:facetable, :stored_searchable], :type=>:string)
       t.language index_as: :facetable
       t.identifier(:index_as=>[:displayable, :sortable, :stored_searchable], :type=>:string)
       t.downloadable index_as: [:facetable, :displayable]
