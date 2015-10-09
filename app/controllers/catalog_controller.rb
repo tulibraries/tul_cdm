@@ -300,13 +300,18 @@ class CatalogController < ApplicationController
   end
 
   ##
-  # Get the solr response when retrieving only a single facet field
-  # @return [Blacklight::SolrResponse] the solr response
+  # Multiselect facet version of Blacklight::SolrHelper#get_facet_field_response
+  # - Get the solr response when retrieving only a single facet field
+  # - @return [Blacklight::SolrResponse] the solr response
+  # Customization:
+  # - Deletes facet query for selected facet items to return response with all
+  #   facets items
+  #
   def get_multiselect_facet_field_response(facet_field, user_params = params || {}, extra_controller_params = {})
     solr_params = solr_facet_params(facet_field, user_params, extra_controller_params)
+    # Delete facet query for selected facet items
     solr_params[:fq].delete_if { |item| item =~ /^#{facet_field}:/ } if solr_params.has_key? :fq
     # Make the solr call
-    #solr_params[:fq][2]=""
     find(solr_params)
   end
 
