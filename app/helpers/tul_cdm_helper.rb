@@ -581,7 +581,7 @@ module TulCdmHelper
   # @param [Array<String>]
   # @param [Hash] options
   # @return String
-  def render_multiselect_facet_partials fields = facet_field_names, options = {}
+  def render_multiselect_facet_partials(fields = facet_field_names, options = {})
     safe_join(facets_from_request(fields).map do |display_facet|
       render_multiselect_facet_limit(display_facet, options)
     end.compact, "\n")
@@ -659,6 +659,9 @@ module TulCdmHelper
 
 end
 
+##
+# Override Blacklight render_facet_limit to add display_facet.name to field_name
+#
 module Blacklight::FacetsHelperBehavior
   def render_facet_limit(display_facet, options = {})
     return if not should_render_facet?(display_facet)
@@ -672,42 +675,6 @@ module Blacklight::FacetsHelperBehavior
     options[:locals][:display_facet] ||= display_facet 
 
     render(options)
-  end
-
-#  def render_facet_value(facet_field, item, options ={})
-#    if (facet_field == "digital_collection_sim")
-#      content_tag(:span, class: "facet-checkbox") do
-#        check_box_tag("f_inclusive[#{facet_field}][]", item.value.to_sym, facet_value_checked?(facet_field, item.value), id: "f_inclusive_#{facet_field}_#{item.value.parameterize}", form: "basic-search") 
-#      end + super
-#    else
-#      super
-#    end
-#  end
-end
-
-module Blacklight::RequestBuilders
-  ##
-  # Add any existing facet limits, stored in app-level HTTP query
-  # as :f, to solr as appropriate :fq query. 
-  def add_facet_fq_to_solr(solr_parameters, user_params)   
-    solr_parameters["facet.sort"] = "index"
-
-    # convert a String value into an Array
-    if solr_parameters[:fq].is_a? String
-      solr_parameters[:fq] = [solr_parameters[:fq]]
-    end
-
-    # :fq, map from :f. 
-    if ( user_params[:f])
-      f_request_params = user_params[:f] 
-      
-      f_request_params.each_pair do |facet_field, value_list|
-        Array(value_list).each do |value|
-          next if value.blank? # skip empty strings
-          solr_parameters.append_filter_query facet_value_to_fq_string(facet_field, value)
-        end              
-      end      
-    end
   end
 end
 
