@@ -660,25 +660,6 @@ module TulCdmHelper
 end
 
 ##
-# Override Blacklight render_facet_limit to add display_facet.name to field_name
-#
-module Blacklight::FacetsHelperBehavior
-  def render_facet_limit(display_facet, options = {})
-    return if not should_render_facet?(display_facet)
-    options = options.dup
-    options[:partial] ||= facet_partial_name(display_facet)
-    options[:layout] ||= "facet_layout" unless options.has_key?(:layout)
-    options[:locals] ||= {}
-    options[:locals][:field_name] ||= display_facet.name
-    options[:locals][:solr_field] ||= display_facet.name # deprecated
-    options[:locals][:facet_field] ||= facet_configuration_for_field(display_facet.name)
-    options[:locals][:display_facet] ||= display_facet 
-
-    render(options)
-  end
-end
-
-##
 # Override Blacklight bug which will not render sidebar facets in alphabetical order
 #
 module Blacklight::RequestBuilders
