@@ -282,14 +282,12 @@ class CatalogController < ApplicationController
   end
 
   # displays values and pagination links for a single facet field
-  # [TODO} Multiselect_facet is work in progress
   def multiselect_facet
     @facet = blacklight_config.facet_fields[params[:id]]
     @response = get_multiselect_facet_field_response(@facet.field, params)
     @display_facet = @response.facets.first
 
     @pagination = facet_paginator(@facet, @display_facet)
-
 
     respond_to do |format|
       # Draw the facet selector for users who have javascript disabled:
@@ -305,37 +303,11 @@ class CatalogController < ApplicationController
   # Get the solr response when retrieving only a single facet field
   # @return [Blacklight::SolrResponse] the solr response
   def get_multiselect_facet_field_response(facet_field, user_params = params || {}, extra_controller_params = {})
-    ## NB: Work in Progress
-    ## NB: Three ways to try to get mujltiselect pagination. None are working, uses dbg_option to explor different options
-    dbg_option = 1
-
-    case dbg_option
-    when 1
-    # These get all of the facets with facet value, but does not paginate
-    get_facet_field_response(facet_field, blacklight_config.advanced_search)
-
-    # Attempt to use paginatino. This is broken
-    when 2
-    response = get_facet_all(facet_field, config.advanced_search)
-
-    else
-    # This is the original way to do things: Gets values but not all facets
     solr_params = solr_facet_params(facet_field, user_params, extra_controller_params)
+    solr_params[:fq].delete_if { |item| item =~ /^#{facet_field}:/ } if solr_params.has_key? :fq
     # Make the solr call
+    #solr_params[:fq][2]=""
     find(solr_params)
-    end
   end
 
-  def get_facet_all(facet_field, user_params=params || {}, extra_controller_params={})
-    # Make the solr call
-    response = get_facet_field_response(facet_field, user_params, extra_controller_params)
-
-    limit = get_facet_pagination("digital_collection_sim", user_params).total_count
-
-    return     Blacklight::Solr::FacetPaginator.new(response.facets.first.items, 
-      :offset => response.params[:"f.#{facet_field}.facet.offset"], 
-      :limit => limit,
-      :sort => response.params[:"f.#{facet_field}.facet.sort"] || response.params["facet.sort"]
-    )
-  end
 end
