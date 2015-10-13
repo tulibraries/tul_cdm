@@ -574,6 +574,15 @@ module TulCdmHelper
     display_facet = controller.get_facet_all(facet_field, config.advanced_search)
   end
 
+  def render_multiselect_facets
+    config = CatalogController.configure_blacklight
+    facet_fields = config[:advanced_search][:form_solr_parameters]["facet.field"]
+
+    safe_join(facet_fields.map { |facet_field|
+      render partial: 'multiselect_facets', locals: { facet_field: facet_field, display_facet: multiple_facets(facet_field) }
+    }.compact, "\n")
+  end
+
 end
 
 ##
