@@ -249,6 +249,30 @@ h2.ocr-section-heading{
     color: $temple-dark-grey;
 }
 
+.featuredImages {
+  width: 893px;
+  .slick-list {
+    .featuredImages {
+      img {
+        height: 280px;
+      }
+      .featured-collection-text-container {
+        width: 440px;
+        padding: 10px;
+        margin-top: 80px;
+        height: 92px;
+        .featured-collection-name {
+          font-size: 24px;
+          line-height: 30px;
+        }
+        .featured-collection-descrip {
+          font-size: 13px;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
 
 /******
 *
