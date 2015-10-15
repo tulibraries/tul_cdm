@@ -2,6 +2,10 @@ $(document).ready(function() {
   $( '.facet-checkbox > input[type="checkbox"]' ).click(function(event){
     click_multifacet(event)
   });
+
+  $( '.multifacet-start-over' ).click(function(event){
+    multifacet_start_over(event)
+  });
 });
 
 // Handles multifacet by adding the hidden search term field field to search form
@@ -19,4 +23,11 @@ function click_multifacet(event){
   else {
     $(facet_item_selector).remove();
   }
+}
+
+function multifacet_start_over(event){
+  // Clear checkboxes
+  $( '.facet-checkbox > input[type="checkbox"]' ).attr('checked', false);
+  // Remove hidden fields
+  $( 'form.search-query-form > input[type="hidden"][name^="f_inclusive"]').remove();
 }
