@@ -568,6 +568,21 @@ module TulCdmHelper
     if path_var.include? "advanced" then link_to t('blacklight.basic_search_link'), root_url, :class=>'btn btn-default basic_search' else  link_to t('blacklight.advanced_search_link'), advanced_search_path(params), :class=>'btn btn-default advanced_search' end
 	end
 
+  def multiple_facets(facet_field)
+
+    config = CatalogController.configure_blacklight
+    display_facet = controller.get_facet_all(facet_field, config.advanced_search)
+  end
+
+  def render_multiselect_facets
+    config = CatalogController.configure_blacklight
+    facet_fields = config[:advanced_search][:form_solr_parameters]["facet.field"]
+
+    safe_join(facet_fields.map { |facet_field|
+      render partial: 'multiselect_facets', locals: { facet_field: facet_field, display_facet: multiple_facets(facet_field) }
+    }.compact, "\n")
+  end
+
 end
 
 ##
