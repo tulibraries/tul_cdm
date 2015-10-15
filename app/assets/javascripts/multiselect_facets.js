@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $( 'form [type="checkbox"]' ).click(function(event){
+  $( '.facet-checkbox > input[type="checkbox"]' ).click(function(event){
     click_multifacet(event)
   });
 });
