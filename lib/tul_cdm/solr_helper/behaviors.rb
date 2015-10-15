@@ -55,4 +55,17 @@ module TulCdm::SolrHelper::Behaviors
     solr_parameters[:fq] << 'subject_sim:Fund raising -- United States.'
   end
 
+  def get_facet_all(facet_field, user_params=params || {}, extra_controller_params={})
+    # Make the solr call
+    response = get_facet_field_response(facet_field, user_params, extra_controller_params)
+
+    limit = get_facet_pagination("digital_collection_sim", user_params).total_count
+
+    return     Blacklight::Solr::FacetPaginator.new(response.facets.first.items, 
+      :offset => response.params[:"f.#{facet_field}.facet.offset"], 
+      :limit => limit,
+      :sort => response.params[:"f.#{facet_field}.facet.sort"] || response.params["facet.sort"]
+    )
+  end
+
 end

@@ -24,3 +24,4 @@
 //= require blacklight/blacklight
 
 //= require jquery.slick
+//= require multiselect_facets
