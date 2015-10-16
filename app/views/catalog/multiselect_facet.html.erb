@@ -11,10 +11,12 @@
   <%= render_multiselect_facet_limit(@display_facet, layout: false) %>
   </div>
 </div>
-  
+
 <div class="modal-footer">
 
   <div class="facet_pagination bottom">
     <%= render :partial=>'multiselect_facet_pagination' %>
   </div>
 </div>
+
+<%= javascript_tag "$( '.facet-checkbox > input[type=\"checkbox\"]' ).click(function(event){ click_multifacet(event); });" %>

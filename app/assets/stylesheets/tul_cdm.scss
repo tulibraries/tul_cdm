@@ -363,3 +363,26 @@ h2.ocr-section-heading{
   }
 }
 
+/******
+*
+* Multiselect Facets
+*
+******/
+
+.multiselect-facet-values {
+  .facet-count {
+    display: table-cell;
+    vertical-align: top;
+    text-align: right;
+  }
+}
+
+.ajax-modal {
+  .multiselect-facet-values {
+    .facet-count {
+      display: table-cell;
+      vertical-align: top;
+      text-align: right;
+    }
+  }
+}  

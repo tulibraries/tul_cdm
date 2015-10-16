@@ -648,7 +648,7 @@ module TulCdmHelper
   # @return [String]
   def render_multiselect_facet_value(facet_field, item, options ={})
     content_tag(:span, class: "facet-checkbox") do
-      check_box_tag("f_inclusive[#{facet_field}][]", item.value.to_sym, facet_value_checked?(facet_field, item.value), id: "f_inclusive_#{facet_field}_#{item.value.parameterize}", form: "basic-search") 
+      check_box_tag("f_inclusive[#{facet_field}][]", item.value.to_sym, facet_value_checked?(facet_field, item.value), id: "f_inclusive_#{facet_field}_#{item.value.parameterize}") 
     end +
     content_tag(:span, class: "label-and-count") do
       label_tag "f_inclusive_#{facet_field}_#{item.value.parameterize}" do

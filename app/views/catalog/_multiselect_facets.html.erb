@@ -9,7 +9,7 @@
   </div>
   <div id="facet-multi-digital_collection_sim" class="panel-collapse facet-content collapse" aria-expanded="false" style="height: 0px;">
     <div class="panel-body">
-      <ul class="facet-values list-unstyled blacklight-advanced-facet-select">
+      <ul class="multiselect-facet-values list-unstyled blacklight-advanced-facet-select">
         <% display_facet.items.each do |item| -%>
         <li>
             <span class="facet-checkbox">
@@ -18,7 +18,7 @@
 
             <span class="label-and-count">
                 <%= label_tag "f_inclusive_#{solr_field}_#{item.value.parameterize}"  do %>
-                    <%= render_multiselect_facet_value(solr_field, item, :suppress_link => true) %>  
+                    <%= render_multiselect_facet_value(solr_field, item, :suppress_link => true) %>
                 <% end %>
             <span>
         </li>
