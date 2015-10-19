@@ -20,6 +20,7 @@ function click_multifacet(event){
   var facet_item_insertion_selector = 'form.search-query-form > div.input-group';
   var a_prev_next = 'div.prev_next_links > a.btn';
 
+  var escaped_facet_item_value = facet_item_value.replace(/ /g, '+');
   if (event.target.checked) {
     // Insert the facet search term in the search form
     if ($(facet_item_selector).length == 0) {
@@ -27,43 +28,39 @@ function click_multifacet(event){
     }
     // Insert the facet serch term in the URI
     if ($(a_prev_next).length > 0) {
-      add_search_term_to_uri(a_prev_next, encodeURI(facet_item_name + '=' + facet_item_value.replace(/ /g, '+')));
+      add_search_term_to_uri(a_prev_next, encodeURI(facet_item_name + '=' + escaped_facet_item_value));
     }
   } else {
     // Facet search term unchcked - remove from search form
     $(facet_item_selector).remove();
     // Remove facet search term from URI
     if ($(a_prev_next).length > 0) {
-      remove_search_term_from_uri(a_prev_next, encodeURI(facet_item_name + '=' + facet_item_value.replace(/ /g, '+')));
+      remove_search_term_from_uri(a_prev_next, encodeURI(facet_item_name + '=' + escaped_facet_item_value));
     }
   }
 
   function add_search_term_to_uri(a_prev_next, term){
+    // Extract the href attribute from the link
     var a_href = $(a_prev_next).attr('href');
-    // New href will go before the facet.page parameter
+    // Search term will go before the facet.page parameter
     var facet_page_query = "&facet.page";
-    // Extract f_inclusive parameters
-
-    str_index = a_href.indexOf(facet_page_query);
-    new_href = a_href.substr(1, str_index-1) + '&' + term + a_href.substr(str_index);
-
+    // String position to insert the new search term
+    var str_index = a_href.indexOf(facet_page_query);
+    // Catenate the new href
+    var new_href = a_href.substr(0, str_index) + '&' + term + a_href.substr(str_index);
+    // Update the href attribute
     $(a_prev_next).attr('href', new_href);
-
-    console.log("after: a_href = " + $(a_prev_next).attr('href'));
-
-    return new_href;
   }
 
   function remove_search_term_from_uri(a_prev_next, term){
+    // Search term as regular expression
     var term_re = new RegExp(RegExp.escape(term), 'gi')
+    // Extract the href attribute from the link
     var a_href = $(a_prev_next).attr('href');
-    // Remove f_inclusive parameters
-    new_href = $(a_prev_next).attr('href').replace(term_re, '');
+    // Remove the search term
+    var new_href = $(a_prev_next).attr('href').replace(term_re, '');
+    // Update the href attribute
     $(a_prev_next).attr('href', new_href);
-
-    console.log("after: a_href = " + $(a_prev_next).attr('href'));
-
-    return a_href;
   }
 }
 
