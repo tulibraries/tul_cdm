@@ -19,6 +19,8 @@ function click_multifacet(event){
   var facet_item_element = '<input name="' + facet_item_name + '" type="hidden" value="' + facet_item_value + '">'
   var facet_item_insertion_selector = 'form.search-query-form > div.input-group';
   var a_prev_next = 'div.prev_next_links > a.btn';
+  var a_more_link = 'a.more_multiselect_facets_link';
+  var sidebar_checkbox_selector = 'input[type="checkbox"][value="' + facet_item_value + '"]';
 
   // URI friendly facet value
   var escaped_facet_item_value = facet_item_value.replace(/ /g, '+');
@@ -28,22 +30,49 @@ function click_multifacet(event){
     if ($(facet_item_selector).length == 0) {
       $(facet_item_insertion_selector).before(facet_item_element);
     }
-    // Insert the facet serch term in the URI
+    // Insert the facet search term to the more link
+    if ($(a_more_link).length > 0) {
+      add_search_term_to_more_link(a_more_link, encodeURI(facet_item_name + '=' + escaped_facet_item_value));
+    }
+    // For paginated list
     if ($(a_prev_next).length > 0) {
+      // Insert the facet search term in the URI
       add_search_term_to_uri(a_prev_next, encodeURI(facet_item_name + '=' + escaped_facet_item_value));
+      // Check the sidebar checkbox
+      $(sidebar_checkbox_selector).prop('checked', true);
     }
   } else {
     // Facet search term unchcked - remove from search form
     $(facet_item_selector).remove();
-    // Remove facet search term from URI
+    // Insert the facet search term to the more link
+    if ($(a_more_link).length > 0) {
+      remove_search_term_from_uri(a_more_link, encodeURI(facet_item_name + '=' + escaped_facet_item_value));
+    }
+    // For paginated list
     if ($(a_prev_next).length > 0) {
+      // Remove facet search term from URI
       remove_search_term_from_uri(a_prev_next, encodeURI(facet_item_name + '=' + escaped_facet_item_value));
+      // Uncheck the sidebar checkbox
+      $(sidebar_checkbox_selector).prop('checked', false);
     }
   }
 
-  function add_search_term_to_uri(a_prev_next, term){
+  function add_search_term_to_more_link(selector, term){
     // Extract the href attribute from the link
-    var a_href = $(a_prev_next).attr('href');
+    var a_href = $(selector).attr('href');
+    // Search term will be the first parameter
+    var facet_page_query = "\?";
+    // String position to insert the new search term
+    var str_index = a_href.indexOf(facet_page_query) + 1;
+    // Catenate the new href
+    var new_href = a_href.substr(0, str_index) + term + '&' + a_href.substr(str_index);
+    // Update the href attribute
+    $(selector).attr('href', new_href);
+  }
+
+  function add_search_term_to_uri(selector, term){
+    // Extract the href attribute from the link
+    var a_href = $(selector).attr('href');
     // Search term will go before the facet.page parameter
     var facet_page_query = "&facet.page";
     // String position to insert the new search term
@@ -51,18 +80,18 @@ function click_multifacet(event){
     // Catenate the new href
     var new_href = a_href.substr(0, str_index) + '&' + term + a_href.substr(str_index);
     // Update the href attribute
-    $(a_prev_next).attr('href', new_href);
+    $(selector).attr('href', new_href);
   }
 
-  function remove_search_term_from_uri(a_prev_next, term){
+  function remove_search_term_from_uri(selector, term){
     // Search term as regular expression
     var term_re = new RegExp(RegExp.escape(term), 'gi')
     // Extract the href attribute from the link
-    var a_href = $(a_prev_next).attr('href');
+    var a_href = $(selector).attr('href');
     // Remove the search term
-    var new_href = $(a_prev_next).attr('href').replace(term_re, '');
+    var new_href = $(selector).attr('href').replace(term_re, '');
     // Update the href attribute
-    $(a_prev_next).attr('href', new_href);
+    $(selector).attr('href', new_href);
   }
 }
 
