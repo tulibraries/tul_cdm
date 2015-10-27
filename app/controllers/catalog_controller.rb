@@ -10,7 +10,7 @@ class CatalogController < ApplicationController
   include BlacklightAdvancedSearch::ParseBasicQ
 
   include TulCdm::SolrHelper::Behaviors
-  
+
   # These before_filters apply the hydra access controls
   #before_filter :enforce_show_permissions, :only=>:show
   # This applies appropriate access controls to all solr queries
@@ -81,7 +81,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name('digital_collection', :facetable), :label => 'Digital Collection', :limit => 3, :collapse => false
     config.add_facet_field solr_name('subject', :facetable), :label => 'Subject', :limit => 3, :collapse => false
     config.add_facet_field solr_name('personal_names', :facetable), :label => 'Personal Names', :limit => 3, :collapse => false, :show => true
-    config.add_facet_field solr_name('date', :facetable), :label => 'Date', :limit => 3, :single => false
+    config.add_facet_field solr_name('date', :facetable), :label => 'Date', :limit => 3, :single => false, :show => false
     config.add_facet_field solr_name('format', :facetable), :label => 'Format', :limit => 3
     config.add_facet_field solr_name('type', :facetable), :label => 'Type', :limit => 3, :collapse => true
     config.add_facet_field solr_name('publisher', :facetable), :label => 'Publisher', :limit => 3, :collapse => true
@@ -218,6 +218,14 @@ class CatalogController < ApplicationController
       field.solr_local_parameters = {
         :qf => '$subject_qf',
         :pf => '$subject_pf'
+      }
+    end
+
+    config.add_search_field('date') do |field|
+      solr_name = solr_name("date", :stored_searchable, type: :string)
+      field.include_in_simple_select = false
+      field.solr_local_parameters = {
+        :qf => 'date_tesim'
       }
     end
 
