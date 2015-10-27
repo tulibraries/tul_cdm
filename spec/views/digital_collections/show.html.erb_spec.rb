@@ -13,7 +13,6 @@ RSpec.describe "digital_collections/show", :type => :view do
 
   it "renders attributes in <p>" do
     render
-    expect(rendered).to match(/Collection Alias/)
     expect(rendered).to match(/Name/)
     expect(rendered).to match(/ImageUrl.png/)
     expect(rendered).to match(/ThumbnailUrl.png/)
