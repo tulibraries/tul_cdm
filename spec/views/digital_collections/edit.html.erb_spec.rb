@@ -7,7 +7,8 @@ RSpec.describe "digital_collections/edit", :type => :view do
       :name => "MyString",
       :image_url => "MyString",
       :thumbnail_url => "MyString",
-      :description => "MyText"
+      :description => "MyText",
+      :short_description => "MyString"
     ))
   end
 
@@ -25,6 +26,8 @@ RSpec.describe "digital_collections/edit", :type => :view do
       assert_select "input#digital_collection_thumbnail_url[name=?]", "digital_collection[thumbnail_url]"
 
       assert_select "textarea#digital_collection_description[name=?]", "digital_collection[description]"
+
+      assert_select "textarea#digital_collection_short_description[name=?]", "digital_collection[short_description]"
     end
   end
 end

@@ -10,6 +10,7 @@ RSpec.describe DigitalCollection, :type => :model do
     it { is_expected.to have_attribute(:image_url) }
     it { is_expected.to have_attribute(:thumbnail_url) }
     it { is_expected.to have_attribute(:description) }
+    it { is_expected.to have_attribute(:short_description) }
     it { is_expected.to have_attribute(:priority) }
     it { is_expected.to have_attribute(:is_private) }
     it { is_expected.to have_attribute(:allowed_ip_addresses) }

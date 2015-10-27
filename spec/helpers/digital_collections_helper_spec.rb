@@ -28,4 +28,8 @@ RSpec.describe DigitalCollectionsHelper, :type => :helper do
   it "gets the collection_description from the collection_alias" do
     expect(description(collection_id)).to eq(digital_collection.description)
   end
+
+  it "gets the collection_short_description from the collection_alias" do
+    expect(short_description(collection_id)).to eq(digital_collection.short_description)
+  end
 end
