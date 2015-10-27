@@ -1,4 +1,4 @@
- <%= form_tag search_action_url, :method => :get, :class => 'search-query-form form-inline clearfix navbar-form' do %>
+<%= form_tag search_action_url, :method => :get, :id => 'basic-search', :class => 'search-query-form form-inline clearfix navbar-form' do %>
     <%= render_hash_as_hidden_fields(params_for_search().except(:q, :search_field, :qt, :page, :utf8)) %>
 
     <div class="input-group">
@@ -24,5 +24,16 @@
     <div class="secondary-input-group">
        <a class="btn btn-default advanced-search-start-over" href="/?utf8=%E2%9C%93&search_field=all_fields&q=">Start over</a>
        <%= render_advanced_search %>
+     </div>
+
+    <div class="top-panel-heading panel-heading">
+      <button type="button" class="facets-toggle" data-toggle="collapse" data-target="#facet-panel-collapse">
+        <span class="sr-only">Toggle facets</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
     </div>
+
 <% end %>

@@ -17,6 +17,7 @@ en:
       facets:
         sort:
           count: 'Frequency Sort'
+        more_html: 'more »'
       placeholder:
         digital_collection: 'Search This Collection...'
 

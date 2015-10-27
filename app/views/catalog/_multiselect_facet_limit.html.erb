@@ -1,0 +1,9 @@
+<ul class="multiselect-facet-values list-unstyled blacklight-advanced-facet-select">
+  <% paginator = facet_paginator(facet_field, display_facet) %>
+  <%= render_multiselect_facet_limit_list paginator, field_name %>
+
+  <% unless paginator.last_page? || params[:action] == "multiselect_facet" %>
+    <li class="more_multiselect_facets_link"><%= link_to t('blacklight.search.facets.more'),
+       params.merge(id: solr_field, action: "facet", page: nil), class: "more_facets_link" %></li>
+  <% end %>
+</ul>

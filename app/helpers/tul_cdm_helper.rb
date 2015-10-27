@@ -396,7 +396,7 @@ module TulCdmHelper
     width = "380"
     height = "36"
     frame_width = 400
-    frame_height = 56 
+    frame_height = 56
     audio_width = 380
     audio_height = 36
     ensemble_plugin = "https://ensemble.temple.edu/ensemble/app/plugin/plugin.aspx"
@@ -568,6 +568,103 @@ module TulCdmHelper
     if path_var.include? "advanced" then link_to t('blacklight.basic_search_link'), root_url, :class=>'btn btn-default basic_search' else  link_to t('blacklight.advanced_search_link'), advanced_search_path(params), :class=>'btn btn-default advanced_search' end
 	end
 
+  # Returns the first set of the paginated list facets
+  def get_all_facets(facet_field)
+    # Use advanced search query to get an unfiltered list of facets
+    config = CatalogController.configure_blacklight
+
+    # Perform the facet query
+    response = controller.get_facet_field_response(facet_field, config.advanced_search)
+
+    # Return facet field
+    return Blacklight::SolrResponse::Facets::FacetField.new(facet_field, response.facets.first.items,
+      :sort => response.params[:"f.#{facet_field}.facet.sort"] || response.params["facet.sort"])
+  end
+
+  ##
+  # Render a collection of facet fields.
+  # @see #render_facet_limit
+  #
+  # @param [Array<String>]
+  # @param [Hash] options
+  # @return String
+  def render_multiselect_facet_partials(fields = facet_field_names, options = {})
+    safe_join(fields.map do |field|
+      # Render the facets in the sidebar widget
+      render_multiselect_facet_limit(get_all_facets(field), options)
+    end.compact, "\n")
+  end
+
+  def render_multiselect_facet_limit(display_facet, options = {})
+    return if not should_render_facet?(display_facet)
+    options = options.dup
+    options[:partial] ||= multiselect_facet_partial_name(display_facet)
+    options[:layout] ||= "multiselect_facet_layout" unless options.has_key?(:layout)
+    options[:locals] ||= {}
+    options[:locals][:field_name] ||= display_facet.name
+    options[:locals][:solr_field] ||= display_facet.name # deprecated
+    options[:locals][:facet_field] ||= facet_configuration_for_field(display_facet.name)
+    options[:locals][:display_facet] ||= display_facet
+
+    render(options)
+  end
+
+  def search_multiselect_facet_url options = {}
+    url_for params.merge(action: "multiselect_facet").merge(options).except(:page)
+  end
+
+  ##
+  # Renders the list of values
+  # removes any elements where render_facet_item returns a nil value. This enables an application
+  # to filter undesireable facet items so they don't appear in the UI
+  def render_multiselect_facet_limit_list(paginator, facet_field, wrapping_element=:li)
+    safe_join(paginator.items.
+      map { |item| render_multiselect_facet_item(facet_field, item) }.compact.
+      map { |item| content_tag(wrapping_element,item)}
+    )
+  end
+
+  ##
+  # Renders a single facet item
+  def render_multiselect_facet_item(facet_field, item)
+    render_multiselect_facet_value(facet_field, item)
+  end
+
+  ##
+  # The name of the partial to use to render a multiselect facet field.
+  # uses the value of the "partial" field if set in the facet configuration
+  # otherwise uses "facet_pivot" if this facet is a pivot facet
+  # defaults to 'multiselect_facet_limit'
+  #
+  # @return [String]
+  def multiselect_facet_partial_name(display_facet = nil)
+    config = facet_configuration_for_field(display_facet.name)
+    name = config.try(:partial)
+    name ||= "facet_pivot" if config.pivot # TBD: multiselect_facet_pivot
+    name ||= "multiselect_facet_limit"
+  end
+
+  ##
+  # Standard display of a facet value in a list. Used in both _facets sidebar
+  # partial and catalog/facet expanded list. Will output facet value name as
+  # a link to add that to your restrictions, with count in parens.
+  #
+  # @param [Blacklight::SolrResponse::Facets::FacetField]
+  # @param [String] facet item
+  # @param [Hash] options
+  # @option options [Boolean] :suppress_link display the facet, but don't link to it
+  # @return [String]
+  def render_multiselect_facet_value(facet_field, item, options ={})
+    content_tag(:span, class: "facet-checkbox") do
+      check_box_tag("f_inclusive[#{facet_field}][]", item.value.to_sym, facet_value_checked?(facet_field, item.value), id: "f_inclusive_#{facet_field}_#{item.value.parameterize}")
+    end +
+    content_tag(:span, class: "label-and-count") do
+      label_tag "f_inclusive_#{facet_field}_#{item.value.parameterize}" do
+        render_facet_value(facet_field, item, suppress_link: true)
+      end
+    end
+  end
+
 end
 
 ##
@@ -576,8 +673,8 @@ end
 module Blacklight::RequestBuilders
   ##
   # Add any existing facet limits, stored in app-level HTTP query
-  # as :f, to solr as appropriate :fq query. 
-  def add_facet_fq_to_solr(solr_parameters, user_params)   
+  # as :f, to solr as appropriate :fq query.
+  def add_facet_fq_to_solr(solr_parameters, user_params)
     # Force blacklgiht to render facets in alphabetical order
     solr_parameters["facet.sort"] = "index"
 
@@ -586,15 +683,15 @@ module Blacklight::RequestBuilders
       solr_parameters[:fq] = [solr_parameters[:fq]]
     end
 
-    # :fq, map from :f. 
+    # :fq, map from :f.
     if ( user_params[:f])
-      f_request_params = user_params[:f] 
-      
+      f_request_params = user_params[:f]
+
       f_request_params.each_pair do |facet_field, value_list|
         Array(value_list).each do |value| next if value.blank? # skip empty strings
           solr_parameters.append_filter_query facet_value_to_fq_string(facet_field, value)
-        end              
-      end      
+        end
+      end
     end
   end
 end
