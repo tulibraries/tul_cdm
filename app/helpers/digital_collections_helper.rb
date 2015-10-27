@@ -22,6 +22,10 @@ module DigitalCollectionsHelper
     DigitalCollection.where(collection_alias: collection_id).first.description
   end
 
+  def short_description(collection_id)
+    DigitalCollection.where(collection_alias: collection_id).first.short_description
+  end
+
   def landing_page(host, digital_collection)
     if digital_collection.is_custom_landing_page? && !digital_collection.custom_url.blank?
       return digital_collection.custom_url

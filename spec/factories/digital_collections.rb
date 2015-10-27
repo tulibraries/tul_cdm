@@ -11,6 +11,7 @@ Franklin Littell (1917-2009), emeritus professor of religion at Temple Universit
 
 Currently, manuscripts of most of Littell's "Speeches, lectures, and article manuscripts" dating from 1940 to 2002 are available digitally, though more will be added. Also available are correspondence and administrative records relating to his work with the National Council of Methodist Youth from 1934 to 1944.
 EOT
+    short_description "Franklin Littell\'s Papers"
     is_private false
     allowed_ip_addresses ""
   end
@@ -21,6 +22,7 @@ EOT
     image_url "http://localhost/collection_image.jpg"
     thumbnail_url "http://localhost/thumbnail_image.jpg"
     description "Updated collection description"
+    short_description "Short description"
     is_private true
     allowed_ip_addresses "127.0.0.1, 10.1.1.2, 192.168.1.3"
   end
@@ -30,6 +32,7 @@ EOT
     image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll14/images/Littell_Landing_Pagev3.jpg"
     thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/littell_dtl.jpg"
     description ""
+    short_description ""
     is_private true
     allowed_ip_addresses "127.0.0.1, 10.1.1.1, 192.168.1.2"
   end
@@ -40,6 +43,7 @@ EOT
     image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll14/images/Littell_Landing_Pagev3.jpg"
     thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/littell_dtl.jpg"
     description ""
+    short_description ""
     is_private true
     allowed_ip_addresses "127.0.0.1, 10.1.1.1, 192.168.1.2"
   end
@@ -50,6 +54,7 @@ EOT
     image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll14/images/Littell_Landing_Pagev3.jpg"
     thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/littell_dtl.jpg"
     description ""
+    short_description ""
     is_private true
     allowed_ip_addresses "0.0.0.0"
   end
@@ -60,6 +65,7 @@ EOT
     image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll14/images/Littell_Landing_Pagev3.jpg"
     thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/littell_dtl.jpg"
     description ""
+    short_description ""
     is_private true
     allowed_ip_addresses "1.1.1.1"
   end
@@ -70,6 +76,7 @@ EOT
     image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll14/images/Littell_Landing_Pagev3.jpg"
     thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/littell_dtl.jpg"
     description "A combination of muiltiple collections"
+    short_description "multiple collections"
     is_private false
     allowed_ip_addresses ""
     custom_url "/?utf8=✓&f%5Bdigital_collection_sim%5D%5B%5D=Stereotypical+Images+Teaching+Collection&search_field=digital_collection&q=p15037coll1+OR+p16002coll7"
