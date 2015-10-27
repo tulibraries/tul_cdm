@@ -15,4 +15,3 @@ function openFacets(){
     $('div.narrow-by-facets-open h5').addClass('twiddle-open');
     $('div.narrow-by-facets-open ul').show(); 
 }
-

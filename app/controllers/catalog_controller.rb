@@ -289,4 +289,38 @@ class CatalogController < ApplicationController
     solr_parameters[:fq]
   end
 
+  # displays values and pagination links for a single facet field
+  def multiselect_facet
+    @facet = blacklight_config.facet_fields[params[:id]]
+    @response = get_multiselect_facet_field_response(@facet.field, params)
+    @display_facet = @response.facets.first
+
+    @pagination = facet_paginator(@facet, @display_facet)
+
+    respond_to do |format|
+      # Draw the facet selector for users who have javascript disabled:
+      format.html
+      format.json { render json: render_facet_list_as_json }
+
+      # Draw the partial for the "more" facet modal window:
+      format.js { render :layout => false }
+    end
+  end
+
+  ##
+  # Multiselect facet version of Blacklight::SolrHelper#get_facet_field_response
+  # - Get the solr response when retrieving only a single facet field
+  # - @return [Blacklight::SolrResponse] the solr response
+  # Customization:
+  # - Deletes facet query for selected facet items to return response with all
+  #   facets items
+  #
+  def get_multiselect_facet_field_response(facet_field, user_params = params || {}, extra_controller_params = {})
+    solr_params = solr_facet_params(facet_field, user_params, extra_controller_params)
+    # Delete facet query for selected facet items
+    solr_params[:fq].delete_if { |item| item =~ /^#{facet_field}:/ } if solr_params.has_key? :fq
+    # Make the solr call
+    find(solr_params)
+  end
+
 end

@@ -23,4 +23,7 @@
 // Required by Blacklight
 //= require blacklight/blacklight
 
+// Multifacets overrides Blacklight function
+//= require multiselect_facets
+
 //= require jquery.slick
