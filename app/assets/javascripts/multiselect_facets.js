@@ -39,7 +39,7 @@ function click_multifacet(event){
       // Insert the facet search term in the URI
       add_search_term_to_uri(a_prev_next, encodeURI(facet_item_name + '=' + escaped_facet_item_value));
       // Check the sidebar checkbox
-      $(sidebar_checkbox_selector).prop('checked', true);
+      $(sidebar_checkbox_selector).prop('checked', 'checked');
     }
   } else {
     // Facet search term unchcked - remove from search form
@@ -53,7 +53,7 @@ function click_multifacet(event){
       // Remove facet search term from URI
       remove_search_term_from_uri(a_prev_next, encodeURI(facet_item_name + '=' + escaped_facet_item_value));
       // Uncheck the sidebar checkbox
-      $(sidebar_checkbox_selector).prop('checked', false);
+      $(sidebar_checkbox_selector).prop('checked', '');
     }
   }
 
