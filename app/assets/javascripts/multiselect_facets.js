@@ -96,8 +96,8 @@ function click_multifacet(event){
   function remove_search_term_from_uri(selector, term){
     // Search term as regular expression
     var term_re = new RegExp(RegExp.escape(term + '&'), 'gi')
-    // Remove the search term
-    var new_href = $(selector).attr('href').replace(term_re, '');
+    // Remove the search term, and clean up empty query.
+    var new_href = $(selector).attr('href').replace(term_re, '').replace(/\?$/, '');
     // Update the href attribute
     $(selector).attr('href', new_href);
   }
