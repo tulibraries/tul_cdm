@@ -60,10 +60,6 @@ function click_multifacet(event){
   function add_search_term_to_more_link(selector, term){
     // Extract the href attribute from the link
     var a_href = $(selector).attr('href');
-    // Search term will be the first parameter
-    var facet_page_query = "\?";
-    // String position to insert the new search term
-    var str_index = a_href.indexOf(facet_page_query) + 1;
 
     // Split apart link
     link = a_href.split("?");
