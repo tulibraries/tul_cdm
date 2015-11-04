@@ -64,10 +64,24 @@ function click_multifacet(event){
     var facet_page_query = "\?";
     // String position to insert the new search term
     var str_index = a_href.indexOf(facet_page_query) + 1;
-    // Catenate the new href
-    var new_href = a_href.substr(0, str_index) + term + '&' + a_href.substr(str_index);
+
+    // Split apart link
+    link = a_href.split("?");
+
+    // Add the new facet
+    if (link.length > 1) {
+      query = term + '&' + link[1];
+    } else {
+      // There is no pre-existing query, create just the query
+      // Trailing '&' to keep using the existing remove term function (Incremental change to be removed later)
+      query = term + '&';
+    }
+
+    // Create the new href
+    var new_href = link[0] + '?' + query;
+
     // Update the href attribute
-    $(selector).attr('href', new_href);
+    encodeURI($(selector).attr('href', new_href));
   }
 
   function add_search_term_to_uri(selector, term){
