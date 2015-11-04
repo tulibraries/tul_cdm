@@ -70,7 +70,7 @@ function click_multifacet(event){
     } else {
       // There is no pre-existing query, create just the query
       // Trailing '&' to keep using the existing remove term function (Incremental change to be removed later)
-      query = term + '&';
+      query = term;
     }
 
     // Create the new href
@@ -94,10 +94,23 @@ function click_multifacet(event){
   }
 
   function remove_search_term_from_uri(selector, term){
-    // Search term as regular expression
-    var term_re = new RegExp(RegExp.escape(term + '&'), 'gi')
-    // Remove the search term, and clean up empty query.
-    var new_href = $(selector).attr('href').replace(term_re, '').replace(/\?$/, '');
+    // Extract the href attribute from the link
+    var a_href = $(selector).attr('href');
+    // Split apart link and query
+    var link = a_href.split("?");
+    // Extract URL and path
+    var url = link[0];
+    // Extract Queries
+    var queries = link[1].split("&");
+    // Remove the search term
+    queries.splice(queries.indexOf(term), 1);
+    // Reconstruct the URL
+    if (queries.length > 0) {
+      new_href = link[0] + '?' + queries.join("&");
+    // If there are no queries left, just use the URL and path
+    } else {
+      new_href = link[0];
+    }
     // Update the href attribute
     $(selector).attr('href', new_href);
   }
