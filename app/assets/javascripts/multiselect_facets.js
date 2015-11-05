@@ -22,9 +22,6 @@ function click_multifacet(event){
   var a_more_link = 'a.more_multiselect_facets_link';
   var sidebar_checkbox_selector = 'input[type="checkbox"][value="' + facet_item_value + '"]';
 
-  // URI friendly facet value
-  var escaped_facet_item_value = facet_item_value.replace(/ /g, '+');
-
   if (event.target.checked) {
     // Insert the facet search term in the search form
     if ($(facet_item_selector).length == 0) {
@@ -32,13 +29,11 @@ function click_multifacet(event){
     }
     // Insert the facet search term to the more link
     if ($(a_more_link).length > 0) {
-      add_search_term_to_more_link(a_more_link, encodeURI(facet_item_name + '=' + escaped_facet_item_value));
+      add_search_term_to_uri(a_more_link, facet_item_name, facet_item_value);
     }
     // For paginated list
     if ($(a_prev_next).length > 0) {
-      // Insert the facet search term in the URI
-      add_search_term_to_uri(a_prev_next, encodeURI(facet_item_name + '=' + escaped_facet_item_value));
-      // Check the sidebar checkbox
+      add_search_term_to_uri(a_prev_next, facet_item_name, facet_item_value);
       $(sidebar_checkbox_selector).prop('checked', 'checked');
     }
   } else {
@@ -46,80 +41,50 @@ function click_multifacet(event){
     $(facet_item_selector).remove();
     // Insert the facet search term to the more link
     if ($(a_more_link).length > 0) {
-      remove_search_term_from_uri(a_more_link, encodeURI(facet_item_name + '=' + escaped_facet_item_value));
+      remove_search_term_from_uri(a_more_link, facet_item_name, facet_item_value);
     }
     // For paginated list
     if ($(a_prev_next).length > 0) {
-      // Remove facet search term from URI
-      remove_search_term_from_uri(a_prev_next, encodeURI(facet_item_name + '=' + escaped_facet_item_value));
-      // Uncheck the sidebar checkbox
+      remove_search_term_from_uri(a_prev_next, facet_item_name, facet_item_value);
       $(sidebar_checkbox_selector).prop('checked', '');
     }
   }
 
-  function add_search_term_to_more_link(selector, term){
-    // Extract the href attribute from the link
+  function add_search_term_to_uri(selector, facet_item_name, facet_item_value){
+    var term = encodeURI(facet_item_name + '=' + facet_item_value.replace(/ /g, '+'));
     var a_href = $(selector).attr('href');
+    var link = a_href.split("?");
+    var query = term;
 
-    // Split apart link
-    link = a_href.split("?");
-
-    // Add the new facet
     if (link.length > 1) {
-      query = term + '&' + link[1];
-    } else {
-      // There is no pre-existing query, create just the query
-      // Trailing '&' to keep using the existing remove term function (Incremental change to be removed later)
-      query = term;
+      query += '&' + link[1];
     }
 
-    // Create the new href
     var new_href = link[0] + '?' + query;
 
-    // Update the href attribute
-    encodeURI($(selector).attr('href', new_href));
+    return encodeURI($(selector).attr('href', new_href));
   }
 
-  function add_search_term_to_uri(selector, term){
-    // Extract the href attribute from the link
+  function remove_search_term_from_uri(selector, facet_item_name, facet_item_value){
+    var term = encodeURI(facet_item_name + '=' +  facet_item_value.replace(/ /g, '+'));
     var a_href = $(selector).attr('href');
-    // Search term will go before the facet.page parameter
-    var facet_page_query = "&facet.page";
-    // String position to insert the new search term
-    var str_index = a_href.indexOf(facet_page_query);
-    // Catenate the new href
-    var new_href = a_href.substr(0, str_index) + '&' + term + a_href.substr(str_index);
-    // Update the href attribute
-    $(selector).attr('href', new_href);
-  }
-
-  function remove_search_term_from_uri(selector, term){
-    // Extract the href attribute from the link
-    var a_href = $(selector).attr('href');
-    // Split apart link and query
     var link = a_href.split("?");
-    // Extract URL and path
-    var url = link[0];
-    // Extract Queries
-    var queries = link[1].split("&");
-    // Remove the search term
-    queries.splice(queries.indexOf(term), 1);
-    // Reconstruct the URL
-    if (queries.length > 0) {
-      new_href = link[0] + '?' + queries.join("&");
-    // If there are no queries left, just use the URL and path
-    } else {
-      new_href = link[0];
+    var new_href = link[0];
+
+    if (link.length > 1) {
+      var queries = link[1].split("&");
+      // Remove the search term
+      queries.splice(queries.indexOf(term), 1);
+
+      // Append queries if there are any left
+      if (queries.length > 0) {
+        new_href += '?' + queries.join("&");
+      }
     }
-    // Update the href attribute
-    $(selector).attr('href', new_href);
+
+    return $(selector).attr('href', new_href);
   }
 }
-
-RegExp.escape= function(s) {
-    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-};
-
 
 function multifacet_start_over(event){
   // Clear checkboxes
