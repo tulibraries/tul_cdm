@@ -215,6 +215,7 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
           expect(digital_collection.allowed_ip_addresses).to eq new_attributes["allowed_ip_addresses"]
           expect(digital_collection.featured).to eq new_attributes["featured"]
           expect(digital_collection.custom_url).to eq new_attributes["custom_url"]
+          expect(digital_collection.proxy_url_prefix).to eq new_attributes["proxy_url_prefix"]
         end
 
         it "assigns the requested digital_collection as @digital_collection" do

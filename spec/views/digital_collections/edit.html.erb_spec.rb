@@ -8,7 +8,8 @@ RSpec.describe "digital_collections/edit", :type => :view do
       :image_url => "MyString",
       :thumbnail_url => "MyString",
       :description => "MyText",
-      :short_description => "MyString"
+      :short_description => "MyString",
+      :proxy_url_prefix => "http://proxy/"
     ))
   end
 
@@ -28,6 +29,8 @@ RSpec.describe "digital_collections/edit", :type => :view do
       assert_select "textarea#digital_collection_description[name=?]", "digital_collection[description]"
 
       assert_select "textarea#digital_collection_short_description[name=?]", "digital_collection[short_description]"
+
+      assert_select "input#digital_collection_proxy_url_prefix[name=?]", "digital_collection[proxy_url_prefix]"
     end
   end
 end

@@ -15,6 +15,7 @@ RSpec.describe DigitalCollection, :type => :model do
     it { is_expected.to have_attribute(:is_private) }
     it { is_expected.to have_attribute(:allowed_ip_addresses) }
     it { is_expected.to have_attribute(:is_format_based) }
+    it { is_expected.to have_attribute(:proxy_url_prefix) }
   end
 
   describe "Object" do

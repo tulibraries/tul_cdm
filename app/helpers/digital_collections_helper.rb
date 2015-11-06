@@ -26,6 +26,19 @@ module DigitalCollectionsHelper
     DigitalCollection.where(collection_alias: collection_id).first.short_description
   end
 
+  def proxy_url_prefix(collection_id)
+    DigitalCollection.where(collection_alias: collection_id).first.proxy_url_prefix
+  end
+
+  def collection_url(digital_collection)
+    url = ""
+    unless digital_collection.proxy_url_prefix.blank?
+      url += digital_collection.proxy_url_prefix  + root_url
+    end
+    url += path(digital_collection)
+    return url
+  end
+
   def landing_page(host, digital_collection)
     if digital_collection.is_custom_landing_page? && !digital_collection.custom_url.blank?
       return digital_collection.custom_url

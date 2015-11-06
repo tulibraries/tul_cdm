@@ -10,7 +10,7 @@
 
   <% if (@digital_collection.image_url) %>
     <div class="collection-image">
-        <%= link_to (image_tag (@digital_collection.image_url)), path(@digital_collection) %>
+        <%= link_to (image_tag (@digital_collection.image_url)), collection_url(@digital_collection) %>
     </div>
   <% end %>
 

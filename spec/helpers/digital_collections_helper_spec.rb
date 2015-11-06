@@ -32,4 +32,13 @@ RSpec.describe DigitalCollectionsHelper, :type => :helper do
   it "gets the collection_short_description from the collection_alias" do
     expect(short_description(collection_id)).to eq(digital_collection.short_description)
   end
+
+  context "Proxy URL Prefix" do
+    let (:proxy_collection) { FactoryGirl.create(:proxy_collection) }
+
+    it "gets the collection_proxy_url_prefix from the collection_alias" do
+      expect(proxy_url_prefix(proxy_collection.collection_alias)).to eq(proxy_collection.proxy_url_prefix)
+    end
+  end
+
 end
