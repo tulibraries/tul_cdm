@@ -35,9 +35,17 @@ RSpec.describe DigitalCollectionsHelper, :type => :helper do
 
   context "Proxy URL Prefix" do
     let (:proxy_collection) { FactoryGirl.create(:proxy_collection) }
+    let (:proxy_collection_path) { "?f[digital_collection_sim][]=#{proxy_collection.name}"}
+    let (:host) { "http://example.com" }
 
     it "gets the collection_proxy_url_prefix from the collection_alias" do
       expect(proxy_url_prefix(proxy_collection.collection_alias)).to eq(proxy_collection.proxy_url_prefix)
+    end
+
+    it "gets the proxy prefixed to the landing page" do
+      proxy_landing_page = proxy_collection.proxy_url_prefix
+      proxy_landing_page += [host, proxy_collection.collection_alias, proxy_collection_path].join('/')
+      expect(landing_page(host, proxy_collection)).to eq(proxy_landing_page)
     end
   end
 
