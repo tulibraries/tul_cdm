@@ -168,7 +168,7 @@ br.initNavbar = function() {
       if ( $('#BookReader').parent().get(0).tagName == 'BODY') {
         $('#wrapper').css('display', 'block');
         $('#BRcontainer').height("640px");
-        $('#BookReader').appendTo('#BookReaderContainer');
+        $('#BookReaderContainer script').before($('#BookReader'));
       } else {
         br_container_height = $(window).height() - $('#BRtoolbar').height() - $('#BRnav').height();
         $('#wrapper').css('display', 'none');
