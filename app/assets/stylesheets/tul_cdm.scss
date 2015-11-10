@@ -24,7 +24,7 @@
 }
 
 .navbar-inverse {
-  background: transparent url(/assets/navbar.jpg) top left;
+  background-color: $temple-dark-grey;
     border-color: #090909;
 }
 
@@ -150,12 +150,12 @@ html,body,#wrapper,#main-wrapper,#footer {
 }
 
 .prim-nav ul li {
+  background-color: $temple-cherry;
   list-style: none;
   float: left;
   width: 260px;
   text-align: left;
   padding: 2px 6px 2px 6px;
-  border: 1px solid $temple-dark-cherry;
   margin-bottom: 5px;
   @include rounded-corners-top;
   @include rounded-corners-bottom;
