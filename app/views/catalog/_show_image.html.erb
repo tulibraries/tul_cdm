@@ -1,6 +1,8 @@
 <div class="cpd-thumb">
   <%= link_to_download(document, document["contentdm_collection_id_tesim"].to_sentence, document["contentdm_number_tesim"].to_sentence) %>
-  <%= render_image_viewer(document, document["contentdm_collection_id_tesim"].to_sentence, document["contentdm_number_tesim"].to_sentence) if document["contentdm_collection_id_tesim"] %>
+  <div id="BookReaderContainer">
+    <%= render_image_viewer(document, document["contentdm_collection_id_tesim"].to_sentence, document["contentdm_number_tesim"].to_sentence) if document["contentdm_collection_id_tesim"] %>
+  </div>
   <div id="OCRTextContainer">
     <% document_content = get_document_content(document) %>
     <% if document_content %>
