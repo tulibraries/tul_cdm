@@ -78,16 +78,16 @@ class CatalogController < ApplicationController
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
 
-    config.add_facet_field solr_name('digital_collection', :facetable), :label => 'Digital Collection', :limit => 3, :collapse => false
+    config.add_facet_field solr_name('digital_collection', :facetable), :label => 'Digital Collection', :limit => 3, :collapse => false, :show => true
     config.add_facet_field solr_name('subject', :facetable), :label => 'Subject', :limit => 3, :collapse => false
     config.add_facet_field solr_name('personal_names', :facetable), :label => 'Personal Names', :limit => 3, :collapse => false, :show => true
-    config.add_facet_field solr_name('date', :facetable), :label => 'Date', :limit => 3, :single => false, :show => false
-    config.add_facet_field solr_name('format', :facetable), :label => 'Format', :limit => 3
+    config.add_facet_field solr_name('date', :facetable), :label => 'Date', :limit => 3, :collapse => true, :single => false, :show => false
+    config.add_facet_field solr_name('format', :facetable), :label => 'Format', :limit => 3, :collapse => true
     config.add_facet_field solr_name('type', :facetable), :label => 'Type', :limit => 3, :collapse => true
     config.add_facet_field solr_name('publisher', :facetable), :label => 'Publisher', :limit => 3, :collapse => true
     config.add_facet_field solr_name('digital_publisher', :facetable), :label => 'Digital Publisher', :limit => 3, :collapse => true
-    config.add_facet_field solr_name('repository', :facetable), :label => 'Repository', :limit => 3
-    config.add_facet_field solr_name('repository_collection', :facetable), :label => 'Repository', :limit => 3, :show => false
+    config.add_facet_field solr_name('repository', :facetable), :label => 'Repository', :limit => 3, :collapse => true
+    config.add_facet_field solr_name('repository_collection', :facetable), :label => 'Repository Collection', :limit => 3, :collapse => true
     config.add_facet_field solr_name('language', :facetable), :label => 'Language', :limit => 3, :collapse => true
     config.add_facet_field solr_name('contributor', :facetable), :label => 'Contributor', :limit => 3, :collapse => true
     config.add_facet_field solr_name('author', :facetable), :label => 'Author', :limit => 3, :collapse => true
