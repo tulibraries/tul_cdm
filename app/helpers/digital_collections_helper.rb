@@ -26,11 +26,27 @@ module DigitalCollectionsHelper
     DigitalCollection.where(collection_alias: collection_id).first.short_description
   end
 
-  def landing_page(host, digital_collection)
-    if digital_collection.is_custom_landing_page? && !digital_collection.custom_url.blank?
-      return digital_collection.custom_url
+  def proxy_url_prefix(collection_id)
+    DigitalCollection.where(collection_alias: collection_id).first.proxy_url_prefix
+  end
+
+  def collection_url(digital_collection)
+    url = ""
+    unless digital_collection.proxy_url_prefix.blank?
+      url += digital_collection.proxy_url_prefix  + root_url
     end
-    return "#{host}/#{digital_collection.slug+path(digital_collection)}"
+    url += path(digital_collection)
+    return url
+  end
+
+  def landing_page(host, digital_collection)
+    digital_collection_url = digital_collection.proxy_url_prefix.blank? ? "" : digital_collection.proxy_url_prefix
+    if digital_collection.is_custom_landing_page? && !digital_collection.custom_url.blank?
+      digital_collection_url += digital_collection.custom_url
+    else
+      digital_collection_url += "#{host}/#{digital_collection.slug+path(digital_collection)}"
+    end
+    return digital_collection_url
   end
 
   def link_to_digital_collection(digital_collection)

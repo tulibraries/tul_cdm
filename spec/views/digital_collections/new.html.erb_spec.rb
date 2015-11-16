@@ -11,7 +11,8 @@ RSpec.describe "digital_collections/new", :type => :view do
       :short_description => "MyString",
       :priority => "0",
       :is_private => true,
-      :allowed_ip_addresses => "192.168.1.1, 128.0.0.1"
+      :allowed_ip_addresses => "192.168.1.1, 128.0.0.1",
+      :proxy_url_prefix => "http://proxy/"
     ))
   end
 
@@ -37,6 +38,8 @@ RSpec.describe "digital_collections/new", :type => :view do
       assert_select "input#digital_collection_is_private[name=?]", "digital_collection[is_private]"
 
       assert_select "input#digital_collection_allowed_ip_addresses[name=?]", "digital_collection[allowed_ip_addresses]"
+
+      assert_select "input#digital_collection_proxy_url_prefix[name=?]", "digital_collection[proxy_url_prefix]"
     end
   end
 end
