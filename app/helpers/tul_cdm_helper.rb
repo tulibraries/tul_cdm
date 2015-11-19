@@ -490,16 +490,17 @@ module TulCdmHelper
   end
 
   def set_collection_link(document)
-    model = model_from_document(document)
-    digital_collection_alias = document['contentdm_collection_id_tesim'].first
-    digital_collection = DigitalCollection.where({ collection_alias: digital_collection_alias }).first 
-    if model != "Collection"
-      query = "/?f[digital_collection_sim][]=#{document['digital_collection_tesim'].first.parameterize('%20') if document['digital_collection_tesim']}"
+    if model_from_document(document) != "Collection"
+      digital_collection_alias = document['contentdm_collection_id_tesim'].first
+      digital_collection = DigitalCollection.where({ collection_alias: digital_collection_alias }).first
+      query = "/?f[digital_collection_sim][]=#{document['digital_collection_tesim'].first.gsub(' ', '%20') if document['digital_collection_tesim']}"
       if digital_collection
         link_to t('tul_cdm.document.more_like_this_text'), url_for(digital_collection) + query
       else
         link_to t('tul_cdm.document.more_like_this_text'), query
       end
+    else
+      return nil
     end
   end
 

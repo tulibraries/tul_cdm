@@ -40,4 +40,33 @@ RSpec.describe TulCdmHelper, :type => :helper do
     end
   end
 
+  describe "set_collection_link" do
+
+    let (:document) { Hash.new }
+    let (:digital_collection) { FactoryGirl.create(:digital_collection) }
+
+    context "Has a landing page" do
+      it "links to landing page" do
+        document["contentdm_collection_id_tesim"] = [digital_collection.collection_alias]
+        document["active_fedora_model_ssi"] = ""
+        document["digital_collection_tesim"] = [digital_collection.name]
+
+        expect(set_collection_link(document)).to match(/#{url_for(digital_collection)}/)
+        expect(set_collection_link(document)).to match(/#{document["digital_collection_tesim"].first.gsub(" ", "%20")}/)
+      end
+    end
+
+    context "Doesn't have a landing page (no digital collection record for the collection)" do
+
+      it "links to search results" do
+        document["contentdm_collection_id_tesim"] = ["COLLECTIONID"]
+        document["active_fedora_model_ssi"] = ""
+        document["digital_collection_tesim"] = ["A Digital Collection"]
+
+        expect(set_collection_link(document)).to_not match(/#{url_for(digital_collection)}/)
+        expect(set_collection_link(document)).to match(/#{document["digital_collection_tesim"].first.gsub(" ", "%20")}/)
+      end
+    end
+  end
+
 end
