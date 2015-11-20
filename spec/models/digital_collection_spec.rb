@@ -41,14 +41,36 @@ RSpec.describe DigitalCollection, :type => :model do
     end
 
     context "Restricted IP" do
-      subject { FactoryGirl.build(:private_digital_collection) }
 
-      it "Has valid IP addresses" do
-        allowed_ip_addresses = subject.allowed_ip_addresses.split(%r{,\s*})
-        expect(allowed_ip_addresses.length).to eq 3
-        expect(allowed_ip_addresses.first).to eq "127.0.0.1"
-        expect(allowed_ip_addresses.last).to eq "192.168.1.2"
+      describe "Has valid IP addresses" do
+        subject { FactoryGirl.build(:private_digital_collection) }
+
+        it "has the expected IP addresses" do
+          allowed_ip_addresses = subject.allowed_ip_addresses.split(%r{,\s*})
+          expect(allowed_ip_addresses.length).to eq 3
+          expect(allowed_ip_addresses.first).to eq "127.0.0.1"
+          expect(allowed_ip_addresses.last).to eq "192.168.1.2"
+        end
       end
+
+      describe "only accepts valid IP address" do
+        it "accepts collection with out an allowed IP address" do
+          expect(DigitalCollection.new({collection_alias: "p1234", allowed_ip_addresses: ""})).to be_valid
+        end
+        it "accepts collection with a valid allowed IP address" do
+          expect(DigitalCollection.new({collection_alias: "p1234", allowed_ip_addresses: "1.2.3.4"})).to be_valid
+        end
+        it "won't accept collection with an invalid allowed IP address" do
+          expect(DigitalCollection.new({collection_alias: "p1234", allowed_ip_addresses: "invalidaddress"})).to_not be_valid
+        end
+        it "accepts collection with a multiple allowed IP addresss" do
+          expect(DigitalCollection.new({collection_alias: "p1234", allowed_ip_addresses: "1.2.3.4, 192.168.1.1"})).to be_valid
+        end
+        it "won't accept collection with a multiple allowed IP addresss containing an invalid address" do
+          expect(DigitalCollection.new({collection_alias: "p1234", allowed_ip_addresses: "1.2.3.4, invalidaddress"})).to_not be_valid
+        end
+      end
+
     end
 
   end
