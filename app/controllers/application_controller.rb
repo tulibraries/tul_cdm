@@ -1,3 +1,5 @@
+require 'ipaddr'
+
 class ApplicationController < ActionController::Base
   # Adds a few additional behaviors into the application controller
    include Blacklight::Controller
@@ -17,7 +19,23 @@ class ApplicationController < ActionController::Base
 
   # Determine if the collection is restricted from the public
   def is_private? (collection)
-    collection["is_private"]
+    collection["is_private"] or !collection["proxy_url_prefix"].blank?
+  end
+
+  def ip_is_allowed? (collection, ip_address)
+    allowed = false
+
+    test_address = IPAddr.new(ip_address)
+    collection['allowed_ip_addresses'].split(/\,\s*/).each do |address|
+      allowed_address = IPAddr.new(address)
+      allowed = allowed_address.include?(test_address)
+      if allowed
+        break
+      end
+    end
+
+    allowed
+
   end
 
   # Get the list of all the viewable collections depending on the private flag and white-listed remote IP address
