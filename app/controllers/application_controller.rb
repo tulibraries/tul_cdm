@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
 
   # Determine if the collection is viewable depending on private flag and white-listed remote IP address
   def is_viewable? (collection)
-    !collection.is_private || (collection.allowed_ip_addresses.split(%r{,\s*}).include? request.remote_ip)
+    !is_private?(collection) || ip_is_allowed?(collection, request.remote_ip)
   end
 
   # Determine if the collection is restricted from the public

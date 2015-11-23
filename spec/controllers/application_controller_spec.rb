@@ -33,21 +33,43 @@ RSpec.describe ApplicationController, :type => :controller do
   end
 
   context "is_viewable?" do
-    describe "as a public collection" do
+    before :each do
+      allow_message_expectations_on_nil
+    end
+
+    describe "as a public or private collection" do
+      before :each do
+        allow(application_controller.request).to receive(:remote_ip).and_return("0.0.0.0")
+      end
       it "is viewable as public collection" do
         expect(application_controller.is_viewable?(DigitalCollection.create(public_collection))).to be
       end
 
       it "is not viewable as a private collection" do
-        allow(application_controller.request).to receive(:remote_ip).and_return("0.0.0.0")
         expect(application_controller.is_viewable?(DigitalCollection.create(private_collection))).to_not be
       end
     end
 
     describe "from an allowed ip address" do
-      it "is viewable from an allowed ip address"
-      it "is viewable when no ip addresses are specified"
-      it "is not viewable from a non-listed ip address"
+      it "is viewable from an allowed ip address" do
+        allow(application_controller.request).to receive(:remote_ip).and_return("192.168.1.2")
+        expect(application_controller.is_viewable?(DigitalCollection.create(private_collection))).to be
+      end
+    end
+
+    describe "as a proxied collection" do
+      let(:proxy_collection) {
+       FactoryGirl.build(:proxy_ip_access_collection).attributes
+      }
+
+      it "is viewable if the collection has an allowable IP address" do
+        allow(application_controller.request).to receive(:remote_ip).and_return("192.168.1.1")
+        expect(application_controller.is_viewable?(DigitalCollection.create(proxy_collection))).to be
+      end
+      it "is not viewable if it doesn't have an alloweable IP address" do
+        allow(application_controller.request).to receive(:remote_ip).and_return("0.0.0.0")
+        expect(application_controller.is_viewable?(DigitalCollection.create(proxy_collection))).to_not be
+      end
     end
 
   end
