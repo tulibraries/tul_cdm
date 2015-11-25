@@ -12,9 +12,9 @@ class CatalogController < ApplicationController
   include TulCdm::SolrHelper::Behaviors
 
   # These before_filters apply the hydra access controls
-  #before_filter :enforce_show_permissions, :only=>:show
+  before_filter :enforce_show_permissions, :only=>:show
   # This applies appropriate access controls to all solr queries
-  #CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
+  CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
 
   CatalogController.solr_search_params_logic += [:exclude_unwanted_models, :exclude_collections_by_ip]
 
@@ -283,7 +283,7 @@ class CatalogController < ApplicationController
 
   def exclude_collections_by_ip(solr_parameters, user_parameters)
     solr_parameters[:fq] ||= []
-    unviewable_collections.each do |vc|
+    unallowed_by_ip_collections.each do |vc|
       solr_parameters[:fq] << "-contentdm_collection_id_sim:#{vc.collection_alias}"
     end
     solr_parameters[:fq]

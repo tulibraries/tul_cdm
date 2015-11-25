@@ -19,12 +19,16 @@ class ApplicationController < ActionController::Base
 
   # Determine if the collection is restricted from the public
   def is_private? (collection)
-    collection["is_private"] or !collection["proxy_url_prefix"].blank?
+    collection["is_private"] || !collection["proxy_url_prefix"].blank?
   end
 
   def ip_is_allowed? (collection, ip_address)
-    allowed = false
 
+    # If none specified, then any address is allowed
+    return true if collection['allowed_ip_addresses'].blank?
+
+    # Is remote IP address in allowed address range?
+    allowed = false
     test_address = IPAddr.new(ip_address)
     collection['allowed_ip_addresses'].split(/\,\s*/).each do |address|
       allowed_address = IPAddr.new(address)
@@ -52,6 +56,13 @@ class ApplicationController < ActionController::Base
   def unviewable_collections
     collections = []
     DigitalCollection.find_each { |collection| collections << collection unless is_viewable?(collection) }
+    # Convert the array of objects into an ActiveRecore::Relation object
+    DigitalCollection.where(id: collections.map(&:id))
+  end
+
+  def unallowed_by_ip_collections
+    collections = []
+    DigitalCollection.find_each { |collection| collections << collection unless ip_is_allowed?(collection, request.remote_ip) }
     # Convert the array of objects into an ActiveRecore::Relation object
     DigitalCollection.where(id: collections.map(&:id))
   end

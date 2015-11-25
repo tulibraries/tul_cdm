@@ -112,6 +112,49 @@ RSpec.describe ApplicationController, :type => :controller do
     end
   end
 
+  context "viewable_collections" do
+    before :each do
+      allow(application_controller.request).to receive(:remote_ip).and_return("0.0.0.0")
+    end
+
+    it "returns the viewable collection" do
+      digital_collection = DigitalCollection.create! public_collection
+      expect(application_controller.viewable_collections).to include(digital_collection)
+    end
+
+    it "does not returns the unviewable collection" do
+      digital_collection = DigitalCollection.create! private_collection
+      expect(application_controller.viewable_collections).to_not include(digital_collection)
+    end
+  end
+
+  context "unviewable_collections" do
+    before :each do
+      allow(application_controller.request).to receive(:remote_ip).and_return("0.0.0.0")
+    end
+
+    it "returns the unviewable collection" do
+      digital_collection = DigitalCollection.create! private_collection
+      expect(application_controller.unviewable_collections).to include(digital_collection)
+    end
+
+    xit "doesn't return the unviewable collection with authenticated user" do
+      sign_in FactoryGirl.create(:archivist_user)
+      digital_collection = DigitalCollection.create! public_collection
+      expect(application_controller.viewable_collections).to_not include(digital_collection)
+    end
+
+    it "doesn't return the viewable collection" do
+      digital_collection = DigitalCollection.create! public_collection
+      expect(application_controller.viewable_collections).to include(digital_collection)
+    end
+  end
+
+  context "unviewable_by_ip_collections" do
+    it "returns the viewable by ip collection"
+    it "does not returns the unviewable by ip collection"
+  end
+
   context "private_collections" do
     it "returns the private collection" do
       digital_collection = DigitalCollection.create! private_collection
