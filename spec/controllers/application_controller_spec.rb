@@ -6,6 +6,10 @@ RSpec.describe ApplicationController, :type => :controller do
    FactoryGirl.build(:private_digital_collection).attributes
   }
 
+  let(:private_collection_with_ip) {
+   FactoryGirl.build(:private_digital_collection_with_ip).attributes
+  }
+
   let(:public_collection) {
    FactoryGirl.build(:digital_collection).attributes
   }
@@ -37,10 +41,11 @@ RSpec.describe ApplicationController, :type => :controller do
       allow_message_expectations_on_nil
     end
 
-    describe "as a public or private collection" do
+    describe "a public or private collection" do
       before :each do
         allow(application_controller.request).to receive(:remote_ip).and_return("0.0.0.0")
       end
+
       it "is viewable as public collection" do
         expect(application_controller.is_viewable?(DigitalCollection.create(public_collection))).to be
       end
@@ -53,7 +58,7 @@ RSpec.describe ApplicationController, :type => :controller do
     describe "from an allowed ip address" do
       it "is viewable from an allowed ip address" do
         allow(application_controller.request).to receive(:remote_ip).and_return("192.168.1.2")
-        expect(application_controller.is_viewable?(DigitalCollection.create(private_collection))).to be
+        expect(application_controller.is_viewable?(DigitalCollection.create(private_collection_with_ip))).to be
       end
     end
 
@@ -89,12 +94,12 @@ RSpec.describe ApplicationController, :type => :controller do
       let(:private_collection) { FactoryGirl.build(:private_digital_collection).attributes }
       
       it "allows from accessible ip address" do
-        expect(application_controller.ip_is_allowed?(private_collection, "127.0.0.1")).to be
-        expect(application_controller.ip_is_allowed?(private_collection, "10.1.1.1")).to be
-        expect(application_controller.ip_is_allowed?(private_collection, "192.168.1.2")).to be
+        expect(application_controller.ip_is_allowed?(private_collection_with_ip, "127.0.0.1")).to be
+        expect(application_controller.ip_is_allowed?(private_collection_with_ip, "10.1.1.1")).to be
+        expect(application_controller.ip_is_allowed?(private_collection_with_ip, "192.168.1.2")).to be
       end
       it "allows from accessible ip address" do
-        expect(application_controller.ip_is_allowed?(private_collection, "192.168.1.1")).to_not be
+        expect(application_controller.ip_is_allowed?(private_collection_with_ip, "192.168.1.1")).to_not be
       end
     end
 
@@ -114,6 +119,7 @@ RSpec.describe ApplicationController, :type => :controller do
 
   context "viewable_collections" do
     before :each do
+      allow_message_expectations_on_nil
       allow(application_controller.request).to receive(:remote_ip).and_return("0.0.0.0")
     end
 
@@ -126,33 +132,54 @@ RSpec.describe ApplicationController, :type => :controller do
       digital_collection = DigitalCollection.create! private_collection
       expect(application_controller.viewable_collections).to_not include(digital_collection)
     end
+    
+    it "returns the viewable collection with authenticated user" do
+      sign_in FactoryGirl.create(:archivist_user)
+      digital_collection = DigitalCollection.create! public_collection
+      expect(application_controller.unviewable_collections).to_not include(digital_collection)
+    end
   end
 
   context "unviewable_collections" do
     before :each do
+      allow_message_expectations_on_nil
       allow(application_controller.request).to receive(:remote_ip).and_return("0.0.0.0")
     end
 
-    it "returns the unviewable collection" do
+    it "contains the private collection" do
       digital_collection = DigitalCollection.create! private_collection
       expect(application_controller.unviewable_collections).to include(digital_collection)
     end
 
-    xit "doesn't return the unviewable collection with authenticated user" do
+    # TODO: Fix authentication so application_controller instance can see the authenticated user
+    xit "doesn't contain the private collection with authenticated user" do
       sign_in FactoryGirl.create(:archivist_user)
-      digital_collection = DigitalCollection.create! public_collection
-      expect(application_controller.viewable_collections).to_not include(digital_collection)
+      digital_collection = DigitalCollection.create! private_collection
+      expect(application_controller.unviewable_collections).to_not include(digital_collection)
     end
 
-    it "doesn't return the viewable collection" do
+    it "doesn't contain the public collection" do
       digital_collection = DigitalCollection.create! public_collection
-      expect(application_controller.viewable_collections).to include(digital_collection)
+      expect(application_controller.unviewable_collections).to_not include(digital_collection)
     end
   end
 
   context "unviewable_by_ip_collections" do
-    it "returns the viewable by ip collection"
-    it "does not returns the unviewable by ip collection"
+    before :each do
+      allow_message_expectations_on_nil
+    end
+
+    it "returns the viewable by ip collection" do
+      allow(application_controller.request).to receive(:remote_ip).and_return("192.168.1.2")
+      digital_collection = DigitalCollection.create! private_collection_with_ip
+      expect(application_controller.unallowed_by_ip_collections).to_not include(digital_collection)
+    end
+
+    it "does not returns the unviewable by ip collection" do
+      allow(application_controller.request).to receive(:remote_ip).and_return("0.0.0.0")
+      digital_collection = DigitalCollection.create! private_collection_with_ip
+      expect(application_controller.unallowed_by_ip_collections).to include(digital_collection)
+    end
   end
 
   context "private_collections" do

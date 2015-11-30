@@ -14,7 +14,19 @@ class ApplicationController < ActionController::Base
 
   # Determine if the collection is viewable depending on private flag and white-listed remote IP address
   def is_viewable? (collection)
-    !is_private?(collection) || ip_is_allowed?(collection, request.remote_ip)
+
+    if (collection['allowed_ip_addresses'].empty?)
+      if (is_private?(collection))
+        # Only an archivist may vew a private collection
+        RoleMapper.roles(current_user.email).include? "archivist"
+      else
+        true
+      end
+    else
+      ip_is_allowed?(collection, request.remote_ip)
+    end
+  rescue
+    false
   end
 
   # Determine if the collection is restricted from the public
