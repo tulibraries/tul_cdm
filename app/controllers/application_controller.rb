@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 
     if (collection['allowed_ip_addresses'].empty?)
       if (is_private?(collection))
-        # Only an archivist may vew a private collection
+        # TODO: Brittle - Allow better control over who may view a private collecionts
         RoleMapper.roles(current_user.email).include? "archivist"
       else
         true
