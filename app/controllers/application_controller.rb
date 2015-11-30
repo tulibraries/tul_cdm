@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
   # Determine if the collection is viewable depending on private flag and white-listed remote IP address
   def is_viewable? (collection)
 
+    # If no ip address filtering
     if (collection['allowed_ip_addresses'].empty?)
       if (is_private?(collection))
         # TODO: Brittle - Allow better control over who may view a private collecionts
@@ -26,6 +27,7 @@ class ApplicationController < ActionController::Base
       ip_is_allowed?(collection, request.remote_ip)
     end
   rescue
+    # Undefined current_user method seen in testing -- current_user may throw an exception
     false
   end
 
