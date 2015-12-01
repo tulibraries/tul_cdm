@@ -10,6 +10,7 @@ class CatalogController < ApplicationController
   include BlacklightAdvancedSearch::ParseBasicQ
 
   include TulCdm::SolrHelper::Behaviors
+  include Visible
 
   # These before_filters apply the hydra access controls
   before_filter :enforce_show_permissions, :only=>:show
