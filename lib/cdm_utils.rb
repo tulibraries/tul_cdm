@@ -293,21 +293,12 @@ module CDMUtils
     def self.ingest_file(file_name)
       print "Ingest: #{File.basename(file_name)} ..."
       pid = ActiveFedora::FixtureLoader.import_to_fedora(file_name)
-      set_privacy(pid)
       print "\b\b\b(#{pid}) ..."
       status = ActiveFedora::FixtureLoader.index(pid)
       print "\b\b\bDone.\n"
       File.delete(file_name)
 
       { solr_status: status["responseHeader"]["status"], pid: pid }
-    end
-
-    def self.set_privacy(pid)
-      fedora_object = ActiveFedora::Base.find(pid)
-      digital_collection = DigitalCollection.where(collection_alias: fedora_object.contentdm_collection_id).first
-      group = digital_collection.is_private ? "archivist" : "public"
-      fedora_object.permissions_attributes = [:name => group, :access=>"read", :type=>"group"]
-      fedora_object.save
     end
   end
 
