@@ -298,11 +298,11 @@ class CatalogController < ApplicationController
   def enforce_access_permissions(opts={})
     collection_id = ActiveFedora::Base.find(params[:id]).contentdm_collection_id
     collection = DigitalCollection.where(collection_alias: collection_id).first
-    if is_private?(collection)
-      raise Hydra::AccessDenied.new(t('tul_cdm.digital_collection.insufficient_privileges'), :read, params[:id])
-    end
     unless ip_is_allowed?(collection, request.remote_ip)
       raise Hydra::AccessDenied.new(t('tul_cdm.digital_collection.ip_not_allowed'), :read, params[:id])
+    end
+    unless is_viewable?(collection)
+      raise Hydra::AccessDenied.new(t('tul_cdm.digital_collection.insufficient_privileges'), :read, params[:id])
     end
   end
 
