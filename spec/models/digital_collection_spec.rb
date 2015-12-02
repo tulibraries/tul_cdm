@@ -43,7 +43,7 @@ RSpec.describe DigitalCollection, :type => :model do
     context "Restricted IP" do
 
       describe "Has valid IP addresses" do
-        subject { FactoryGirl.build(:private_digital_collection) }
+        subject { FactoryGirl.build(:private_digital_collection_with_ip) }
 
         it "has the expected IP addresses" do
           allowed_ip_addresses = subject.allowed_ip_addresses.split(%r{,\s*})
