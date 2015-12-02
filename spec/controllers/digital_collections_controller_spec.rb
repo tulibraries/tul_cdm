@@ -390,38 +390,38 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
     end
 
     context "ip_is_allowed?" do
-      describe "One individual ip address" do
+      describe "with one ip address" do
 
         let(:private_collection) { FactoryGirl.build(:private_digital_collection_allowed).attributes }
 
-        it "allows from accessible ip address" do
+        it "is allowed from accessible ip address" do
           expect(collection_controller.ip_is_allowed?(private_collection, "0.0.0.0")).to be
         end
       end
 
-      describe "list of indidviual ip addresses" do
+      describe "with list of indidviual ip addresses" do
 
         let(:private_collection) { FactoryGirl.build(:private_digital_collection).attributes }
         
-        it "allows from accessible ip address" do
+        it "is allowed from listed ip address" do
           expect(collection_controller.ip_is_allowed?(private_collection_with_ip, "127.0.0.1")).to be
           expect(collection_controller.ip_is_allowed?(private_collection_with_ip, "10.1.1.1")).to be
           expect(collection_controller.ip_is_allowed?(private_collection_with_ip, "192.168.1.2")).to be
         end
-        it "allows from accessible ip address" do
+        it "is denied from unlisted ip address" do
           expect(collection_controller.ip_is_allowed?(private_collection_with_ip, "192.168.1.1")).to_not be
         end
       end
 
-      describe "list of ip addresses with mask" do
+      describe "with ip address mask" do
        
         let(:ip_mask_collection) { FactoryGirl.build(:private_digital_collection_masked).attributes }
 
-        it "allows from accessible ip address" do
+        it "is allowed from ip address within subnet" do
           expect(collection_controller.ip_is_allowed?(ip_mask_collection, "192.168.1.1")).to be
           expect(collection_controller.ip_is_allowed?(ip_mask_collection, "192.168.1.2")).to be
         end
-        it "allows from accessible ip address" do
+        it "is denied from ip address outside subnet" do
           expect(collection_controller.ip_is_allowed?(ip_mask_collection, "192.168.2.1")).to_not be
         end
       end
@@ -433,17 +433,18 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
         allow(collection_controller.request).to receive(:remote_ip).and_return("0.0.0.0")
       end
 
-      it "returns the viewable collection" do
+      it "contains the public collection" do
         digital_collection = DigitalCollection.create! public_collection
         expect(collection_controller.viewable_collections).to include(digital_collection)
       end
 
-      it "does not returns the unviewable collection" do
+      it "does not contain the private collection" do
         digital_collection = DigitalCollection.create! private_collection
         expect(collection_controller.viewable_collections).to_not include(digital_collection)
       end
       
-      it "returns the viewable collection with authenticated user" do
+      # TODO: Fix test(?). Under RSpec, authentication not seen by the visibility module. This may pass for the wrong reason.
+      xit "contains the private collection to an authenticated user" do
         sign_in FactoryGirl.create(:archivist_user)
         digital_collection = DigitalCollection.create! public_collection
         expect(collection_controller.unviewable_collections).to_not include(digital_collection)
@@ -461,8 +462,8 @@ RSpec.describe DigitalCollectionsController, :type => :controller do
         expect(collection_controller.unviewable_collections).to include(digital_collection)
       end
 
-      # TODO: Fix authentication so collection_controller instance can see the authenticated user
-      xit "doesn't contain the private collection with authenticated user" do
+      # TODO: Fix test(?). Under RSpec, authentication not seen by the visibility module. 
+      xit "doesn't contain the private collection to an authenticated user" do
         sign_in FactoryGirl.create(:archivist_user)
         digital_collection = DigitalCollection.create! private_collection
         expect(collection_controller.unviewable_collections).to_not include(digital_collection)

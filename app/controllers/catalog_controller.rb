@@ -13,11 +13,15 @@ class CatalogController < ApplicationController
   include Visible
 
   # These before_filters apply the hydra access controls
-  before_filter :enforce_show_permissions, :only=>:show
+  #before_filter :enforce_show_permissions, :only=>:show
   # This applies appropriate access controls to all solr queries
-  CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
+  #CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
 
-  CatalogController.solr_search_params_logic += [:exclude_unwanted_models, :exclude_collections_by_ip]
+  # These before_filters apply the TUL_CDM access controls
+  before_filter :enforce_access_permissions, :only=>:show
+
+
+  CatalogController.solr_search_params_logic += [:exclude_unwanted_models, :exclude_unviewable_collections]
 
   # def index
   #   super
@@ -282,12 +286,24 @@ class CatalogController < ApplicationController
     "#{self.class.solr_name('desc_metadata__title', :stored_sortable, type: :date)} desc"
   end
 
-  def exclude_collections_by_ip(solr_parameters, user_parameters)
+  def exclude_unviewable_collections(solr_parameters, user_parameters)
     solr_parameters[:fq] ||= []
-    unallowed_by_ip_collections.each do |vc|
+    unviewable_collections.each do |vc|
       solr_parameters[:fq] << "-contentdm_collection_id_sim:#{vc.collection_alias}"
     end
     solr_parameters[:fq]
+  end
+
+  # TULCDM version of Hydra::AccessControls#enforce_show_permissions
+  def enforce_access_permissions(opts={})
+    collection_id = ActiveFedora::Base.find(params[:id]).contentdm_collection_id
+    collection = DigitalCollection.where(collection_alias: collection_id).first
+    if is_private?(collection)
+      raise Hydra::AccessDenied.new(t('tul_cdm.digital_collection.insufficient_privileges'), :read, params[:id])
+    end
+    unless ip_is_allowed?(collection, request.remote_ip)
+      raise Hydra::AccessDenied.new(t('tul_cdm.digital_collection.ip_not_allowed'), :read, params[:id])
+    end
   end
 
   # displays values and pagination links for a single facet field
