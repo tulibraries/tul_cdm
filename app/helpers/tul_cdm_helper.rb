@@ -509,6 +509,33 @@ module TulCdmHelper
     return collection_set
   end
 
+  def render_related_resources(document)
+    rc_label = content_tag("span", nil, class: "related-resource-label") do t('tul_cdm.related_resources_label') end
+    digital_collection_alias = document['contentdm_collection_id_tesim'].first
+    digital_collection = DigitalCollection.where({ collection_alias: digital_collection_alias }).first
+    collection_link = get_collection_link(document)
+    related_resources = content_tag(:h1, rc_label) +
+      link_to(content_tag(:h2, digital_collection.name), collection_link) +
+      content_tag(:p, digital_collection.short_description) 
+    return related_resources.html_safe
+  end
+
+  # TODO: Refactor get_collection_link with set_collection_link
+  def get_collection_link(document)
+    if model_from_document(document) != "Collection"
+      digital_collection_alias = document['contentdm_collection_id_tesim'].first
+      digital_collection = DigitalCollection.where({ collection_alias: digital_collection_alias }).first
+      query = "/?f[digital_collection_sim][]=#{document['digital_collection_tesim'].first.gsub(' ', '%20') if document['digital_collection_tesim']}"
+      if digital_collection
+        url_for(digital_collection) + query
+      else
+        query
+      end
+    else
+      return nil
+    end
+  end
+
   def get_related_objects(collection_id)
     related_objects = ActiveFedora::Base.where(is_member_of_ssim: collection_id).to_a
     return related_objects

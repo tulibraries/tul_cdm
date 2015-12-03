@@ -69,4 +69,19 @@ RSpec.describe TulCdmHelper, :type => :helper do
     end
   end
 
+  context 'render_related_resources' do
+    let (:document) { Hash.new }
+    let (:digital_collection) { FactoryGirl.create(:digital_collection) }
+
+    it "links to the digital collection" do
+      document["contentdm_collection_id_tesim"] = [digital_collection.collection_alias]
+      document["active_fedora_model_ssi"] = ""
+      document["digital_collection_tesim"] = [digital_collection.name]
+      rendered_related_resources = render_related_resources(document)
+
+      expect(rendered_related_resources).to match(/#{digital_collection.name}/)
+      expect(rendered_related_resources).to match(/#{document["digital_collection_tesim"].first.gsub(" ", "%20")}/)
+    end
+  end
+
 end

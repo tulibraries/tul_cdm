@@ -21,6 +21,7 @@ en:
       possible_ocr_errors: 'OCR Text (may contain machine-generated errors)'
     document:
       more_like_this_text: "Digital Collection Homepage"
+      related_resources_label: 'Related Resources'
     digital_collection:
       allowed_ip_helper_text: 'comma separated'
       not_available: 'Collection is unavailable'
