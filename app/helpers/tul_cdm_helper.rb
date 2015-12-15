@@ -703,3 +703,27 @@ module Blacklight::RequestBuilders
     end
   end
 end
+
+
+module Blacklight
+  class DocumentPresenter
+
+    #Override #render_field_value to put multi-value fields in a list
+    def render_field_value(value=nil, field_config=nil)
+
+      safe_values = Array(value).collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
+
+      if field_config and field_config.itemprop
+        safe_values = safe_values.map { |x| content_tag :span, x, :itemprop => field_config.itemprop }
+      end
+
+      if safe_values.size > 1
+        multiple_values = safe_join( safe_values.map { |v| content_tag :li , v })
+        val = content_tag(:ul, multiple_values, class: "list-unstyled")
+      else
+        val = safe_join(safe_values, (field_config.separator if field_config) || field_value_separator)
+      end
+      val
+    end
+  end
+end
