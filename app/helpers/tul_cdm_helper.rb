@@ -709,7 +709,7 @@ module Blacklight
   class DocumentPresenter
 
     #Override #render_field_value to put multi-value fields in a list
-    def render_field_value value=nil, field_config=nil
+    def render_field_value(value=nil, field_config=nil)
 
       safe_values = Array(value).collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
 
