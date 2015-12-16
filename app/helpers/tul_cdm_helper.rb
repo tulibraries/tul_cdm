@@ -489,18 +489,12 @@ module TulCdmHelper
     flash[:notice] = "Display: #{display_field.items.length}"
   end
 
-  def set_collection_link(document)
-    if model_from_document(document) != "Collection"
-      digital_collection_alias = document['contentdm_collection_id_tesim'].first
-      digital_collection = DigitalCollection.where({ collection_alias: digital_collection_alias }).first
-      query = "/?f[digital_collection_sim][]=#{document['digital_collection_tesim'].first.gsub(' ', '%20') if document['digital_collection_tesim']}"
-      if digital_collection
-        link_to t('tul_cdm.document.more_like_this_text'), url_for(digital_collection) + query
-      else
-        link_to t('tul_cdm.document.more_like_this_text'), query
-      end
+  def collection_link(document)
+    link = get_collection_link(document)
+    unless link.nil?
+      link_to t('tul_cdm.document.more_like_this_text'), link
     else
-      return nil
+      nil
     end
   end
 
@@ -520,7 +514,6 @@ module TulCdmHelper
     return related_resources.html_safe
   end
 
-  # TODO: Refactor get_collection_link with set_collection_link
   def get_collection_link(document)
     if model_from_document(document) != "Collection"
       digital_collection_alias = document['contentdm_collection_id_tesim'].first

@@ -40,7 +40,7 @@ RSpec.describe TulCdmHelper, :type => :helper do
     end
   end
 
-  describe "set_collection_link" do
+  describe "collection_link" do
 
     let (:document) { Hash.new }
     let (:digital_collection) { FactoryGirl.create(:digital_collection) }
@@ -51,8 +51,8 @@ RSpec.describe TulCdmHelper, :type => :helper do
         document["active_fedora_model_ssi"] = ""
         document["digital_collection_tesim"] = [digital_collection.name]
 
-        expect(set_collection_link(document)).to match(/#{url_for(digital_collection)}/)
-        expect(set_collection_link(document)).to match(/#{document["digital_collection_tesim"].first.gsub(" ", "%20")}/)
+        expect(collection_link(document)).to match(/#{url_for(digital_collection)}/)
+        expect(collection_link(document)).to match(/#{document["digital_collection_tesim"].first.gsub(" ", "%20")}/)
       end
     end
 
@@ -63,8 +63,8 @@ RSpec.describe TulCdmHelper, :type => :helper do
         document["active_fedora_model_ssi"] = ""
         document["digital_collection_tesim"] = ["A Digital Collection"]
 
-        expect(set_collection_link(document)).to_not match(/#{url_for(digital_collection)}/)
-        expect(set_collection_link(document)).to match(/#{document["digital_collection_tesim"].first.gsub(" ", "%20")}/)
+        expect(collection_link(document)).to_not match(/#{url_for(digital_collection)}/)
+        expect(collection_link(document)).to match(/#{document["digital_collection_tesim"].first.gsub(" ", "%20")}/)
       end
     end
   end
