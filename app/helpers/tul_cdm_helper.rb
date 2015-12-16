@@ -532,7 +532,7 @@ module TulCdmHelper
         query
       end
     else
-      return nil
+      nil
     end
   end
 

@@ -69,6 +69,29 @@ RSpec.describe TulCdmHelper, :type => :helper do
     end
   end
 
+  context 'get_collection_link' do
+    let (:digital_collection) {
+      FactoryGirl.create(:digital_collection)
+    }
+
+    let (:document) {
+      {
+        "contentdm_collection_id_tesim" => [digital_collection.collection_alias],
+        "active_fedora_model_ssi" => "",
+        "digital_collection_tesim" => [digital_collection.name]
+      }
+    }
+
+    it "links to the digital collection" do
+      expect(get_collection_link(document)).to match(/#{url_for(digital_collection)}\/\?f\[digital_collection_sim\]\[\]=#{document["digital_collection_tesim"].first.gsub(" ", "%20")}/)
+    end
+
+    it "does not links to the digital collection" do
+      document["active_fedora_model_ssi"] = "Collection"
+      expect(get_collection_link(document)).to be_nil
+    end
+  end
+
   context 'render_related_resources' do
     let (:document) { Hash.new }
     let (:digital_collection) { FactoryGirl.create(:digital_collection) }
