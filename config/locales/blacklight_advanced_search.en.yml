@@ -1,0 +1,4 @@
+en:
+  blacklight_advanced_search:
+    form:
+      limit_criteria_heading_html: "<strong>AND</strong> are in these collections"
