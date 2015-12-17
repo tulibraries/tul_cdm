@@ -2,6 +2,7 @@ en:
   tul_cdm:
     general:
       application_name: 'Temple Digital Collections'
+      application_title: 'Digital Collections'
       footer_content: "This site is run by SCRC, Temple University Libraries"
     homepage:
       welcome: 'About'
