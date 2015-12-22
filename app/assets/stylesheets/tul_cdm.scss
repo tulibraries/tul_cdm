@@ -9,18 +9,18 @@
 *
 ******/
 
-#header-title h1{
-  color: $temple-white;
-  font-size: 24px;
-  font-weight: normal;
-}
-
-#header-title{
+#header-title {
   clear:both;
-}
-
-#header-title h1 a{
-  color: $temple-white;
+  h1 {
+    color: $temple-white;
+    font-size: 24px;
+    font-weight: normal;
+    font-family: Arial, sans-serif;
+    margin-left: -15px;
+    a {
+      color: $temple-white;
+    }
+  }
 }
 
 .navbar-inverse {
@@ -73,9 +73,9 @@ html,body,#wrapper,#main-wrapper,#footer {
 
 #header-navbar .navbar-brand {
   width: 250px;
-  height: 80px;
+  height: 60px;
   margin-top: 10px;
-  background: transparent url(/assets/logo.png) no-repeat top left;
+  background: transparent url(logo.png) no-repeat top left;
 }
 
 .documentHeader {
@@ -377,7 +377,7 @@ h2.ocr-section-heading{
   color: $temple-dark-grey;
 }
 
-#document dt, dl, dd{
+#document dt, dl, dd, .document ul {
   font-size: 14px;
 }
 
