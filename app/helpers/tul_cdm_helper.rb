@@ -590,7 +590,7 @@ module TulCdmHelper
   end
 
   def collections_fields
-    [ 'All Collections',
+    [ ['All Collections', ''],
       'Allied Posters of World War I',
       'Blockson Pamphlets',
       'Blockson Photographs',
