@@ -693,6 +693,20 @@ module TulCdmHelper
     end
   end
 
+  def render_about_this_collection(document)
+    rc_label = content_tag("span", nil, class: "related-resource-label") do t('tul_cdm.document.about_this_collection_title') end
+    digital_collection_alias = document['contentdm_collection_id_tesim'].first
+    digital_collection = DigitalCollection.where({ collection_alias: digital_collection_alias }).first
+    collection_link = get_collection_link(document)
+
+    thumbnail_link = image_tag (digital_collection.thumbnail_url)
+    related_resources = 
+      link_to(content_tag(:h2, digital_collection.name), collection_link) +
+      thumbnail_link +
+      content_tag(:p, digital_collection.short_description) 
+    return related_resources.html_safe
+  end
+
 end
 
 ##

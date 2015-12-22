@@ -23,6 +23,7 @@ en:
     document:
       more_like_this_text: "Digital Collection Homepage"
       related_resources_label: 'Related Resources'
+      about_this_collection_title: 'About this Collection'
     digital_collection:
       allowed_ip_helper_text: 'comma separated'
       not_available: 'Collection is unavailable'

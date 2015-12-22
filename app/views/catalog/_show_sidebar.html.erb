@@ -1,9 +1,8 @@
   
-<% unless @document.more_like_this.empty? %>
+<%# unless @document.more_like_this.empty? %>
 <div class="well" id="sidebar-mlt">
   <ul class="nav nav-list">
-  <li class="nav-header">More Like This</li>
-    <%= render :collection => @document.more_like_this, :partial => 'show_more_like_this', :as => :document %>
+    <%= render_about_this_collection(@document) %>
   </ul>
 </div><!--/well -->
-<% end %>
+<%# end %>
