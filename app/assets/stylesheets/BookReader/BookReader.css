@@ -573,7 +573,6 @@ a.BRgrey:visited   { color: #666; }
 div#BRpage {
     float: right;
     width: 280px;
-    padding-left:12px;
     text-align: right;
 }
 div#BRnav {
