@@ -699,11 +699,20 @@ module TulCdmHelper
     digital_collection = DigitalCollection.where({ collection_alias: digital_collection_alias }).first
     collection_link = get_collection_link(document)
 
-    thumbnail_link = image_tag (digital_collection.thumbnail_url)
-    related_resources = 
-      link_to(content_tag(:h2, digital_collection.name), collection_link) +
-      thumbnail_link +
+    thumbnail_link = content_tag(:div, class: "atc-icon") do
+      link_to(collection_link) do
+        image_tag(digital_collection.thumbnail_url)
+      end
+    end
+
+    description = content_tag(:div, id: "atc-description") do
       content_tag(:p, digital_collection.short_description) 
+    end
+
+    related_resources = 
+      link_to(content_tag(:h2, digital_collection.name, id: "atc-title"), collection_link) +
+      thumbnail_link +
+      description
     return related_resources.html_safe
   end
 

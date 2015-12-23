@@ -34,9 +34,25 @@
 *
 ******/
 
-#sidebar-right{
- float: right;
- width: 200px;
+#sidebar {
+  .well {
+    float: right;
+
+    h2#atc-title {
+      font-size: 20px;
+    }
+    .atc-icon {
+      float: left;
+      width: 60px;
+      height: 60px;
+      padding: 1px;
+      margin: 6px 12px 0 0;
+      img {
+        max-width:100%;
+        max-width:100%;
+      }
+    }
+  }
 }
 
 /******
