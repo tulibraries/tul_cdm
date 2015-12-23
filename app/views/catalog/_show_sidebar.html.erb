@@ -1,8 +1,6 @@
   
 <%# unless @document.more_like_this.empty? %>
 <div class="well" id="sidebar-mlt">
-  <ul class="nav nav-list">
-    <%= render_about_this_collection(@document) %>
-  </ul>
+  <%= render partial: "about_this_collection" %>
 </div><!--/well -->
 <%# end %>

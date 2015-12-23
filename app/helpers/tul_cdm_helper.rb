@@ -503,10 +503,15 @@ module TulCdmHelper
     return collection_set
   end
 
+  # Get collection for the document
+  def document_collection(document)
+    digital_collection_alias = document['contentdm_collection_id_tesim'].first
+    return DigitalCollection.where({ collection_alias: digital_collection_alias }).first
+  end
+
   def render_related_resources(document)
     rc_label = content_tag("span", nil, class: "related-resource-label") do t('tul_cdm.related_resources_label') end
-    digital_collection_alias = document['contentdm_collection_id_tesim'].first
-    digital_collection = DigitalCollection.where({ collection_alias: digital_collection_alias }).first
+    digital_collection = document_collection(document)
     collection_link = get_collection_link(document)
     related_resources = content_tag(:h1, rc_label) +
       link_to(content_tag(:h2, digital_collection.name), collection_link) +
@@ -516,8 +521,7 @@ module TulCdmHelper
 
   def get_collection_link(document)
     if model_from_document(document) != "Collection"
-      digital_collection_alias = document['contentdm_collection_id_tesim'].first
-      digital_collection = DigitalCollection.where({ collection_alias: digital_collection_alias }).first
+    digital_collection = document_collection(document)
       query = "/?f[digital_collection_sim][]=#{document['digital_collection_tesim'].first.gsub(' ', '%20') if document['digital_collection_tesim']}"
       if digital_collection
         url_for(digital_collection) + query
@@ -691,29 +695,6 @@ module TulCdmHelper
         render_facet_value(facet_field, item, suppress_link: true)
       end
     end
-  end
-
-  def render_about_this_collection(document)
-    rc_label = content_tag("span", nil, class: "related-resource-label") do t('tul_cdm.document.about_this_collection_title') end
-    digital_collection_alias = document['contentdm_collection_id_tesim'].first
-    digital_collection = DigitalCollection.where({ collection_alias: digital_collection_alias }).first
-    collection_link = get_collection_link(document)
-
-    thumbnail_link = content_tag(:div, class: "atc-icon") do
-      link_to(collection_link) do
-        image_tag(digital_collection.thumbnail_url)
-      end
-    end
-
-    description = content_tag(:div, id: "atc-description") do
-      content_tag(:p, digital_collection.short_description) 
-    end
-
-    related_resources = 
-      link_to(content_tag(:h2, digital_collection.name, id: "atc-title"), collection_link) +
-      thumbnail_link +
-      description
-    return related_resources.html_safe
   end
 
 end

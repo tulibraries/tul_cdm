@@ -1,0 +1,14 @@
+<div class="widget", id="about-this-collection">
+  <% digital_collection = document_collection(@document) %>
+  <% collection_link = get_collection_link(@document) %>
+  <span class="related-resource-label">
+    <%= t('tul_cdm.document.about_this_collection_title') %>
+  </span>
+  <h2 id="atc-title"><%= link_to(digital_collection.name, collection_link) %></h2>
+  <div class="atc-icon">
+    <%= link_to(image_tag(digital_collection.thumbnail_url), collection_link) %>
+  </div>
+  <div id="atc-description">
+    <%= content_tag(:p, digital_collection.short_description) %>
+  </div>
+</div>
