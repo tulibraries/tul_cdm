@@ -45,7 +45,29 @@ EOT
     description ""
     short_description ""
     is_private true
+    allowed_ip_addresses ""
+  end
+
+  factory :private_digital_collection_with_ip, class: DigitalCollection do
+    collection_alias "p16002coll14"
+    name "Franklin H. Littell Papers"
+    image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll14/images/Littell_Landing_Pagev3.jpg"
+    thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/littell_dtl.jpg"
+    description ""
+    short_description ""
+    is_private true
     allowed_ip_addresses "127.0.0.1, 10.1.1.1, 192.168.1.2"
+  end
+
+  factory :private_digital_collection_masked, class: DigitalCollection do
+    collection_alias "p16002coll14"
+    name "Franklin H. Littell Papers"
+    image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll14/images/Littell_Landing_Pagev3.jpg"
+    thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/littell_dtl.jpg"
+    description ""
+    short_description ""
+    is_private true
+    allowed_ip_addresses "192.168.1.2/24"
   end
 
   factory :private_digital_collection_allowed, class: DigitalCollection do
@@ -107,6 +129,19 @@ EOT
     custom_url "http://example.com"
     proxy_url_prefix "http://libproxy.temple.edu/login?url="
     is_custom_landing_page true
+  end
+
+  factory :proxy_ip_access_collection, class: DigitalCollection do
+    collection_alias "p16002coll8"
+    name "Proxy Collection"
+    image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll8/images/TU_Press_Landing_Page_V3.jpg"
+    thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/tu_press_dtl.jpgg"
+    description "A proxy collections"
+    short_description "proxy collections"
+    is_private false
+    allowed_ip_addresses "192.168.1.1"
+    custom_url "/?utf8=✓&f%5Bdigital_collection_sim%5D%5B%5D=Stereotypical+Images+Teaching+Collection&search_field=digital_collection&q=p15037coll1+OR+p16002coll7"
+    proxy_url_prefix "http://libproxy.temple.edu/login?url="
   end
 
 end

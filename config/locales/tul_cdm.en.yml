@@ -34,6 +34,8 @@ en:
       restricted_collection_title: "Staff Only - Restricted Collections"
       format_based_collections_title: "Other Collections"
       format_based_collections_text: "In order to manage the materials we select and scan from within various collections, we group them by collecting area and format of material. Some of the material in the following collections appears in the subject/theme collections listed above and is best searched and used in that subject context. Other material appears only in these collections and may be discovered through keyword and other searches."
+      insufficient_privileges:  "This item is private. You do not have sufficient access privileges to read this document."
+      ip_not_allowed:  "This item is not accessible from your network. You must be on a campus network to read this document."
     multifacets:
       title: 'Search across collections'
       form:

@@ -1,4 +1,5 @@
 class DigitalCollectionsController < ApplicationController
+  include Visible
   respond_to :html, :xml, :json
   before_action :verify_signed_in!, only: [:new, :create, :edit, :update, :destroy, :restricted]
   before_action :verify_user_archivist!, only: [:restricted]
