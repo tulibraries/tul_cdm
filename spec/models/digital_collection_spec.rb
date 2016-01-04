@@ -16,6 +16,10 @@ RSpec.describe DigitalCollection, :type => :model do
     it { is_expected.to have_attribute(:allowed_ip_addresses) }
     it { is_expected.to have_attribute(:is_format_based) }
     it { is_expected.to have_attribute(:proxy_url_prefix) }
+    it { is_expected.to have_attribute(:finding_aid_link) }
+    it { is_expected.to have_attribute(:finding_aid_title) }
+    it { is_expected.to have_attribute(:catalog_record_link) }
+    it { is_expected.to have_attribute(:catalog_record_title) }
   end
 
   describe "Object" do

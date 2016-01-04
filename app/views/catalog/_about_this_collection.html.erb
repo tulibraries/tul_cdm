@@ -11,4 +11,10 @@
   <div id="atc-description">
     <%= content_tag(:p, digital_collection.short_description) %>
   </div>
+  <div class="related-resources-list">
+    <ul>
+      <li>Finding Aid: <%= link_to(digital_collection.finding_aid_title, digital_collection.finding_aid_link) %></li>
+      <li>Catalog Record: <%= link_to(digital_collection.catalog_record_title, digital_collection.catalog_record_link) %></li>
+    </ul>
+  </div>
 </div>

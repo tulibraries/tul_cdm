@@ -52,6 +52,16 @@
         max-width:100%;
       }
     }
+    .related-resources-list {
+      ul {
+        padding-left: 0px;
+        list-style-position: inside;
+        li {
+          padding-bottom: 0px;
+          color: black;
+        }
+      }
+    }
   }
 }
 
