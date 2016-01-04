@@ -489,24 +489,48 @@ module TulCdmHelper
     flash[:notice] = "Display: #{display_field.items.length}"
   end
 
-  def set_collection_link(document)
-    if model_from_document(document) != "Collection"
-      digital_collection_alias = document['contentdm_collection_id_tesim'].first
-      digital_collection = DigitalCollection.where({ collection_alias: digital_collection_alias }).first
-      query = "/?f[digital_collection_sim][]=#{document['digital_collection_tesim'].first.gsub(' ', '%20') if document['digital_collection_tesim']}"
-      if digital_collection
-        link_to t('tul_cdm.document.more_like_this_text'), url_for(digital_collection) + query
-      else
-        link_to t('tul_cdm.document.more_like_this_text'), query
-      end
+  def collection_link(document)
+    link = get_collection_link(document)
+    unless link.nil?
+      link_to t('tul_cdm.document.more_like_this_text'), link
     else
-      return nil
+      nil
     end
   end
 
   def render_collection(collection_id)
     collection_set = 'placeholder for thumbnails'
     return collection_set
+  end
+
+  # Get collection for the document
+  def document_collection(document)
+    digital_collection_alias = document['contentdm_collection_id_tesim'].first
+    return DigitalCollection.where({ collection_alias: digital_collection_alias }).first
+  end
+
+  def render_related_resources(document)
+    rc_label = content_tag("span", nil, class: "related-resource-label") do t('tul_cdm.related_resources_label') end
+    digital_collection = document_collection(document)
+    collection_link = get_collection_link(document)
+    related_resources = content_tag(:h1, rc_label) +
+      link_to(content_tag(:h2, digital_collection.name), collection_link) +
+      content_tag(:p, digital_collection.short_description) 
+    return related_resources.html_safe
+  end
+
+  def get_collection_link(document)
+    if model_from_document(document) != "Collection"
+    digital_collection = document_collection(document)
+      query = "/?f[digital_collection_sim][]=#{document['digital_collection_tesim'].first.gsub(' ', '%20') if document['digital_collection_tesim']}"
+      if digital_collection
+        url_for(digital_collection) + query
+      else
+        query
+      end
+    else
+      nil
+    end
   end
 
   def get_related_objects(collection_id)

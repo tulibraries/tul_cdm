@@ -40,7 +40,7 @@ RSpec.describe TulCdmHelper, :type => :helper do
     end
   end
 
-  describe "set_collection_link" do
+  describe "collection_link" do
 
     let (:document) { Hash.new }
     let (:digital_collection) { FactoryGirl.create(:digital_collection) }
@@ -51,8 +51,8 @@ RSpec.describe TulCdmHelper, :type => :helper do
         document["active_fedora_model_ssi"] = ""
         document["digital_collection_tesim"] = [digital_collection.name]
 
-        expect(set_collection_link(document)).to match(/#{url_for(digital_collection)}/)
-        expect(set_collection_link(document)).to match(/#{document["digital_collection_tesim"].first.gsub(" ", "%20")}/)
+        expect(collection_link(document)).to match(/#{url_for(digital_collection)}/)
+        expect(collection_link(document)).to match(/#{document["digital_collection_tesim"].first.gsub(" ", "%20")}/)
       end
     end
 
@@ -63,9 +63,47 @@ RSpec.describe TulCdmHelper, :type => :helper do
         document["active_fedora_model_ssi"] = ""
         document["digital_collection_tesim"] = ["A Digital Collection"]
 
-        expect(set_collection_link(document)).to_not match(/#{url_for(digital_collection)}/)
-        expect(set_collection_link(document)).to match(/#{document["digital_collection_tesim"].first.gsub(" ", "%20")}/)
+        expect(collection_link(document)).to_not match(/#{url_for(digital_collection)}/)
+        expect(collection_link(document)).to match(/#{document["digital_collection_tesim"].first.gsub(" ", "%20")}/)
       end
+    end
+  end
+
+  context 'get_collection_link' do
+    let (:digital_collection) {
+      FactoryGirl.create(:digital_collection)
+    }
+
+    let (:document) {
+      {
+        "contentdm_collection_id_tesim" => [digital_collection.collection_alias],
+        "active_fedora_model_ssi" => "",
+        "digital_collection_tesim" => [digital_collection.name]
+      }
+    }
+
+    it "links to the digital collection" do
+      expect(get_collection_link(document)).to match(/#{url_for(digital_collection)}\/\?f\[digital_collection_sim\]\[\]=#{document["digital_collection_tesim"].first.gsub(" ", "%20")}/)
+    end
+
+    it "does not links to the digital collection" do
+      document["active_fedora_model_ssi"] = "Collection"
+      expect(get_collection_link(document)).to be_nil
+    end
+  end
+
+  context 'render_related_resources' do
+    let (:document) { Hash.new }
+    let (:digital_collection) { FactoryGirl.create(:digital_collection) }
+
+    it "links to the digital collection" do
+      document["contentdm_collection_id_tesim"] = [digital_collection.collection_alias]
+      document["active_fedora_model_ssi"] = ""
+      document["digital_collection_tesim"] = [digital_collection.name]
+      rendered_related_resources = render_related_resources(document)
+
+      expect(rendered_related_resources).to match(/#{digital_collection.name}/)
+      expect(rendered_related_resources).to match(/#{document["digital_collection_tesim"].first.gsub(" ", "%20")}/)
     end
   end
 
