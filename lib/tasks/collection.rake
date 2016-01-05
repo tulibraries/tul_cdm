@@ -17,19 +17,14 @@ namespace :tu_cdm do
     desc "Import db/digital_collection.csv into the digital collections"
     task :import_csv => :environment do
       puts "Importing collections"
-      exception_keys = ["id", "created_at", "updated_at"]
+      except_keys = ["id", "created_at", "updated_at"]
 
-      begin
-        CSV.foreach("db/digital_collection.csv", headers: true) do |row|
-          collection = DigitalCollection.find_by_id(row["id"]) || DigitalCollection.new
-          collection.attributes = row.to_hash.except(*exception_keys)
-          collection.save!
-        end
-      rescue Exception => e
-        raise e
+      CSV.foreach("db/digital_collection.csv", headers: true) do |row|
+        collection = DigitalCollection.find_by_id(row["id"]) || DigitalCollection.new
+        collection.attributes = row.to_hash.except(*except_keys)
+        collection.save!
       end
     end
 
   end
-
 end
