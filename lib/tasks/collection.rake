@@ -1,7 +1,7 @@
 namespace :tu_cdm do
   namespace :collection do
 
-    desc "Export digital collections to a CSV file"
+    desc "Export digital collections into db/digital_collection.csv"
     task :export_csv => :environment do
       count = DigitalCollection.count
       puts "Exporting #{count} collections"
@@ -14,7 +14,7 @@ namespace :tu_cdm do
       end
     end
 
-    desc "Import digital collections from a CSV file"
+    desc "Import db/digital_collection.csv into the digital collections"
     task :import_csv => :environment do
       puts "Importing collections"
       exception_keys = ["id", "created_at", "updated_at"]
