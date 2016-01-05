@@ -6,7 +6,7 @@ namespace :tu_cdm do
       count = DigitalCollection.count
       puts "Exporting #{count} collections"
 
-      CSV.open("digital_collection.csv", "wb") do |csv|
+      CSV.open("db/digital_collection.csv", "wb") do |csv|
         csv << DigitalCollection.column_names
         DigitalCollection.all.each do |dc|
           csv << dc.attributes.values
@@ -20,13 +20,13 @@ namespace :tu_cdm do
       exception_keys = ["id", "created_at", "updated_at"]
 
       begin
-        CSV.foreach("digital_collection.csv", headers: true) do |row|
-          collection = DigitalCollection.find_by_id(row["id"]) || new
+        CSV.foreach("db/digital_collection.csv", headers: true) do |row|
+          collection = DigitalCollection.find_by_id(row["id"]) || DigitalCollection.new
           collection.attributes = row.to_hash.except(*exception_keys)
           collection.save!
         end
-      rescue
-        puts "Failed"
+      rescue Exception => e
+        raise e
       end
     end
 
