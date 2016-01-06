@@ -22,6 +22,7 @@ namespace :tu_cdm do
       CSV.foreach("db/digital_collection.csv", headers: true) do |row|
         collection = DigitalCollection.find_by_id(row["id"]) || DigitalCollection.new
         collection.attributes = row.to_hash.except(*except_keys)
+        collection.conform_attributes
         collection.save!
       end
     end
