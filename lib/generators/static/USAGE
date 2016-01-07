@@ -1,0 +1,14 @@
+Description:
+    Generates a static page given the page name and path to the directory in which to store it.
+    TITLE is the page title as a string. Quote the string if the title contains spaces
+    PATH is path to the directory where the static page will be stored
+
+Example:
+    rails generate static "About Collections" app/views/static
+
+    This will create:
+        app/views/static/about_collections.html
+
+    This will add a route to config/routes.rb
+
+      get '/digital_collections/about_collections' => 'high_voltage/pages#show', id: 'aboutcollections'
