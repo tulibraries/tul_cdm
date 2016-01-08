@@ -1,14 +1,17 @@
 Description:
     Generates a static page given the page name and path to the directory in which to store it.
-    TITLE is the page title as a string. Quote the string if the title contains spaces
-    PATH is path to the directory where the static page will be stored
+    PAGE_NAME is the page title as a string. Quote the string if the title contains spaces.
+    PATH is path to the directory where the static page will be stored.
+    BRANCH_IDENTIFIER is the optional Git branch. The branch is created if this parameter is specified.
 
 Example:
-    rails generate static "About Collections" app/views/static
+    rails generate static "About Collections" app/views/static TULCDM-PAGE1
 
-    This will create:
+    Creates static page:
         app/views/static/about_collections.html
 
-    This will add a route to config/routes.rb
+    Adds a route to config/routes.rb
+        get '/digital_collections/about_collections' => 'high_voltage/pages#show', id: 'about_collections'
 
-      get '/digital_collections/about_collections' => 'high_voltage/pages#show', id: 'aboutcollections'
+    Creates the branch
+        TULCDM-PAGE1-About_Collections_static_page
