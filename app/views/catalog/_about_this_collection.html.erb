@@ -1,0 +1,23 @@
+<div class="widget", id="about-this-collection">
+  <% digital_collection = document_collection(@document) %>
+  <% collection_link = get_collection_link(@document) %>
+  <span class="related-resource-label">
+    <%= t('tul_cdm.document.about_this_collection_title') %>
+  </span>
+  <h2 id="atc-title"><%= link_to(digital_collection.name, collection_link) %></h2>
+  <div class="atc-icon">
+    <%= link_to(image_tag(digital_collection.thumbnail_url), collection_link) %>
+  </div>
+  <div id="atc-description">
+    <%= content_tag(:p, digital_collection.short_description) %>
+  </div>
+  <div class="related-resources-list">
+    <ul>
+      <li><%= t('tul_cdm.document.finding_aid_label') %>: <%= link_to(digital_collection.finding_aid_title, digital_collection.finding_aid_link) %></li>
+      <li><%= t('tul_cdm.document.catalog_record_label') %>: <%= link_to(digital_collection.catalog_record_title, digital_collection.catalog_record_link) %></li>
+    </ul>
+  </div>
+  <div>
+  <%= content_tag(:p, t('tul_cdm.digital_collection.research_help_html').html_safe )  %>
+  </div>
+</div>

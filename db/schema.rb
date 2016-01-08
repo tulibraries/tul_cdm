@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151030143357) do
+ActiveRecord::Schema.define(version: 20151223213742) do
 
   create_table "bookmarks", force: true do |t|
     t.integer  "user_id",       null: false
@@ -43,6 +43,10 @@ ActiveRecord::Schema.define(version: 20151030143357) do
     t.boolean  "is_format_based"
     t.string   "short_description"
     t.string   "proxy_url_prefix"
+    t.string   "finding_aid_title"
+    t.string   "finding_aid_link"
+    t.string   "catalog_record_title"
+    t.string   "catalog_record_link"
   end
 
   create_table "searches", force: true do |t|
