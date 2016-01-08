@@ -38,6 +38,7 @@ en:
       restricted_collection_title: "Staff Only - Restricted Collections"
       format_based_collections_title: "Other Collections"
       format_based_collections_text: "In order to manage the materials we select and scan from within various collections, we group them by collecting area and format of material. Some of the material in the following collections appears in the subject/theme collections listed above and is best searched and used in that subject context. Other material appears only in these collections and may be discovered through keyword and other searches."
+      research_help_html: For Research Help, visit the <a href="https://library.temple.edu/scrc/research">SCRC Research Help page</a>.
     multifacets:
       title: 'Search across collections'
       form:
