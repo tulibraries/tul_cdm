@@ -590,32 +590,7 @@ module TulCdmHelper
   end
 
   def collections_fields
-    [ ['All Collections', ''],
-      'Allied Posters of World War I',
-      'Blockson Pamphlets',
-      'Blockson Photographs',
-      'City Parks Association Photographs',
-      'Civil Rights in a Northern City',
-      'Columbia Avenue Riots',
-      'Desegregation of Girard College',
-      'Franklin H. Littell Papers',
-      'George D. McDowell Philadelphia Evening Bulletin Clippings',
-      'George D. McDowell Philadelphia Evening Bulletin Photographs',
-      'Impulse Dance Annuals',
-      'KIDSNET at Temple University Libraries',
-      'Philadelphia Transit Strike of 1944',
-      'SCRC Audio',
-      'SCRC Ephemera',
-      'SCRC Film and Video',
-      'Stereotypical Images Teaching Collection',
-      'Temple Digital Sheet Music Collection',
-      'Temple Sheet Music Collections',
-      'Temple Undergraduate Research Prize Winners',
-      'Temple University Press E-Books',
-      'Urban Archives Photographs',
-      'William Still Collection',
-      'YWCA Philadelphia Branches Records'
-    ]
+    DigitalCollection.pluck(:name).unshift(["All Collections", ""])
   end
 
   ##
