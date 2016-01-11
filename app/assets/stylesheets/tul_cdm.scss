@@ -321,13 +321,14 @@ h2.ocr-section-heading{
         width: 500px;
       }
     }
+
+    input.search_q, .input-group-btn button#search {
+      font-size: 20px;
+      height:50px;
+      font-weight: bold;
+    }
   }
 
-  .search-query-form input.search_q,#search-navbar .input-group-btn button#search {
-    font-size: 20px;
-    height:50px;
-    font-weight: bold;
-  }
 
   .container {
     text-align: center;
