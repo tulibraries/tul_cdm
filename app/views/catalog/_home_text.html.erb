@@ -10,46 +10,12 @@
 	<p><%= link_to t('tul_cdm.homepage.learn_more'), '/about' %></p>
 </div>
 <div class="homepage-collections">
-  <div class="collection-group", id="subject-based-collections">
+  <div class="collection-group">
     <h1><%= t('tul_cdm.homepage.collections_title') %></h1>
-    <div class="digital_collection-list">
-      <ul>
-        <% DigitalCollection.where(is_format_based: false).order(:name).each do |digital_collection| %>
-          <li>
-            <div class="collection-icon">
-              <% if (digital_collection.thumbnail_url) %>
-                <%= link_to (image_tag (digital_collection.thumbnail_url), :alt => "#{digital_collection_browse_blurb(digital_collection)}"), landing_page(@host, digital_collection), :title => "#{digital_collection_browse_blurb(digital_collection)}" %>
-              <% else  %>
-                <a href="<%= "#{@host}/#{digital_collection.collection_alias}" %>" title="<%= "#{digital_collection_browse_blurb(digital_collection)}" %>"><span class="collection-default-thumb glyphicon glyphicon-th"></span></a>
-              <% end %>
-            </div>
-            <div class="collection-internals">
-              <span class="collection-name"><%= link_to digital_collection.name, landing_page(@host, digital_collection), :title => "#{digital_collection_browse_blurb(digital_collection)}" %></span>
-              <span class="collection-restriction-note"><%= digital_collection_note(digital_collection) %></span>
-            </div>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-  <div class="collection-group", id="format-based-collections">
-    <h1><%= t('tul_cdm.homepage.format_based_collections_title') %></h1>
-    <div class="digital_collection-list" id="other-digital-collections">
-      <ul>
-        <% DigitalCollection.where(is_format_based: true).order(:name).each do |digital_collection| %>
-            <li>
-              <div class="collection-icon">
-                <% if (digital_collection.thumbnail_url) %>
-                  <%= link_to (image_tag (digital_collection.thumbnail_url), :alt => "Browse #{digital_collection.name}"), landing_page(@host, digital_collection) %>
-                <% else  %>
-                  <%= link_to tag("span", class: ["collection-default-thumb","glyphicon","glyphicon-th"]), landing_page(@host, digital_collection) %>
-                <% end %>
-              </div>
-              <div class="collection-internals">
-                <span class="collection-name"><%= link_to digital_collection.name, landing_page(@host, digital_collection), :title => "Browse #{digital_collection.name}" %></span>
-              </div>
-            </li>
-        <% end %>
-      </ul>
-    </div>
+    <%= render_digital_collections_list_partial("catalog/collection_list", is_format_based: false) %>
+  </div>
+  <div class="collection-group">
+    <h1><%= t('tul_cdm.homepage.format_based_collections_title') %></h1> 
+    <%= render_digital_collections_list_partial("catalog/collection_list", is_format_based: true) %>
   </div>
 </div>
