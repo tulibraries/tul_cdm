@@ -107,3 +107,18 @@ Index objects with one or more of the following tasks:
     bundle exec rake tu_cdm:index:sheetmusic
     bundle exec rake tu_cdm:index:transcripts
     bundle exec rake tu_cdm:index:video
+
+* Import digital collection tables.
+
+The digital collection table may be customized by editing `db/digital-collection.csv`.
+
+To update this file, export the `DigitalCollection` database which will overwrite
+`db/digital-collection.csv`.
+
+    bundle exec rake tu_cdm:collection:export_csv
+
+This file may be edited in a spreadsheet program and exported to CSV. Rename the exported
+file to `digital-collection.csv` and copy it into `db/` directory. Import this file into
+the `DigitalCollection` table.
+
+    bundle exec rake tu_cdm:collection:import_csv
