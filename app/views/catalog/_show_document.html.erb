@@ -5,13 +5,15 @@
     render_compound_pageturner @document if @document["contentdm_number_tesim"] %>
   </div>
   <div id="OCRTextContainer">
-    <% document_content = get_compound_document_content(@document) %>
-    <% if document_content %>
-      <h2 class="ocr-section-heading"><%= t('tul_cdm.viewer.possible_ocr_errors') %></h2>
-      <div id='document-content-viewer'>
-        <%= document_content.join(" ") %>
-      </div>
-      <%= link_to_download_ocr(document) %>
+    <% cache("ocr/" + document["id"]) do %>
+      <% document_content = get_compound_document_content(@document) %>
+      <% if document_content %>
+        <h2 class="ocr-section-heading"><%= t('tul_cdm.viewer.possible_ocr_errors') %></h2>
+        <div id='document-content-viewer'>
+          <%= document_content.join(" ") %>
+        </div>
+        <%= link_to_download_ocr(document) %>
+      <% end %>
     <% end %>
   </div>
 
