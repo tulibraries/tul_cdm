@@ -28,7 +28,6 @@ config/tul_cdm.yml
 /spec/fixtures/vcr_cassettes/
 /public/sitemap.xml.gz
 /bin/seed-fedora.sh
-/db/seeds.rb
 
 # Ignore code test coverage output
 /coverage
