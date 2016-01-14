@@ -16,7 +16,7 @@ class StaticGenerator < Rails::Generators::Base
   private
 
   def update_route
-    new_route = sprintf("get '%s' => 'high_voltage/pages#show', id: '%s'", @file_name, @file_name)
+    new_route = sprintf("get 'pages/%s' => 'high_voltage/pages#show', id: '%s'", @file_name, @file_name)
 
     # Extract the contents of the routes file
     r = ""
