@@ -20,6 +20,8 @@ en:
         more_html: 'more »'
       placeholder:
         digital_collection: 'Search This Collection...'
+      form:
+        collections_search_field: 'Select Collections'
 
     basic_search_link: "Basic Search"
     advanced_search_link: "More Search Options"

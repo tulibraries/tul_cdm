@@ -613,6 +613,10 @@ module TulCdmHelper
       :sort => response.params[:"f.#{facet_field}.facet.sort"] || response.params["facet.sort"])
   end
 
+  def collections_fields
+    DigitalCollection.pluck(:name).unshift(["All Collections", ""])
+  end
+
   ##
   # Render a collection of facet fields.
   # @see #render_facet_limit
