@@ -331,6 +331,50 @@ h2.ocr-section-heading{
 
 /******
 *
+* Home Page Contenet
+*
+******/
+.homepage-collections {
+  h1 {
+  font-size:20px;
+  font-weight:bold;
+  }
+
+  li {
+    height: 36px;
+    width: 33%;
+    display: inline-block;
+    .collection-text {
+      display: none;
+    }
+    .collection-icon {
+      float: left;
+      width: 30px;
+      height: 30px;
+      padding: 1px;
+      margin: 6px 12px 0 0;
+      img {
+        max-width:100%;
+        max-width:100%;
+      }
+    }
+    .collection-internals {
+      padding: 4px;
+    }
+    .collection-default-thumb {
+      border-radius: 5px;
+      background-size: 32px 32px;
+      font-size: 22px;
+      height: 30px;
+      width: 30px;
+      padding-top: 2px;
+      padding-left: 4px;
+    }
+  }
+}
+
+/******
+*
 * Search bar
 *
 ******/
