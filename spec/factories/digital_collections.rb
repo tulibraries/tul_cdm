@@ -14,8 +14,8 @@ EOT
     short_description "Franklin Littell\'s Papers"
     is_private false
     allowed_ip_addresses ""
-    finding_aid "http://example.com/finding_aid"
-    catalog_record "http://example.com/catalog_record"
+    finding_aid_link "http://example.com/finding_aid"
+    catalog_record_link "http://example.com/catalog_record"
   end
 
   factory :updated_digital_object, class: DigitalCollection do
