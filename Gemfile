@@ -59,6 +59,7 @@ gem "colorize"
 gem "blacklight_advanced_search"
 gem "sitemap_generator"
 gem "whenever", :require => false
+gem "god"
 
 group :test do
   gem "rspec-rails"

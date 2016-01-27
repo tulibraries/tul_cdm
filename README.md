@@ -122,3 +122,9 @@ file to `digital-collection.csv` and copy it into `db/` directory. Import this f
 the `DigitalCollection` table.
 
     bundle exec rake tu_cdm:collection:import_csv
+
+* Using a process monitoring framework
+
+To start up both Jetty and Hydra with a process monitoring framework, use the `god` command:
+
+    god -c config/tul_cdm.god
