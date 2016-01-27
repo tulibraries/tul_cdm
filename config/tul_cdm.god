@@ -1,8 +1,8 @@
 RAILS_ROOT = File.dirname(File.dirname(__FILE__))
-PID_DIR = File.join(RAILS_ROOT, 'tmp/pids')
+PID_DIR = File.expand_path(File.join(RAILS_ROOT, 'tmp/pids'))
 
 God.watch do |w|
-  pid_file = File.join(PID_DIR, '_vagrant_jetty_development.pid')
+  pid_file = Dir.glob(File.join(PID_DIR, "*jetty*.pid")).last
 
   w.dir = RAILS_ROOT
   w.name = "jetty"
