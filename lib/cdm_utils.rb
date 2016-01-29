@@ -211,7 +211,8 @@ module CDMUtils
       replace31 = replace30.gsub("<Call_Number/>", "<Local_Call_Number/>")
       replace32 = replace31.gsub("<Audio_Filename/>", "<File_Name/>")
       replace33 = replace32.gsub("<Video_Filename/>", "<File_Name/>")
-      replace34 = replace33.gsub("<metadata>", "<metadata>\n  <manifest>\n    <contentdm_collection_id>#{collection_file_name}</contentdm_collection_id>\n    <Rails_Root>#{Rails.root}</Rails_Root>\n    <foxml_dir>#{target_dir}</foxml_dir>\n  </manifest>")
+      replace34 = replace33.gsub("Content_Summary", "Description")
+      replace35 = replace34.gsub("<metadata>", "<metadata>\n  <manifest>\n    <contentdm_collection_id>#{collection_file_name}</contentdm_collection_id>\n    <Rails_Root>#{Rails.root}</Rails_Root>\n    <foxml_dir>#{target_dir}</foxml_dir>\n  </manifest>")
 
     end
 

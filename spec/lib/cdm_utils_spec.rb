@@ -103,6 +103,7 @@ describe 'List CONTENTdm collections' do
         expect(doc).to have_tag('foxml_dir')
         expect(doc).to have_tag('Downloadable')
         expect(doc).to have_tag('Downloadable_OCR')
+        expect(doc).to have_tag('Description')
       end
     end
 
