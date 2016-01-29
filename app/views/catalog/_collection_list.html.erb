@@ -1,0 +1,19 @@
+    <div class="digital_collection-list">
+      <ul>
+        <% digital_collections.each do |digital_collection| %>
+          <li>
+            <div class="collection-icon">
+              <% if (digital_collection.thumbnail_url) %>
+                <%= link_to (image_tag (digital_collection.thumbnail_url), :alt => "#{digital_collection_browse_blurb(digital_collection)}"), landing_page(@host, digital_collection), :title => "#{digital_collection_browse_blurb(digital_collection)}" %>
+              <% else  %>
+                <%= link_to tag("span", class: ["collection-default-thumb","glyphicon","glyphicon-th"]), landing_page(@host, digital_collection) %>
+              <% end %>
+            </div>
+            <div class="collection-internals">
+              <span class="collection-name"><%= link_to digital_collection.name, landing_page(@host, digital_collection), :title => "#{digital_collection_browse_blurb(digital_collection)}" %></span>
+              <span class="collection-restriction-note"><%= digital_collection_note(digital_collection) %></span>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>

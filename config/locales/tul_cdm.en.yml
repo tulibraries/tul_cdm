@@ -11,6 +11,8 @@ en:
       featured_collections_heading: "Featured Collections"
       learn_more: "Click to learn more"
       explore_all: "Explore all collections"
+      collections_title: "Collections"
+      format_based_collections_title: "Format Based Collections"
     contact_field:
       text: "Contact SCRC"
     bookreader:

@@ -9,3 +9,13 @@
 	<p><%= t('tul_cdm.homepage.intro_text').html_safe %></p>
 	<p><%= link_to t('tul_cdm.homepage.learn_more'), '/about' %></p>
 </div>
+<div class="homepage-collections">
+  <div class="collection-group">
+    <h1><%= t('tul_cdm.homepage.collections_title') %></h1>
+    <%= render_digital_collections_list_partial("catalog/collection_list", is_format_based: false) %>
+  </div>
+  <div class="collection-group">
+    <h1><%= t('tul_cdm.homepage.format_based_collections_title') %></h1> 
+    <%= render_digital_collections_list_partial("catalog/collection_list", is_format_based: true) %>
+  </div>
+</div>

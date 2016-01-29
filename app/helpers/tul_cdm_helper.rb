@@ -515,7 +515,7 @@ module TulCdmHelper
     collection_link = get_collection_link(document)
     related_resources = content_tag(:h1, rc_label) +
       link_to(content_tag(:h2, digital_collection.name), collection_link) +
-      content_tag(:p, digital_collection.short_description) 
+      content_tag(:p, digital_collection.short_description)
     return related_resources.html_safe
   end
 
@@ -699,6 +699,22 @@ module TulCdmHelper
         render_facet_value(facet_field, item, suppress_link: true)
       end
     end
+  end
+
+  ##
+  # Render a list of digital collections based on the query
+  #
+  # @param [Hash] query ActiveFedora query
+  # @return [String]
+  def render_digital_collections_list_partial(partial, query)
+    digital_collections = []
+    DigitalCollection.where(query).order(:name).each do |collection|
+      # TODO: Make collection visible if privileged user is logged in
+      # TODO: Do not show collection unless client within campus subnet.
+      digital_collections << collection unless collection.is_private
+    end
+
+    render partial, digital_collections: digital_collections
   end
 
 end

@@ -45,7 +45,7 @@ RSpec.describe DigitalCollectionsHelper, :type => :helper do
 
     it "gets the proxy prefixed to the landing page" do
       proxy_landing_page = proxy_collection.proxy_url_prefix
-      proxy_landing_page += [host, proxy_collection.collection_alias, proxy_collection_path].join('/')
+      proxy_landing_page += [host, 'digital_collections', proxy_collection.collection_alias, proxy_collection_path].join('/')
       expect(landing_page(host, proxy_collection)).to eq(proxy_landing_page)
     end
 
