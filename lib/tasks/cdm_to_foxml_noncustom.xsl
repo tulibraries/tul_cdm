@@ -38,7 +38,7 @@
           <foxml:property NAME="info:fedora/fedora-system:def/model#ownerId" VALUE=""/>
           <foxml:property NAME="info:fedora/fedora-system:def/model#createdDate" VALUE="{$current_time}"/>
           <foxml:property NAME="info:fedora/fedora-system:def/view#lastModifiedDate" VALUE=""/>
-        </foxml:objectProperties>                                        
+        </foxml:objectProperties>
         <foxml:datastream ID="RELS-EXT" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
           <foxml:datastreamVersion ID="RELS-EXT.0" LABEL="Fedora Object-to-Object Relationship Metadata" MIMETYPE="application/rdf+xml" >
             <foxml:xmlContent>
@@ -61,6 +61,7 @@
                 <xsl:apply-templates select="Date"/>
                 <xsl:apply-templates select="Subject"/>
                 <xsl:apply-templates select="Description"/>
+                <xsl:apply-templates select="ADA_Note"/>
               </fields>
             </foxml:xmlContent>
           </foxml:datastreamVersion>
@@ -95,6 +96,15 @@
             </foxml:xmlContent>
           </foxml:datastreamVersion>
         </foxml:datastream>
+        <foxml:datastream ID="rightsMetadata" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
+          <foxml:datastreamVersion ID="rightsMetadata.0" LABEL="Rights metadata" MIMETYPE="text/xml">
+            <foxml:xmlContent>
+              <fields>
+                <xsl:apply-templates select="Rights"/>
+              </fields>
+            </foxml:xmlContent>
+          </foxml:datastreamVersion>
+        </foxml:datastream>
         </xsl:element>
       </exsl:document>
     </xsl:copy>
@@ -111,5 +121,11 @@
   </xsl:template>
   <xsl:template match="Description">
     <description><xsl:apply-templates /></description>
+  </xsl:template>
+  <xsl:template match="ADA_Note">
+    <ada_note><xsl:apply-templates /></ada_note>
+  </xsl:template>
+  <xsl:template match="Rights">
+    <rights><xsl:apply-templates /></rights>
   </xsl:template>
 </xsl:stylesheet>

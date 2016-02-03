@@ -71,6 +71,7 @@
                 <xsl:apply-templates select="Repository"/>
                 <xsl:apply-templates select="Repository_Collection"/>
                 <xsl:apply-templates select="Language"/>
+                <xsl:apply-templates select="ADA_Note"/>
                 <xsl:apply-templates select="Identifier"/>
                 <xsl:apply-templates select="Downloadable"/>
                 <xsl:apply-templates select="Downloadable_OCR"/>
@@ -170,6 +171,15 @@
               <fields>
                 <xsl:apply-templates select="Created"/>
                 <xsl:apply-templates select="Creator"/>
+              </fields>
+            </foxml:xmlContent>
+          </foxml:datastreamVersion>
+        </foxml:datastream>
+        <foxml:datastream ID="rightsMetadata" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
+          <foxml:datastreamVersion ID="rightsMetadata.0" LABEL="Rights metadata" MIMETYPE="text/xml">
+            <foxml:xmlContent>
+              <fields>
+                <xsl:apply-templates select="Rights"/>
               </fields>
             </foxml:xmlContent>
           </foxml:datastreamVersion>
@@ -327,4 +337,9 @@
   <xsl:template match="Number_of_Pages">
     <number_of_pages><xsl:apply-templates /></number_of_pages>
   </xsl:template>
+  <xsl:template match="ADA_Note">
+    <ada_note><xsl:apply-templates /></ada_note>
+  </xsl:template>
+  <xsl:template match="Rights">
+    <rights><xsl:apply-templates /></rights>
 </xsl:stylesheet>

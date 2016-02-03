@@ -62,6 +62,7 @@
                 <xsl:apply-templates select="Subject"/>
                 <xsl:apply-templates select="Description"/>
                 <xsl:apply-templates select="Format"/>
+                <xsl:apply-templates select="Resolution"/>
                 <xsl:apply-templates select="Type"/>
                 <xsl:apply-templates select="Publisher"/>
                 <xsl:apply-templates select="Digital_Collection"/>
@@ -71,6 +72,7 @@
                 <xsl:apply-templates select="Repository"/>
                 <xsl:apply-templates select="Repository_Collection"/>
                 <xsl:apply-templates select="Language"/>
+                <xsl:apply-templates select="ADA_Note"/>
                 <xsl:apply-templates select="Identifier"/>
                 <xsl:apply-templates select="Downloadable"/>
                 <xsl:apply-templates select="Downloadable_OCR"/>
@@ -162,6 +164,15 @@
             </foxml:xmlContent>
           </foxml:datastreamVersion>
         </foxml:datastream>
+        <foxml:datastream ID="rightsMetadata" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
+          <foxml:datastreamVersion ID="rightsMetadata.0" LABEL="Rights metadata" MIMETYPE="text/xml">
+            <foxml:xmlContent>
+              <fields>
+                <xsl:apply-templates select="Rights"/>
+              </fields>
+            </foxml:xmlContent>
+          </foxml:datastreamVersion>
+        </foxml:datastream>
         </xsl:element>
       </exsl:document>
     </xsl:copy>
@@ -206,6 +217,9 @@
   </xsl:template>
   <xsl:template match="Type">
     <type><xsl:apply-templates /></type>
+  </xsl:template>
+  <xsl:template match="Resolution">
+    <resolution><xsl:apply-templates /></resolution>
   </xsl:template>
   <xsl:template match="Publisher">
     <publisher><xsl:apply-templates /></publisher>
@@ -293,5 +307,11 @@
   </xsl:template>
   <xsl:template match="Creator">
     <creator><xsl:apply-templates /></creator>
+  </xsl:template>
+  <xsl:template match="ADA_Note">
+    <ada_note><xsl:apply-templates /></ada_note>
+  </xsl:template>
+  <xsl:template match="Rights">
+    <rights><xsl:apply-templates /></rights>
   </xsl:template>
 </xsl:stylesheet>

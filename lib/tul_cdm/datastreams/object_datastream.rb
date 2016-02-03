@@ -15,10 +15,15 @@ module TulCdm::Datastreams
       t.digital_publisher(:index_as=>[:sortable, :stored_searchable], :type=>:string)
       t.digital_specifications
       t.contact index_as: :displayable
+      t.contributor(index_as: [:displayable, :stored_searchable], :type=>:string)
       t.repository(:index_as=>[:facetable, :stored_searchable], :type=>:string)
       t.repository_collection(:index_as=>[:facetable, :stored_searchable], :type=>:string)
-      t.language index_as: :facetable
+      t.language(index_as: [:facetable, :displayable], type: :string)
       t.identifier(:index_as=>[:displayable, :sortable, :stored_searchable], :type=>:string)
+      t.volume(:index_as=>[:displayable, :sortable, :stored_searchable], :type=>:string)
+      t.series(:index_as=>[:displayable, :sortable, :stored_searchable], :type=>:string)
+      t.resolution(:index_as=>[:displayable, :stored_searchable], :type=>:string)
+      t.ada_note index_as: :displayable
       t.downloadable index_as: [:facetable, :displayable]
       t.downloadable_ocr index_as: [:facetable, :displayable]
     end

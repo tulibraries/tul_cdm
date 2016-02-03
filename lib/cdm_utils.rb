@@ -102,7 +102,7 @@ module CDMUtils
       password = config['cdm_password']
 
       #put back later
-      #build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}&CISOTYPE=custom&CISOPAGE=&CISOPTRLIST=&title=Title&altern=Alternate_Title&relati=Series&date=Date&hidden=Hidden_Date&contri=Narrator&descri=Content_Summary&descra=Notes&subjec=Subject&subjea=Corporate_Name&subjed=Personal_Names&format=Format&type=Type&publis=Publisher&langua=Language&rights=Rights&reposi=Repository&reposa=Repository_Collection&digitb=Digital_Collection&publia=Digital_Publisher&source=Physical_Description&digita=Digital_Specifications&contac=Contact&create=Created&folder=Location&tbd=Acknowledgment&identi=Master_Identifier&ada=ADA_Note&file=File_Name&find=Item_URL&dmoclcno=OCLC_number&dmcreated=Date_created&dmmodified=Date_modified&dmrecord=CONTENTdm_number&cdmfile=CONTENTdm_file_name&cdmpath=CONTENTdm_file_path&CISOMODE1=rep&CISOMODE2=rep"
+      #build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}&CISOTYPE=custom&CISOPAGE=&CISOPTRLIST=&title=Title&altern=Alternate_Title&relati=Series&date=Date&hidden=Hidden_Date&contri=Contributor&descri=Description&descra=Note&subjec=Subject&subjea=Corporate_Name&subjed=Personal_Names&format=Format&type=Type&publis=Publisher&langua=Language&rights=Rights&reposi=Repository&reposa=Repository_Collection&digitb=Digital_Collection&publia=Digital_Publisher&source=Physical_Description&resolu=Resolution&digita=Digital_Specifications&contac=Contact&create=Created&folder=Volume&tbd=Acknowledgment&identi=Identifier&ada=ADA_Note&file=File_Name&find=Item_URL&dmoclcno=OCLC_number&dmcreated=Date_created&dmmodified=Date_modified&dmrecord=CONTENTdm_number&cdmfile=CONTENTdm_file_name&cdmpath=CONTENTdm_file_path&CISOMODE1=rep&CISOMODE2=rep"
       #open(build_xml_url, :http_basic_authentication=>[user, password])
 
       cdm_url = "#{config['cdm_server']}/dmwebservices/index.php?q=dmGetCollectionList/xml"
@@ -213,7 +213,6 @@ module CDMUtils
         ["<Call_Number/>", "<Local_Call_Number/>"],
         ["<Audio_Filename/>", "<File_Name/>"],
         ["<Video_Filename/>", "<File_Name/>"],
-        ["Content_Summary", "Description"],
         ["<metadata>", "<metadata>\n  <manifest>\n    <contentdm_collection_id>#{collection_file_name}</contentdm_collection_id>\n    <Rails_Root>#{Rails.root}</Rails_Root>\n    <foxml_dir>#{target_dir}</foxml_dir>\n  </manifest>"]
       ]
 
