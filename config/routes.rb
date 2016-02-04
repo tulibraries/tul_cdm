@@ -14,5 +14,6 @@ Rails.application.routes.draw do
   get 'catalog/multiselect_facet/:id', to: 'catalog#multiselect_facet'
   get '/cdm/restricted', to: 'digital_collections#restricted'
   get 'pages/about_collections' => 'high_voltage/pages#show', id: 'about_collections'
+  get 'pages/learning_static_pages' => 'high_voltage/pages#show', id: 'learning_static_pages'
 
 end
