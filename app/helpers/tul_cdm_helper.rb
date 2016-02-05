@@ -614,7 +614,7 @@ module TulCdmHelper
   end
 
   def collections_fields
-    DigitalCollection.pluck(:name).unshift(["All Collections", ""])
+    DigitalCollection.pluck(:name).unshift([t('blacklight.search.form.default_option'), ""])
   end
 
   ##
