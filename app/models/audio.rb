@@ -6,11 +6,10 @@ class Audio < TulCdm::Models::Audiovisual
   has_metadata "digitalMetadata", :type => TulCdm::Datastreams::DigitalDatastream
   has_metadata "creationMetadata", :type => TulCdm::Datastreams::CreationDatastream
   has_metadata "volumeMetadata", :type => TulCdm::Datastreams::VolumeDatastream
-  has_metadata "rightsMetadata", :type => TulCdm::Datastreams::RightsDatastream
 
   has_attributes :title,:format,:type, :publisher,:digital_collection,:digital_publisher,
     :digital_specifications,:contact,:repository,:repository_collection, :language,
-    :identifier, :description, :ada_note, datastream: 'objectMetadata', multiple: true
+    :identifier, datastream: 'objectMetadata', multiple: true
 
   has_attributes :downloadable, :downloadable_ocr, datastream: 'objectMetadata', multiple: false
 
@@ -33,6 +32,5 @@ class Audio < TulCdm::Models::Audiovisual
 
   has_attributes :created, :creator, datastream: 'creationMetadata', multiple: true
 
-  has_attributes :rights, datastream: 'rightsMetadata', multiple: true
 
 end
