@@ -717,6 +717,20 @@ module TulCdmHelper
     render partial, digital_collections: digital_collections
   end
 
+  ##
+  # Get the selected digital collection
+  # Blacklight adds the facet each time it's added, even if it already exists
+  # TODO: Clean up search filters where it's updated
+  def selected_digital_collections(params)
+    selected_digital_collections = params['f']["digital_collection_sim"]
+    # Remove duplicates
+    selected_digital_collections = selected_digital_collections.uniq
+    # Remove default (empty string)
+    selected_digital_collections = selected_digital_collections.reject { |collection| collection.empty? }
+    # Return last selected collection
+    selected_digital_collections.last
+  end
+
 end
 
 ##
