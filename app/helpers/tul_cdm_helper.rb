@@ -724,10 +724,6 @@ module TulCdmHelper
   def selected_digital_collections(params)
     # Get previously selected collection facets, handle missing facet parameters
     selected_digital_collections = params.fetch('f'){ {"digital_collection_sim" => [""]} }.fetch("digital_collection_sim"){[""]}
-    # Remove duplicates
-    selected_digital_collections = selected_digital_collections.uniq
-    # Remove default (empty string)
-    selected_digital_collections = selected_digital_collections.reject { |collection| collection.blank? }
     # Return last selected collection
     selected_digital_collections.last
   end
