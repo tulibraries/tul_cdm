@@ -218,8 +218,7 @@ module CDMUtils
 
       # perform replacement
       replacements.each do |r|
-        doc1 = doc
-        doc = doc1.gsub(r.first, r.last)
+        doc.gsub!(r.first, r.last)
       end
 
      doc
