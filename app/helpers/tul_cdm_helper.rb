@@ -750,6 +750,10 @@ module Blacklight::RequestBuilders
     if ( user_params[:f])
       f_request_params = user_params[:f]
 
+      # Hack to ensure that duplaicte Digital collections facets are not stacked
+      # when searching by collection.
+      # @TODO - Move this logic to param handler
+      f_request_params[:digital_collection_sim].uniq!
       f_request_params.each_pair do |facet_field, value_list|
         Array(value_list).each do |value| next if value.blank? # skip empty strings
           solr_parameters.append_filter_query facet_value_to_fq_string(facet_field, value)
