@@ -717,6 +717,17 @@ module TulCdmHelper
     render partial, digital_collections: digital_collections
   end
 
+  ##
+  # Get the selected digital collection
+  # Blacklight adds the facet each time it's added, even if it already exists
+  # TODO Clean up search filter
+  def selected_digital_collections(params)
+    # Get previously selected collection facets, handle missing facet parameters
+    selected_digital_collections = params.fetch('f'){ {"digital_collection_sim" => [""]} }.fetch("digital_collection_sim"){[""]}
+    # Return last selected collection
+    selected_digital_collections.last
+  end
+
 end
 
 ##
@@ -739,6 +750,10 @@ module Blacklight::RequestBuilders
     if ( user_params[:f])
       f_request_params = user_params[:f]
 
+      # Hack to ensure that duplaicte Digital collections facets are not stacked
+      # when searching by collection.
+      # @TODO - Move this logic to param handler
+      f_request_params[:digital_collection_sim].uniq!
       f_request_params.each_pair do |facet_field, value_list|
         Array(value_list).each do |value| next if value.blank? # skip empty strings
           solr_parameters.append_filter_query facet_value_to_fq_string(facet_field, value)
