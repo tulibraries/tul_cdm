@@ -8,13 +8,13 @@ class DigitalCollectionsController < ApplicationController
   add_breadcrumb "Explore Digital Collections", '/digital_collections'
 
   def index
-    @host = "http://#{request.env["HTTP_HOST"]}/digital_collections"
+    @host = "http://#{request.env["HTTP_HOST"]}"
     @digital_collections = viewable_collections
     respond_with(@digital_collections)
   end
 
   def restricted
-    @host = "http://#{request.env["HTTP_HOST"]}/digital_collections"
+    @host = "http://#{request.env["HTTP_HOST"]}"
     @digital_collections = private_collections
     respond_with(@digital_collections)
   end
