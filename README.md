@@ -122,3 +122,18 @@ file to `digital-collection.csv` and copy it into `db/` directory. Import this f
 the `DigitalCollection` table.
 
     bundle exec rake tu_cdm:collection:import_csv
+
+* Using a process monitoring framework
+
+To start up both Jetty and Hydra with a process monitoring framework, use the `god` command:
+
+    god -c config/tul_cdm.god    # Start the hydra processes
+
+`god` commands may be applied to both processes with the `tul_cdm` group or on the indiviual processes `jetty` and `hydra`.
+
+    god stop tul_cdm             # Stop all processes in the application (Allow at least 45 seconds for jetty process to stop)
+    god start tul_cdm            # Start all processes in the application after they have been stopped
+    god stop jetty               # Stop the jetty process (Allow at least 45 seconds for the jetty process to stop)
+    god start jetty              # Start a stopped jetty process
+    god stop hydra               # Stop the hydra process
+    god start hydra              # Start a stopped hydra process
