@@ -121,20 +121,22 @@ class CatalogController < ApplicationController
     # Records and shared metadata
     config.add_show_field solr_name('title', :stored_searchable, type: :string), :label => 'Title'
     config.add_show_field solr_name('alternate_title', :stored_searchable, type: :string), :label => 'Alternate Title'
-    config.add_show_field solr_name('date', :stored_searchable, type: :string), :label => 'Date', :link_to_search => 'date_sim'
+    config.add_show_field solr_name('date', :stored_searchable, type: :string), :label => 'Date'
     config.add_show_field solr_name('date_range', :stored_searchable, type: :string), :label => 'Date Range'
     config.add_show_field solr_name('subject', :stored_searchable, type: :string), :label => 'Subject', :link_to_search => 'subject_sim'
     config.add_show_field solr_name('description', :stored_searchable, type: :string), :label => 'Description'
-    config.add_show_field solr_name('format', :stored_searchable, type: :string), :label => 'Format', :link_to_search => 'format_sim'
+    config.add_show_field solr_name('notes', :stored_searchable, type: :string), :label => 'Note'
+    config.add_show_field solr_name('physical_description', :stored_searchable, type: :string), :label => 'Physical Description'
+    config.add_show_field solr_name('format', :stored_searchable, type: :string), :label => 'Format'
     config.add_show_field solr_name('type', :stored_searchable, type: :string), :label => 'Type', :link_to_search => 'type_sim'
     config.add_show_field solr_name('publisher', :stored_searchable, type: :string), :label => 'Publisher', :link_to_search => 'publisher_sim'
     config.add_show_field solr_name('digital_collection', :stored_searchable, type: :string), :label => 'Digital Collection', :link_to_search => 'digital_collection_sim'
-    config.add_show_field solr_name('digital_publisher', :stored_searchable, type: :string), :label => 'Digital Publisher', :link_to_search => 'digital_publisher_sim'
-    config.add_show_field solr_name('contentdm_collection_id', :stored_searchable, type: :string), :label => 'Digital Collection ID', :link_to_search => 'contentdm_collection_id_sim', :show => false
-    config.add_show_field solr_name('contact', :displayable, type: :string), :label => 'Contact'
+    config.add_show_field solr_name('digital_publisher', :stored_searchable, type: :string), :label => 'Digital Publisher'
+    #config.add_show_field solr_name('contentdm_collection_id', :stored_searchable, type: :string), :label => 'Digital Collection ID', :link_to_search => 'contentdm_collection_id_sim', :show => false
+    config.add_show_field solr_name('contact', :displayable, type: :string), :label => 'Contact', :link_to_search => 'contact_sim'
     config.add_show_field solr_name('repository', :stored_searchable, type: :string), :label => 'Repository', :link_to_search => 'repository_sim'
     config.add_show_field solr_name('repository_collection', :stored_searchable, type: :string), :label => 'Repository Collection', :link_to_search => 'repository_collection_sim'
-    config.add_show_field solr_name('language', :stored_searchable, type: :string), :label => 'Language', :link_to_search => 'language_sim'
+    config.add_show_field solr_name('language', :displayable, type: :string), :label => 'Language', :link_to_search => 'language_sim'
     config.add_show_field solr_name('identifier', :displayable, type: :string), :label => 'Identifier'
 
     config.add_show_field solr_name('adapted_from', :stored_searchable, type: :string), :label => 'Adapted From'
@@ -162,6 +164,9 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name('creator_organization', :stored_searchable, type: :string), :label => 'Creator (Organization)'
     config.add_show_field solr_name('other_creator_organization', :stored_searchable, type: :string), :label => 'Additional Creator (Organization)'
 
+    config.add_show_field solr_name('contributor', :displayable, type: :string), :label => 'Contributor'
+    config.add_show_field solr_name('file_name', :displayable, type: :string), :label => 'File Name'
+
     config.add_show_field solr_name('image_number', :stored_searchable, type: :string), :label => 'Image Number'
 
     config.add_show_field solr_name('clip_title', :stored_searchable, type: :string), :label => 'Clip Title'
@@ -179,6 +184,10 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name('source', :stored_searchable, type: :string), :label => 'Source'
     config.add_show_field solr_name('year_degree_awarded', :stored_searchable, type: :string), :label => 'Year Degree Awarded'
     config.add_show_field solr_name('year_prize_awarded', :stored_searchable, type: :string), :label => 'Year Prize Awarded'
+
+    config.add_show_field solr_name('resolution', :stored_searchable, type: :string), :label => 'Resolution'
+    config.add_show_field solr_name('rights', :displayable, type: :string), :label => 'Rights'
+    config.add_show_field solr_name('ada_note', :displayable, type: :string), :label => 'ADA Notes'
 
     # Collection-only metadata
     config.add_show_field solr_name('about_statement', :stored_searchable, type: :string), :label => 'About this Collection'

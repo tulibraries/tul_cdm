@@ -102,7 +102,7 @@ module CDMUtils
       password = config['cdm_password']
 
       #put back later
-      #build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}&CISOTYPE=custom&CISOPAGE=&CISOPTRLIST=&title=Title&altern=Alternate_Title&relati=Series&date=Date&hidden=Hidden_Date&contri=Narrator&descri=Content_Summary&descra=Notes&subjec=Subject&subjea=Corporate_Name&subjed=Personal_Names&format=Format&type=Type&publis=Publisher&langua=Language&rights=Rights&reposi=Repository&reposa=Repository_Collection&digitb=Digital_Collection&publia=Digital_Publisher&source=Physical_Description&digita=Digital_Specifications&contac=Contact&create=Created&folder=Location&tbd=Acknowledgment&identi=Master_Identifier&ada=ADA_Note&file=File_Name&find=Item_URL&dmoclcno=OCLC_number&dmcreated=Date_created&dmmodified=Date_modified&dmrecord=CONTENTdm_number&cdmfile=CONTENTdm_file_name&cdmpath=CONTENTdm_file_path&CISOMODE1=rep&CISOMODE2=rep"
+      #build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}&CISOTYPE=custom&CISOPAGE=&CISOPTRLIST=&title=Title&altern=Alternate_Title&relati=Series&date=Date&hidden=Hidden_Date&contri=Contributor&descri=Description&descra=Note&subjec=Subject&subjea=Corporate_Name&subjed=Personal_Names&format=Format&type=Type&publis=Publisher&langua=Language&rights=Rights&reposi=Repository&reposa=Repository_Collection&digitb=Digital_Collection&publia=Digital_Publisher&source=Physical_Description&resolu=Resolution&digita=Digital_Specifications&contac=Contact&create=Created&folder=Volume&tbd=Acknowledgment&identi=Identifier&ada=ADA_Note&file=File_Name&find=Item_URL&dmoclcno=OCLC_number&dmcreated=Date_created&dmmodified=Date_modified&dmrecord=CONTENTdm_number&cdmfile=CONTENTdm_file_name&cdmpath=CONTENTdm_file_path&CISOMODE1=rep&CISOMODE2=rep"
       #open(build_xml_url, :http_basic_authentication=>[user, password])
 
       cdm_url = "#{config['cdm_server']}/dmwebservices/index.php?q=dmGetCollectionList/xml"
@@ -172,47 +172,56 @@ module CDMUtils
       doc = insert_downloadable_tag(doc)
       doc = insert_downloadable_ocr_tag(doc)
 
-      #Strip out any bad keying from CDM
-      replace = doc.gsub("&amp<", "<")
-      replace2 = replace.gsub("&quot<", "<")
-      replace3 = replace2.gsub("", "")
+      # relacement array
+      replacements = [
+        #Strip out any bad keying from CDM
+        ["&amp<", "<"],
+        ["&quot<", "<"],
+        ["", ""],
 
-      #Normalize inconsistent CDM metadata vocabulary
-      #So ugly -- remove when vocab is normalized by staff
-      replace4 = replace3.gsub("<Filename>", "<File_Name>")
-      replace5 = replace4.gsub("<Created_by>", "<Created>")
-      replace6 = replace5.gsub("<Personal_Name>", "<Personal_Names>")
-      replace7 = replace6.gsub("<Organization>", "<Organization_Building>")
-      replace8 = replace7.gsub("<Organization-Building>", "<Organization_Building>")
-      replace9 = replace8.gsub("<Note>", "<Notes>")
-      replace10 = replace9.gsub("<Title_Alternative>", "<Alternate_Title>")
-      replace11 = replace10.gsub("<Call_Number>", "<Local_Call_Number>")
-      replace12 = replace11.gsub("<Audio_Filename>", "<File_Name>")
-      replace13 = replace12.gsub("<Video_Filename>", "<File_Name>")
+        #Normalize inconsistent CDM metadata vocabulary
+        #So ugly -- remove when vocab is normalized by staff
+        ["<Filename>", "<File_Name>"],
+        ["<Created_by>", "<Created>"],
+        ["<Personal_Name>", "<Personal_Names>"],
+        ["<Organization>", "<Organization_Building>"],
+        ["<Organization-Building>", "<Organization_Building>"],
+        ["<Note>", "<Notes>"],
+        ["<Title_Alternative>", "<Alternate_Title>"],
+        ["<Call_Number>", "<Local_Call_Number>"],
+        ["<Audio_Filename>", "<File_Name>"],
+        ["<Video_Filename>", "<File_Name>"],
 
-      replace14 = replace13.gsub("</Filename>", "</File_Name>")
-      replace15 = replace14.gsub("</Created_by>", "</Created>")
-      replace16 = replace15.gsub("</Personal_Name>", "</Personal_Names>")
-      replace17 = replace16.gsub("</Organization>", "</Organization_Building>")
-      replace18 = replace17.gsub("</Organization-Building>", "</Organization_Building>")
-      replace19 = replace18.gsub("</Note>", "</Notes>")
-      replace20 = replace19.gsub("</Title_Alternative>", "</Alternate_Title>")
-      replace21 = replace20.gsub("</Call_Number>", "</Local_Call_Number>")
-      replace22 = replace21.gsub("</Audio_Filename>", "</File_Name>")
-      replace23 = replace22.gsub("</Video_Filename>", "</File_Name>")
+        ["</Filename>", "</File_Name>"],
+        ["</Created_by>", "</Created>"],
+        ["</Personal_Name>", "</Personal_Names>"],
+        ["</Organization>", "</Organization_Building>"],
+        ["</Organization-Building>", "</Organization_Building>"],
+        ["</Note>", "</Notes>"],
+        ["</Title_Alternative>", "</Alternate_Title>"],
+        ["</Call_Number>", "</Local_Call_Number>"],
+        ["</Audio_Filename>", "</File_Name>"],
+        ["</Video_Filename>", "</File_Name>"],
 
-      replace24 = replace23.gsub("<Filename/>", "<File_Name/>")
-      replace25 = replace24.gsub("<Created_by/>", "<Created/>")
-      replace26 = replace25.gsub("<Personal_Name/>", "<Personal_Names/>")
-      replace27 = replace26.gsub("<Organization/>", "<Organization_Building/>")
-      replace28 = replace27.gsub("<Organization-Building/>", "<Organization_Building/>")
-      replace29 = replace28.gsub("<Note/>", "<Notes/>")
-      replace30 = replace29.gsub("<Title_Alternative/>", "<Alternate_Title/>")
-      replace31 = replace30.gsub("<Call_Number/>", "<Local_Call_Number/>")
-      replace32 = replace31.gsub("<Audio_Filename/>", "<File_Name/>")
-      replace33 = replace32.gsub("<Video_Filename/>", "<File_Name/>")
-      replace34 = replace33.gsub("<metadata>", "<metadata>\n  <manifest>\n    <contentdm_collection_id>#{collection_file_name}</contentdm_collection_id>\n    <Rails_Root>#{Rails.root}</Rails_Root>\n    <foxml_dir>#{target_dir}</foxml_dir>\n  </manifest>")
+        ["<Filename/>", "<File_Name/>"],
+        ["<Created_by/>", "<Created/>"],
+        ["<Personal_Name/>", "<Personal_Names/>"],
+        ["<Organization/>", "<Organization_Building/>"],
+        ["<Organization-Building/>", "<Organization_Building/>"],
+        ["<Note/>", "<Notes/>"],
+        ["<Title_Alternative/>", "<Alternate_Title/>"],
+        ["<Call_Number/>", "<Local_Call_Number/>"],
+        ["<Audio_Filename/>", "<File_Name/>"],
+        ["<Video_Filename/>", "<File_Name/>"],
+        ["<metadata>", "<metadata>\n  <manifest>\n    <contentdm_collection_id>#{collection_file_name}</contentdm_collection_id>\n    <Rails_Root>#{Rails.root}</Rails_Root>\n    <foxml_dir>#{target_dir}</foxml_dir>\n  </manifest>"]
+      ]
 
+      # perform replacement
+      replacements.each do |r|
+        doc.gsub!(r.first, r.last)
+      end
+
+     doc
     end
 
     def self.convert_file(file_name, foxml_dir)
