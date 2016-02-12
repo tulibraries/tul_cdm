@@ -3,10 +3,23 @@ require "open-uri"
 require "fileutils"
 
 module CDMUtils
+
+  def self.available_collections
+    digital_collections = DigitalCollection.all.map{ |c| c.collection_alias }
+  end
+
   def self.list(server)
     cdm_url = "#{server}/dmwebservices/index.php?q=dmGetCollectionList/xml"
     xml = Nokogiri::XML(open(cdm_url))
-    all_aliases = xml.xpath("/collections/collection/alias/text()")
+    all_aliases = xml.xpath("/collections/collection/alias/text()").map { |c| c.to_s.gsub(/^\//, '') }
+    digital_collections = available_collections
+
+    collections = Hash.new
+    xml.xpath("/collections/collection").each do |c|
+      collection_alias = c.xpath("alias/text()").to_s.gsub(/^\//, '')
+      collections[collection_alias] = c.xpath("name/text()").to_s if digital_collections.include? collection_alias
+    end
+    collections
   end
 
   def self.getCollectionName(server, coll)
@@ -15,10 +28,24 @@ module CDMUtils
     xml.xpath("/parameters/name/text()").to_s
   end
 
+  class HarvestError < Exception
+  end
+
   private
   def download_one_collection(config, coll)
-    Download.init_download
-    Download.download(config, coll)
+
+    begin
+      # Test if the collection is available
+      digital_collections = available_collections
+      raise "Collection #{coll} is unavailable" unless digital_collections.include? coll
+
+      Download.init_download
+      Download.download(config, coll)
+
+    rescue => e
+      puts e.message.colorize(:red)
+      return 0
+    end
   end
   module_function :download_one_collection # :nodoc:
 
@@ -110,16 +137,18 @@ module CDMUtils
       FileUtils::mkdir_p config['cdm_download_dir']
       all_aliases = xml.xpath("/collections/collection/alias/text()")
       harvested_count = 0
+      digital_collections = DigitalCollection.all.map{ |c| c.collection_alias }
       all_aliases.length.times do |i|
-        new_coll = all_aliases[i].to_s
-        test_coll = "/"+coll if coll
+        new_coll = all_aliases[i].to_s.gsub(/^\//, '')
+        next unless digital_collections.include? new_coll
+        test_coll = coll
         if coll.nil? or new_coll.eql?(test_coll)
-          dl_url = config['cdm_server']+"/cgi-bin/admin/getfile.exe?CISOMODE=1&CISOFILE="+new_coll+"/index/description/export.xml"
-          xmlFilePath = "#{config['cdm_download_dir']}" + new_coll + ".xml"
+          dl_url = config['cdm_server']+"/cgi-bin/admin/getfile.exe?CISOMODE=1&CISOFILE=/"+new_coll+"/index/description/export.xml"
+          xmlFilePath = "#{config['cdm_download_dir']}/" + new_coll + ".xml"
           source_url = open(dl_url, :http_basic_authentication=>[user, password])
           file = File.read source_url
           if (ocr_compound_collections.include? coll)
-            file = get_compound_document_content(config, new_coll[1..-1], file)
+            file = get_compound_document_content(config, new_coll, file)
           end
           File.open(Rails.root + xmlFilePath, 'w') { |f| f.write(file) }
           puts "\nSuccessfully harvested #{new_coll}" unless Rails.env.test?

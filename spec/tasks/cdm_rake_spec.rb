@@ -16,7 +16,7 @@ describe 'Execute the tu_cdm rake tests' do
     @download_directory = config['cdm_download_dir']
   end
 
-  describe 'tu_cdm:download' do
+  xdescribe 'tu_cdm:download' do
 
     let (:download_file_count) { 34 }
 
@@ -55,7 +55,7 @@ describe 'Execute the tu_cdm rake tests' do
 
   end
 
-  describe 'tu_cdm:convert' do
+  xdescribe 'tu_cdm:convert' do
 
     #let (:@converted_directory) { config['cdm_foxml_dir'] }
     let (:schema_url) { "http://www.fedora.info/definitions/1/0/foxml1-1.xsd" }
