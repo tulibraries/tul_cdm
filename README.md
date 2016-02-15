@@ -53,11 +53,18 @@ Make a copy of the example CONTENTdm parameters file:
 
 Edit `config/contentdm.yml`, replacing samples with your ContentDM parameters.
 
-Make a copy of the site specific parameters file:
+Make a copy of the site specific parameters files
 
     cp config/tul_cdm.yml.example config/tul_cdm.yml
+    cp config/database.yml.example config/database.yml
+    cp config/secrets.yml.example config/secrets.yml
+    cp config/jetty.yml.example config/jetty.yml
+    cp config/fedora.yml.example config/fedora.yml
+    cp config/solr.yml.example config/solr.yml
 
-Edit `config/tul_cdm.yml`, replacing sample parameters with your site specific values
+Edit each config file, replacing sample parameters with your site specific values
+
+
 
 Migrate the digital collection database
 
