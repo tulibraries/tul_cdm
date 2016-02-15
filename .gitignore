@@ -16,6 +16,11 @@ config/contentdm.yml
 
 # Ignore tul_cdm configuration
 config/tul_cdm.yml
+config/secrets.yml
+config/database.yml
+config/fedora.yml
+config/solr.yml
+config/jetty.yml
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
