@@ -110,7 +110,7 @@ class CatalogController < ApplicationController
     #   The ordering of the field names is the order of the display
     config.add_index_field solr_name('title', :stored_searchable, type: :string), :label => 'Title'
     config.add_index_field solr_name('subject', :stored_searchable, type: :string), :label => 'Subject', :link_to_search => 'subject_sim'
-    config.add_index_field solr_name('format', :stored_searchable, type: :string), :label => 'Format', :link_to_search => 'format_sim'
+    config.add_index_field solr_name('type', :stored_searchable, type: :string), :label => 'Type', :link_to_search => 'type_sim'
 
     # Collection-only metadata
     config.add_index_field solr_name('about_statement', :stored_searchable, type: :string), :label => 'About this Collection'
