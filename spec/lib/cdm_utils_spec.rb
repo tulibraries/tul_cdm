@@ -25,7 +25,7 @@ describe 'List CONTENTdm collections' do
 
   describe 'list' do
     it "should list ContentDM collections" do
-      collections = CDMUtils.list(config['cdm_server'])
+      collections = CDMUtils.list
       expect(collections.length).to be >= number_of_collections
     end
   end
@@ -114,7 +114,7 @@ describe 'List CONTENTdm collections' do
         expect(doc).to have_tag('foxml_dir')
         expect(doc).to have_tag('Downloadable')
         expect(doc).to have_tag('Downloadable_OCR')
-        expect(doc).to have_tag('Description')
+        expect(doc).to have_tag('Physical_Description')
       end
     end
 

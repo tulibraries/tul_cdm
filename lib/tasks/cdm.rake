@@ -11,7 +11,7 @@ namespace :tu_cdm do
 
   desc "List current ContentDM collections on the CDM server"
   task :list => :environment do
-    collections = CDMUtils.list(config['cdm_server'])
+    collections = CDMUtils.list
     collections.sort.each do |collection_alias, collection_name|
       printf "%-14s %s\n", collection_alias, collection_name
     end

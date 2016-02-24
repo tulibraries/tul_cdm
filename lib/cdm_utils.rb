@@ -5,22 +5,12 @@ require "fileutils"
 module CDMUtils
 
   def self.available_collections
-    digital_collections = DigitalCollection.all.map{ |c| c.collection_alias }
+    DigitalCollection.pluck(:collection_alias)
   end
 
-  def self.list(server)
-    cdm_url = "#{server}/dmwebservices/index.php?q=dmGetCollectionList/xml"
-    xml = Nokogiri::XML(open(cdm_url))
-    all_aliases = xml.xpath("/collections/collection/alias/text()").map { |c| c.to_s.gsub(/^\//, '') }
-    digital_collections = available_collections
-
-    collections = Hash.new
-    xml.xpath("/collections/collection").each do |c|
-      collection_alias = c.xpath("alias/text()").to_s.gsub(/^\//, '')
-      collections[collection_alias] = c.xpath("name/text()").to_s if digital_collections.include? collection_alias
-    end
-    collections
-  end
+  def self.list
+    DigitalCollection.pluck(:collection_alias, :name).to_h
+	end
 
   def self.getCollectionName(server, coll)
     cdm_url = "#{server}/dmwebservices/index.php?q=dmGetCollectionParameters/#{coll}/xml"
