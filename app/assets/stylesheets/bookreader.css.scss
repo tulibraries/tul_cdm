@@ -65,7 +65,7 @@
   #BRcontainer {
     position: relative;
     height: 640px;
-    border: 2px;
+    -webkit-box-shadow: 1px 1px 2px #333;
     @media (max-width: $screen-sm) {
       height: 480px;
     }
