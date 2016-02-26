@@ -40,10 +40,10 @@ EOT
   end
 
   factory :private_digital_collection, class: DigitalCollection do
-    collection_alias "p16002coll14"
-    name "Franklin H. Littell Papers"
-    image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll14/images/Littell_Landing_Pagev3.jpg"
-    thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/littell_dtl.jpg"
+    collection_alias "p16002coll11"
+    name "Private Digital Collection"
+    image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll11/images/private.jpg"
+    thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/private.jpg"
     description ""
     short_description ""
     is_private true
@@ -51,10 +51,10 @@ EOT
   end
 
   factory :private_digital_collection_allowed, class: DigitalCollection do
-    collection_alias "p16002coll14"
-    name "Franklin H. Littell Papers"
-    image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll14/images/Littell_Landing_Pagev3.jpg"
-    thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/littell_dtl.jpg"
+    collection_alias "p16002coll11"
+    name "Allowed Private Digital Collection"
+    image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll11/images/private.jpg"
+    thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/private.jpg"
     description ""
     short_description ""
     is_private true
@@ -62,10 +62,10 @@ EOT
   end
 
   factory :private_digital_collection_denied, class: DigitalCollection do
-    collection_alias "p16002coll14"
-    name "Franklin H. Littell Papers"
-    image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll14/images/Littell_Landing_Pagev3.jpg"
-    thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/littell_dtl.jpg"
+    collection_alias "p16002coll11"
+    name "Denied Private Digital Collection"
+    image_url "http://digital.library.temple.edu/ui/custom/default/collection/coll_p16002coll11/images/private.jpg"
+    thumbnail_url "http://digital.library.temple.edu/ui/custom/default/collection/default/resources/custompages/home/private.jpg"
     description ""
     short_description ""
     is_private true
@@ -109,6 +109,30 @@ EOT
     custom_url "http://example.com"
     proxy_url_prefix "http://libproxy.temple.edu/login?url="
     is_custom_landing_page true
+  end
+
+  factory :digital_collections_list, class: DigitalCollection do
+
+    example_items = [
+      { collection_alias: 'p15037coll1',   name: 'Temple Sheet Music Collections' },
+      { collection_alias: 'p15037coll2',   name: 'SCRC Film and Video' },
+      { collection_alias: 'p15037coll7',   name: 'George D. McDowell Philadelphia Evening Bulletin Clippings' },
+      { collection_alias: 'p15037coll12',  name: 'Temple Undergraduate Research Prize Winners' },
+      { collection_alias: 'p15037coll14',  name: 'SCRC Books and Pamphlets' },
+      { collection_alias: 'p16002coll1',   name: 'SCRC Audio' },
+      { collection_alias: 'p16002coll7',   name: 'Blockson Ephemera' },
+      { collection_alias: 'p16002coll8',   name: 'Temple University Press E-Books' },
+      { collection_alias: 'p16002coll9',   name: 'Allied Posters of World War I' },
+      { collection_alias: 'p16002coll14',  name: 'Franklin H. Littell Papers' },
+      { collection_alias: 'p245801coll12', name: 'Temple University Yearbooks' }
+    ]
+
+    sequence :collection_alias do |n|
+      example_items[n-1][:collection_alias]
+    end
+    sequence :name do |n|
+      example_items[n-1][:name]
+    end
   end
 
 end

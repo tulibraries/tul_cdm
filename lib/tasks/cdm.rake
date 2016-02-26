@@ -11,20 +11,30 @@ namespace :tu_cdm do
 
   desc "List current ContentDM collections on the CDM server"
   task :list => :environment do
-    collections = CDMUtils.list(config['cdm_server'])
-    collections.each do |c|
-      puts c.to_s
+    collections = CDMUtils.list
+    collections.sort.each do |collection_alias, collection_name|
+      printf "%-14s %s\n", collection_alias, collection_name
     end
   end
 
-  desc "Download ContentDM collection(s) in XML from CDM servewr"
+  desc "Download ContentDM specified collection in XML from CDM server"
   task :download, [:collection_name] => :environment do |t, args|
     args.download(:collection_name => nil)
     if args[:collection_name]
       downloaded = CDMUtils.download_one_collection(config, args[:collection_name])
     else
-      downloaded = CDMUtils.download_all_collections(config)
+      downloaded = 0
+      puts "No collection specified".colorize(:red)
     end
+
+    message = "#{downloaded} #{'file'.pluralize(downloaded)} downloaded"
+    puts downloaded == 0 ?  "Warning: #{message}".colorize(:red) : message
+  end
+
+
+  desc "Download all TULCDM digital collections from CONTENTdm in XML from CDM server"
+  task :download_all => :environment do |t, args|
+    downloaded = CDMUtils.download_all_collections(config)
 
     message = "#{downloaded} #{'file'.pluralize(downloaded)} downloaded"
     puts downloaded == 0 ?  "Warning: #{message}".colorize(:red) : message
