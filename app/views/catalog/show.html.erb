@@ -1,5 +1,5 @@
-<% add_breadcrumb "Home", :root_path %>
-<% add_breadcrumb "Explore Digital Collections", '/digital_collections' %>
+<% add_breadcrumb "Home", "#{root_path} " %>
+<% add_breadcrumb t('tul_cdm.digital_collection.collections_title'), root_path + "digital_collections" %>
 <% if @document["digital_collection_tesim"] %>
   <% @document["digital_collection_tesim"].each do |dc| %>
     <% add_breadcrumb dc, File.join(['/digital_collections', get_collection_alias(dc)]) %>
