@@ -18,9 +18,6 @@ before_script:
   - "cp config/secrets.yml.example config/secrets.yml"
   - "cp config/solr.yml.example config/solr.yml"
   - "cp config/tul_cdm.yml.example config/tul_cdm.yml"
-  - "bundle exec rails generate hydra:jetty "
-  - "bundle exec rake jetty:config"
-  - "bundle exec rake jetty:start"
 
 notifications:
   email:

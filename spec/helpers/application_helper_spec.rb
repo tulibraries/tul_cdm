@@ -26,7 +26,7 @@ RSpec.describe ApplicationHelper, :type => :helper do
     end
   end
 
-  describe "#show_document_title" do
+  xdescribe "#show_document_title" do
     describe "Non video document" do
       let (:manuscript) { FactoryGirl.create(:manuscript); }
       it "returns the object's title if the object is a manuscript" do
