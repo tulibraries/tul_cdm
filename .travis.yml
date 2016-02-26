@@ -1,0 +1,27 @@
+language: ruby
+cache: bundler
+sudo: false
+
+git:
+  submodules: false
+
+rvm:
+  - 2.3.0
+jdk:
+  - oraclejdk8
+
+before_script:
+  - "cp config/database.yml.example config/database.yml"
+  - "cp config/fedora.yml.example config/fedora.yml"
+  - "cp config/jetty.yml.example config/jetty.yml"
+  - "cp config/secrets.yml.example config/secrets.yml"
+  - "cp config/solr.yml.example config/solr.yml"
+
+notifications:
+  email:
+    - chad.nelson@temple.edu
+    - steven.ng@temple.edu
+
+env:
+  global:
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
