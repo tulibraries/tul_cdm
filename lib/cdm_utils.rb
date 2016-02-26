@@ -4,13 +4,20 @@ require "fileutils"
 
 module CDMUtils
 
-  def self.available_collections
-    DigitalCollection.pluck(:collection_alias)
-  end
 
-  def self.list
-    DigitalCollection.pluck(:collection_alias, :name).to_h
-	end
+  def self.list(server)
+    cdm_url = "#{server}/dmwebservices/index.php?q=dmGetCollectionList/xml"
+    xml = Nokogiri::XML(open(cdm_url))
+    all_aliases = xml.xpath("/collections/collection/alias/text()").map { |c| c.to_s.gsub(/^\//, '') }
+    digital_collections = DigitalCollection.pluck(:collection_alias)
+
+    collections = Hash.new
+    xml.xpath("/collections/collection").each do |c|
+      collection_alias = c.xpath("alias/text()").to_s.gsub(/^\//, '')
+      collections[collection_alias] = c.xpath("name/text()").to_s if digital_collections.include? collection_alias
+    end
+    collections
+  end
 
   def self.getCollectionName(server, coll)
     cdm_url = "#{server}/dmwebservices/index.php?q=dmGetCollectionParameters/#{coll}/xml"
@@ -26,7 +33,7 @@ module CDMUtils
 
     begin
       # Test if the collection is available
-      digital_collections = available_collections
+      digital_collections = DigitalCollection.pluck(:collection_alias)
       raise "Collection #{coll} is unavailable" unless digital_collections.include? coll
 
       Download.init_download
@@ -118,7 +125,7 @@ module CDMUtils
       user = config['cdm_user']
       password = config['cdm_password']
 
-      #put back later
+      #put back later -- This triggers the form to generate an export file
       #build_xml_url = "#{config['cdm_server']}/cgi-bin/admin/exportxml.exe?CISODB=%2F#{coll}&CISOTYPE=custom&CISOPAGE=&CISOPTRLIST=&title=Title&altern=Alternate_Title&relati=Series&date=Date&hidden=Hidden_Date&contri=Contributor&descri=Description&descra=Note&subjec=Subject&subjea=Corporate_Name&subjed=Personal_Names&format=Format&type=Type&publis=Publisher&langua=Language&rights=Rights&reposi=Repository&reposa=Repository_Collection&digitb=Digital_Collection&publia=Digital_Publisher&source=Physical_Description&resolu=Resolution&digita=Digital_Specifications&contac=Contact&create=Created&folder=Volume&tbd=Acknowledgment&identi=Identifier&ada=ADA_Note&file=File_Name&find=Item_URL&dmoclcno=OCLC_number&dmcreated=Date_created&dmmodified=Date_modified&dmrecord=CONTENTdm_number&cdmfile=CONTENTdm_file_name&cdmpath=CONTENTdm_file_path&CISOMODE1=rep&CISOMODE2=rep"
       #open(build_xml_url, :http_basic_authentication=>[user, password])
 
@@ -312,19 +319,30 @@ module CDMUtils
     end
   end
 
-  def ingest_file(file_name)
-    Ingest.ingest_file(file_name)
+  def ingest_file(file_name, csv)
+    Ingest.ingest_file(file_name, csv)
   end
   module_function :ingest_file # :nodoc:
 
   class Ingest
-    def self.ingest_file(file_name)
+    def self.ingest_file(file_name, csv)
+
+      #logger = Logger.new(File.join(Rails.root, "log", "ingest.log"))
+
+      pid = nil
+      status = nil
       print "Ingest: #{File.basename(file_name)} ..."
-      pid = ActiveFedora::FixtureLoader.import_to_fedora(file_name)
+      bm_ingest = Benchmark.measure { pid = ActiveFedora::FixtureLoader.import_to_fedora(file_name) }
       print "\b\b\b(#{pid}) ..."
-      status = ActiveFedora::FixtureLoader.index(pid)
+      bm_index = Benchmark.measure { status = ActiveFedora::FixtureLoader.index(pid) }
       print "\b\b\bDone.\n"
       File.delete(file_name)
+
+      #logger.info "#{pid.ljust(25)} Ingest: #{bm_ingest}"
+      #logger.info "#{pid.ljust(25)} Index:  #{bm_index}"
+      csv << [pid,
+              bm_ingest.utime, bm_ingest.stime, bm_ingest.total, bm_ingest.real,
+              bm_index.utime, bm_index.stime, bm_index.total, bm_index.real]
 
       { solr_status: status["responseHeader"]["status"], pid: pid }
     end

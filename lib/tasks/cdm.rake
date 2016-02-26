@@ -57,8 +57,14 @@ namespace :tu_cdm do
   desc "Ingest all converted and up-to-date ContentDM objects into Fedora"
   task :ingest => :environment do
     contents = ENV['DIR'] ? Dir.glob(File.join(ENV['DIR'], "*.xml")) : Dir.glob("#{config['cdm_foxml_dir']}/*.xml")
-    contents.each do |file|
-      pid = CDMUtils.ingest_file(file)
+    CSV.open(File.join(Rails.root, "log", "ingest-#{DateTime.now.strftime("%Y%m%dT%H%M%S")}.csv"), "wb") do |csv|
+      csv << ["pid",
+              "ingest_utime","ingest_stime", "ingest_total", "ingest_real",
+              "index_utime", "index_stime", "index_total", "index_real"]
+
+      contents.each do |file|
+        pid = CDMUtils.ingest_file(file, csv)
+      end
     end
     puts "All files ingested -- phew!".green
 
