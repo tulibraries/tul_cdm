@@ -1,4 +1,4 @@
-cdm_server: "<%= ENV['CDM_SERVER'] %>"
+cdm_server: <%= ENV['CDM_SERVER'] %>
 cdm_archive: "https://ARCHIVE.SERVER.DOMAIN"
 cdm_xpath: "/collections/collection/alias/text()"
 cdm_user: "USER"
