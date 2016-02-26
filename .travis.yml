@@ -11,11 +11,13 @@ jdk:
   - oraclejdk8
 
 before_script:
+  - "cp config/contentdm.yml.example config/contentdm.yml"
   - "cp config/database.yml.example config/database.yml"
   - "cp config/fedora.yml.example config/fedora.yml"
   - "cp config/jetty.yml.example config/jetty.yml"
   - "cp config/secrets.yml.example config/secrets.yml"
   - "cp config/solr.yml.example config/solr.yml"
+  - "cp config/tul_cdm.yml.example config/tul_cdm.yml"
 
 notifications:
   email:
