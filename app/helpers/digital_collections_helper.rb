@@ -40,13 +40,11 @@ module DigitalCollectionsHelper
   end
 
   def landing_page(host, digital_collection)
-    digital_collection_url = digital_collection.proxy_url_prefix.blank? ? "" : digital_collection.proxy_url_prefix
     if digital_collection.is_custom_landing_page? && !digital_collection.custom_url.blank?
-      digital_collection_url += digital_collection.custom_url
+      digital_collection.custom_url
     else
-      digital_collection_url += "#{host}/digital_collections/#{digital_collection.slug+path(digital_collection)}"
+      "#{root_path}digital_collections/#{digital_collection.slug+path(digital_collection)}"
     end
-    return digital_collection_url
   end
 
   def link_to_digital_collection(digital_collection)
