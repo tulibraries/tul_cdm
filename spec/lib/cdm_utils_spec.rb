@@ -25,7 +25,7 @@ describe 'List CONTENTdm collections' do
 
   describe 'list' do
     it "should list ContentDM collections" do
-      collections = CDMUtils.list
+      collections = CDMUtils.list(config['cdm_server'])
       expect(collections.length).to be >= number_of_collections
     end
   end
@@ -151,13 +151,18 @@ describe 'List CONTENTdm collections' do
       CDMUtils.convert_file(File.join(download_directory, collection_name + '.xml'), converted_directory)
       contents = ENV['DIR'] ? Dir.glob(File.join(ENV['DIR'], "*.xml")) : Dir.glob("#{converted_directory}/*.xml")
       ingested_count = 0
-      contents.each do |file|
-        allow(ActiveFedora::FixtureLoader).to receive(:import_to_fedora).with(file).and_return(ingest_pid)
-        allow(ActiveFedora::FixtureLoader).to receive(:index).and_return({"responseHeader"=>{"status"=>0, "QTime"=>1}})
-        status = CDMUtils.ingest_file(file)
-        ingested_count += status[:solr_status] != 0 ? 0 : 1
-        expect(status[:solr_status]).to equal 0
-        expect(status[:pid]).to match ingest_pid
+      CSV.open(File.join(Rails.root, "log", "ingest-test-#{DateTime.now.strftime("%Y%m%dT%H%M%S")}.csv"), "wb") do |csv|
+        csv << ["pid",
+                "ingest_utime","ingest_stime", "ingest_total", "ingest_real",
+                "index_utime", "index_stime", "index_total", "index_real"]
+        contents.each do |file|
+          allow(ActiveFedora::FixtureLoader).to receive(:import_to_fedora).with(file).and_return(ingest_pid)
+          allow(ActiveFedora::FixtureLoader).to receive(:index).and_return({"responseHeader"=>{"status"=>0, "QTime"=>1}})
+          status = CDMUtils.ingest_file(file, csv)
+          ingested_count += status[:solr_status] != 0 ? 0 : 1
+          expect(status[:solr_status]).to equal 0
+          expect(status[:pid]).to match ingest_pid
+        end
       end
       expect(ingested_count).to equal(contents.length)
     end
