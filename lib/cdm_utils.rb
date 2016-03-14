@@ -4,7 +4,6 @@ require "fileutils"
 
 module CDMUtils
 
-
   def self.list(server)
     cdm_url = "#{server}/dmwebservices/index.php?q=dmGetCollectionList/xml"
     xml = Nokogiri::XML(open(cdm_url))
@@ -319,18 +318,75 @@ module CDMUtils
     end
   end
 
-  def ingest_file(file_name, csv)
-    Ingest.ingest_file(file_name, csv)
+  def ingest_file(file_name)
+    Ingest.ingest_file(file_name)
   end
   module_function :ingest_file # :nodoc:
 
+  def resource_monitor
+    require 'scanf'
+
+    @bm_config ||= YAML.load_file(File.expand_path("#{Rails.root}/config/benchmark.yml", __FILE__))
+    bm_dir = File.expand_path("#{Rails.root}/#{@bm_config['directory']}")
+    FileUtils::mkdir_p bm_dir
+
+    pid_files = Dir.glob(File.join('.', "tmp", "pids", "*jetty*.pid"))
+    f = File.open(pid_files.first, mode="r")
+    pid = f.read
+    f.close
+
+    os = `uname -s`
+
+    CSV.open(File.join(bm_dir, "ingest-monitor-#{DateTime.now.strftime("%Y%m%dT%H%M%S")}.csv"), "wb") do |csv|
+
+      csv << ["time", "pid", "cpupct", "mempct", "vsz", "rss"]
+
+      trap("INT") do
+        puts "Ingest monitoring done"
+        exit
+      end
+
+      i = 0
+      loop do
+        ps_str = `ps -ho pid,%cpu,%mem,vsz,rss -p #{pid}`
+        matcher = /(\w+)\s+\s+(\d*\.*\d*)\s+(\d*\.*\d*)\s+(\d+)\s+(\d+)/
+
+        ps_array = matcher.match(ps_str)
+
+        ps = {time: Time.now.to_s,
+              pid: ps_array[1],
+              cpupct: ps_array[2],
+              mempct: ps_array[3],
+              vsz: ps_array[4],
+              rss: ps_array[5]}
+        
+        csv << ps.values
+
+        sleep 1.0
+      end
+    end
+  end
+  module_function :resource_monitor # :nodoc:
+
   class Ingest
-    def self.ingest_file(file_name, csv)
+
+    unless @benchmark_csv
+      @bm_config ||= YAML.load_file(File.expand_path("#{Rails.root}/config/benchmark.yml", __FILE__))
+      bm_dir = File.expand_path("#{Rails.root}/#{@bm_config['directory']}")
+      FileUtils::mkdir_p bm_dir
+      @benchmark_csv ||= CSV.open(File.join(bm_dir, "ingest-#{DateTime.now.strftime("%Y%m%dT%H%M%S")}.csv"), "wb")
+      @benchmark_csv << ["time", "pid",
+                         "ingest_utime","ingest_stime", "ingest_total", "ingest_real",
+                         "index_utime", "index_stime", "index_total", "index_real"]
+    end
+
+    def self.ingest_file(file_name)
 
       #logger = Logger.new(File.join(Rails.root, "log", "ingest.log"))
 
       pid = nil
       status = nil
+      bm_time = Time.now
       print "Ingest: #{File.basename(file_name)} ..."
       bm_ingest = Benchmark.measure { pid = ActiveFedora::FixtureLoader.import_to_fedora(file_name) }
       print "\b\b\b(#{pid}) ..."
@@ -340,9 +396,9 @@ module CDMUtils
 
       #logger.info "#{pid.ljust(25)} Ingest: #{bm_ingest}"
       #logger.info "#{pid.ljust(25)} Index:  #{bm_index}"
-      csv << [pid,
-              bm_ingest.utime, bm_ingest.stime, bm_ingest.total, bm_ingest.real,
-              bm_index.utime, bm_index.stime, bm_index.total, bm_index.real]
+      @benchmark_csv << [bm_time.to_s, pid,
+                         bm_ingest.utime, bm_ingest.stime, bm_ingest.total, bm_ingest.real,
+                         bm_index.utime, bm_index.stime, bm_index.total, bm_index.real]
 
       { solr_status: status["responseHeader"]["status"], pid: pid }
     end

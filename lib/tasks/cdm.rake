@@ -53,18 +53,37 @@ namespace :tu_cdm do
 
   end
 
+  namespace :monitor do
+    desc "Start monitoring Jetty"
+    task :start => :environment do
+      resource_monitor_pid = fork { CDMUtils.resource_monitor }
+      pid_file = File.expand_path(File.join("#{Rails.root}",'tmp', 'pids', 'ingest-monitor.pid'))
+
+      f = File.new(pid_file,  "w")
+      f.puts resource_monitor_pid.to_s
+      f.close
+      puts "Started Jetty monitor (#{resource_monitor_pid})"
+    end
+
+    desc "Stop monitoring Jetty"
+    task :stop => :environment do
+      pid_file = File.expand_path(File.join("#{Rails.root}",'tmp', 'pids', 'ingest-monitor.pid'))
+      f = File.open(pid_file, "r") 
+      resource_monitor_pid = f.gets
+      f.close
+
+      system("kill -INT #{resource_monitor_pid}")
+      FileUtils.rm(pid_file)
+      puts "Jetty monitor stopped"
+    end
+  end
 
   desc "Ingest all converted and up-to-date ContentDM objects into Fedora"
   task :ingest => :environment do
     contents = ENV['DIR'] ? Dir.glob(File.join(ENV['DIR'], "*.xml")) : Dir.glob("#{config['cdm_foxml_dir']}/*.xml")
-    CSV.open(File.join(Rails.root, "log", "ingest-#{DateTime.now.strftime("%Y%m%dT%H%M%S")}.csv"), "wb") do |csv|
-      csv << ["pid",
-              "ingest_utime","ingest_stime", "ingest_total", "ingest_real",
-              "index_utime", "index_stime", "index_total", "index_real"]
 
-      contents.each do |file|
-        pid = CDMUtils.ingest_file(file, csv)
-      end
+    contents.each do |file|
+      pid = CDMUtils.ingest_file(file)
     end
     puts "All files ingested -- phew!".green
 

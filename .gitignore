@@ -28,6 +28,8 @@ config/jetty.yml
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
+/log/*.csv
+/benchmarks
 /tmp
 *.swp
 /jetty
