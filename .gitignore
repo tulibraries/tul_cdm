@@ -37,3 +37,6 @@ config/jetty.yml
 
 # Ignore code test coverage output
 /coverage
+
+# Ignore debug files
+.byebug_history
