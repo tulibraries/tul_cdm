@@ -2,21 +2,27 @@
 
 FactoryGirl.define do
   factory :harvested_collection do
-    sequence(:digital_collection_id) { |i| "p00000coll#{i}" }
-    sequence(:xml_objects) { |i|
-      {
-        "p0000coll#{i}x1" => "<xml><title>Object 1</title><dmrecord>1</dmrecord></xml>" ,
-        "p0000coll#{i}x2" => "<xml><title>Object 2</title><dmrecord>2</dmrecord></xml>" ,
-        "p0000coll#{i}x3" => "<xml><title>Object 3</title><dmrecord>3</dmrecord></xml>" ,
-        "p0000coll#{i}x4" => "<xml><title>Object 4</title><dmrecord>4</dmrecord></xml>" ,
-      }
-    }
+    sequence(:digital_collection_id) { |i| "p16002coll#{i}" }
+
+    factory :harvested_collection_with_xml_objects do
+      transient do
+        item_count 4
+      end
+      after(:build) do |harvested_collection, evaluator|
+        evaluator.xml_objects = {}
+        objects_array = build_list(:xml_object, evaluator.item_count, collection: evaluator.digital_collection_id)
+        objects_array.each do |o|
+          evaluator.xml_objects.merge!(o)
+        end
+      end
+    end
+
   end
 
   factory :xml_object, class: Hash do
 
     transient do
-      collection "p000000coll1"
+      collection "p16002coll1"
       sequence(:pid) { |i| "#{collection}x#{i}" }
       sequence(:xml_string) { |i| "<xml><title>Object #{i}</title><dmrecord>#{i}</dmrecord></xml>" }
     end
