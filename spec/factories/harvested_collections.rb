@@ -3,13 +3,13 @@
 FactoryGirl.define do
   factory :harvested_collection do
     sequence(:digital_collection_id) { |i| "p16002coll#{i}" }
+    xml_objects { Hash.new }
 
     factory :harvested_collection_with_xml_objects do
       transient do
         item_count 4
       end
       after(:build) do |harvested_collection, evaluator|
-        evaluator.xml_objects = {}
         objects_array = build_list(:xml_object, evaluator.item_count, collection: evaluator.digital_collection_id)
         objects_array.each do |o|
           evaluator.xml_objects.merge!(o)

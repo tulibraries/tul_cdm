@@ -14,21 +14,18 @@ RSpec.describe HarvestedCollection do
     h
   }
 
-  xdescribe "Verifys Harvested Collections structure" do
-
-    it { is_expected.to have_attributes(:digital_collection_id => collection.digital_collection_id) }
-    it { is_expected.to have_attributes(:xml_objects => collection.xml_objects) }
-
-  end
-
   describe "Add Items to a collection" do
+
     let (:collection) { FactoryGirl.build(:harvested_collection) }
-    it "creates a collection" do
-      c = FactoryGirl.build(:xml_object, :collection => collection.digital_collection_id)
-      expect(c.keys.first).to start_with('p16002coll1x').and end_with('1')
-      expect(c.values.first).to match('Object 1')
+    let (:xml_obj1) { FactoryGirl.build(:xml_object, :collection => collection.digital_collection_id) }
+    let (:xml_obj2) { FactoryGirl.build(:xml_object, :collection => collection.digital_collection_id) }
+
+    it "adds two items to a collection" do
+      collection.add_object(xml_obj1)
+      collection.add_object(xml_obj2)
+      expect(collection.xml_objects.keys.first).to match("p16002coll1x1")
+      expect(collection.xml_objects.keys.last).to match("p16002coll1x2")
     end
-    it "adds several items to a collection"
   end
 
   describe "Shows Harvested Collection items" do
@@ -47,13 +44,13 @@ RSpec.describe HarvestedCollection do
 
     it "deletes an xml objects" do
       expect(subject.xml_objects[first_pid]).to be
-      subject.xml_objects.delete(first_pid)
+      subject.delete_object(first_pid)
       expect(subject.xml_objects[first_pid]).to_not be
     end
 
     it "deletes another xml objects" do
       expect(subject.xml_objects[last_pid]).to be
-      subject.xml_objects.delete(last_pid)
+      subject.delete_object(last_pid)
       expect(subject.xml_objects[last_pid]).to_not be
     end
 
