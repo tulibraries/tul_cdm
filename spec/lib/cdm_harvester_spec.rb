@@ -2,18 +2,7 @@ require 'rails_helper'
 require 'cdm_harvester'
 
 RSpec.describe HarvestedCollection do
-  
-  let (:collection) { FactoryGirl.build(:harvested_collection_with_xml_objects) }
-  let (:first_pid) { collection.xml_objects.keys.first }
-  let (:last_pid) { collection.xml_objects.keys.last }
-
-  subject {
-    h = HarvestedCollection.new
-    h.digital_collection_id = collection.digital_collection_id
-    h.xml_objects = collection.xml_objects
-    h
-  }
-
+ 
   describe "Add Items to a collection" do
 
     let (:collection) { FactoryGirl.build(:harvested_collection) }
@@ -28,30 +17,49 @@ RSpec.describe HarvestedCollection do
     end
   end
 
-  describe "Shows Harvested Collection items" do
+  context 'Harvested collection with xml objects' do
 
-    it "shows first objects" do
-      expect(subject.xml_objects[first_pid]).to eq(collection.xml_objects[first_pid])
+    let (:collection) { FactoryGirl.build(:harvested_collection_with_xml_objects, item_count: 4) }
+    let (:first_pid) { collection.xml_objects.keys.first }
+    let (:last_pid) { collection.xml_objects.keys.last }
+
+    let (:harvested) {
+      h = HarvestedCollection.new
+      h.digital_collection_id = collection.digital_collection_id
+      h.xml_objects = collection.xml_objects
+      h
+    }
+
+    describe "Read Harvested Collection items" do
+
+      it "should have 4 objects" do
+        expect(harvested.xml_objects.size).to eq 4
+      end
+
+      it "shows first objects" do
+        expect(harvested.xml_objects[first_pid]).to eq(collection.xml_objects[first_pid])
+      end
+
+      it "shows last objects" do
+        expect(harvested.xml_objects[last_pid]).to eq(collection.xml_objects[last_pid])
+      end
+
     end
 
-    it "shows last objects" do
-      expect(subject.xml_objects[last_pid]).to eq(collection.xml_objects[last_pid])
-    end
+    describe "Delete Harvested Collection Item" do
 
-  end
+      it "deletes an xml objects" do
+        expect(harvested.xml_objects[first_pid]).to be
+        harvested.delete_object(first_pid)
+        expect(harvested.xml_objects[first_pid]).to_not be
+      end
 
-  describe "Delete Harvested Collection Item" do
+      it "deletes another xml objects" do
+        expect(harvested.xml_objects[last_pid]).to be
+        harvested.delete_object(last_pid)
+        expect(harvested.xml_objects[last_pid]).to_not be
+      end
 
-    it "deletes an xml objects" do
-      expect(subject.xml_objects[first_pid]).to be
-      subject.delete_object(first_pid)
-      expect(subject.xml_objects[first_pid]).to_not be
-    end
-
-    it "deletes another xml objects" do
-      expect(subject.xml_objects[last_pid]).to be
-      subject.delete_object(last_pid)
-      expect(subject.xml_objects[last_pid]).to_not be
     end
 
   end

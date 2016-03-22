@@ -2,12 +2,14 @@
 
 FactoryGirl.define do
   factory :harvested_collection do
+    # Create a simple collection
     sequence(:digital_collection_id) { |i| "p16002coll#{i}" }
     xml_objects { Hash.new }
 
+    # Create collection prepopulated with xml objects
     factory :harvested_collection_with_xml_objects do
       transient do
-        item_count 4
+        item_count 1
       end
       after(:build) do |harvested_collection, evaluator|
         objects_array = build_list(:xml_object, evaluator.item_count, collection: evaluator.digital_collection_id)
@@ -19,6 +21,7 @@ FactoryGirl.define do
 
   end
 
+  # Cteate an xml object, keyed to the pid
   factory :xml_object, class: Hash do
 
     transient do
