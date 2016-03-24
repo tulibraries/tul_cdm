@@ -13,5 +13,6 @@ Rails.application.routes.draw do
   get '/digital_collections/stereotypicalimages/about' => 'high_voltage/pages#show', id: 'stereotypicalabout'
   get 'catalog/multiselect_facet/:id', to: 'catalog#multiselect_facet'
   get '/cdm/restricted', to: 'digital_collections#restricted'
+  get 'pages/about_collections' => 'high_voltage/pages#show', id: 'about_collections'
 
 end
