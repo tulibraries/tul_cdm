@@ -16,7 +16,7 @@ class CatalogController < ApplicationController
   # This applies appropriate access controls to all solr queries
   #CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
 
-  CatalogController.solr_search_params_logic += [:exclude_unwanted_models, :exclude_collections_by_ip]
+  CatalogController.solr_search_params_logic += [:exclude_unwanted_models, :exclude_collections_by_ip, :add_facet_sort_to_solr]
 
   # def index
   #   super
@@ -330,6 +330,24 @@ class CatalogController < ApplicationController
     solr_params[:fq].delete_if { |item| item =~ /^#{facet_field}:/ } if solr_params.has_key? :fq
     # Make the solr call
     find(solr_params)
+  end
+
+  ## 
+  # Adds missing facet sort, which doesn't seem to be added anywhere else
+  #
+  def add_facet_sort_to_solr(solr_parameters, user_parameters)
+    solr_parameters["facet.field"].each do |facet_field|
+      solr_parameters[:"f.#{facet_field}.facet.sort"] = facet_sort(solr_parameters, user_parameters, facet_field)
+    end
+  end
+
+  # Get facet sort parameter. 
+  def facet_sort(solr_parameters, user_parameters, facet_field)
+    # Paginated facet defaults to index sorting
+    return "index" if (user_parameters["action"] == "facet")
+    # If unspecified facet panel to index sorting
+    return "index" if blacklight_config.facet_fields[facet_field].sort.nil?
+    return blacklight_config.facet_fields[facet_field].sort
   end
 
 end
